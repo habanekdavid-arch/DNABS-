@@ -1,0 +1,25 @@
+.strip{
+  background:#0a0a0a;
+  overflow:hidden;
+  padding:24px 0;
+  white-space:nowrap;
+}
+
+.track{
+  display:flex;
+  flex-wrap:nowrap;
+  white-space:nowrap;
+  animation:dnabs-marquee 30s linear infinite;
+  font-family:var(--mono);
+  font-weight:400;
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  line-height:1;
+  color:#fff;
+}
+
+.sep{padding:0 12px;}
+.accent{color:var(--accent);}
+.purple{color:var(--purple);}
+.green{color:var(--green);}

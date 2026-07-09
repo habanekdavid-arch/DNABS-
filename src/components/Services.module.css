@@ -1,0 +1,111 @@
+.section{
+  background:#f5f2ec;
+  color:#0a0a0a;
+  padding:clamp(80px,13vh,160px) clamp(20px,4vw,48px) clamp(60px,9vh,110px);
+}
+
+.head{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:16px;
+  margin-bottom:clamp(36px,6vh,64px);
+}
+
+.kicker{
+  font-family:var(--mono);
+  font-size:13px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:10px;
+}
+
+.title{
+  margin:0;
+  font-family:var(--disp);
+  font-weight:700;
+  font-size:clamp(44px,8vw,120px);
+  line-height:.85;
+  letter-spacing:-.01em;
+  text-transform:uppercase;
+}
+
+.intro{
+  font-family:var(--font-space-grotesk),sans-serif;
+  font-size:16px;
+  line-height:1.5;
+  max-width:380px;
+  margin:0;
+  color:#444;
+}
+
+.row{
+  display:grid;
+  grid-template-columns:clamp(80px,12vw,180px) 1fr auto;
+  gap:clamp(16px,3vw,48px);
+  align-items:center;
+  padding:clamp(36px,5.5vh,62px) clamp(8px,2vw,28px);
+  border-top:2px solid #0a0a0a;
+  color:#0a0a0a;
+  background:transparent;
+  transition:background .25s ease,color .25s ease;
+}
+.row.last{
+  border-bottom:2px solid #0a0a0a;
+}
+
+.num{
+  font-family:var(--mono);
+  font-weight:700;
+  font-size:clamp(28px,4vw,56px);
+  color:var(--accent);
+  line-height:1;
+  transition:transform .4s cubic-bezier(.2,.7,.2,1),color .3s ease;
+}
+
+.body h3{
+  margin:0 0 10px;
+  font-family:var(--disp);
+  font-weight:700;
+  font-size:clamp(26px,4vw,52px);
+  letter-spacing:-.01em;
+  text-transform:uppercase;
+  color:inherit;
+}
+
+.body p{
+  margin:0 0 14px;
+  font-size:clamp(14px,1.3vw,17px);
+  line-height:1.5;
+  max-width:560px;
+  opacity:.62;
+  color:inherit;
+}
+
+.chips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+
+.chip{
+  font-family:var(--mono);
+  font-size:11px;
+  text-transform:uppercase;
+  border:1.5px solid currentColor;
+  padding:5px 10px;
+  display:inline-block;
+  transition:transform .25s ease,background .25s ease;
+}
+.chip:hover{
+  transform:translateY(-3px);
+}
+
+.arrow{
+  font-size:clamp(28px,4vw,52px);
+  line-height:1;
+  color:var(--accent);
+  transition:transform .4s cubic-bezier(.2,.7,.2,1),color .3s ease;
+}

@@ -1,0 +1,45 @@
+"use client";
+
+import Image from "next/image";
+import { useLanguage } from "@/lib/i18n";
+import Reveal from "./Reveal";
+import styles from "./Footer.module.css";
+import logo from "../assets/dnabs-logo.png";
+
+export default function Footer() {
+  const { t } = useLanguage();
+
+  return (
+    <footer className={styles.footer}>
+      <Reveal className={styles.top}>
+        <div className={styles.brandCol}>
+          <div className={styles.brandRow}>
+            <Image src={logo} alt="DNABS" width={26} height={26} className={styles.logo} />
+            <span className={styles.brandName}>DNABS</span>
+          </div>
+          <p className={styles.tag}>{t("footer_tag")}</p>
+        </div>
+        <div className={styles.cols}>
+          <div className={styles.col}>
+            <div className={styles.colTitle}>{t("footer_nav")}</div>
+            <a href="#sluzby" className={styles.colLink}>{t("nav_services")}</a>
+            <a href="#o-nas" className={styles.colLink}>{t("nav_about")}</a>
+            <a href="#kontakt" className={styles.colLink}>{t("nav_contact")}</a>
+          </div>
+          <div className={styles.col}>
+            <div className={styles.colTitle}>{t("footer_social")}</div>
+            <a href="#" className={styles.colLink}>Instagram</a>
+            <a href="#" className={styles.colLink}>LinkedIn</a>
+            <a href="#" className={styles.colLink}>Behance</a>
+          </div>
+        </div>
+      </Reveal>
+      <div className={styles.bottomBar}>
+        <span>© 2026 DNABS®</span>
+        <span>{t("footer_made")}</span>
+        <span>All rights reserved</span>
+      </div>
+      <div className={styles.wordmark}>DNABS</div>
+    </footer>
+  );
+}
