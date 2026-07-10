@@ -1,3 +1,8 @@
+@keyframes dnabs-marquee{
+  from{transform:translateX(0);}
+  to{transform:translateX(-50%);}
+}
+
 .strip{
   background:#0a0a0a;
   overflow:hidden;
