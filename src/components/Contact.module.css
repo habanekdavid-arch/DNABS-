@@ -113,3 +113,14 @@ textarea.field{
 .submit.success:hover{
   background:var(--green);
 }
+.submit:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+}
+
+.errorMsg{
+  font-family:var(--mono);
+  font-size:13px;
+  color:#ff6b6b;
+  margin-top:14px;
+}

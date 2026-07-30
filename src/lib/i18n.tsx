@@ -60,7 +60,12 @@ const dict = {
   contact_h1: { sk: "Poďme", en: "Let’s" },
   contact_h2: { sk: "do toho.", en: "do it." },
   contact_submit: { sk: "Odoslať dopyt →", en: "Send inquiry →" },
+  contact_sending: { sk: "Odosielam…", en: "Sending…" },
   contact_success: { sk: "✓ Ďakujeme — ozveme sa", en: "✓ Thank you — we’ll be in touch" },
+  contact_error: {
+    sk: "Niečo sa pokazilo, skús to prosím znova alebo napíš priamo na e-mail.",
+    en: "Something went wrong, please try again or email us directly.",
+  },
   contact_label_email: { sk: "E-mail", en: "E-mail" },
   contact_label_phone: { sk: "Telefón", en: "Phone" },
   contact_label_location: { sk: "Lokalita", en: "Location" },

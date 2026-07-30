@@ -7,11 +7,31 @@ import styles from "./Contact.module.css";
 
 export default function Contact() {
   const { t, tPh } = useLanguage();
-  const [submitted, setSubmitted] = useState(false);
+  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSubmitted(true);
+    const form = e.currentTarget;
+    const data = new FormData(form);
+
+    setStatus("sending");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: data.get("name"),
+          email: data.get("email"),
+          company: data.get("company"),
+          message: data.get("message"),
+        }),
+      });
+      if (!res.ok) throw new Error("failed");
+      setStatus("success");
+      form.reset();
+    } catch {
+      setStatus("error");
+    }
   };
 
   return (
@@ -66,10 +86,16 @@ export default function Contact() {
           />
           <button
             type="submit"
-            className={`${styles.submit} ${submitted ? styles.success : ""}`}
+            disabled={status === "sending"}
+            className={`${styles.submit} ${status === "success" ? styles.success : ""}`}
           >
-            {submitted ? t("contact_success") : t("contact_submit")}
+            {status === "success"
+              ? t("contact_success")
+              : status === "sending"
+                ? t("contact_sending")
+                : t("contact_submit")}
           </button>
+          {status === "error" && <p className={styles.errorMsg}>{t("contact_error")}</p>}
         </form>
       </Reveal>
     </section>
