@@ -8,6 +8,11 @@
   50%{transform:translateY(calc(-50% - 16px)) translateX(-6px) rotate(-0.6deg);}
 }
 
+@keyframes dnabs-float-mobile{
+  0%,100%{transform:translateY(0) translateX(0) rotate(0deg);}
+  50%{transform:translateY(-16px) translateX(0) rotate(-0.6deg);}
+}
+
 @keyframes dnabs-lap{
   0%,88%,100%{clip-path:inset(0 0 0 0);transform:translateX(0);filter:none;}
   89%{clip-path:inset(14% 0 52% 0);transform:translateX(-9px);filter:hue-rotate(18deg) saturate(1.4);}
@@ -278,11 +283,13 @@
   .laptopWrap{
     position:relative;
     inset:auto;
-    right:auto;
+    left:0;
+    right:0;
     top:auto;
     transform:none;
     width:min(420px,88vw);
     margin:120px auto 0;
+    animation:dnabs-float-mobile 7s ease-in-out infinite;
   }
   .headline{
     position:relative;
