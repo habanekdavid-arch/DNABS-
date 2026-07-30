@@ -28,9 +28,8 @@ export default function Footer() {
           </div>
           <div className={styles.col}>
             <div className={styles.colTitle}>{t("footer_social")}</div>
-            <a href="#" className={styles.colLink}>Instagram</a>
-            <a href="#" className={styles.colLink}>LinkedIn</a>
-            <a href="#" className={styles.colLink}>Behance</a>
+            <a href="https://www.instagram.com/dnabs.sk/" target="_blank" rel="noopener noreferrer" className={styles.colLink}>Instagram</a>
+            <a href="mailto:contact.dnabs@gmail.com" className={styles.colLink}>contact.dnabs@gmail.com</a>
           </div>
         </div>
       </Reveal>
