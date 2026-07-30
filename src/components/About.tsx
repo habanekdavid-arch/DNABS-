@@ -8,8 +8,8 @@ import styles from "./About.module.css";
 import logo from "../assets/dnabs-logo.png";
 
 const STAT_ITEMS: { value: ReactNode; labelKey: DictKey }[] = [
-  { value: <>50<span className={styles.plus}>+</span></>, labelKey: "stat1" },
-  { value: <>8</>, labelKey: "stat2" },
+  { value: <>5<span className={styles.plus}>+</span></>, labelKey: "stat1" },
+  { value: <>4</>, labelKey: "stat2" },
   { value: <>3<span className={styles.plus}>×</span></>, labelKey: "stat3" },
 ];
 

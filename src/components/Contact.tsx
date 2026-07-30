@@ -47,7 +47,7 @@ export default function Contact() {
             <div className={styles.infoLabel}>{t("contact_label_email")}</div>
             <a href="mailto:contact.dnabs@gmail.com" className={styles.emailLink}>contact.dnabs@gmail.com</a>
             <div className={styles.infoLabel}>{t("contact_label_phone")}</div>
-            <div>+421 900 000 000</div>
+            <div>+421 949 390 797</div>
             <div className={styles.infoLabel}>{t("contact_label_location")}</div>
             <div>Bratislava, Slovensko</div>
           </div>
