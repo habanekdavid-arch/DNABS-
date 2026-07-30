@@ -25,7 +25,7 @@ export default function Contact() {
           </h2>
           <div className={styles.infoBlock}>
             <div className={styles.infoLabel}>{t("contact_label_email")}</div>
-            <a href="mailto:hello@dnabs.sk" className={styles.emailLink}>hello@dnabs.sk</a>
+            <a href="mailto:contact.dnabs@gmail.com" className={styles.emailLink}>contact.dnabs@gmail.com</a>
             <div className={styles.infoLabel}>{t("contact_label_phone")}</div>
             <div>+421 900 000 000</div>
             <div className={styles.infoLabel}>{t("contact_label_location")}</div>
