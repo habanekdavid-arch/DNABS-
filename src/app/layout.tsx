@@ -55,6 +55,19 @@ export default function RootLayout({
       lang="sk"
       className={`${spaceGrotesk.variable} ${spaceMono.variable} ${instrumentSerif.variable} ${bricolage.variable} ${allura.variable}`}
     >
+      <head>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18360461587"></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'AW-18360461587');
+            `,
+          }}
+        />
+      </head>
       <body>{children}</body>
     </html>
   );
