@@ -1,13 +1,15 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import { useRouter } from "next/navigation";
 import { useLanguage } from "@/lib/i18n";
 import Reveal from "./Reveal";
 import styles from "./Contact.module.css";
 
 export default function Contact() {
   const { t, tPh } = useLanguage();
-  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const router = useRouter();
+  const [status, setStatus] = useState<"idle" | "sending" | "error">("idle");
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -27,8 +29,8 @@ export default function Contact() {
         }),
       });
       if (!res.ok) throw new Error("failed");
-      setStatus("success");
       form.reset();
+      router.push("/dakujeme");
     } catch {
       setStatus("error");
     }
@@ -84,16 +86,8 @@ export default function Contact() {
             placeholder={tPh("ph_msg")}
             className={styles.field}
           />
-          <button
-            type="submit"
-            disabled={status === "sending"}
-            className={`${styles.submit} ${status === "success" ? styles.success : ""}`}
-          >
-            {status === "success"
-              ? t("contact_success")
-              : status === "sending"
-                ? t("contact_sending")
-                : t("contact_submit")}
+          <button type="submit" disabled={status === "sending"} className={styles.submit}>
+            {status === "sending" ? t("contact_sending") : t("contact_submit")}
           </button>
           {status === "error" && <p className={styles.errorMsg}>{t("contact_error")}</p>}
         </form>

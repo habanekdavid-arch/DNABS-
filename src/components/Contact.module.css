@@ -107,12 +107,6 @@ textarea.field{
 .submit:hover{
   background:#fff;
 }
-.submit.success{
-  background:var(--green);
-}
-.submit.success:hover{
-  background:var(--green);
-}
 .submit:disabled{
   opacity:.6;
   cursor:not-allowed;

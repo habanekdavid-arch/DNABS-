@@ -61,7 +61,6 @@ const dict = {
   contact_h2: { sk: "do toho.", en: "do it." },
   contact_submit: { sk: "Odoslať dopyt →", en: "Send inquiry →" },
   contact_sending: { sk: "Odosielam…", en: "Sending…" },
-  contact_success: { sk: "✓ Ďakujeme — ozveme sa", en: "✓ Thank you — we’ll be in touch" },
   contact_error: {
     sk: "Niečo sa pokazilo, skús to prosím znova alebo napíš priamo na e-mail.",
     en: "Something went wrong, please try again or email us directly.",
