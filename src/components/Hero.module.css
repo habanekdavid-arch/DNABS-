@@ -99,7 +99,7 @@
 
 .laptopWrap{
   position:absolute;
-  top:50%;
+  top:58%;
   right:clamp(60px,9vw,180px);
   transform:translateY(-50%);
   width:clamp(360px,40vw,680px);
