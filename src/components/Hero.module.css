@@ -102,7 +102,7 @@
   top:50%;
   right:clamp(60px,9vw,180px);
   transform:translateY(-50%);
-  width:clamp(440px,48vw,820px);
+  width:clamp(360px,40vw,680px);
   z-index:3;
   animation:dnabs-float 7s ease-in-out infinite;
   filter:drop-shadow(0 38px 55px rgba(40,20,10,.22));
