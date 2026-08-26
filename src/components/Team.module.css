@@ -1,0 +1,83 @@
+.section{
+  background:#f5f2ec;
+  color:#0a0a0a;
+  padding:clamp(56px,9vh,100px) clamp(20px,4vw,48px);
+}
+
+.inner{
+  max-width:720px;
+  margin:0 auto;
+  display:flex;
+  align-items:center;
+  gap:clamp(24px,4vw,40px);
+  flex-wrap:wrap;
+}
+
+.kicker{
+  font-family:var(--mono);
+  font-size:13px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:10px;
+  flex-basis:100%;
+}
+
+.avatar{
+  position:relative;
+  width:96px;
+  height:96px;
+  flex-shrink:0;
+  border-radius:50%;
+  border:2px dashed rgba(10,10,10,.35);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#e4e0d6;
+}
+
+.avatarIcon{
+  width:40px;
+  height:40px;
+  opacity:.4;
+}
+
+.info{
+  flex:1;
+  min-width:200px;
+}
+
+.name{
+  font-family:var(--disp);
+  font-weight:700;
+  font-size:clamp(18px,2vw,24px);
+}
+
+.role{
+  font-family:var(--mono);
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.06em;
+  opacity:.6;
+  margin-top:4px;
+}
+
+.company{
+  font-size:14px;
+  margin-top:6px;
+  opacity:.75;
+}
+
+.promise{
+  font-family:var(--mono);
+  font-size:13px;
+  color:var(--accent);
+  margin-top:10px;
+}
+
+.photoNote{
+  font-family:var(--mono);
+  font-size:11px;
+  opacity:.45;
+  margin-top:8px;
+}

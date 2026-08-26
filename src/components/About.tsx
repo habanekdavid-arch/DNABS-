@@ -47,6 +47,7 @@ export default function About() {
             </div>
           ))}
         </div>
+        <p className={styles.foundedNote}>{t("about_founded_note")}</p>
       </Reveal>
     </section>
   );
