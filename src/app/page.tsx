@@ -1,5 +1,6 @@
 import { LanguageProvider } from "@/lib/i18n";
 import Hero from "@/components/Hero";
+import Showcase from "@/components/Showcase";
 import ServicesMarquee from "@/components/ServicesMarquee";
 import Services from "@/components/Services";
 import About from "@/components/About";
@@ -11,6 +12,7 @@ export default function Home() {
     <LanguageProvider defaultLang="sk">
       <div id="top">
         <Hero />
+        <Showcase />
         <ServicesMarquee />
         <Services />
         <About />
