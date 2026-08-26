@@ -37,13 +37,13 @@ export default async function NichePage({
 
   return (
     <LanguageProvider defaultLang="sk">
-      <div id="top">
+      <main id="top">
         <NicheHero niche={niche} />
         <Showcase />
         <NicheFaq niche={niche} />
         <Contact />
-        <Footer />
-      </div>
+      </main>
+      <Footer />
     </LanguageProvider>
   );
 }

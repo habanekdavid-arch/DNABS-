@@ -38,7 +38,7 @@ export default function Footer() {
         <span>{t("footer_made")}</span>
         <span>All rights reserved</span>
       </div>
-      <div className={styles.wordmark}>DNABS</div>
+      <div className={styles.wordmark} aria-hidden="true">DNABS</div>
     </footer>
   );
 }

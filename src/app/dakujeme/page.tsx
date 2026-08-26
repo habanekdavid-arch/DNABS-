@@ -25,7 +25,7 @@ export default function DakujemePage() {
           }}
         />
       </head>
-      <section className={styles.section}>
+      <main className={styles.section}>
         <div className={styles.kicker}>// Dopyt odoslaný</div>
         <h1 className={styles.h1}>
           Ďakujeme
@@ -37,7 +37,7 @@ export default function DakujemePage() {
         <Link href="/" className={styles.cta}>
           Späť na web →
         </Link>
-      </section>
+      </main>
     </>
   );
 }

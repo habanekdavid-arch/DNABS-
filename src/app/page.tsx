@@ -12,7 +12,7 @@ import Footer from "@/components/Footer";
 export default function Home() {
   return (
     <LanguageProvider defaultLang="sk">
-      <div id="top">
+      <main id="top">
         <Hero />
         <Showcase />
         <ServicesMarquee />
@@ -21,8 +21,8 @@ export default function Home() {
         <Team />
         <HomeFaq />
         <Contact />
-        <Footer />
-      </div>
+      </main>
+      <Footer />
     </LanguageProvider>
   );
 }
