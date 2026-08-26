@@ -91,6 +91,23 @@ textarea.field{
   resize:vertical;
 }
 
+select.field{
+  appearance:none;
+  cursor:pointer;
+  color:#fff;
+}
+select.field:invalid{
+  color:rgba(255,255,255,.35);
+}
+
+.honeypot{
+  position:absolute;
+  left:-9999px;
+  width:1px;
+  height:1px;
+  overflow:hidden;
+}
+
 .submit{
   background:var(--accent);
   color:#0a0a0a;

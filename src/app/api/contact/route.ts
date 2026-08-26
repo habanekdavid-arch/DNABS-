@@ -4,7 +4,13 @@ import nodemailer from "nodemailer";
 const CONTACT_EMAIL = "contact.dnabs@gmail.com";
 
 export async function POST(request: Request) {
-  const { name, email, company, message } = await request.json();
+  const { name, email, company, projectType, budget, timeline, message, website } =
+    await request.json();
+
+  // Honeypot — vyplnené len botmi. Predstierame úspech bez odoslania mailu.
+  if (typeof website === "string" && website.trim()) {
+    return NextResponse.json({ ok: true });
+  }
 
   if (typeof name !== "string" || !name.trim() || typeof email !== "string" || !email.trim()) {
     return NextResponse.json({ error: "Meno a e-mail sú povinné." }, { status: 400 });
@@ -35,6 +41,9 @@ export async function POST(request: Request) {
         `Meno: ${name}`,
         `E-mail: ${email}`,
         company ? `Spoločnosť: ${company}` : null,
+        projectType ? `Typ projektu: ${projectType}` : null,
+        budget ? `Rozpočet: ${budget}` : null,
+        timeline ? `Termín: ${timeline}` : null,
         "",
         message || "(bez správy)",
       ]

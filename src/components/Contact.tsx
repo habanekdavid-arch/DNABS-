@@ -16,6 +16,14 @@ export default function Contact() {
     const form = e.currentTarget;
     const data = new FormData(form);
 
+    // Honeypot — skryté pole, ktoré vypĺňajú len boti. Ak je vyplnené,
+    // predstierame úspech bez toho, aby sme čokoľvek reálne odoslali.
+    if (data.get("website")) {
+      form.reset();
+      router.push("/dakujeme");
+      return;
+    }
+
     setStatus("sending");
     try {
       const res = await fetch("/api/contact", {
@@ -25,7 +33,11 @@ export default function Contact() {
           name: data.get("name"),
           email: data.get("email"),
           company: data.get("company"),
+          projectType: data.get("projectType"),
+          budget: data.get("budget"),
+          timeline: data.get("timeline"),
           message: data.get("message"),
+          website: data.get("website"),
         }),
       });
       if (!res.ok) throw new Error("failed");
@@ -78,6 +90,60 @@ export default function Contact() {
             aria-label={tPh("ph_company")}
             placeholder={tPh("ph_company")}
             className={styles.field}
+          />
+          <select
+            name="projectType"
+            required
+            defaultValue=""
+            aria-label={tPh("ph_project_type")}
+            className={styles.field}
+          >
+            <option value="" disabled>
+              {tPh("ph_project_type")}
+            </option>
+            <option value="web">{t("opt_type_web")}</option>
+            <option value="eshop">{t("opt_type_eshop")}</option>
+            <option value="app">{t("opt_type_app")}</option>
+            <option value="marketing">{t("opt_type_marketing")}</option>
+          </select>
+          <select
+            name="budget"
+            required
+            defaultValue=""
+            aria-label={tPh("ph_budget")}
+            className={styles.field}
+          >
+            <option value="" disabled>
+              {tPh("ph_budget")}
+            </option>
+            <option value={t("opt_budget_1")}>{t("opt_budget_1")}</option>
+            <option value={t("opt_budget_2")}>{t("opt_budget_2")}</option>
+            <option value={t("opt_budget_3")}>{t("opt_budget_3")}</option>
+            <option value={t("opt_budget_4")}>{t("opt_budget_4")}</option>
+            <option value={t("opt_budget_5")}>{t("opt_budget_5")}</option>
+          </select>
+          <select
+            name="timeline"
+            required
+            defaultValue=""
+            aria-label={tPh("ph_timeline")}
+            className={styles.field}
+          >
+            <option value="" disabled>
+              {tPh("ph_timeline")}
+            </option>
+            <option value={t("opt_timeline_1")}>{t("opt_timeline_1")}</option>
+            <option value={t("opt_timeline_2")}>{t("opt_timeline_2")}</option>
+            <option value={t("opt_timeline_3")}>{t("opt_timeline_3")}</option>
+            <option value={t("opt_timeline_4")}>{t("opt_timeline_4")}</option>
+          </select>
+          <input
+            type="text"
+            name="website"
+            tabIndex={-1}
+            autoComplete="off"
+            aria-hidden="true"
+            className={styles.honeypot}
           />
           <textarea
             rows={4}
