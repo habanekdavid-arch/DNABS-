@@ -42,14 +42,20 @@ export const niches: Niche[] = [
           sk: "Viete pracovať s fotkami, ktoré teraz mám na Instagrame?",
           en: "Can you work with the photos I already have on Instagram?",
         },
-        a: { sk: "PLACEHOLDER — doplním.", en: "PLACEHOLDER — to be filled in." },
+        a: {
+          sk: "Áno, vieme vychádzať z fotiek, ktoré už máš na Instagrame alebo inde online — prípadne ti poradíme, čo by stálo za to doplniť.",
+          en: "Yes, we can work from the photos you already have on Instagram or elsewhere online — and suggest what's worth adding.",
+        },
       },
       {
         q: {
           sk: "Dá sa cez web priamo rezervovať termín skúšky?",
           en: "Can visitors book a fitting appointment directly on the site?",
         },
-        a: { sk: "PLACEHOLDER — doplním.", en: "PLACEHOLDER — to be filled in." },
+        a: {
+          sk: "Áno, vieme na web napojiť jednoduchý rezervačný formulár alebo prepojenie na kalendár, aby si nevesty mohli termín dohodnúť priamo online.",
+          en: "Yes, we can add a simple booking form or calendar integration so brides can arrange a fitting directly online.",
+        },
       },
     ],
     seo: {
@@ -94,14 +100,20 @@ export const niches: Niche[] = [
           sk: "Viem si menu meniť sám, keď zmeníte cenník?",
           en: "Can I update the menu myself when prices change?",
         },
-        a: { sk: "PLACEHOLDER — doplním.", en: "PLACEHOLDER — to be filled in." },
+        a: {
+          sk: "Áno, po odovzdaní webu si menu vieš jednoducho upravovať sám, prípadne ti radi pomôžeme s úpravou kedykoľvek to budeš potrebovať.",
+          en: "Yes, once the site is delivered you can update the menu yourself, or we're happy to help with changes whenever you need.",
+        },
       },
       {
         q: {
           sk: "Dá sa napojiť online rezervácia stola?",
           en: "Can online table reservations be added?",
         },
-        a: { sk: "PLACEHOLDER — doplním.", en: "PLACEHOLDER — to be filled in." },
+        a: {
+          sk: "Áno, vieme pridať jednoduchý rezervačný formulár priamo na web, prípadne ho prepojiť s existujúcim rezervačným systémom, ak už nejaký používate.",
+          en: "Yes, we can add a simple reservation form directly to the site, or integrate it with a reservation system you already use.",
+        },
       },
     ],
     seo: {
@@ -146,14 +158,20 @@ export const niches: Niche[] = [
           sk: "Viete pridať aj orientačný cenník opráv?",
           en: "Can you add a ballpark repair price list?",
         },
-        a: { sk: "PLACEHOLDER — doplním.", en: "PLACEHOLDER — to be filled in." },
+        a: {
+          sk: "Áno, vieme pridať prehľadný zoznam služieb s orientačnými cenami, aby zákazníci hneď vedeli, na čom sú.",
+          en: "Yes, we can add a clear list of services with ballpark pricing so customers know what to expect right away.",
+        },
       },
       {
         q: {
           sk: "Dá sa na web napojiť objednávací formulár na servis?",
           en: "Can a service booking form be added to the site?",
         },
-        a: { sk: "PLACEHOLDER — doplním.", en: "PLACEHOLDER — to be filled in." },
+        a: {
+          sk: "Áno, vieme pridať jednoduchý objednávkový formulár, cez ktorý si zákazníci dohodnú termín priamo z webu.",
+          en: "Yes, we can add a simple booking form so customers can arrange an appointment directly from the site.",
+        },
       },
     ],
     seo: {

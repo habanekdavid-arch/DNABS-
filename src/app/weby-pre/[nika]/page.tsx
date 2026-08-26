@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { LanguageProvider } from "@/lib/i18n";
 import { niches, getNiche } from "@/data/niches";
 import NicheHero from "@/components/NicheHero";
-import Showcase from "@/components/Showcase";
+import Realizacia from "@/components/Realizacia";
 import NicheFaq from "@/components/NicheFaq";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
@@ -39,7 +39,7 @@ export default async function NichePage({
     <LanguageProvider defaultLang="sk">
       <main id="top">
         <NicheHero niche={niche} />
-        <Showcase />
+        <Realizacia />
         <NicheFaq niche={niche} />
         <Contact />
       </main>
