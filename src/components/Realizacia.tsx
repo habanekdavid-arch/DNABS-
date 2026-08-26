@@ -16,35 +16,31 @@ export default function Realizacia() {
         <h2 className={styles.title}>{t("realizacia_title")}</h2>
       </Reveal>
 
-      <Reveal className={styles.card}>
-        <div className={styles.imgWrap}>
-          <Image
-            src={screenshot}
-            alt="VytlačTo3D — online konfigurátor a e-shop pre 3D tlač"
-            fill
-            sizes="(max-width: 900px) 100vw, 1100px"
-            className={styles.img}
-          />
-        </div>
-        <div className={styles.body}>
-          <div className={styles.text}>
+      <Reveal className={styles.wrap}>
+        <a
+          href="https://www.vytlacto3d.sk/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className={styles.card}
+        >
+          <div className={styles.imgWrap}>
+            <Image
+              src={screenshot}
+              alt="VytlačTo3D — online konfigurátor a e-shop pre 3D tlač"
+              fill
+              sizes="420px"
+              className={styles.img}
+            />
+          </div>
+          <div className={styles.body}>
             <div className={styles.name}>VytlačTo3D</div>
             <p className={styles.intro}>{t("realizacia_intro")}</p>
+            <span className={styles.link}>{t("realizacia_cta")}</span>
           </div>
-          <div className={styles.ctas}>
-            <a
-              href="https://www.vytlacto3d.sk/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.ctaSecondary}
-            >
-              {t("realizacia_cta")}
-            </a>
-            <a href="#kontakt" className={styles.ctaPrimary}>
-              {t("realizacia_cta2")}
-            </a>
-          </div>
-        </div>
+        </a>
+        <a href="#kontakt" className={styles.cta2}>
+          {t("realizacia_cta2")}
+        </a>
       </Reveal>
     </section>
   );

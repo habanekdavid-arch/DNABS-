@@ -36,6 +36,12 @@
   52%{opacity:0;}
 }
 
+@keyframes dnabs-cta-pulse{
+  0%{box-shadow:0 0 0 0 rgba(255,90,1,.55);}
+  70%{box-shadow:0 0 0 14px rgba(255,90,1,0);}
+  100%{box-shadow:0 0 0 0 rgba(255,90,1,0);}
+}
+
 @keyframes dnabs-txtglitch{
   0%,86%,100%{text-shadow:none;transform:translate(0,0);}
   87%{text-shadow:-3px 0 var(--cyan),3px 0 var(--accent);transform:translate(2px,-1px);}
@@ -260,13 +266,17 @@
 }
 
 .ctaPrimary{
+  position:relative;
   background:#0a0a0a;
   color:#fff;
+  animation:dnabs-cta-pulse 2.2s ease-out infinite;
 }
 .ctaPrimary:hover{
   background:var(--accent);
   color:#0a0a0a;
   border-color:var(--accent);
+  animation-play-state:paused;
+  transform:translateY(-2px);
 }
 
 .ctaSecondary{
