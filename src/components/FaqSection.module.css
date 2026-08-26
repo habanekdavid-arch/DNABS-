@@ -1,0 +1,31 @@
+.section{
+  background:#fff;
+  color:#0a0a0a;
+  padding:clamp(64px,10vh,120px) clamp(20px,4vw,48px);
+}
+
+.inner{
+  max-width:760px;
+  margin:0 auto;
+}
+
+.kicker{
+  font-family:var(--mono);
+  font-size:13px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:10px;
+  text-align:center;
+}
+
+.title{
+  margin:0 0 clamp(32px,5vh,48px);
+  font-family:var(--disp);
+  font-weight:700;
+  font-size:clamp(32px,5vw,56px);
+  line-height:1;
+  letter-spacing:-.01em;
+  text-transform:uppercase;
+  text-align:center;
+}

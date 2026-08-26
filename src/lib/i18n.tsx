@@ -22,6 +22,12 @@ const dict = {
   },
   hero_cta1: { sk: "Chcem bezplatný náhľad →", en: "I want my free preview →" },
   hero_cta2: { sk: "Naše služby", en: "Our services" },
+  niche_kicker: {
+    sk: "// bezplatný náhľad webu do 48 hodín",
+    en: "// free website preview within 48 hours",
+  },
+  faq_kicker: { sk: "FAQ", en: "FAQ" },
+  faq_title: { sk: "Časté otázky", en: "Frequently asked questions" },
   showcase_kicker: { sk: "(01) — Dôkaz", en: "(01) — Proof" },
   showcase_title: { sk: "Pred a po", en: "Before & after" },
   showcase_intro: {
