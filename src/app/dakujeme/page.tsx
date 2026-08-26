@@ -3,7 +3,9 @@ import Link from "next/link";
 import styles from "./page.module.css";
 
 export const metadata: Metadata = {
-  title: "Ďakujeme — DNABS",
+  title: "Ďakujeme",
+  description: "Tvoj dopyt sme prijali, ozveme sa čo najskôr.",
+  robots: { index: false, follow: true },
 };
 
 export default function DakujemePage() {

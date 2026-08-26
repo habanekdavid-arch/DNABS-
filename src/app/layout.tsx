@@ -39,10 +39,39 @@ const allura = Allura({
   weight: ["400"],
 });
 
+const LOCAL_BUSINESS_JSON_LD = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  name: "DNABS",
+  url: "https://dnabs.online",
+  email: "contact.dnabs@gmail.com",
+  telephone: "+421949390797",
+  foundingDate: "2026",
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Bratislava",
+    addressCountry: "SK",
+  },
+  sameAs: ["https://www.instagram.com/dnabs.sk/"],
+};
+
 export const metadata: Metadata = {
-  title: "DNABS — Digitál, čo rastie.",
+  metadataBase: new URL("https://dnabs.online"),
+  title: {
+    default: "DNABS — Digitál, čo rastie.",
+    template: "%s | DNABS",
+  },
   description:
     "DNABS je digitálne štúdio — weby, aplikácie a digitálny marketing pre firmy, ktoré chcú zrýchliť svoje procesy.",
+  openGraph: {
+    title: "DNABS — Digitál, čo rastie.",
+    description:
+      "Bezplatný náhľad tvojho webu do 48 hodín. Weby, aplikácie a digitálny marketing pre firmy, ktoré chcú zrýchliť svoje procesy.",
+    url: "https://dnabs.online",
+    siteName: "DNABS",
+    locale: "sk_SK",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
@@ -56,6 +85,10 @@ export default function RootLayout({
       className={`${spaceGrotesk.variable} ${spaceMono.variable} ${instrumentSerif.variable} ${bricolage.variable} ${allura.variable}`}
     >
       <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(LOCAL_BUSINESS_JSON_LD) }}
+        />
         <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18360461587"></script>
         <script
           dangerouslySetInnerHTML={{
