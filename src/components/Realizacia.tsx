@@ -14,6 +14,7 @@ export default function Realizacia() {
       <Reveal className={styles.head}>
         <div className={styles.kicker}>{t("realizacia_kicker")}</div>
         <h2 className={styles.title}>{t("realizacia_title")}</h2>
+        <p className={styles.intro}>{t("realizacia_intro")}</p>
       </Reveal>
 
       <Reveal className={styles.wrap}>
@@ -34,8 +35,12 @@ export default function Realizacia() {
           </div>
           <div className={styles.body}>
             <div className={styles.name}>VytlačTo3D</div>
-            <p className={styles.intro}>{t("realizacia_intro")}</p>
-            <span className={styles.link}>{t("realizacia_cta")}</span>
+            <span className={styles.link}>
+              {t("realizacia_cta")}
+              <span className={styles.linkArrow} aria-hidden>
+                →
+              </span>
+            </span>
           </div>
         </a>
         <a href="#kontakt" className={styles.cta2}>

@@ -34,7 +34,7 @@ const dict = {
     sk: "VytlačTo3D — online konfigurátor a e-shop pre 3D tlač. Zákazník si nahrá model, vyberie parametre tlače a systém mu rovno spočíta cenu.",
     en: "VytlačTo3D — an online configurator and e-shop for 3D printing. Customers upload a model, pick print parameters, and the system prices it instantly.",
   },
-  realizacia_cta: { sk: "Pozrieť si live web →", en: "View the live site →" },
+  realizacia_cta: { sk: "Live web", en: "Live site" },
   realizacia_cta2: { sk: "Chcem takýto web aj ja →", en: "I want a website like this →" },
   svc_kicker: { sk: "(02) — Čo robíme", en: "(02) — What we do" },
   svc_title: { sk: "Služby", en: "Services" },

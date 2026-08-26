@@ -13,19 +13,28 @@ export default function Accordion({ items }: { items: AccordionItem[] }) {
       {items.map((item, i) => {
         const isOpen = openIndex === i;
         return (
-          <div key={item.q} className={styles.item}>
+          <div
+            key={item.q}
+            className={styles.item}
+            onMouseEnter={() => setOpenIndex(i)}
+          >
             <button
               type="button"
               className={styles.question}
               aria-expanded={isOpen}
+              onFocus={() => setOpenIndex(i)}
               onClick={() => setOpenIndex(isOpen ? null : i)}
             >
               <span>{item.q}</span>
-              <span className={styles.icon} aria-hidden>
-                {isOpen ? "—" : "+"}
+              <span className={`${styles.icon} ${isOpen ? styles.iconOpen : ""}`} aria-hidden>
+                +
               </span>
             </button>
-            {isOpen && <div className={styles.answer}>{item.a}</div>}
+            <div className={`${styles.answerWrap} ${isOpen ? styles.answerOpen : ""}`}>
+              <div className={styles.answerInner}>
+                <p className={styles.answer}>{item.a}</p>
+              </div>
+            </div>
           </div>
         );
       })}
