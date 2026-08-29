@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useLanguage } from "@/lib/i18n";
 import styles from "./Nav.module.css";
 import logo from "../assets/dnabs-logo.png";
@@ -10,11 +11,11 @@ export default function Nav() {
 
   return (
     <nav className={styles.nav}>
-      <a href="#top" className={styles.brand}>
+      <Link href="/" className={styles.brand}>
         <Image src={logo} alt="DNABS" width={30} height={30} style={{ objectFit: "contain" }} />
         <span className={styles.brandName}>DNABS</span>
         <span className={styles.reg}>®</span>
-      </a>
+      </Link>
       <div className={styles.right}>
         <a href="#sluzby" className={styles.link}>{t("nav_services")}</a>
         <a href="#o-nas" className={styles.link}>{t("nav_about")}</a>
