@@ -1,13 +1,14 @@
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
+import { getSql } from "@/lib/db";
 
 const CONTACT_EMAIL = "contact.dnabs@gmail.com";
 
 export async function POST(request: Request) {
-  const { name, email, company, projectType, budget, timeline, message, website } =
+  const { name, email, company, projectType, budget, timeline, message, website, source } =
     await request.json();
 
-  // Honeypot — vyplnené len botmi. Predstierame úspech bez odoslania mailu.
+  // Honeypot — vyplnené len botmi. Predstierame úspech bez uloženia/odoslania.
   if (typeof website === "string" && website.trim()) {
     return NextResponse.json({ ok: true });
   }
@@ -16,14 +17,26 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Meno a e-mail sú povinné." }, { status: 400 });
   }
 
+  // Databáza je zdroj pravdy — dopyt sa uloží aj keby zlyhalo odoslanie e-mailu.
+  let leadId: number | null = null;
+  try {
+    const sql = getSql();
+    const rows = (await sql`
+      INSERT INTO leads (name, email, company, project_type, budget, timeline, message, source)
+      VALUES (${name}, ${email}, ${company || null}, ${projectType || null}, ${budget || null}, ${timeline || null}, ${message || null}, ${source || null})
+      RETURNING id
+    `) as { id: number }[];
+    leadId = rows[0].id;
+  } catch (err) {
+    console.error("contact route DB insert failed:", err);
+    return NextResponse.json({ error: "Odoslanie zlyhalo, skús to prosím neskôr." }, { status: 502 });
+  }
+
   const gmailUser = process.env.GMAIL_USER;
   const gmailAppPassword = process.env.GMAIL_APP_PASSWORD;
 
   if (!gmailUser || !gmailAppPassword) {
-    return NextResponse.json(
-      { error: "Odosielanie e-mailov nie je nakonfigurované." },
-      { status: 500 }
-    );
+    return NextResponse.json({ ok: true });
   }
 
   const transporter = nodemailer.createTransport({
@@ -44,15 +57,21 @@ export async function POST(request: Request) {
         projectType ? `Typ projektu: ${projectType}` : null,
         budget ? `Rozpočet: ${budget}` : null,
         timeline ? `Termín: ${timeline}` : null,
+        source ? `Zdroj: ${source}` : null,
         "",
         message || "(bez správy)",
       ]
         .filter(Boolean)
         .join("\n"),
     });
-    return NextResponse.json({ ok: true });
+    if (leadId) {
+      const sql = getSql();
+      await sql`UPDATE leads SET email_sent = true WHERE id = ${leadId}`;
+    }
   } catch (err) {
+    // E-mail zlyhal, ale dopyt je bezpečne uložený v databáze — stále vraciame úspech.
     console.error("contact route sendMail failed:", err);
-    return NextResponse.json({ error: "Odoslanie zlyhalo, skús to prosím neskôr." }, { status: 502 });
   }
+
+  return NextResponse.json({ ok: true });
 }

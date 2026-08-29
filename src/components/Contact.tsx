@@ -38,6 +38,7 @@ export default function Contact() {
           timeline: data.get("timeline"),
           message: data.get("message"),
           website: data.get("website"),
+          source: typeof window !== "undefined" ? window.location.pathname : undefined,
         }),
       });
       if (!res.ok) throw new Error("failed");
