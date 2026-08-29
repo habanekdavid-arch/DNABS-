@@ -28,6 +28,11 @@ yarn-error.log*
 # vercel
 .vercel
 
+# AI agent tooling (installed locally by marketplace integrations)
+.agents/
+.claude/
+skills-lock.json
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
