@@ -51,7 +51,8 @@ export async function POST(request: Request) {
         .join("\n"),
     });
     return NextResponse.json({ ok: true });
-  } catch {
+  } catch (err) {
+    console.error("contact route sendMail failed:", err);
     return NextResponse.json({ error: "Odoslanie zlyhalo, skús to prosím neskôr." }, { status: 502 });
   }
 }
