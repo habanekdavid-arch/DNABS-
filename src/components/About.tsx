@@ -2,6 +2,7 @@
 
 import { useState, type ReactNode } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { useLanguage, type DictKey } from "@/lib/i18n";
 import Reveal from "./Reveal";
 import styles from "./About.module.css";
@@ -48,6 +49,9 @@ export default function About() {
           ))}
         </div>
         <p className={styles.foundedNote}>{t("about_founded_note")}</p>
+        <Link href="/o-nas" className={styles.moreLink}>
+          {t("about_more_link")}
+        </Link>
       </Reveal>
     </section>
   );

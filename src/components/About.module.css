@@ -102,3 +102,18 @@
   opacity:.55;
   margin:clamp(20px,3vh,28px) 0 0;
 }
+
+.moreLink{
+  display:inline-block;
+  margin-top:16px;
+  font-family:var(--mono);
+  font-size:13px;
+  text-transform:uppercase;
+  letter-spacing:.05em;
+  text-decoration:underline;
+  text-underline-offset:3px;
+  color:#fff;
+}
+.moreLink:hover{
+  color:var(--green);
+}

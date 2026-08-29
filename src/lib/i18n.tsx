@@ -23,6 +23,19 @@ const dict = {
   hero_cta1: { sk: "Objednať bezplatný náhľad →", en: "Order my free preview →" },
   hero_cta2: { sk: "Naše služby", en: "Our services" },
   hero_cta_badge: { sk: "Zadarmo", en: "Free" },
+  onas_kicker: { sk: "// O nás — DNABS", en: "// About us — DNABS" },
+  onas_h1: {
+    sk: "Toto nie je bežná stránka „o nás“.",
+    en: "This isn't your typical about page.",
+  },
+  onas_intro: {
+    sk: "Namiesto fráz o vášni a tímovom duchu ti ukážeme, ako rozmýšľame — cez päť krátkych kapitol. Scrolluj.",
+    en: "Instead of clichés about passion and teamwork, we'll show you how we think — through five short chapters. Scroll.",
+  },
+  onas_cta_title: {
+    sk: "Chceš vedieť, ako by to vyzeralo pre tvoju firmu?",
+    en: "Want to see what this could look like for your business?",
+  },
   niche_kicker: {
     sk: "// bezplatný náhľad webu do 48 hodín",
     en: "// free website preview within 48 hours",
@@ -75,6 +88,7 @@ const dict = {
     sk: "Skúsenosti z predchádzajúcich rokov v obore · DNABS ako štúdio funguje od 2026.",
     en: "Experience carried over from prior years in the field · DNABS has operated as a studio since 2026.",
   },
+  about_more_link: { sk: "Viac o nás →", en: "More about us →" },
   contact_kicker: { sk: "(04) — Dopyt", en: "(04) — Inquiry" },
   contact_h1: { sk: "Poďme", en: "Let’s" },
   contact_h2: { sk: "do toho.", en: "do it." },

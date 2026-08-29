@@ -1,0 +1,9 @@
+.text{
+  margin:0;
+}
+
+.word{
+  display:inline-block;
+  transition:opacity .25s ease, filter .25s ease;
+  will-change:opacity;
+}
