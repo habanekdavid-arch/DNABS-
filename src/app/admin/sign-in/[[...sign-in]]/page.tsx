@@ -8,7 +8,7 @@ export default function AdminSignInPage() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        background: "#0a0a0a",
+        background: "#faf9f6",
       }}
     >
       <SignIn fallbackRedirectUrl="/admin" />

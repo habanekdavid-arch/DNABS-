@@ -1,8 +1,9 @@
+import Link from "next/link";
 import { currentUser } from "@clerk/nextjs/server";
 import { UserButton } from "@clerk/nextjs";
 import { isAdminEmail } from "@/lib/admin";
 import { getSql } from "@/lib/db";
-import { toggleLeadStatus } from "./actions";
+import StatusSelect from "./StatusSelect";
 import styles from "./admin.module.css";
 
 type Lead = {
@@ -40,7 +41,7 @@ export default async function AdminPage() {
   return (
     <div className={styles.page}>
       <div className={styles.header}>
-        <div className={styles.title}>DNABS — Dopyty</div>
+        <div className={styles.title}>DNABS — Objednávky</div>
         <UserButton />
       </div>
 
@@ -61,19 +62,18 @@ export default async function AdminPage() {
                 <th>Správa</th>
                 <th>Zdroj</th>
                 <th>Stav</th>
-                <th></th>
               </tr>
             </thead>
             <tbody>
               {leads.map((lead) => (
                 <tr key={lead.id}>
                   <td>{new Date(lead.created_at).toLocaleString("sk-SK")}</td>
-                  <td>{lead.name}</td>
                   <td>
-                    <a href={`mailto:${lead.email}`} style={{ color: "#fff" }}>
-                      {lead.email}
-                    </a>
+                    <Link href={`/admin/leads/${lead.id}`} className={styles.rowLink}>
+                      {lead.name}
+                    </Link>
                   </td>
+                  <td>{lead.email}</td>
                   <td>{lead.company || "—"}</td>
                   <td>{lead.project_type || "—"}</td>
                   <td>{lead.budget || "—"}</td>
@@ -81,20 +81,7 @@ export default async function AdminPage() {
                   <td className={styles.message}>{lead.message || "—"}</td>
                   <td>{lead.source || "—"}</td>
                   <td>
-                    <span
-                      className={`${styles.badge} ${
-                        lead.status === "new" ? styles.badgeNew : styles.badgeHandled
-                      }`}
-                    >
-                      {lead.status === "new" ? "Nový" : "Vybavený"}
-                    </span>
-                  </td>
-                  <td>
-                    <form action={toggleLeadStatus.bind(null, lead.id, lead.status)}>
-                      <button type="submit" className={styles.toggleBtn}>
-                        {lead.status === "new" ? "Označiť vybavené" : "Vrátiť na nový"}
-                      </button>
-                    </form>
+                    <StatusSelect id={lead.id} status={lead.status} />
                   </td>
                 </tr>
               ))}
