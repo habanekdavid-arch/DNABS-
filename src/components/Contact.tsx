@@ -58,6 +58,18 @@ export default function Contact() {
             <span className={styles.h2Line}>{t("contact_h1")}</span>
             <span className={styles.h2Script}>{t("contact_h2")}</span>
           </h2>
+          <p className={styles.intro}>{t("contact_intro")}</p>
+          <ul className={styles.perks}>
+            <li>
+              <span className={styles.perkIcon}>✓</span> {t("contact_perk1")}
+            </li>
+            <li>
+              <span className={styles.perkIcon}>✓</span> {t("contact_perk2")}
+            </li>
+            <li>
+              <span className={styles.perkIcon}>✓</span> {t("contact_perk3")}
+            </li>
+          </ul>
           <div className={styles.infoBlock}>
             <div className={styles.infoLabel}>{t("contact_label_email")}</div>
             <a href="mailto:contact.dnabs@gmail.com" className={styles.emailLink}>contact.dnabs@gmail.com</a>
@@ -154,6 +166,9 @@ export default function Contact() {
             className={styles.field}
           />
           <button type="submit" disabled={status === "sending"} className={styles.submit}>
+            {status !== "sending" && (
+              <span className={styles.submitBadge}>{t("hero_cta_badge")}</span>
+            )}
             {status === "sending" ? t("contact_sending") : t("contact_submit")}
           </button>
           {status === "error" && <p className={styles.errorMsg}>{t("contact_error")}</p>}
