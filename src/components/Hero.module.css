@@ -261,6 +261,7 @@
   letter-spacing:.05em;
   text-decoration:none;
   border:2px solid #0a0a0a;
+  border-radius:8px;
   padding:16px 26px;
   transition:.22s;
 }
@@ -277,6 +278,22 @@
   border-color:var(--accent);
   animation-play-state:paused;
   transform:translateY(-2px);
+}
+
+.ctaBadge{
+  position:absolute;
+  top:-11px;
+  right:-12px;
+  background:var(--green);
+  color:#0a0a0a;
+  font-family:var(--mono);
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.04em;
+  padding:4px 9px;
+  border-radius:999px;
+  transform:rotate(7deg);
+  box-shadow:0 3px 8px rgba(0,0,0,.3);
 }
 
 .ctaSecondary{

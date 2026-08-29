@@ -20,8 +20,9 @@ const dict = {
     sk: "Bezplatný náhľad tvojho webu do 48 hodín — postavený na tom, čo už robíš. Bez záväzkov, bez rizika. Ak sa ti nebude páčiť, nestojí ťa to nič.",
     en: "A free preview of your website within 48 hours — built around what you already do. No commitment, no risk. If you don't like it, it costs you nothing.",
   },
-  hero_cta1: { sk: "Chcem bezplatný náhľad →", en: "I want my free preview →" },
+  hero_cta1: { sk: "Objednať bezplatný náhľad →", en: "Order my free preview →" },
   hero_cta2: { sk: "Naše služby", en: "Our services" },
+  hero_cta_badge: { sk: "Zadarmo", en: "Free" },
   niche_kicker: {
     sk: "// bezplatný náhľad webu do 48 hodín",
     en: "// free website preview within 48 hours",

@@ -44,7 +44,10 @@ export default function Hero() {
         </h1>
         <p className={styles.sub}>{t("hero_sub")}</p>
         <div className={styles.ctaRow}>
-          <a href="#kontakt" className={styles.ctaPrimary}>{t("hero_cta1")}</a>
+          <a href="#kontakt" className={styles.ctaPrimary}>
+            <span className={styles.ctaBadge}>{t("hero_cta_badge")}</span>
+            {t("hero_cta1")}
+          </a>
           <a href="#sluzby" className={styles.ctaSecondary}>{t("hero_cta2")}</a>
         </div>
       </div>
