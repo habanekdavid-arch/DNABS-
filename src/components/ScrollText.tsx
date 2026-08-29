@@ -1,7 +1,10 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import styles from "./ScrollText.module.css";
+
+const GLITCH_COLORS = ["var(--accent)", "var(--cyan)", "var(--purple)"];
+const REVEAL_WINDOW = 0.035;
 
 export default function ScrollText({
   text,
@@ -47,15 +50,29 @@ export default function ScrollText({
     <p ref={ref} className={`${styles.text} ${className || ""}`}>
       {words.map((word, i) => {
         const threshold = words.length <= 1 ? 0 : i / (words.length - 1);
-        const active = progress >= threshold;
+        const distance = progress - threshold;
+        const color = GLITCH_COLORS[i % GLITCH_COLORS.length];
+
+        let style: CSSProperties;
+        if (distance < 0) {
+          style = { opacity: 0.15, color: "inherit", transform: "translateY(5px)" };
+        } else if (distance < REVEAL_WINDOW) {
+          style = {
+            opacity: 1,
+            color,
+            textShadow: `1.5px 0 var(--cyan), -1.5px 0 var(--accent)`,
+            transform: "translateY(0)",
+          };
+        } else {
+          style = { opacity: 1, color: "inherit", textShadow: "none", transform: "translateY(0)" };
+        }
+
         return (
-          <span
-            key={i}
-            className={styles.word}
-            style={{ opacity: active ? 1 : 0.16 }}
-          >
-            {word}
-            {i < words.length - 1 ? " " : ""}
+          <span key={i}>
+            <span className={styles.word} style={style}>
+              {word}
+            </span>
+            {i < words.length - 1 ? " " : ""}
           </span>
         );
       })}

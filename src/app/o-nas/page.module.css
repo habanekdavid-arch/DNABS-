@@ -70,17 +70,25 @@
   direction:ltr;
 }
 
+@keyframes onas-glitch{
+  0%,84%,100%{clip-path:inset(0 0 0 0);transform:translateX(0);filter:none;}
+  85%{clip-path:inset(12% 0 55% 0);transform:translateX(-10px);filter:hue-rotate(20deg) saturate(1.6) drop-shadow(-3px 0 var(--cyan)) drop-shadow(3px 0 var(--accent));}
+  87%{clip-path:inset(50% 0 20% 0);transform:translateX(9px);filter:hue-rotate(-16deg) drop-shadow(3px 0 var(--purple));}
+  89%{clip-path:inset(30% 0 42% 0);transform:translateX(-6px);filter:hue-rotate(10deg) drop-shadow(-2px 0 var(--cyan));}
+  91%{clip-path:inset(0 0 0 0);transform:translateX(0);filter:none;}
+}
+
 .imgWrap{
   position:relative;
   aspect-ratio:4/5;
-  border-radius:20px;
-  overflow:hidden;
-  background:#efece6;
-  box-shadow:0 20px 50px rgba(10,10,10,.10);
 }
 
 .img{
-  object-fit:cover;
+  object-fit:contain;
+  object-position:center;
+  animation:onas-glitch 7s infinite;
+  -webkit-mask-image:linear-gradient(to bottom, #000 62%, transparent 96%);
+  mask-image:linear-gradient(to bottom, #000 62%, transparent 96%);
 }
 
 .num{

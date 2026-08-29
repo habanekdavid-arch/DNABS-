@@ -4,6 +4,6 @@
 
 .word{
   display:inline-block;
-  transition:opacity .25s ease, filter .25s ease;
-  will-change:opacity;
+  transition:opacity .2s ease, color .2s ease, text-shadow .2s ease, transform .2s ease;
+  will-change:opacity, transform;
 }
