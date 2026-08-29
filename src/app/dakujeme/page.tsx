@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import ConversionEvent from "@/components/ConversionEvent";
 import styles from "./page.module.css";
 
 export const metadata: Metadata = {
@@ -11,20 +12,7 @@ export const metadata: Metadata = {
 export default function DakujemePage() {
   return (
     <>
-      <head>
-        {/* Event snippet for Zobrazenie stránky conversion page */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              gtag('event', 'conversion', {
-                  'send_to': 'AW-18360461587/Ctr6CJKaj9kcEJPS-bJE',
-                  'value': 1.0,
-                  'currency': 'EUR'
-              });
-            `,
-          }}
-        />
-      </head>
+      <ConversionEvent sendTo="AW-18360461587/Ctr6CJKaj9kcEJPS-bJE" />
       <main className={styles.section}>
         <div className={styles.kicker}>// Dopyt odoslaný</div>
         <h1 className={styles.h1}>

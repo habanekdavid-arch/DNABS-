@@ -43,6 +43,7 @@ export default function Contact() {
       });
       if (!res.ok) throw new Error("failed");
       form.reset();
+      sessionStorage.setItem("dnabs_conversion_pending", "1");
       router.push("/dakujeme");
     } catch {
       setStatus("error");
