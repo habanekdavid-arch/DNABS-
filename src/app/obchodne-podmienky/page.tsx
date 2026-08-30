@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { LanguageProvider } from "@/lib/i18n";
 import LegalLayout from "@/components/LegalLayout";
-import styles from "@/components/LegalLayout.module.css";
 
 export const metadata: Metadata = {
   title: "Obchodné podmienky",
@@ -46,10 +45,10 @@ export default function ObchodnePodmienkyPage() {
         <h2>3. Cena a platobné podmienky</h2>
         <p>
           Cena za konkrétnu zákazku sa stanovuje individuálne na základe rozsahu, zložitosti a
-          požiadaviek klienta a je oznámená vopred pred začatím prác. Splatnosť faktúr je{" "}
-          <span className={styles.placeholder}>PLACEHOLDER — počet dní splatnosti</span> dní od
-          jej vystavenia, pokiaľ sa strany nedohodnú inak. Platba sa realizuje bankovým prevodom
-          na účet uvedený na faktúre.
+          požiadaviek klienta a je oznámená vopred pred začatím prác. Splatnosť faktúr je 30 dní
+          od jej vystavenia (v súlade s § 340a Obchodného zákonníka, ktorý túto lehotu určuje ako
+          všeobecnú, pokiaľ nie je dohodnuté inak), pokiaľ sa strany nedohodnú na kratšej alebo
+          dlhšej lehote. Platba sa realizuje bankovým prevodom na účet uvedený na faktúre.
         </p>
 
         <h2>4. Dodanie a autorské práva</h2>
@@ -62,11 +61,11 @@ export default function ObchodnePodmienkyPage() {
 
         <h2>5. Zodpovednosť a reklamácie</h2>
         <p>
-          DNABS zodpovedá za to, že dodané dielo zodpovedá dohodnutej špecifikácii. Prípadné
-          nedostatky je klient povinný reklamovať bez zbytočného odkladu po ich zistení, najneskôr
-          do <span className={styles.placeholder}>PLACEHOLDER — reklamačná lehota</span> od
-          odovzdania diela. DNABS nezodpovedá za škody spôsobené neodborným zásahom tretej strany
-          do odovzdaného riešenia.
+          DNABS zodpovedá za to, že dodané dielo zodpovedá dohodnutej špecifikácii. Zjavné
+          nedostatky je klient povinný reklamovať bez zbytočného odkladu po ich zistení, skryté
+          vady najneskôr do 24 mesiacov od odovzdania diela (bežná zákonná záručná doba podľa
+          Občianskeho zákonníka a zákona o ochrane spotrebiteľa). DNABS nezodpovedá za škody
+          spôsobené neodborným zásahom tretej strany do odovzdaného riešenia.
         </p>
 
         <h2>6. Ochrana osobných údajov a cookies</h2>
@@ -84,8 +83,10 @@ export default function ObchodnePodmienkyPage() {
         </p>
 
         <p style={{ opacity: 0.6, fontSize: 13 }}>
-          Toto je všeobecné znenie obchodných podmienok — pred oficiálnym použitím odporúčame dať
-          si ho skontrolovať právnikom a doplniť chýbajúce hodnoty označené ako PLACEHOLDER.
+          Toto je všeobecné znenie obchodných podmienok vychádzajúce z bežnej praxe a všeobecne
+          platných ustanovení slovenského práva — pred oficiálnym použitím odporúčame dať si ho
+          skontrolovať právnikom, najmä ak sa DNABS v budúcnosti formálne zaregistruje ako
+          spoločnosť alebo živnosť.
         </p>
       </LegalLayout>
     </LanguageProvider>
