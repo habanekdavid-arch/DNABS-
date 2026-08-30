@@ -18,14 +18,11 @@ export default function ObchodnePodmienkyPage() {
       >
         <p>
           Tieto všeobecné obchodné podmienky (ďalej len „podmienky“) upravujú vzájomné práva a
-          povinnosti medzi spoločnosťou{" "}
-          <strong>4from media s.r.o.</strong>, so sídlom{" "}
-          <span className={styles.placeholder}>PLACEHOLDER — adresa sídla</span>, IČO{" "}
-          <span className={styles.placeholder}>PLACEHOLDER — IČO</span>, DIČ{" "}
-          <span className={styles.placeholder}>PLACEHOLDER — DIČ</span>, zapísanou{" "}
-          <span className={styles.placeholder}>PLACEHOLDER — registrácia v OR</span> (ďalej len
-          „DNABS“ alebo „poskytovateľ“), a osobou, ktorá si prostredníctvom webu dnabs.online
-          objedná bezplatný náhľad webu alebo inú službu (ďalej len „klient“).
+          povinnosti medzi <strong>DNABS</strong> (ďalej len „DNABS“ alebo „poskytovateľ“),
+          dostupným na webe dnabs.online a kontaktom{" "}
+          <a href="mailto:contact.dnabs@gmail.com">contact.dnabs@gmail.com</a>, a osobou, ktorá si
+          prostredníctvom tohto webu objedná bezplatný náhľad webu alebo inú službu (ďalej len
+          „klient“).
         </p>
 
         <h2>1. Bezplatný náhľad webu</h2>
@@ -88,7 +85,7 @@ export default function ObchodnePodmienkyPage() {
 
         <p style={{ opacity: 0.6, fontSize: 13 }}>
           Toto je všeobecné znenie obchodných podmienok — pred oficiálnym použitím odporúčame dať
-          si ho skontrolovať právnikom a doplniť chýbajúce firemné údaje označené ako PLACEHOLDER.
+          si ho skontrolovať právnikom a doplniť chýbajúce hodnoty označené ako PLACEHOLDER.
         </p>
       </LegalLayout>
     </LanguageProvider>
