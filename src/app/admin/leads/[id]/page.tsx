@@ -5,6 +5,7 @@ import { UserButton } from "@clerk/nextjs";
 import { isAdminEmail } from "@/lib/admin";
 import { getSql } from "@/lib/db";
 import StatusSelect from "../../StatusSelect";
+import DeleteLeadButton from "../../DeleteLeadButton";
 import styles from "../../admin.module.css";
 
 type Lead = {
@@ -12,6 +13,7 @@ type Lead = {
   created_at: string;
   name: string;
   email: string;
+  phone: string | null;
   company: string | null;
   project_type: string | null;
   budget: string | null;
@@ -19,6 +21,8 @@ type Lead = {
   message: string | null;
   source: string | null;
   status: string;
+  attachment_url: string | null;
+  attachment_name: string | null;
 };
 
 export default async function LeadDetailPage({
@@ -65,7 +69,10 @@ export default async function LeadDetailPage({
               {new Date(lead.created_at).toLocaleString("sk-SK")}
             </div>
           </div>
-          <StatusSelect id={lead.id} status={lead.status} />
+          <div className={styles.cardActions}>
+            <StatusSelect id={lead.id} status={lead.status} />
+            <DeleteLeadButton id={lead.id} />
+          </div>
         </div>
 
         <div className={styles.fields}>
@@ -73,6 +80,12 @@ export default async function LeadDetailPage({
             <label>E-mail</label>
             <div>
               <a href={`mailto:${lead.email}`}>{lead.email}</a>
+            </div>
+          </div>
+          <div className={styles.field}>
+            <label>Telefón</label>
+            <div>
+              {lead.phone ? <a href={`tel:${lead.phone}`}>{lead.phone}</a> : "—"}
             </div>
           </div>
           <div className={styles.field}>
@@ -101,6 +114,20 @@ export default async function LeadDetailPage({
           <label>Správa</label>
           <div className={styles.messageBox}>{lead.message || "(bez správy)"}</div>
         </div>
+
+        {lead.attachment_url && (
+          <div className={styles.messageBlock} style={{ marginTop: 20 }}>
+            <label>Príloha</label>
+            <a
+              href={`/api/admin/attachment?url=${encodeURIComponent(lead.attachment_url)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.attachmentLink}
+            >
+              📎 {lead.attachment_name || "Zobraziť súbor"}
+            </a>
+          </div>
+        )}
       </div>
     </div>
   );

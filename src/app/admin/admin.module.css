@@ -101,6 +101,49 @@
   text-align:center;
 }
 
+.actionsRow{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  white-space:nowrap;
+}
+
+.detailLink{
+  font-family:var(--mono);
+  font-size:12px;
+  text-decoration:none;
+  color:var(--accent);
+  font-weight:600;
+}
+.detailLink:hover{
+  text-decoration:underline;
+}
+
+.cardActions{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.attachmentLink{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  font-family:var(--mono);
+  font-size:14px;
+  color:#0a0a0a;
+  text-decoration:none;
+  background:#faf9f6;
+  border:1px solid rgba(10,10,10,.12);
+  border-radius:10px;
+  padding:10px 14px;
+}
+.attachmentLink:hover{
+  border-color:var(--accent);
+  color:var(--accent);
+}
+
 .backLink{
   display:inline-flex;
   align-items:center;

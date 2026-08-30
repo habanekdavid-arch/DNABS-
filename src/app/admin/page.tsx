@@ -4,6 +4,7 @@ import { UserButton } from "@clerk/nextjs";
 import { isAdminEmail } from "@/lib/admin";
 import { getSql } from "@/lib/db";
 import StatusSelect from "./StatusSelect";
+import DeleteLeadButton from "./DeleteLeadButton";
 import styles from "./admin.module.css";
 
 type Lead = {
@@ -11,6 +12,7 @@ type Lead = {
   created_at: string;
   name: string;
   email: string;
+  phone: string | null;
   company: string | null;
   project_type: string | null;
   budget: string | null;
@@ -18,6 +20,8 @@ type Lead = {
   message: string | null;
   source: string | null;
   status: string;
+  attachment_url: string | null;
+  attachment_name: string | null;
 };
 
 export default async function AdminPage() {
@@ -55,13 +59,16 @@ export default async function AdminPage() {
                 <th>Dátum</th>
                 <th>Meno</th>
                 <th>E-mail</th>
+                <th>Telefón</th>
                 <th>Firma</th>
                 <th>Typ</th>
                 <th>Rozpočet</th>
                 <th>Termín</th>
                 <th>Správa</th>
+                <th>Príloha</th>
                 <th>Zdroj</th>
                 <th>Stav</th>
+                <th>Akcie</th>
               </tr>
             </thead>
             <tbody>
@@ -74,14 +81,36 @@ export default async function AdminPage() {
                     </Link>
                   </td>
                   <td>{lead.email}</td>
+                  <td>{lead.phone || "—"}</td>
                   <td>{lead.company || "—"}</td>
                   <td>{lead.project_type || "—"}</td>
                   <td>{lead.budget || "—"}</td>
                   <td>{lead.timeline || "—"}</td>
                   <td className={styles.message}>{lead.message || "—"}</td>
+                  <td>
+                    {lead.attachment_url ? (
+                      <a
+                        href={`/api/admin/attachment?url=${encodeURIComponent(lead.attachment_url)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        📎 {lead.attachment_name || "súbor"}
+                      </a>
+                    ) : (
+                      "—"
+                    )}
+                  </td>
                   <td>{lead.source || "—"}</td>
                   <td>
                     <StatusSelect id={lead.id} status={lead.status} />
+                  </td>
+                  <td>
+                    <div className={styles.actionsRow}>
+                      <Link href={`/admin/leads/${lead.id}`} className={styles.detailLink}>
+                        Detail →
+                      </Link>
+                      <DeleteLeadButton id={lead.id} />
+                    </div>
                   </td>
                 </tr>
               ))}

@@ -5,8 +5,20 @@ import { getSql } from "@/lib/db";
 const CONTACT_EMAIL = "contact.dnabs@gmail.com";
 
 export async function POST(request: Request) {
-  const { name, email, company, projectType, budget, timeline, message, website, source } =
-    await request.json();
+  const {
+    name,
+    email,
+    phone,
+    company,
+    projectType,
+    budget,
+    timeline,
+    message,
+    website,
+    source,
+    attachmentUrl,
+    attachmentName,
+  } = await request.json();
 
   // Honeypot — vyplnené len botmi. Predstierame úspech bez uloženia/odoslania.
   if (typeof website === "string" && website.trim()) {
@@ -22,8 +34,8 @@ export async function POST(request: Request) {
   try {
     const sql = getSql();
     const rows = (await sql`
-      INSERT INTO leads (name, email, company, project_type, budget, timeline, message, source)
-      VALUES (${name}, ${email}, ${company || null}, ${projectType || null}, ${budget || null}, ${timeline || null}, ${message || null}, ${source || null})
+      INSERT INTO leads (name, email, phone, company, project_type, budget, timeline, message, source, attachment_url, attachment_name)
+      VALUES (${name}, ${email}, ${phone || null}, ${company || null}, ${projectType || null}, ${budget || null}, ${timeline || null}, ${message || null}, ${source || null}, ${attachmentUrl || null}, ${attachmentName || null})
       RETURNING id
     `) as { id: number }[];
     leadId = rows[0].id;
@@ -53,11 +65,13 @@ export async function POST(request: Request) {
       text: [
         `Meno: ${name}`,
         `E-mail: ${email}`,
+        phone ? `Telefón: ${phone}` : null,
         company ? `Spoločnosť: ${company}` : null,
         projectType ? `Typ projektu: ${projectType}` : null,
         budget ? `Rozpočet: ${budget}` : null,
         timeline ? `Termín: ${timeline}` : null,
         source ? `Zdroj: ${source}` : null,
+        attachmentUrl ? `Príloha: ${attachmentName || "súbor"} — ${attachmentUrl}` : null,
         "",
         message || "(bez správy)",
       ]

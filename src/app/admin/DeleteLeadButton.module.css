@@ -1,0 +1,22 @@
+.deleteBtn{
+  font-family:var(--mono);
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.03em;
+  background:none;
+  border:1px solid rgba(220,50,50,.4);
+  color:#c22;
+  padding:6px 10px;
+  cursor:pointer;
+  transition:.2s;
+  border-radius:6px;
+}
+.deleteBtn:hover{
+  background:#c22;
+  border-color:#c22;
+  color:#fff;
+}
+.deleteBtn:disabled{
+  opacity:.5;
+  cursor:wait;
+}

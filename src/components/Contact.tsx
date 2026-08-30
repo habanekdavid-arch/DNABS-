@@ -1,15 +1,41 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useRef, useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
-import { useLanguage } from "@/lib/i18n";
+import { upload } from "@vercel/blob/client";
+import { useLanguage, type DictKey } from "@/lib/i18n";
 import Reveal from "./Reveal";
 import styles from "./Contact.module.css";
+
+const MESSAGE_PRESETS: DictKey[] = [
+  "msg_preset_1",
+  "msg_preset_2",
+  "msg_preset_3",
+  "msg_preset_4",
+  "msg_preset_5",
+];
 
 export default function Contact() {
   const { t, tPh } = useLanguage();
   const router = useRouter();
   const [status, setStatus] = useState<"idle" | "sending" | "error">("idle");
+  const [file, setFile] = useState<File | null>(null);
+  const [uploadState, setUploadState] = useState<"idle" | "uploading" | "error">("idle");
+  const messageRef = useRef<HTMLTextAreaElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const applyPreset = (key: DictKey) => {
+    if (messageRef.current) {
+      messageRef.current.value = t(key);
+      messageRef.current.focus();
+    }
+  };
+
+  const removeFile = () => {
+    setFile(null);
+    setUploadState("idle");
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -25,6 +51,27 @@ export default function Contact() {
     }
 
     setStatus("sending");
+
+    let attachmentUrl: string | null = null;
+    let attachmentName: string | null = null;
+
+    if (file) {
+      setUploadState("uploading");
+      try {
+        const blob = await upload(file.name, file, {
+          access: "private",
+          handleUploadUrl: "/api/upload",
+        });
+        attachmentUrl = blob.url;
+        attachmentName = file.name;
+        setUploadState("idle");
+      } catch {
+        setUploadState("error");
+        setStatus("error");
+        return;
+      }
+    }
+
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
@@ -32,17 +79,21 @@ export default function Contact() {
         body: JSON.stringify({
           name: data.get("name"),
           email: data.get("email"),
+          phone: data.get("phone"),
           company: data.get("company"),
           projectType: data.get("projectType"),
           budget: data.get("budget"),
           timeline: data.get("timeline"),
           message: data.get("message"),
           website: data.get("website"),
+          attachmentUrl,
+          attachmentName,
           source: typeof window !== "undefined" ? window.location.pathname : undefined,
         }),
       });
       if (!res.ok) throw new Error("failed");
       form.reset();
+      removeFile();
       sessionStorage.setItem("dnabs_conversion_pending", "1");
       router.push("/dakujeme");
     } catch {
@@ -96,6 +147,13 @@ export default function Contact() {
             required
             aria-label={tPh("ph_email")}
             placeholder={tPh("ph_email")}
+            className={styles.field}
+          />
+          <input
+            type="tel"
+            name="phone"
+            aria-label={tPh("ph_phone")}
+            placeholder={tPh("ph_phone")}
             className={styles.field}
           />
           <input
@@ -159,20 +217,76 @@ export default function Contact() {
             aria-hidden="true"
             className={styles.honeypot}
           />
+
+          <div className={styles.presetWrap}>
+            <div className={styles.presetLabel}>{t("msg_preset_label")}</div>
+            <div className={styles.presetRow}>
+              {MESSAGE_PRESETS.map((key) => (
+                <button
+                  key={key}
+                  type="button"
+                  className={styles.presetChip}
+                  onClick={() => applyPreset(key)}
+                >
+                  {t(key).slice(0, 40)}…
+                </button>
+              ))}
+            </div>
+          </div>
+
           <textarea
+            ref={messageRef}
             rows={4}
             name="message"
             aria-label={tPh("ph_msg")}
             placeholder={tPh("ph_msg")}
             className={styles.field}
           />
+
+          <div className={styles.uploadWrap}>
+            <input
+              ref={fileInputRef}
+              id="attachment"
+              type="file"
+              accept="image/png,image/jpeg,image/webp,image/gif,application/pdf"
+              className={styles.uploadInput}
+              onChange={(e) => setFile(e.target.files?.[0] ?? null)}
+            />
+            {!file ? (
+              <label htmlFor="attachment" className={styles.uploadLabel}>
+                <span className={styles.uploadIcon} aria-hidden>
+                  +
+                </span>
+                <span>
+                  <span className={styles.uploadTitle}>{t("upload_label")}</span>
+                  <span className={styles.uploadHint}>{t("upload_hint")}</span>
+                </span>
+              </label>
+            ) : (
+              <div className={styles.uploadFile}>
+                <span className={styles.uploadFileName}>{file.name}</span>
+                {uploadState === "uploading" ? (
+                  <span className={styles.uploadStatus}>{t("upload_uploading")}</span>
+                ) : (
+                  <button type="button" className={styles.uploadRemove} onClick={removeFile}>
+                    {t("upload_remove")}
+                  </button>
+                )}
+              </div>
+            )}
+          </div>
+
           <button type="submit" disabled={status === "sending"} className={styles.submit}>
             {status !== "sending" && (
               <span className={styles.submitBadge}>{t("hero_cta_badge")}</span>
             )}
             {status === "sending" ? t("contact_sending") : t("contact_submit")}
           </button>
-          {status === "error" && <p className={styles.errorMsg}>{t("contact_error")}</p>}
+          {status === "error" && (
+            <p className={styles.errorMsg}>
+              {uploadState === "error" ? t("upload_error") : t("contact_error")}
+            </p>
+          )}
         </form>
       </Reveal>
     </section>

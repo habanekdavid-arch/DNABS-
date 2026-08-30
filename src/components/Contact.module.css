@@ -137,6 +137,135 @@ select.field option{
   overflow:hidden;
 }
 
+.presetWrap{
+  padding:18px 22px;
+  border-bottom:2px solid rgba(255,255,255,.25);
+}
+
+.presetLabel{
+  font-family:var(--mono);
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.05em;
+  opacity:.5;
+  margin-bottom:10px;
+}
+
+.presetRow{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+
+.presetChip{
+  font-family:var(--mono);
+  font-size:12px;
+  color:#fff;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.25);
+  border-radius:999px;
+  padding:8px 14px;
+  cursor:pointer;
+  transition:.2s;
+  text-align:left;
+  max-width:100%;
+}
+.presetChip:hover{
+  background:var(--accent);
+  border-color:var(--accent);
+  color:#0a0a0a;
+}
+
+.uploadWrap{
+  border-bottom:2px solid rgba(255,255,255,.25);
+}
+
+.uploadInput{
+  position:absolute;
+  width:1px;
+  height:1px;
+  overflow:hidden;
+  opacity:0;
+}
+
+.uploadLabel{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:20px 22px;
+  cursor:pointer;
+  transition:background .2s ease;
+}
+.uploadLabel:hover{
+  background:rgba(255,255,255,.04);
+}
+
+.uploadIcon{
+  flex-shrink:0;
+  width:34px;
+  height:34px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:1.5px dashed rgba(255,255,255,.4);
+  border-radius:50%;
+  font-size:18px;
+  color:var(--accent);
+}
+
+.uploadTitle{
+  display:block;
+  font-family:var(--mono);
+  font-size:14px;
+}
+
+.uploadHint{
+  display:block;
+  font-family:var(--mono);
+  font-size:11px;
+  opacity:.5;
+  margin-top:3px;
+}
+
+.uploadFile{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:20px 22px;
+  font-family:var(--mono);
+  font-size:13px;
+}
+
+.uploadFileName{
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.uploadStatus{
+  flex-shrink:0;
+  opacity:.6;
+  font-size:12px;
+}
+
+.uploadRemove{
+  flex-shrink:0;
+  background:none;
+  border:1px solid rgba(255,255,255,.3);
+  color:#fff;
+  font-family:var(--mono);
+  font-size:11px;
+  text-transform:uppercase;
+  padding:6px 10px;
+  cursor:pointer;
+  transition:.2s;
+}
+.uploadRemove:hover{
+  background:#fff;
+  color:#0a0a0a;
+}
+
 @keyframes contact-cta-pulse{
   0%{box-shadow:0 0 0 0 rgba(255,90,1,.55);}
   70%{box-shadow:0 0 0 14px rgba(255,90,1,0);}

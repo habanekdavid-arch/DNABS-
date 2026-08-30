@@ -99,6 +99,38 @@ const dict = {
   contact_perk1: { sk: "Bez záväzkov a bez rizika", en: "No commitment, no risk" },
   contact_perk2: { sk: "Odpovieme do 24 hodín", en: "We reply within 24 hours" },
   contact_perk3: { sk: "Nepáči sa ti? Nestojí ťa to nič.", en: "Don't like it? It costs you nothing." },
+  msg_preset_label: { sk: "Nemáš predstavu? Vyber si:", en: "Not sure what to say? Pick one:" },
+  msg_preset_1: {
+    sk: "Zatiaľ len začínam — mám iba logo a žiadny funkčný web. Chcel by som sa opýtať, či mi viete pomôcť postaviť ho od základu.",
+    en: "I'm just starting out — I only have a logo and no working website yet. I'd like to ask if you can help me build one from scratch.",
+  },
+  msg_preset_2: {
+    sk: "Mám starý web, ktorý už nespĺňa moje predstavy. Potrebujem ho kompletne prerobiť.",
+    en: "I have an old website that no longer meets my needs. I need it completely redone.",
+  },
+  msg_preset_3: {
+    sk: "Chcem e-shop, cez ktorý budem môcť predávať produkty alebo služby online.",
+    en: "I want an e-shop where I can sell products or services online.",
+  },
+  msg_preset_4: {
+    sk: "Potrebujem hlavne viac zákazníkov cez Google a sociálne siete — zaujíma ma marketing a SEO.",
+    en: "I mainly need more customers through Google and social media — I'm interested in marketing and SEO.",
+  },
+  msg_preset_5: {
+    sk: "Ešte si nie som istý/á, čo presne potrebujem. Chcel by som sa len porozprávať o možnostiach.",
+    en: "I'm not sure yet exactly what I need. I'd just like to talk through the options.",
+  },
+  upload_label: {
+    sk: "Priložiť súbor (logo, návrh, dokument)",
+    en: "Attach a file (logo, mockup, document)",
+  },
+  upload_hint: { sk: "PNG, JPG, PDF do 10 MB", en: "PNG, JPG, PDF up to 10 MB" },
+  upload_uploading: { sk: "Nahrávam…", en: "Uploading…" },
+  upload_remove: { sk: "Odstrániť", en: "Remove" },
+  upload_error: {
+    sk: "Nahrávanie zlyhalo, skús to znova alebo menší súbor.",
+    en: "Upload failed, try again or a smaller file.",
+  },
   contact_submit: { sk: "Objednať bezplatný náhľad →", en: "Order my free preview →" },
   contact_sending: { sk: "Odosielam objednávku…", en: "Sending your order…" },
   contact_error: {
@@ -135,6 +167,7 @@ const phDict = {
   ph_name: { sk: "Meno *", en: "Name *" },
   ph_email: { sk: "E-mail *", en: "E-mail *" },
   ph_company: { sk: "Spoločnosť", en: "Company" },
+  ph_phone: { sk: "Telefónne číslo", en: "Phone number" },
   ph_msg: { sk: "O čom je tvoj projekt?", en: "What is your project about?" },
   ph_project_type: { sk: "Typ projektu *", en: "Project type *" },
   ph_budget: { sk: "Rozpočet *", en: "Budget *" },
