@@ -6,6 +6,7 @@ import {
   Bricolage_Grotesque,
   Allura,
 } from "next/font/google";
+import CookieConsent from "@/components/CookieConsent";
 import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({
@@ -89,19 +90,28 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(LOCAL_BUSINESS_JSON_LD) }}
         />
-        <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18360461587"></script>
         <script
           dangerouslySetInnerHTML={{
             __html: `
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
+              gtag('consent', 'default', {
+                'ad_storage': 'denied',
+                'ad_user_data': 'denied',
+                'ad_personalization': 'denied',
+                'analytics_storage': 'denied'
+              });
               gtag('js', new Date());
               gtag('config', 'AW-18360461587');
             `,
           }}
         />
+        <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18360461587"></script>
       </head>
-      <body>{children}</body>
+      <body>
+        {children}
+        <CookieConsent />
+      </body>
     </html>
   );
 }

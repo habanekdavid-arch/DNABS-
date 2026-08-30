@@ -31,12 +31,19 @@ export default function Footer() {
             <a href="https://www.instagram.com/dnabs.sk/" target="_blank" rel="noopener noreferrer" className={styles.colLink}>Instagram</a>
             <a href="mailto:contact.dnabs@gmail.com" className={styles.colLink}>contact.dnabs@gmail.com</a>
           </div>
+          <div className={styles.col}>
+            <div className={styles.colTitle}>Právne</div>
+            <a href="/obchodne-podmienky" className={styles.colLink}>Obchodné podmienky</a>
+            <a href="/cookies" className={styles.colLink}>Cookies</a>
+          </div>
         </div>
       </Reveal>
       <div className={styles.bottomBar}>
         <span>© 2026 DNABS®</span>
         <span>{t("footer_made")}</span>
         <span>All rights reserved</span>
+        <a href="/obchodne-podmienky" className={styles.bottomLink}>Obchodné podmienky</a>
+        <a href="/cookies" className={styles.bottomLink}>Cookies</a>
       </div>
       <div className={styles.wordmark} aria-hidden="true">DNABS</div>
     </footer>
