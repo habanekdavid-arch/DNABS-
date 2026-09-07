@@ -4,7 +4,8 @@ import Image from "next/image";
 import { useLanguage } from "@/lib/i18n";
 import Nav from "./Nav";
 import styles from "./Hero.module.css";
-import laptop from "../assets/laptop-glitch.png";
+import laptop from "../assets/hero-laptop.webp";
+import laptopEffects from "../assets/hero-laptop-effects.webp";
 
 export default function Hero() {
   const { t } = useLanguage();
@@ -22,17 +23,38 @@ export default function Hero() {
       <Nav />
 
       <div className={styles.laptopWrap}>
-        <Image src={laptop} alt="" aria-hidden className={styles.laptopImg} priority />
+        <Image
+          src={laptop}
+          alt=""
+          aria-hidden
+          fill
+          sizes="(max-width: 860px) 420px, 42vw"
+          className={styles.laptopImg}
+          priority
+        />
+        <Image
+          src={laptopEffects}
+          alt=""
+          aria-hidden
+          fill
+          sizes="(max-width: 860px) 420px, 42vw"
+          className={styles.laptopEffects}
+          priority
+        />
       </div>
 
       <div className={styles.dot} />
+      <div className={styles.dotCyan} />
       <div className={styles.renderTag}>[ RENDER · 3× SPEED ]</div>
       <div className={styles.barPurple} />
       <div className={styles.barCyan} />
       <div className={styles.barAccent} />
       <div className={styles.barPurple2} />
+      <div className={styles.barGreen} />
       <div className={styles.sysTag}>SYS://DNABS.EXE</div>
       <div className={styles.hexTag}>0xFF — REBUILD_OK</div>
+      <div className={styles.versionTag}>v2.26 — BUILD_OK</div>
+      <div className={styles.bracketTag}>⌐ GLITCH.LAYER</div>
 
       <div className={styles.headline}>
         <div className={styles.kicker}>{t("hero_kicker")}</div>
