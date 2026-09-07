@@ -13,7 +13,7 @@
   content:"";
   position:absolute;
   inset:0;
-  background:var(--ink);
+  background:linear-gradient(120deg,var(--purple) 0%,var(--accent) 100%);
   transform:scaleX(0);
   transform-origin:left;
   transition:transform .45s cubic-bezier(.2,.7,.2,1);
@@ -48,7 +48,7 @@
 }
 .item:hover .num,
 .itemOpen .num{
-  color:var(--green);
+  color:#fff;
   transform:translateX(4px);
 }
 
@@ -78,8 +78,9 @@
   display:inline-block;
   transition:transform .3s cubic-bezier(.2,.7,.2,1),color .3s ease;
 }
-.item:hover .icon{
-  color:var(--cyan);
+.item:hover .icon,
+.itemOpen .icon{
+  color:var(--green);
 }
 .iconOpen{
   transform:rotate(135deg);
