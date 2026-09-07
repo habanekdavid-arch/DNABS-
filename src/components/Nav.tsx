@@ -11,7 +11,10 @@ export default function Nav() {
 
   return (
     <nav className={styles.nav}>
-      <div className={styles.left}>
+      <Link href="/" className={styles.brand} aria-label="DNABS — domov">
+        <Image src={logo} alt="DNABS" className={styles.logoImg} priority />
+      </Link>
+      <div className={styles.right}>
         <Link href="/#sluzby" className={styles.link}>{t("nav_services")}</Link>
         <Link href="/o-nas" className={styles.link}>{t("nav_blog")}</Link>
         <Link href="/#o-nas" className={styles.link}>{t("nav_about")}</Link>
@@ -34,9 +37,6 @@ export default function Nav() {
         </div>
         <Link href="/#kontakt" className={styles.cta}>{t("nav_cta")}</Link>
       </div>
-      <Link href="/" className={styles.brand} aria-label="DNABS — domov">
-        <Image src={logo} alt="DNABS" className={styles.logoImg} priority />
-      </Link>
     </nav>
   );
 }

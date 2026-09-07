@@ -9,11 +9,12 @@
   padding:22px clamp(20px,4vw,48px);
 }
 
-.left{
+.right{
   display:flex;
   align-items:center;
   gap:clamp(14px,2vw,30px);
   flex-wrap:wrap;
+  justify-content:flex-end;
 }
 
 .brand{
