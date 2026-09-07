@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useLanguage } from "@/lib/i18n";
 import Reveal from "./Reveal";
 import styles from "./Footer.module.css";
@@ -22,9 +23,10 @@ export default function Footer() {
         <div className={styles.cols}>
           <div className={styles.col}>
             <div className={styles.colTitle}>{t("footer_nav")}</div>
-            <a href="#sluzby" className={styles.colLink}>{t("nav_services")}</a>
-            <a href="#o-nas" className={styles.colLink}>{t("nav_about")}</a>
-            <a href="#kontakt" className={styles.colLink}>{t("nav_contact")}</a>
+            <Link href="/#sluzby" className={styles.colLink}>{t("nav_services")}</Link>
+            <Link href="/o-nas" className={styles.colLink}>{t("nav_blog")}</Link>
+            <Link href="/#o-nas" className={styles.colLink}>{t("nav_about")}</Link>
+            <Link href="/#kontakt" className={styles.colLink}>{t("nav_contact")}</Link>
           </div>
           <div className={styles.col}>
             <div className={styles.colTitle}>{t("footer_social")}</div>

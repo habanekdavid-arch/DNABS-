@@ -17,8 +17,14 @@ export default function FaqSection({
   return (
     <section id={id} className={styles.section}>
       <Reveal className={styles.inner}>
-        <div className={styles.kicker}>{t("faq_kicker")}</div>
-        <h2 className={styles.title}>{t("faq_title")}</h2>
+        <div className={styles.head}>
+          <div className={styles.kicker}>{t("faq_kicker")}</div>
+          <h2 className={styles.title}>{t("faq_title")}</h2>
+          <div className={styles.count}>
+            <span className={styles.countNum}>{String(items.length).padStart(2, "0")}</span>
+            <span className={styles.countLabel}>{t("faq_count_label")}</span>
+          </div>
+        </div>
         <Accordion items={items} />
       </Reveal>
     </section>

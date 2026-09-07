@@ -15,17 +15,16 @@ export default function Accordion({ items }: { items: AccordionItem[] }) {
         return (
           <div
             key={item.q}
-            className={styles.item}
-            onMouseEnter={() => setOpenIndex(i)}
+            className={`${styles.item} ${isOpen ? styles.itemOpen : ""}`}
           >
             <button
               type="button"
               className={styles.question}
               aria-expanded={isOpen}
-              onFocus={() => setOpenIndex(i)}
               onClick={() => setOpenIndex(isOpen ? null : i)}
             >
-              <span>{item.q}</span>
+              <span className={styles.num}>{String(i + 1).padStart(2, "0")}</span>
+              <span className={styles.qText}>{item.q}</span>
               <span className={`${styles.icon} ${isOpen ? styles.iconOpen : ""}`} aria-hidden>
                 +
               </span>

@@ -6,6 +6,7 @@ export type Lang = "sk" | "en";
 
 const dict = {
   nav_services: { sk: "Služby", en: "Services" },
+  nav_blog: { sk: "Blog", en: "Blog" },
   nav_about: { sk: "O nás", en: "About" },
   nav_contact: { sk: "Kontakt", en: "Contact" },
   nav_cta: { sk: "Dopyt →", en: "Inquiry →" },
@@ -42,6 +43,7 @@ const dict = {
   },
   faq_kicker: { sk: "FAQ", en: "FAQ" },
   faq_title: { sk: "Časté otázky", en: "Frequently asked questions" },
+  faq_count_label: { sk: "otázok, na ktoré sa pýtajú najčastejšie", en: "questions we get asked the most" },
   realizacia_kicker: { sk: "(01) — Realizácia", en: "(01) — Case study" },
   realizacia_title: { sk: "Toto sme postavili", en: "This is what we built" },
   realizacia_intro: {
