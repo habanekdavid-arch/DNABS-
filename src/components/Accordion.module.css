@@ -3,17 +3,31 @@
 }
 
 .item{
+  --hoverBg:var(--accent);
+  --hoverText:#fff;
   position:relative;
   border-bottom:2px solid var(--ink);
   overflow:hidden;
   isolation:isolate;
+}
+.item:nth-child(4n+2){
+  --hoverBg:var(--purple);
+  --hoverText:#fff;
+}
+.item:nth-child(4n+3){
+  --hoverBg:var(--cyan);
+  --hoverText:#0a0a0a;
+}
+.item:nth-child(4n+4){
+  --hoverBg:var(--green);
+  --hoverText:#0a0a0a;
 }
 
 .item::before{
   content:"";
   position:absolute;
   inset:0;
-  background:linear-gradient(120deg,var(--purple) 0%,var(--accent) 100%);
+  background:var(--hoverBg);
   transform:scaleX(0);
   transform-origin:left;
   transition:transform .45s cubic-bezier(.2,.7,.2,1);
@@ -48,7 +62,7 @@
 }
 .item:hover .num,
 .itemOpen .num{
-  color:#fff;
+  color:var(--hoverText);
   transform:translateX(4px);
 }
 
@@ -62,7 +76,7 @@
 }
 .item:hover .qText,
 .itemOpen .qText{
-  color:#fff;
+  color:var(--hoverText);
 }
 .item:hover .qText{
   transform:translateX(8px);
@@ -80,7 +94,7 @@
 }
 .item:hover .icon,
 .itemOpen .icon{
-  color:var(--green);
+  color:var(--hoverText);
 }
 .iconOpen{
   transform:rotate(135deg);
@@ -110,10 +124,10 @@
   font-size:clamp(14px,1.3vw,16px);
   line-height:1.6;
   max-width:600px;
-  color:#fff;
-  opacity:.72;
+  color:var(--hoverText);
+  opacity:.8;
   transition:color .3s ease,opacity .3s ease;
 }
 .item:hover .answer{
-  opacity:.85;
+  opacity:.92;
 }
