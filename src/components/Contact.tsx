@@ -7,12 +7,12 @@ import { useLanguage, type DictKey } from "@/lib/i18n";
 import Reveal from "./Reveal";
 import styles from "./Contact.module.css";
 
-const MESSAGE_PRESETS: DictKey[] = [
-  "msg_preset_1",
-  "msg_preset_2",
-  "msg_preset_3",
-  "msg_preset_4",
-  "msg_preset_5",
+const MESSAGE_PRESETS: { chip: DictKey; text: DictKey }[] = [
+  { chip: "msg_chip_1", text: "msg_preset_1" },
+  { chip: "msg_chip_2", text: "msg_preset_2" },
+  { chip: "msg_chip_3", text: "msg_preset_3" },
+  { chip: "msg_chip_4", text: "msg_preset_4" },
+  { chip: "msg_chip_5", text: "msg_preset_5" },
 ];
 
 export default function Contact() {
@@ -83,7 +83,6 @@ export default function Contact() {
           company: data.get("company"),
           projectType: data.get("projectType"),
           budget: data.get("budget"),
-          timeline: data.get("timeline"),
           message: data.get("message"),
           website: data.get("website"),
           attachmentUrl,
@@ -156,13 +155,6 @@ export default function Contact() {
             placeholder={tPh("ph_phone")}
             className={styles.field}
           />
-          <input
-            type="text"
-            name="company"
-            aria-label={tPh("ph_company")}
-            placeholder={tPh("ph_company")}
-            className={styles.field}
-          />
           <select
             name="projectType"
             required
@@ -178,37 +170,6 @@ export default function Contact() {
             <option value="app">{t("opt_type_app")}</option>
             <option value="marketing">{t("opt_type_marketing")}</option>
           </select>
-          <select
-            name="budget"
-            required
-            defaultValue=""
-            aria-label={tPh("ph_budget")}
-            className={styles.field}
-          >
-            <option value="" disabled>
-              {tPh("ph_budget")}
-            </option>
-            <option value={t("opt_budget_1")}>{t("opt_budget_1")}</option>
-            <option value={t("opt_budget_2")}>{t("opt_budget_2")}</option>
-            <option value={t("opt_budget_3")}>{t("opt_budget_3")}</option>
-            <option value={t("opt_budget_4")}>{t("opt_budget_4")}</option>
-            <option value={t("opt_budget_5")}>{t("opt_budget_5")}</option>
-          </select>
-          <select
-            name="timeline"
-            required
-            defaultValue=""
-            aria-label={tPh("ph_timeline")}
-            className={styles.field}
-          >
-            <option value="" disabled>
-              {tPh("ph_timeline")}
-            </option>
-            <option value={t("opt_timeline_1")}>{t("opt_timeline_1")}</option>
-            <option value={t("opt_timeline_2")}>{t("opt_timeline_2")}</option>
-            <option value={t("opt_timeline_3")}>{t("opt_timeline_3")}</option>
-            <option value={t("opt_timeline_4")}>{t("opt_timeline_4")}</option>
-          </select>
           <input
             type="text"
             name="website"
@@ -221,14 +182,14 @@ export default function Contact() {
           <div className={styles.presetWrap}>
             <div className={styles.presetLabel}>{t("msg_preset_label")}</div>
             <div className={styles.presetRow}>
-              {MESSAGE_PRESETS.map((key) => (
+              {MESSAGE_PRESETS.map((preset) => (
                 <button
-                  key={key}
+                  key={preset.chip}
                   type="button"
                   className={styles.presetChip}
-                  onClick={() => applyPreset(key)}
+                  onClick={() => applyPreset(preset.text)}
                 >
-                  {t(key).slice(0, 40)}…
+                  {t(preset.chip)}
                 </button>
               ))}
             </div>
@@ -236,45 +197,72 @@ export default function Contact() {
 
           <textarea
             ref={messageRef}
-            rows={4}
+            rows={3}
             name="message"
             aria-label={tPh("ph_msg")}
             placeholder={tPh("ph_msg")}
             className={styles.field}
           />
 
-          <div className={styles.uploadWrap}>
-            <input
-              ref={fileInputRef}
-              id="attachment"
-              type="file"
-              accept="image/png,image/jpeg,image/webp,image/gif,application/pdf"
-              className={styles.uploadInput}
-              onChange={(e) => setFile(e.target.files?.[0] ?? null)}
-            />
-            {!file ? (
-              <label htmlFor="attachment" className={styles.uploadLabel}>
-                <span className={styles.uploadIcon} aria-hidden>
-                  +
-                </span>
-                <span>
-                  <span className={styles.uploadTitle}>{t("upload_label")}</span>
-                  <span className={styles.uploadHint}>{t("upload_hint")}</span>
-                </span>
-              </label>
-            ) : (
-              <div className={styles.uploadFile}>
-                <span className={styles.uploadFileName}>{file.name}</span>
-                {uploadState === "uploading" ? (
-                  <span className={styles.uploadStatus}>{t("upload_uploading")}</span>
+          <details className={styles.more}>
+            <summary className={styles.moreSummary}>{t("contact_more")}</summary>
+            <div className={styles.moreInner}>
+              <input
+                type="text"
+                name="company"
+                aria-label={tPh("ph_company")}
+                placeholder={tPh("ph_company")}
+                className={styles.field}
+              />
+              <select
+                name="budget"
+                defaultValue=""
+                aria-label={tPh("ph_budget")}
+                className={styles.field}
+              >
+                <option value="" disabled>
+                  {tPh("ph_budget")}
+                </option>
+                <option value={t("opt_budget_1")}>{t("opt_budget_1")}</option>
+                <option value={t("opt_budget_2")}>{t("opt_budget_2")}</option>
+                <option value={t("opt_budget_3")}>{t("opt_budget_3")}</option>
+                <option value={t("opt_budget_4")}>{t("opt_budget_4")}</option>
+                <option value={t("opt_budget_5")}>{t("opt_budget_5")}</option>
+              </select>
+              <div className={styles.uploadWrap}>
+                <input
+                  ref={fileInputRef}
+                  id="attachment"
+                  type="file"
+                  accept="image/png,image/jpeg,image/webp,image/gif,application/pdf"
+                  className={styles.uploadInput}
+                  onChange={(e) => setFile(e.target.files?.[0] ?? null)}
+                />
+                {!file ? (
+                  <label htmlFor="attachment" className={styles.uploadLabel}>
+                    <span className={styles.uploadIcon} aria-hidden>
+                      +
+                    </span>
+                    <span>
+                      <span className={styles.uploadTitle}>{t("upload_label")}</span>
+                      <span className={styles.uploadHint}>{t("upload_hint")}</span>
+                    </span>
+                  </label>
                 ) : (
-                  <button type="button" className={styles.uploadRemove} onClick={removeFile}>
-                    {t("upload_remove")}
-                  </button>
+                  <div className={styles.uploadFile}>
+                    <span className={styles.uploadFileName}>{file.name}</span>
+                    {uploadState === "uploading" ? (
+                      <span className={styles.uploadStatus}>{t("upload_uploading")}</span>
+                    ) : (
+                      <button type="button" className={styles.uploadRemove} onClick={removeFile}>
+                        {t("upload_remove")}
+                      </button>
+                    )}
+                  </div>
                 )}
               </div>
-            )}
-          </div>
+            </div>
+          </details>
 
           <button type="submit" disabled={status === "sending"} className={styles.submit}>
             {status !== "sending" && (
@@ -282,6 +270,7 @@ export default function Contact() {
             )}
             {status === "sending" ? t("contact_sending") : t("contact_submit")}
           </button>
+          <p className={styles.formNote}>{t("contact_note")}</p>
           {status === "error" && (
             <p className={styles.errorMsg}>
               {uploadState === "error" ? t("upload_error") : t("contact_error")}

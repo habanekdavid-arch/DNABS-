@@ -12,7 +12,6 @@ export async function POST(request: Request) {
     company,
     projectType,
     budget,
-    timeline,
     message,
     website,
     source,
@@ -34,8 +33,8 @@ export async function POST(request: Request) {
   try {
     const sql = getSql();
     const rows = (await sql`
-      INSERT INTO leads (name, email, phone, company, project_type, budget, timeline, message, source, attachment_url, attachment_name)
-      VALUES (${name}, ${email}, ${phone || null}, ${company || null}, ${projectType || null}, ${budget || null}, ${timeline || null}, ${message || null}, ${source || null}, ${attachmentUrl || null}, ${attachmentName || null})
+      INSERT INTO leads (name, email, phone, company, project_type, budget, message, source, attachment_url, attachment_name)
+      VALUES (${name}, ${email}, ${phone || null}, ${company || null}, ${projectType || null}, ${budget || null}, ${message || null}, ${source || null}, ${attachmentUrl || null}, ${attachmentName || null})
       RETURNING id
     `) as { id: number }[];
     leadId = rows[0].id;
@@ -69,7 +68,6 @@ export async function POST(request: Request) {
         company ? `Spoločnosť: ${company}` : null,
         projectType ? `Typ projektu: ${projectType}` : null,
         budget ? `Rozpočet: ${budget}` : null,
-        timeline ? `Termín: ${timeline}` : null,
         source ? `Zdroj: ${source}` : null,
         attachmentUrl ? `Príloha: ${attachmentName || "súbor"} — ${attachmentUrl}` : null,
         "",

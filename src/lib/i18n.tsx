@@ -18,8 +18,8 @@ const dict = {
   hero_l2: { sk: "hotový", en: "ready" },
   hero_l3: { sk: "zadarmo.", en: "for free." },
   hero_sub: {
-    sk: "Bezplatný náhľad tvojho webu do 48 hodín — postavený na tom, čo už robíš. Bez záväzkov, bez rizika. Ak sa ti nebude páčiť, nestojí ťa to nič.",
-    en: "A free preview of your website within 48 hours — built around what you already do. No commitment, no risk. If you don't like it, it costs you nothing.",
+    sk: "Bezplatný náhľad tvojho webu do 24 hodín — postavený na tom, čo už robíš. Bez záväzkov, bez rizika. Ak sa ti nebude páčiť, nestojí ťa to nič.",
+    en: "A free preview of your website within 24 hours — built around what you already do. No commitment, no risk. If you don't like it, it costs you nothing.",
   },
   hero_cta1: { sk: "Objednať bezplatný náhľad →", en: "Order my free preview →" },
   hero_cta2: { sk: "Naše služby", en: "Our services" },
@@ -38,8 +38,8 @@ const dict = {
     en: "Want to see what this could look like for your business?",
   },
   niche_kicker: {
-    sk: "// bezplatný náhľad webu do 48 hodín",
-    en: "// free website preview within 48 hours",
+    sk: "// bezplatný náhľad webu do 24 hodín",
+    en: "// free website preview within 24 hours",
   },
   faq_kicker: { sk: "FAQ", en: "FAQ" },
   faq_title: { sk: "Časté otázky", en: "Frequently asked questions" },
@@ -95,13 +95,13 @@ const dict = {
   contact_h1: { sk: "Objednaj si", en: "Order your" },
   contact_h2: { sk: "bezplatný náhľad.", en: "free preview." },
   contact_intro: {
-    sk: "Vyplň formulár nižšie — je to presne tá istá objednávka, akú spomíname na začiatku stránky. Žiadna faktúra, žiadne záväzky, kým sa sám nerozhodneš pokračovať.",
-    en: "Fill in the form below — it's the exact same order we mention at the top of the page. No invoice, no commitment until you decide to move forward yourself.",
+    sk: "Stačí meno, e-mail a jeden klik. Náhľad ti pošleme do 24 hodín — žiadna faktúra, žiadne záväzky.",
+    en: "Just your name, e-mail and one click. We'll send your preview within 24 hours — no invoice, no commitment.",
   },
   contact_perk1: { sk: "Bez záväzkov a bez rizika", en: "No commitment, no risk" },
-  contact_perk2: { sk: "Odpovieme do 24 hodín", en: "We reply within 24 hours" },
+  contact_perk2: { sk: "Náhľad ti pošleme do 24 hodín", en: "Your preview lands within 24 hours" },
   contact_perk3: { sk: "Nepáči sa ti? Nestojí ťa to nič.", en: "Don't like it? It costs you nothing." },
-  msg_preset_label: { sk: "Nemáš predstavu? Vyber si:", en: "Not sure what to say? Pick one:" },
+  msg_preset_label: { sk: "Nechce sa ti písať? Klikni:", en: "Don't feel like typing? Just click:" },
   msg_preset_1: {
     sk: "Zatiaľ len začínam — mám iba logo a žiadny funkčný web. Chcel by som sa opýtať, či mi viete pomôcť postaviť ho od základu.",
     en: "I'm just starting out — I only have a logo and no working website yet. I'd like to ask if you can help me build one from scratch.",
@@ -121,6 +121,16 @@ const dict = {
   msg_preset_5: {
     sk: "Ešte si nie som istý/á, čo presne potrebujem. Chcel by som sa len porozprávať o možnostiach.",
     en: "I'm not sure yet exactly what I need. I'd just like to talk through the options.",
+  },
+  msg_chip_1: { sk: "Začínam od nuly", en: "Starting from scratch" },
+  msg_chip_2: { sk: "Mám starý web", en: "I have an old site" },
+  msg_chip_3: { sk: "Chcem e-shop", en: "I want an e-shop" },
+  msg_chip_4: { sk: "Viac zákazníkov", en: "More customers" },
+  msg_chip_5: { sk: "Ešte neviem", en: "Not sure yet" },
+  contact_more: { sk: "Nepovinné detaily (firma, rozpočet, príloha)", en: "Optional details (company, budget, attachment)" },
+  contact_note: {
+    sk: "Vyplnenie ti zaberie pár sekúnd. Náhľad ti pošleme do 24 hodín.",
+    en: "Takes a few seconds to fill in. We'll send your preview within 24 hours.",
   },
   upload_label: {
     sk: "Priložiť súbor (logo, návrh, dokument)",
@@ -149,10 +159,6 @@ const dict = {
   opt_budget_3: { sk: "1500 – 3000 €", en: "€1,500 – €3,000" },
   opt_budget_4: { sk: "3000+ €", en: "€3,000+" },
   opt_budget_5: { sk: "Ešte neviem, poraďte mi", en: "Not sure yet, advise me" },
-  opt_timeline_1: { sk: "Čo najskôr", en: "As soon as possible" },
-  opt_timeline_2: { sk: "Do 2 týždňov", en: "Within 2 weeks" },
-  opt_timeline_3: { sk: "Do mesiaca", en: "Within a month" },
-  opt_timeline_4: { sk: "Nie je to naliehavé", en: "Not urgent" },
   contact_label_email: { sk: "E-mail", en: "E-mail" },
   contact_label_phone: { sk: "Telefón", en: "Phone" },
   contact_label_location: { sk: "Lokalita", en: "Location" },
@@ -168,12 +174,11 @@ const dict = {
 const phDict = {
   ph_name: { sk: "Meno *", en: "Name *" },
   ph_email: { sk: "E-mail *", en: "E-mail *" },
-  ph_company: { sk: "Spoločnosť", en: "Company" },
-  ph_phone: { sk: "Telefónne číslo", en: "Phone number" },
-  ph_msg: { sk: "O čom je tvoj projekt?", en: "What is your project about?" },
+  ph_company: { sk: "Spoločnosť (nepovinné)", en: "Company (optional)" },
+  ph_phone: { sk: "Telefónne číslo (nepovinné)", en: "Phone number (optional)" },
+  ph_msg: { sk: "O čom je tvoj projekt? (nepovinné)", en: "What is your project about? (optional)" },
   ph_project_type: { sk: "Typ projektu *", en: "Project type *" },
-  ph_budget: { sk: "Rozpočet *", en: "Budget *" },
-  ph_timeline: { sk: "Termín *", en: "Timeline *" },
+  ph_budget: { sk: "Rozpočet (nepovinné)", en: "Budget (optional)" },
 } as const;
 
 export type DictKey = keyof typeof dict;

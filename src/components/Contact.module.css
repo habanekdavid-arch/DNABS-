@@ -121,7 +121,8 @@ select.field{
   cursor:pointer;
   color:#fff;
 }
-select.field:invalid{
+select.field:invalid,
+select.field:has(option[value=""]:checked){
   color:rgba(255,255,255,.35);
 }
 select.field option{
@@ -174,6 +175,49 @@ select.field option{
   background:var(--accent);
   border-color:var(--accent);
   color:#0a0a0a;
+}
+
+/* Nepovinné polia sú zbalené, aby formulár na prvý pohľad vyzeral krátky. */
+.more{
+  border-bottom:2px solid rgba(255,255,255,.25);
+}
+
+.moreSummary{
+  list-style:none;
+  cursor:pointer;
+  padding:16px 22px;
+  font-family:var(--mono);
+  font-size:12px;
+  letter-spacing:.04em;
+  opacity:.55;
+  transition:.2s;
+}
+.moreSummary::-webkit-details-marker{display:none;}
+.moreSummary::before{
+  content:"+ ";
+  color:var(--accent);
+  font-weight:700;
+}
+.more[open] .moreSummary::before{content:"− ";}
+.moreSummary:hover{opacity:.9;}
+
+.moreInner{
+  display:flex;
+  flex-direction:column;
+  border-top:2px solid rgba(255,255,255,.15);
+}
+.moreInner > :last-child{
+  border-bottom:0;
+}
+
+.formNote{
+  margin:0;
+  padding:14px 22px;
+  font-family:var(--mono);
+  font-size:11px;
+  line-height:1.5;
+  text-align:center;
+  opacity:.5;
 }
 
 .uploadWrap{

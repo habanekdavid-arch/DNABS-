@@ -64,8 +64,8 @@ export const niches: Niche[] = [
         en: "Websites for wedding salons | DNABS",
       },
       description: {
-        sk: "Bezplatný náhľad webu pre váš svadobný salón do 48 hodín. Galéria, rezervácia termínov, mobil aj Google.",
-        en: "A free website preview for your wedding salon within 48 hours. Gallery, appointment booking, mobile and Google ready.",
+        sk: "Bezplatný náhľad webu pre váš svadobný salón do 24 hodín. Galéria, rezervácia termínov, mobil aj Google.",
+        en: "A free website preview for your wedding salon within 24 hours. Gallery, appointment booking, mobile and Google ready.",
       },
     },
     cielStranky: "Konverzia: dopyt na bezplatný náhľad cez kontaktný formulár.",
@@ -122,8 +122,8 @@ export const niches: Niche[] = [
         en: "Websites for restaurants | DNABS",
       },
       description: {
-        sk: "Bezplatný náhľad webu pre vašu reštauráciu do 48 hodín. Menu, rezervácie, fotky, ktoré predávajú.",
-        en: "A free website preview for your restaurant within 48 hours. Menu, reservations, photos that sell.",
+        sk: "Bezplatný náhľad webu pre vašu reštauráciu do 24 hodín. Menu, rezervácie, fotky, ktoré predávajú.",
+        en: "A free website preview for your restaurant within 24 hours. Menu, reservations, photos that sell.",
       },
     },
     cielStranky: "Konverzia: dopyt na bezplatný náhľad cez kontaktný formulár.",
@@ -180,8 +180,8 @@ export const niches: Niche[] = [
         en: "Websites for auto service shops | DNABS",
       },
       description: {
-        sk: "Bezplatný náhľad webu pre váš autoservis do 48 hodín. Služby, ceny, rýchly kontakt z mobilu.",
-        en: "A free website preview for your auto service shop within 48 hours. Services, pricing, fast mobile contact.",
+        sk: "Bezplatný náhľad webu pre váš autoservis do 24 hodín. Služby, ceny, rýchly kontakt z mobilu.",
+        en: "A free website preview for your auto service shop within 24 hours. Services, pricing, fast mobile contact.",
       },
     },
     cielStranky: "Konverzia: dopyt na bezplatný náhľad cez kontaktný formulár.",

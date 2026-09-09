@@ -37,7 +37,7 @@ export default function Image() {
           Tvoj web, hotový&nbsp;<span style={{ color: "#ff5a01" }}>zadarmo.</span>
         </div>
         <div style={{ fontSize: 26, color: "rgba(255,255,255,.7)", marginTop: 36, display: "flex" }}>
-          Bezplatný náhľad do 48 hodín — dnabs.online
+          Bezplatný náhľad do 24 hodín — dnabs.online
         </div>
       </div>
     ),

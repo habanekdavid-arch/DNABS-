@@ -5,7 +5,7 @@ import styles from "./page.module.css";
 
 export const metadata: Metadata = {
   title: "Ďakujeme",
-  description: "Tvoj dopyt sme prijali, ozveme sa čo najskôr.",
+  description: "Tvoj dopyt sme prijali, bezplatný náhľad ti pošleme do 24 hodín.",
   robots: { index: false, follow: true },
 };
 
@@ -20,7 +20,8 @@ export default function DakujemePage() {
           <span className={styles.script}>— ozveme sa.</span>
         </h1>
         <p className={styles.body}>
-          Tvoju správu sme prijali a čoskoro sa ti ozveme na e-mail alebo telefón, ktorý si nám nechal/-a.
+          Tvoju správu sme prijali. Bezplatný náhľad ti pripravíme a pošleme do 24 hodín na e-mail
+          alebo telefón, ktorý si nám nechal/-a.
         </p>
         <Link href="/" className={styles.cta}>
           Späť na web →

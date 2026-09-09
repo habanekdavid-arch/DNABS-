@@ -4,8 +4,8 @@ export const homeFaq: { q: Bilingual; a: Bilingual }[] = [
   {
     q: { sk: "Ako dlho to trvá?", en: "How long does it take?" },
     a: {
-      sk: "Bezplatný náhľad tvojho webu pripravíme do 48 hodín od prvého kontaktu. Samotná realizácia finálneho webu potom závisí od rozsahu projektu — bežne ide o dni až pár týždňov.",
-      en: "We'll have a free preview of your website ready within 48 hours of first contact. Building the final site then depends on the project's scope — usually a matter of days to a couple of weeks.",
+      sk: "Bezplatný náhľad tvojho webu pripravíme do 24 hodín od prvého kontaktu. Samotná realizácia finálneho webu potom závisí od rozsahu projektu — bežne ide o dni až pár týždňov.",
+      en: "We'll have a free preview of your website ready within 24 hours of first contact. Building the final site then depends on the project's scope — usually a matter of days to a couple of weeks.",
     },
   },
   {

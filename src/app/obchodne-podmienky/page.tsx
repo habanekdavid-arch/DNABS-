@@ -29,7 +29,7 @@ export default function ObchodnePodmienkyPage() {
           Vyplnením a odoslaním kontaktného formulára na webe dnabs.online klient objednáva
           bezplatné vypracovanie úvodného náhľadu webovej stránky. Táto objednávka je nezáväzná a
           bezplatná — jej odoslaním klientovi nevzniká žiadna platobná povinnosť ani zmluva o
-          dielo. DNABS sa zaväzuje náhľad pripraviť a odpovedať klientovi spravidla do 24–48 hodín
+          dielo. DNABS sa zaväzuje náhľad pripraviť a odpovedať klientovi spravidla do 24 hodín
           od odoslania formulára.
         </p>
 

@@ -104,8 +104,8 @@ export const onasChapters: OnasChapter[] = [
     },
     paragraphs: [
       {
-        sk: "Sako, ktoré stojí samo, bez tela, ktoré by ho nosilo, je dobrou metaforou pre to, ako pristupujeme k práci — chceme, aby hovoril výsledok, nie my. Bezplatný náhľad webu do 48 hodín nie je marketingový trik, je to spôsob, ako ti ukázať, čo vieme spraviť, skôr než sa rozhodneš investovať čas alebo peniaze.",
-        en: "A blazer standing on its own, with no body wearing it, is a fitting metaphor for how we approach work — we want the result to speak, not us. A free website preview within 48 hours isn't a marketing gimmick — it's a way to show you what we can do before you decide to invest time or money.",
+        sk: "Sako, ktoré stojí samo, bez tela, ktoré by ho nosilo, je dobrou metaforou pre to, ako pristupujeme k práci — chceme, aby hovoril výsledok, nie my. Bezplatný náhľad webu do 24 hodín nie je marketingový trik, je to spôsob, ako ti ukázať, čo vieme spraviť, skôr než sa rozhodneš investovať čas alebo peniaze.",
+        en: "A blazer standing on its own, with no body wearing it, is a fitting metaphor for how we approach work — we want the result to speak, not us. A free website preview within 24 hours isn't a marketing gimmick — it's a way to show you what we can do before you decide to invest time or money.",
       },
       {
         sk: "DNABS je malé digitálne štúdio z Bratislavy s veľkými nárokmi na kvalitu. Nerobíme weby do šuplíka — robíme weby, aplikácie a digitálny marketing, ktoré majú jeden jediný cieľ: priniesť tvojej firme viac zákazníkov.",
