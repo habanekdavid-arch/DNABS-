@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useLanguage, type DictKey } from "@/lib/i18n";
 import Reveal from "./Reveal";
 import styles from "./Services.module.css";
@@ -38,11 +39,13 @@ export default function Services() {
         return (
           <Reveal
             key={i}
-            as="div"
+            as={Link}
+            href="/#kontakt"
             className={`${styles.row} ${i === ROWS.length - 1 ? styles.last : ""}`}
             style={{
-              background: isHovered ? color : "transparent",
+              background: isHovered ? color : "#fff",
               color: isHovered ? textColor : "#0a0a0a",
+              transform: isHovered ? "translateY(-4px)" : "none",
             }}
             onMouseEnter={() => setHovered(i)}
             onMouseLeave={() => setHovered(null)}

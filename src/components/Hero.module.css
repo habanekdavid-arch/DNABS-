@@ -348,11 +348,13 @@
 }
 
 .ctaSecondary{
-  background:transparent;
+  background:rgba(10,10,10,.07);
+  border-color:transparent;
   color:#0a0a0a;
 }
 .ctaSecondary:hover{
   background:#0a0a0a;
+  border-color:#0a0a0a;
   color:#fff;
   transform:translateY(-2px);
 }

@@ -47,12 +47,17 @@
   gap:clamp(16px,3vw,48px);
   align-items:center;
   padding:clamp(36px,5.5vh,62px) clamp(8px,2vw,28px);
-  border:2px solid #0a0a0a;
+  border:0;
   border-radius:var(--radius-lg);
   margin-bottom:14px;
   color:#0a0a0a;
-  background:transparent;
-  transition:background .25s ease,color .25s ease,transform .3s cubic-bezier(.2,.7,.2,1);
+  background:#fff;
+  text-decoration:none;
+  box-shadow:0 2px 10px rgba(10,10,10,.05);
+  transition:background .25s ease,color .25s ease,box-shadow .3s ease,transform .3s cubic-bezier(.2,.7,.2,1);
+}
+.row:hover{
+  box-shadow:0 18px 40px rgba(10,10,10,.16);
 }
 .row.last{
   margin-bottom:0;
@@ -96,14 +101,15 @@
   font-family:var(--mono);
   font-size:11px;
   text-transform:uppercase;
-  border:1.5px solid currentColor;
+  border:0;
   border-radius:var(--radius-pill);
-  padding:6px 13px;
+  background:rgba(10,10,10,.06);
+  padding:7px 14px;
   display:inline-block;
-  transition:transform .25s ease,background .25s ease;
+  transition:background .25s ease;
 }
-.chip:hover{
-  transform:translateY(-3px);
+.row:hover .chip{
+  background:rgba(255,255,255,.22);
 }
 
 .arrow{

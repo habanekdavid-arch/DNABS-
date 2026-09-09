@@ -1,26 +1,40 @@
+/* Každá otázka má vlastnú farbu — na svetlo podfarbený riadok,
+   po nabehnutí (alebo otvorení) sa vyfarbí naplno. */
 .list{
-  border-top:2px solid var(--ink);
+  display:flex;
+  flex-direction:column;
+  gap:8px;
 }
 
 .item{
   --hoverBg:var(--accent);
   --hoverText:#fff;
+  --tint:rgba(255,90,1,.09);
+  --rowInk:#e04d00;
   position:relative;
-  border-bottom:2px solid var(--ink);
+  border-radius:var(--radius);
+  background:var(--tint);
   overflow:hidden;
   isolation:isolate;
+  transition:background .3s ease;
 }
 .item:nth-child(4n+2){
   --hoverBg:var(--purple);
   --hoverText:#fff;
+  --tint:rgba(102,55,237,.09);
+  --rowInk:#5a2fd6;
 }
 .item:nth-child(4n+3){
   --hoverBg:var(--cyan);
   --hoverText:#0a0a0a;
+  --tint:rgba(0,233,255,.13);
+  --rowInk:#008ea1;
 }
 .item:nth-child(4n+4){
   --hoverBg:var(--green);
   --hoverText:#0a0a0a;
+  --tint:rgba(84,250,128,.16);
+  --rowInk:#12a03f;
 }
 
 .item::before{
@@ -28,7 +42,6 @@
   position:absolute;
   inset:0;
   background:var(--hoverBg);
-  border-radius:var(--radius);
   transform:scaleX(0);
   transform-origin:left;
   transition:transform .45s cubic-bezier(.2,.7,.2,1);
@@ -45,33 +58,34 @@
   width:100%;
   display:flex;
   align-items:center;
-  gap:clamp(14px,2.5vw,28px);
+  gap:clamp(12px,1.8vw,22px);
   background:none;
   border:0;
   cursor:pointer;
   text-align:left;
-  padding:clamp(20px,3vh,28px) 4px;
+  padding:clamp(14px,1.9vh,20px) clamp(16px,1.8vw,26px);
 }
 
 .num{
   font-family:var(--mono);
   font-weight:700;
-  font-size:clamp(12px,1.3vw,15px);
-  color:var(--accent);
+  font-size:clamp(11px,1.1vw,13px);
+  color:var(--rowInk);
   flex-shrink:0;
   transition:color .3s ease,transform .3s ease;
 }
 .item:hover .num,
 .itemOpen .num{
   color:var(--hoverText);
-  transform:translateX(4px);
+  transform:translateX(3px);
 }
 
 .qText{
   flex:1;
   font-family:var(--disp);
   font-weight:700;
-  font-size:clamp(16px,2vw,22px);
+  font-size:clamp(15px,1.5vw,20px);
+  line-height:1.25;
   color:#0a0a0a;
   transition:color .3s ease,transform .3s ease;
 }
@@ -80,15 +94,16 @@
   color:var(--hoverText);
 }
 .item:hover .qText{
-  transform:translateX(8px);
+  transform:translateX(6px);
 }
 
 .icon{
   position:relative;
   z-index:1;
   font-family:var(--mono);
-  font-size:20px;
-  color:var(--accent);
+  font-size:18px;
+  line-height:1;
+  color:var(--rowInk);
   flex-shrink:0;
   display:inline-block;
   transition:transform .3s cubic-bezier(.2,.7,.2,1),color .3s ease;
@@ -121,14 +136,15 @@
 
 .answer{
   margin:0;
-  padding:0 4px clamp(20px,3vh,28px) calc(4px + clamp(12px,1.3vw,15px) + clamp(14px,2.5vw,28px));
-  font-size:clamp(14px,1.3vw,16px);
-  line-height:1.6;
-  max-width:600px;
+  padding:0 clamp(16px,1.8vw,26px) clamp(16px,2.2vh,22px)
+    calc(clamp(16px,1.8vw,26px) + clamp(11px,1.1vw,13px) + clamp(12px,1.8vw,22px));
+  font-size:clamp(13px,1.2vw,15px);
+  line-height:1.55;
+  max-width:82ch;
   color:var(--hoverText);
-  opacity:.8;
+  opacity:.85;
   transition:color .3s ease,opacity .3s ease;
 }
 .item:hover .answer{
-  opacity:.92;
+  opacity:.95;
 }

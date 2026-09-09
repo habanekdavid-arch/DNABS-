@@ -18,6 +18,7 @@ export default function Reveal({
   ...rest
 }: {
   as?: ElementType;
+  href?: string;
   className?: string;
   style?: CSSProperties;
   children: ReactNode;

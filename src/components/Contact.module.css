@@ -95,7 +95,7 @@
   display:flex;
   flex-direction:column;
   gap:0;
-  border:2px solid rgba(255,255,255,.25);
+  border:1px solid rgba(255,255,255,.14);
   border-radius:var(--radius-lg);
   overflow:hidden;
 }
@@ -103,7 +103,7 @@
 .field{
   background:transparent;
   border:0;
-  border-bottom:2px solid rgba(255,255,255,.25);
+  border-bottom:1px solid rgba(255,255,255,.12);
   color:#fff;
   font-family:var(--mono);
   font-size:15px;
@@ -142,7 +142,7 @@ select.field option{
 
 .presetWrap{
   padding:18px 22px;
-  border-bottom:2px solid rgba(255,255,255,.25);
+  border-bottom:1px solid rgba(255,255,255,.12);
 }
 
 .presetLabel{
@@ -165,8 +165,8 @@ select.field option{
   font-weight:700;
   font-size:12px;
   color:#fff;
-  background:rgba(255,255,255,.06);
-  border:1px solid rgba(255,255,255,.25);
+  background:rgba(255,255,255,.09);
+  border:1px solid transparent;
   border-radius:999px;
   padding:8px 14px;
   cursor:pointer;
@@ -182,7 +182,7 @@ select.field option{
 
 /* Nepovinné polia sú zbalené, aby formulár na prvý pohľad vyzeral krátky. */
 .more{
-  border-bottom:2px solid rgba(255,255,255,.25);
+  border-bottom:1px solid rgba(255,255,255,.12);
 }
 
 .moreSummary{
@@ -207,7 +207,7 @@ select.field option{
 .moreInner{
   display:flex;
   flex-direction:column;
-  border-top:2px solid rgba(255,255,255,.15);
+  border-top:1px solid rgba(255,255,255,.1);
 }
 .moreInner > :last-child{
   border-bottom:0;
@@ -224,7 +224,7 @@ select.field option{
 }
 
 .uploadWrap{
-  border-bottom:2px solid rgba(255,255,255,.25);
+  border-bottom:1px solid rgba(255,255,255,.12);
 }
 
 .uploadInput{
@@ -298,8 +298,9 @@ select.field option{
 
 .uploadRemove{
   flex-shrink:0;
-  background:none;
-  border:1px solid rgba(255,255,255,.3);
+  background:rgba(255,255,255,.08);
+  border:0;
+  border-radius:var(--radius-pill);
   color:#fff;
   font-family:var(--mono);
   font-size:11px;

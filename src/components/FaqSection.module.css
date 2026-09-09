@@ -1,37 +1,40 @@
 .section{
   background:#fff;
   color:#0a0a0a;
-  padding:clamp(72px,11vh,140px) clamp(20px,4vw,48px);
+  padding:clamp(56px,8vh,96px) clamp(20px,4vw,48px);
 }
 
+/* Otázky idú cez celú šírku, hlavička je nad nimi v jednom riadku. */
 .inner{
-  max-width:1180px;
+  max-width:1320px;
   margin:0 auto;
-  display:grid;
-  grid-template-columns:minmax(220px,340px) 1fr;
-  gap:clamp(32px,6vw,80px);
-  align-items:start;
 }
 
 .head{
-  position:sticky;
-  top:110px;
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:20px;
+  margin-bottom:clamp(24px,3.5vh,36px);
+  padding-bottom:16px;
+  border-bottom:1px solid rgba(10,10,10,.12);
 }
 
 .kicker{
   font-family:var(--mono);
-  font-size:13px;
+  font-size:12px;
   letter-spacing:.1em;
   text-transform:uppercase;
   color:var(--accent);
-  margin-bottom:10px;
+  margin-bottom:8px;
 }
 
 .title{
-  margin:0 0 20px;
+  margin:0;
   font-family:var(--disp);
   font-weight:700;
-  font-size:clamp(32px,4.2vw,56px);
+  font-size:clamp(30px,3.6vw,52px);
   line-height:.95;
   letter-spacing:-.01em;
   text-transform:uppercase;
@@ -41,31 +44,27 @@
   display:flex;
   align-items:baseline;
   gap:10px;
-  padding-top:16px;
-  border-top:2px solid #0a0a0a;
-  max-width:260px;
+  max-width:320px;
 }
 
 .countNum{
   font-family:var(--mono);
   font-weight:700;
-  font-size:clamp(28px,3vw,40px);
+  font-size:clamp(24px,2.4vw,34px);
   color:var(--purple);
   line-height:1;
   flex-shrink:0;
 }
 
 .countLabel{
-  font-size:13px;
+  font-size:12px;
   line-height:1.4;
-  opacity:.6;
+  opacity:.55;
 }
 
-@media (max-width:860px){
-  .inner{
-    grid-template-columns:1fr;
-  }
+@media (max-width:640px){
   .head{
-    position:static;
+    align-items:flex-start;
+    flex-direction:column;
   }
 }

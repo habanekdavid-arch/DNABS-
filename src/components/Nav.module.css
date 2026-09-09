@@ -49,7 +49,7 @@
 .langSwitch{
   display:flex;
   align-items:center;
-  border:1px solid rgba(10,10,10,.3);
+  border:1px solid rgba(10,10,10,.15);
   border-radius:var(--radius-pill);
   overflow:hidden;
 }
@@ -78,15 +78,16 @@
   letter-spacing:.05em;
   text-decoration:none;
   white-space:nowrap;
-  color:#0a0a0a;
-  border:2px solid #0a0a0a;
+  color:#fff;
+  background:#0a0a0a;
+  border:0;
   border-radius:var(--radius-pill);
-  padding:12px 20px;
+  padding:14px 22px;
   transition:transform .25s cubic-bezier(.2,.7,.2,1),background .2s ease,border-color .2s ease;
 }
 .cta:hover{
   background:var(--accent);
-  border-color:var(--accent);
+  color:#0a0a0a;
   transform:translateY(-2px);
 }
 

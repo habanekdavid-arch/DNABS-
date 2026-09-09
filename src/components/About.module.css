@@ -8,14 +8,20 @@
 
 .ghostLogo{
   position:absolute;
-  right:-6%;
-  top:50%;
-  transform:translateY(-50%);
-  width:min(560px,55vw);
+  left:clamp(-40px,-2vw,0px);
+  bottom:clamp(-40px,-3vh,0px);
+  width:min(860px,68vw);
   height:auto;
   filter:brightness(0) invert(1);
-  opacity:.1;
+  opacity:.13;
   pointer-events:none;
+}
+
+@media (max-width:860px){
+  .ghostLogo{
+    width:min(560px,90vw);
+    opacity:.1;
+  }
 }
 
 .inner{
