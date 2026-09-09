@@ -306,14 +306,15 @@
 
 .ctaPrimary,.ctaSecondary{
   font-family:var(--mono);
-  font-size:13px;
+  font-weight:700;
+  font-size:clamp(14px,1.1vw,17px);
   text-transform:uppercase;
-  letter-spacing:.05em;
+  letter-spacing:.06em;
   text-decoration:none;
   border:2px solid #0a0a0a;
-  border-radius:8px;
-  padding:16px 26px;
-  transition:.22s;
+  border-radius:var(--radius-pill);
+  padding:clamp(17px,1.7vw,21px) clamp(28px,2.6vw,38px);
+  transition:transform .25s cubic-bezier(.2,.7,.2,1),background .22s ease,color .22s ease,border-color .22s ease;
 }
 
 .ctaPrimary{
@@ -332,8 +333,8 @@
 
 .ctaBadge{
   position:absolute;
-  top:-11px;
-  right:-12px;
+  top:-12px;
+  right:-10px;
   background:var(--green);
   color:#0a0a0a;
   font-family:var(--mono);
@@ -353,6 +354,7 @@
 .ctaSecondary:hover{
   background:#0a0a0a;
   color:#fff;
+  transform:translateY(-2px);
 }
 
 @media (max-width: 860px){

@@ -1,0 +1,26 @@
+.time,
+.free{
+  background:var(--accent);
+  color:#0a0a0a;
+  font-weight:700;
+  padding:.08em .36em;
+  border-radius:7px;
+  white-space:nowrap;
+  -webkit-box-decoration-break:clone;
+  box-decoration-break:clone;
+}
+
+.free{
+  background:var(--green);
+}
+
+.timeText,
+.freeText{
+  background:transparent;
+  color:var(--accent);
+  white-space:nowrap;
+}
+
+.freeText{
+  color:var(--green);
+}

@@ -50,6 +50,8 @@
   display:flex;
   align-items:center;
   border:1px solid rgba(10,10,10,.3);
+  border-radius:var(--radius-pill);
+  overflow:hidden;
 }
 
 .langBtn{
@@ -70,22 +72,48 @@
 
 .cta{
   font-family:var(--mono);
-  font-size:12px;
+  font-weight:700;
+  font-size:13px;
   text-transform:uppercase;
-  letter-spacing:.06em;
+  letter-spacing:.05em;
   text-decoration:none;
+  white-space:nowrap;
   color:#0a0a0a;
   border:2px solid #0a0a0a;
-  padding:12px 18px;
-  transition:.2s;
+  border-radius:var(--radius-pill);
+  padding:12px 20px;
+  transition:transform .25s cubic-bezier(.2,.7,.2,1),background .2s ease,border-color .2s ease;
 }
 .cta:hover{
   background:var(--accent);
   border-color:var(--accent);
+  transform:translateY(-2px);
+}
+
+.ctaShort{
+  display:none;
 }
 
 @media (max-width:640px){
   .logoImg{
     height:48px;
+  }
+  /* Na mobile sa dlhý text nezmestí — CTA sa skráti na "Návrh →". */
+  .ctaFull{
+    display:none;
+  }
+  .ctaShort{
+    display:inline;
+  }
+  .cta{
+    font-size:12px;
+    padding:10px 16px;
+  }
+  .link{
+    font-size:11px;
+    letter-spacing:.05em;
+  }
+  .right{
+    gap:10px;
   }
 }

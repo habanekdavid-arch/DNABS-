@@ -4,6 +4,7 @@ import { useRef, useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { upload } from "@vercel/blob/client";
 import { useLanguage, type DictKey } from "@/lib/i18n";
+import Emph from "./Emph";
 import Reveal from "./Reveal";
 import styles from "./Contact.module.css";
 
@@ -109,13 +110,15 @@ export default function Contact() {
             <span className={styles.h2Line}>{t("contact_h1")}</span>
             <span className={styles.h2Script}>{t("contact_h2")}</span>
           </h2>
-          <p className={styles.intro}>{t("contact_intro")}</p>
+          <p className={styles.intro}>
+            <Emph text={t("contact_intro")} />
+          </p>
           <ul className={styles.perks}>
             <li>
-              <span className={styles.perkIcon}>✓</span> {t("contact_perk1")}
+              <span className={styles.perkIcon}>✓</span> <Emph text={t("contact_perk1")} />
             </li>
             <li>
-              <span className={styles.perkIcon}>✓</span> {t("contact_perk2")}
+              <span className={styles.perkIcon}>✓</span> <Emph text={t("contact_perk2")} />
             </li>
             <li>
               <span className={styles.perkIcon}>✓</span> {t("contact_perk3")}
@@ -264,13 +267,20 @@ export default function Contact() {
             </div>
           </details>
 
-          <button type="submit" disabled={status === "sending"} className={styles.submit}>
+          <button
+            type="submit"
+            disabled={status === "sending"}
+            className={styles.submit}
+            data-cursor="cta"
+          >
             {status !== "sending" && (
               <span className={styles.submitBadge}>{t("hero_cta_badge")}</span>
             )}
             {status === "sending" ? t("contact_sending") : t("contact_submit")}
           </button>
-          <p className={styles.formNote}>{t("contact_note")}</p>
+          <p className={styles.formNote}>
+            <Emph text={t("contact_note")} />
+          </p>
           {status === "error" && (
             <p className={styles.errorMsg}>
               {uploadState === "error" ? t("upload_error") : t("contact_error")}

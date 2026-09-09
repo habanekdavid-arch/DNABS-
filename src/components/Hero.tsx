@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useLanguage } from "@/lib/i18n";
+import Emph from "./Emph";
 import Nav from "./Nav";
 import styles from "./Hero.module.css";
 import laptop from "../assets/hero-laptop.webp";
@@ -64,9 +65,11 @@ export default function Hero() {
             {t("hero_l2")} <span className={styles.script}>{t("hero_l3")}</span>
           </span>
         </h1>
-        <p className={styles.sub}>{t("hero_sub")}</p>
+        <p className={styles.sub}>
+          <Emph text={t("hero_sub")} />
+        </p>
         <div className={styles.ctaRow}>
-          <a href="#kontakt" className={styles.ctaPrimary}>
+          <a href="#kontakt" className={styles.ctaPrimary} data-cursor="cta">
             <span className={styles.ctaBadge}>{t("hero_cta_badge")}</span>
             {t("hero_cta1")}
           </a>

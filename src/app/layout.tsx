@@ -7,6 +7,7 @@ import {
   Allura,
 } from "next/font/google";
 import CookieConsent from "@/components/CookieConsent";
+import Cursor from "@/components/Cursor";
 import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({
@@ -111,6 +112,7 @@ export default function RootLayout({
       <body>
         {children}
         <CookieConsent />
+        <Cursor />
       </body>
     </html>
   );

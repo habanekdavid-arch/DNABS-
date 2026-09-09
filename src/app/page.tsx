@@ -3,6 +3,7 @@ import Hero from "@/components/Hero";
 import Realizacia from "@/components/Realizacia";
 import ServicesMarquee from "@/components/ServicesMarquee";
 import Services from "@/components/Services";
+import CtaBand from "@/components/CtaBand";
 import About from "@/components/About";
 import HomeFaq from "@/components/HomeFaq";
 import Contact from "@/components/Contact";
@@ -16,6 +17,7 @@ export default function Home() {
         <Realizacia />
         <ServicesMarquee />
         <Services />
+        <CtaBand />
         <About />
         <HomeFaq />
         <Contact />

@@ -1,0 +1,61 @@
+/* Bodka ide presne za myšou, prstenec ju dobieha. Oba invertujú to,
+   nad čím ležia, takže sú vidieť na svetlej aj čiernej sekcii. */
+.dot,
+.ring{
+  position:fixed;
+  top:0;
+  left:0;
+  z-index:9999;
+  pointer-events:none;
+  opacity:0;
+  border-radius:50%;
+  mix-blend-mode:difference;
+  will-change:transform;
+}
+
+.visible{
+  opacity:1;
+}
+
+.dot{
+  width:7px;
+  height:7px;
+  background:#fff;
+  transition:opacity .25s ease;
+}
+
+.ring{
+  width:36px;
+  height:36px;
+  border:1.5px solid rgba(255,255,255,.8);
+  transition:
+    opacity .25s ease,
+    width .3s cubic-bezier(.2,.7,.2,1),
+    height .3s cubic-bezier(.2,.7,.2,1),
+    background .3s ease,
+    border-color .3s ease;
+}
+
+/* Nad odkazom, tlačidlom alebo poľom sa prstenec nafúkne. */
+.ringActive{
+  width:66px;
+  height:66px;
+  background:rgba(255,255,255,.16);
+  border-color:#fff;
+}
+
+.ringDown{
+  width:26px;
+  height:26px;
+}
+
+/* Natívny kurzor skryjeme len tam, kde ho nahrádzame — v poliach
+   ostáva, aby bolo vidieť, kam sa píše. */
+.hideNative,
+.hideNative *{
+  cursor:none !important;
+}
+.hideNative input,
+.hideNative textarea{
+  cursor:text !important;
+}

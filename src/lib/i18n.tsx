@@ -9,7 +9,8 @@ const dict = {
   nav_blog: { sk: "Blog", en: "Blog" },
   nav_about: { sk: "O nás", en: "About" },
   nav_contact: { sk: "Kontakt", en: "Contact" },
-  nav_cta: { sk: "Dopyt →", en: "Inquiry →" },
+  nav_cta: { sk: "Návrh do 24 h →", en: "Design in 24 h →" },
+  nav_cta_short: { sk: "Návrh →", en: "Design →" },
   hero_kicker: {
     sk: "// návrh webu na mieru do 24 h — zadarmo",
     en: "// a custom website design within 24 h — free",
@@ -18,8 +19,8 @@ const dict = {
   hero_l2: { sk: "hotový", en: "ready" },
   hero_l3: { sk: "zadarmo.", en: "for free." },
   hero_sub: {
-    sk: "Návrh webu na mieru do 24 hodín — zadarmo a postavený na tom, čo už robíš. Bez záväzkov, bez rizika. Ak sa ti nebude páčiť, nestojí ťa to nič.",
-    en: "A custom website design within 24 hours — free and built around what you already do. No commitment, no risk. If you don't like it, it costs you nothing.",
+    sk: "Návrh webu na mieru **do 24 hodín** — ++zadarmo++ a postavený na tom, čo už robíš. Bez záväzkov, bez rizika. Ak sa ti nebude páčiť, nestojí ťa to nič.",
+    en: "A custom website design **within 24 hours** — ++free++ and built around what you already do. No commitment, no risk. If you don't like it, it costs you nothing.",
   },
   hero_cta1: { sk: "Chcem návrh do 24 h →", en: "Get my design in 24 h →" },
   hero_cta2: { sk: "Naše služby", en: "Our services" },
@@ -73,6 +74,16 @@ const dict = {
     sk: "Digitálny marketing, ktorý prináša klientov. Rozhodujeme sa podľa dát, nie dohadov — výkonnostné kampane, brand aj obsah.",
     en: "Digital marketing that brings clients. We decide by data, not guesses — performance campaigns, brand and content.",
   },
+  band_kicker: { sk: "// bez záväzkov", en: "// no commitment" },
+  band_title: {
+    sk: "Návrh tvojho webu **do 24 hodín**. ++Zadarmo++.",
+    en: "Your website design **in 24 hours**. ++Free++.",
+  },
+  band_sub: {
+    sk: "Ukážeme ti návrh na mieru skôr, než sa rozhodneš čokoľvek zaplatiť. Nepáči sa ti? Nestojí ťa to nič.",
+    en: "We'll show you a custom design before you decide to pay for anything. Don't like it? It costs you nothing.",
+  },
+  band_cta: { sk: "Chcem návrh do 24 h →", en: "Get my design in 24 h →" },
   about_kicker: { sk: "(03) — Kto sme", en: "(03) — Who we are" },
   about_h1: { sk: "Nerobíme weby do šuplíka.", en: "We don’t build websites for the drawer." },
   about_h2: {
@@ -95,11 +106,11 @@ const dict = {
   contact_h1: { sk: "Objednaj si", en: "Order your" },
   contact_h2: { sk: "návrh zadarmo.", en: "free design." },
   contact_intro: {
-    sk: "Stačí meno, e-mail a jeden klik. Návrh webu na mieru ti pošleme do 24 hodín — zadarmo, bez faktúry a bez záväzkov.",
-    en: "Just your name, e-mail and one click. We'll send your custom website design within 24 hours — free, no invoice, no commitment.",
+    sk: "Stačí meno, e-mail a jeden klik. Návrh webu na mieru ti pošleme **do 24 hodín** — ++zadarmo++, bez faktúry a bez záväzkov.",
+    en: "Just your name, e-mail and one click. We'll send your custom website design **within 24 hours** — ++free++, no invoice, no commitment.",
   },
-  contact_perk1: { sk: "Bez záväzkov a bez rizika", en: "No commitment, no risk" },
-  contact_perk2: { sk: "Návrh na mieru do 24 hodín", en: "A custom design within 24 hours" },
+  contact_perk1: { sk: "++Zadarmo++, bez záväzkov a bez rizika", en: "++Free++, no commitment, no risk" },
+  contact_perk2: { sk: "Návrh na mieru **do 24 hodín**", en: "A custom design **within 24 hours**" },
   contact_perk3: { sk: "Nepáči sa ti? Nestojí ťa to nič.", en: "Don't like it? It costs you nothing." },
   msg_preset_label: { sk: "Nechce sa ti písať? Klikni:", en: "Don't feel like typing? Just click:" },
   msg_preset_1: {
@@ -129,8 +140,8 @@ const dict = {
   msg_chip_5: { sk: "Ešte neviem", en: "Not sure yet" },
   contact_more: { sk: "Nepovinné detaily (firma, rozpočet, príloha)", en: "Optional details (company, budget, attachment)" },
   contact_note: {
-    sk: "Vyplnenie ti zaberie pár sekúnd. Návrh webu na mieru ti pošleme do 24 hodín.",
-    en: "Takes a few seconds to fill in. We'll send your custom website design within 24 hours.",
+    sk: "Vyplnenie ti zaberie pár sekúnd. Návrh webu na mieru ti pošleme **do 24 hodín**.",
+    en: "Takes a few seconds to fill in. We'll send your custom website design **within 24 hours**.",
   },
   upload_label: {
     sk: "Priložiť súbor (logo, návrh, dokument)",

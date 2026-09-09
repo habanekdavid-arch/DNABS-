@@ -28,6 +28,7 @@
   position:absolute;
   inset:0;
   background:var(--hoverBg);
+  border-radius:var(--radius);
   transform:scaleX(0);
   transform-origin:left;
   transition:transform .45s cubic-bezier(.2,.7,.2,1);

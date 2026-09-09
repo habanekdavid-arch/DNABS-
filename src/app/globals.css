@@ -8,6 +8,9 @@
   --script:var(--font-allura),cursive;
   --mono:var(--font-space-mono),monospace;
   --serif:var(--font-instrument-serif),serif;
+  --radius:18px;
+  --radius-lg:28px;
+  --radius-pill:999px;
 }
 
 *{box-sizing:border-box;padding:0;margin:0;}
