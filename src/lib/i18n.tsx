@@ -18,9 +18,10 @@ const dict = {
   hero_l1: { sk: "Tvoj web,", en: "Your website," },
   hero_l2: { sk: "hotový", en: "ready" },
   hero_l3: { sk: "zadarmo.", en: "for free." },
+  hero_l4: { sk: "do 24 hodín", en: "in 24 hours" },
   hero_sub: {
-    sk: "Návrh webu na mieru **do 24 hodín** — ++zadarmo++ a postavený na tom, čo už robíš. Bez záväzkov, bez rizika. Ak sa ti nebude páčiť, nestojí ťa to nič.",
-    en: "A custom website design **within 24 hours** — ++free++ and built around what you already do. No commitment, no risk. If you don't like it, it costs you nothing.",
+    sk: "Návrh webu na mieru, postavený na tom, čo už robíš. Bez záväzkov, bez rizika. Ak sa ti nebude páčiť, nestojí ťa to nič.",
+    en: "A custom website design built around what you already do. No commitment, no risk. If you don't like it, it costs you nothing.",
   },
   hero_cta1: { sk: "Chcem návrh do 24 h →", en: "Get my design in 24 h →" },
   hero_cta2: { sk: "Naše služby", en: "Our services" },

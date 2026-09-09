@@ -8,9 +8,10 @@
 
 .ghostLogo{
   position:absolute;
-  left:clamp(-40px,-2vw,0px);
-  bottom:clamp(-40px,-3vh,0px);
-  width:min(860px,68vw);
+  right:clamp(-60px,-3vw,0px);
+  top:50%;
+  transform:translateY(-50%);
+  width:min(760px,58vw);
   height:auto;
   filter:brightness(0) invert(1);
   opacity:.13;

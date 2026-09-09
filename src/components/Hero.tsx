@@ -64,6 +64,9 @@ export default function Hero() {
           <span className={styles.h1Line}>
             {t("hero_l2")} <span className={styles.script}>{t("hero_l3")}</span>
           </span>
+          <span className={styles.h1Line}>
+            <span className={styles.h1Time}>{t("hero_l4")}</span>
+          </span>
         </h1>
         <p className={styles.sub}>
           <Emph text={t("hero_sub")} />

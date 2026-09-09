@@ -41,7 +41,7 @@ a,button,summary{-webkit-tap-highlight-color:transparent;}
 }
 
 /* Kotvy nech nekončia tesne pod navigáciou. */
-section[id]{scroll-margin-top:24px;}
+section[id],main[id]{scroll-margin-top:32px;}
 
 ::selection{background:var(--accent);color:#0a0a0a;}
 
