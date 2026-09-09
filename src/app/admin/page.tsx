@@ -16,7 +16,6 @@ type Lead = {
   company: string | null;
   project_type: string | null;
   budget: string | null;
-  timeline: string | null;
   message: string | null;
   source: string | null;
   status: string;
@@ -63,7 +62,6 @@ export default async function AdminPage() {
                 <th>Firma</th>
                 <th>Typ</th>
                 <th>Rozpočet</th>
-                <th>Termín</th>
                 <th>Správa</th>
                 <th>Príloha</th>
                 <th>Zdroj</th>
@@ -85,7 +83,6 @@ export default async function AdminPage() {
                   <td>{lead.company || "—"}</td>
                   <td>{lead.project_type || "—"}</td>
                   <td>{lead.budget || "—"}</td>
-                  <td>{lead.timeline || "—"}</td>
                   <td className={styles.message}>{lead.message || "—"}</td>
                   <td>
                     {lead.attachment_url ? (

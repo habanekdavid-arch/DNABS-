@@ -100,10 +100,12 @@ export default async function LeadDetailPage({
             <label>Rozpočet</label>
             <div>{lead.budget || "—"}</div>
           </div>
-          <div className={styles.field}>
-            <label>Termín</label>
-            <div>{lead.timeline || "—"}</div>
-          </div>
+          {lead.timeline && (
+            <div className={styles.field}>
+              <label>Termín</label>
+              <div>{lead.timeline}</div>
+            </div>
+          )}
           <div className={styles.field}>
             <label>Zdroj</label>
             <div>{lead.source || "—"}</div>

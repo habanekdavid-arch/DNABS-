@@ -20,16 +20,16 @@ export default function ObchodnePodmienkyPage() {
           povinnosti medzi <strong>DNABS</strong> (ďalej len „DNABS“ alebo „poskytovateľ“),
           dostupným na webe dnabs.online a kontaktom{" "}
           <a href="mailto:contact.dnabs@gmail.com">contact.dnabs@gmail.com</a>, a osobou, ktorá si
-          prostredníctvom tohto webu objedná bezplatný náhľad webu alebo inú službu (ďalej len
+          prostredníctvom tohto webu objedná bezplatný návrh webu alebo inú službu (ďalej len
           „klient“).
         </p>
 
-        <h2>1. Bezplatný náhľad webu</h2>
+        <h2>1. Bezplatný návrh webu</h2>
         <p>
           Vyplnením a odoslaním kontaktného formulára na webe dnabs.online klient objednáva
-          bezplatné vypracovanie úvodného náhľadu webovej stránky. Táto objednávka je nezáväzná a
+          bezplatné vypracovanie úvodného návrhu webovej stránky na mieru. Táto objednávka je nezáväzná a
           bezplatná — jej odoslaním klientovi nevzniká žiadna platobná povinnosť ani zmluva o
-          dielo. DNABS sa zaväzuje náhľad pripraviť a odpovedať klientovi spravidla do 24 hodín
+          dielo. DNABS sa zaväzuje návrh pripraviť a odpovedať klientovi spravidla do 24 hodín
           od odoslania formulára.
         </p>
 
