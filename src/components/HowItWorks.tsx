@@ -20,7 +20,7 @@ function FormIcon() {
     <svg viewBox="0 0 24 24" aria-hidden {...svg}>
       <rect x="3.2" y="2.5" width="13" height="18" rx="2.4" />
       <path d="M6.6 7.2h6.2M6.6 11h6.2M6.6 14.8h3.2" />
-      <path d="M14.6 14.1l6.6 2.7-2.9 1-1.1 2.9z" className={styles.iconCursor} />
+      <path d="M17.2 15.9l6.4 2.6-2.8 1-1 2.8z" className={styles.iconCursor} />
     </svg>
   );
 }
@@ -30,7 +30,7 @@ function MailIcon() {
     <svg viewBox="0 0 24 24" aria-hidden {...svg}>
       <rect x="2.4" y="5.2" width="19.2" height="14" rx="2.4" />
       <path d="M3.2 7l8.8 6 8.8-6" />
-      <path d="M18.4 2.4l.7 1.7 1.7.7-1.7.7-.7 1.7-.7-1.7-1.7-.7 1.7-.7z" className={styles.iconSpark} />
+      <path d="M20.4 0.6l.8 1.9 1.9.8-1.9.8-.8 1.9-.8-1.9-1.9-.8 1.9-.8z" className={styles.iconSpark} />
     </svg>
   );
 }
@@ -53,7 +53,7 @@ function PayIcon() {
       <rect x="2.4" y="4.6" width="19.2" height="13" rx="2.4" />
       <path d="M2.4 9.2h19.2" />
       <path d="M6 13.6h3.4" />
-      <path d="M13.4 18.6l2.4 2.4 4.8-5" className={styles.iconCheck} />
+      <path d="M15 20.4l2.4 2.4 4.8-5" className={styles.iconCheck} />
     </svg>
   );
 }
@@ -62,7 +62,11 @@ const STEPS: {
   titleKey: DictKey;
   descKey: DictKey;
   noteKey: DictKey;
+  /** Značková farba — číslo, ukazovateľ, štítok, závoj. */
   color: string;
+  /** Výplň dlaždice s ikonou; tmavší odtieň, nech je biela ikona vidieť. */
+  tile: string;
+  /** Text na štítku vo výraznej farbe. */
   ink: string;
   icon: ReactNode;
 }[] = [
@@ -71,7 +75,8 @@ const STEPS: {
     descKey: "how1_d",
     noteKey: "how1_note",
     color: "var(--accent)",
-    ink: "#fff",
+    tile: "#e64f00",
+    ink: "#0a0a0a",
     icon: <FormIcon />,
   },
   {
@@ -79,6 +84,7 @@ const STEPS: {
     descKey: "how2_d",
     noteKey: "how2_note",
     color: "var(--purple)",
+    tile: "#6637ed",
     ink: "#fff",
     icon: <MailIcon />,
   },
@@ -87,6 +93,7 @@ const STEPS: {
     descKey: "how3_d",
     noteKey: "how3_note",
     color: "var(--cyan)",
+    tile: "#0090a8",
     ink: "#0a0a0a",
     icon: <TalkIcon />,
   },
@@ -95,6 +102,7 @@ const STEPS: {
     descKey: "how4_d",
     noteKey: "how4_note",
     color: "var(--green)",
+    tile: "#12a03f",
     ink: "#0a0a0a",
     icon: <PayIcon />,
   },
@@ -123,6 +131,7 @@ export default function HowItWorks() {
               {
                 transitionDelay: `${i * 90}ms`,
                 "--c": step.color,
+                "--tile": step.tile,
                 "--ink": step.ink,
               } as React.CSSProperties
             }

@@ -133,8 +133,8 @@
   overflow:visible;
 }
 .step:hover .icon{
-  background:var(--c);
-  color:var(--ink);
+  background:var(--tile);
+  color:#fff;
   border-radius:50%;
   transform:rotate(-8deg) scale(1.08);
 }
@@ -283,5 +283,43 @@
 @media (max-width:1000px){
   .steps::before{
     display:none;
+  }
+}
+
+@media (hover:none){
+  .step{
+    background:#fff;
+    box-shadow:0 6px 18px rgba(10,10,10,.07);
+  }
+  .step::after{
+    transform:translateY(0);
+  }
+  .icon{
+    background:var(--tile);
+    color:#fff;
+    border-radius:50%;
+  }
+  .num{
+    opacity:1;
+  }
+  .fill{
+    width:100%;
+  }
+  .note{
+    background:var(--c);
+    color:var(--ink);
+  }
+  .iconSpark,
+  .iconCheck{
+    opacity:1;
+  }
+  .iconSpark{
+    transform:scale(1);
+  }
+  .iconCursor{
+    transform:translate(1px,1px);
+  }
+  .iconBubble{
+    transform:translateX(1px);
   }
 }
