@@ -20,7 +20,7 @@ function FormIcon() {
     <svg viewBox="0 0 24 24" aria-hidden {...svg}>
       <rect x="3.2" y="2.5" width="13" height="18" rx="2.4" />
       <path d="M6.6 7.2h6.2M6.6 11h6.2M6.6 14.8h3.2" />
-      <path d="M17.2 15.9l6.4 2.6-2.8 1-1 2.8z" className={styles.iconCursor} />
+      <path d="M18.8 17.5l6.4 2.6-2.8 1-1 2.8z" className={styles.iconCursor} />
     </svg>
   );
 }
@@ -30,7 +30,7 @@ function MailIcon() {
     <svg viewBox="0 0 24 24" aria-hidden {...svg}>
       <rect x="2.4" y="5.2" width="19.2" height="14" rx="2.4" />
       <path d="M3.2 7l8.8 6 8.8-6" />
-      <path d="M20.4 0.6l.8 1.9 1.9.8-1.9.8-.8 1.9-.8-1.9-1.9-.8 1.9-.8z" className={styles.iconSpark} />
+      <path d="M21.8 -0.8l.8 1.9 1.9.8-1.9.8-.8 1.9-.8-1.9-1.9-.8 1.9-.8z" className={styles.iconSpark} />
     </svg>
   );
 }
@@ -38,11 +38,12 @@ function MailIcon() {
 function TalkIcon() {
   return (
     <svg viewBox="0 0 24 24" aria-hidden {...svg}>
-      <path d="M2.6 6.4a2.4 2.4 0 012.4-2.4h8.4a2.4 2.4 0 012.4 2.4v4.4a2.4 2.4 0 01-2.4 2.4H7.4l-3.6 2.8v-2.8a2.4 2.4 0 01-1.2-2.1z" />
-      <path
-        d="M18 9.2h1.4a2.4 2.4 0 012.4 2.4v4.4a2.4 2.4 0 01-1.2 2.1v2.8l-3.6-2.8h-5.2"
-        className={styles.iconBubble}
-      />
+      <rect x="1.8" y="3.2" width="12.4" height="9" rx="2.6" />
+      <path d="M5.6 12.2v3.4l3.6-3.4" />
+      <g className={styles.iconBubble}>
+        <rect x="11.6" y="12.8" width="10.6" height="7.6" rx="2.4" />
+        <path d="M19.4 20.4v3l-3.2-3" />
+      </g>
     </svg>
   );
 }
@@ -53,7 +54,7 @@ function PayIcon() {
       <rect x="2.4" y="4.6" width="19.2" height="13" rx="2.4" />
       <path d="M2.4 9.2h19.2" />
       <path d="M6 13.6h3.4" />
-      <path d="M15 20.4l2.4 2.4 4.8-5" className={styles.iconCheck} />
+      <path d="M16.4 21.8l2.4 2.4 4.8-5" className={styles.iconCheck} />
     </svg>
   );
 }
