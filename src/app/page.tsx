@@ -5,7 +5,6 @@ import Realizacia from "@/components/Realizacia";
 import ServicesMarquee from "@/components/ServicesMarquee";
 import Services from "@/components/Services";
 import CtaBand from "@/components/CtaBand";
-import Niches from "@/components/Niches";
 import Referencie from "@/components/Referencie";
 import About from "@/components/About";
 import HomeFaq from "@/components/HomeFaq";
@@ -21,7 +20,6 @@ export default function Home() {
         <Realizacia />
         <ServicesMarquee />
         <Services />
-        <Niches />
         <CtaBand />
         <About />
         <HomeFaq />
