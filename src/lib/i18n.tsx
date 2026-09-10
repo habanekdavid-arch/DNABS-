@@ -159,33 +159,14 @@ const dict = {
   contact_perk1: { sk: "Zadarmo, bez záväzkov a bez rizika", en: "Free, no commitment, no risk" },
   contact_perk2: { sk: "Návrh na mieru do 24 hodín", en: "A custom design within 24 hours" },
   contact_perk3: { sk: "Nepáči sa ti? Nestojí ťa to nič.", en: "Don't like it? It costs you nothing." },
-  msg_preset_label: { sk: "Nechce sa ti písať? Klikni:", en: "Don't feel like typing? Just click:" },
-  msg_preset_1: {
-    sk: "Zatiaľ len začínam — mám iba logo a žiadny funkčný web. Chcel by som sa opýtať, či mi viete pomôcť postaviť ho od základu.",
-    en: "I'm just starting out — I only have a logo and no working website yet. I'd like to ask if you can help me build one from scratch.",
+  contact_site_hint: {
+    sk: "Odkaz na váš web alebo profil. Ak ešte nemáte, napíšte „nemám“.",
+    en: "A link to your site or profile. If you don't have one yet, write “none”.",
   },
-  msg_preset_2: {
-    sk: "Mám starý web, ktorý už nespĺňa moje predstavy. Potrebujem ho kompletne prerobiť.",
-    en: "I have an old website that no longer meets my needs. I need it completely redone.",
+  contact_more: {
+    sk: "Nepovinné — priložiť logo alebo podklady",
+    en: "Optional — attach a logo or materials",
   },
-  msg_preset_3: {
-    sk: "Chcem e-shop, cez ktorý budem môcť predávať produkty alebo služby online.",
-    en: "I want an e-shop where I can sell products or services online.",
-  },
-  msg_preset_4: {
-    sk: "Potrebujem hlavne viac zákazníkov cez Google a sociálne siete — zaujíma ma marketing a SEO.",
-    en: "I mainly need more customers through Google and social media — I'm interested in marketing and SEO.",
-  },
-  msg_preset_5: {
-    sk: "Ešte si nie som istý/á, čo presne potrebujem. Chcel by som sa len porozprávať o možnostiach.",
-    en: "I'm not sure yet exactly what I need. I'd just like to talk through the options.",
-  },
-  msg_chip_1: { sk: "Začínam od nuly", en: "Starting from scratch" },
-  msg_chip_2: { sk: "Mám starý web", en: "I have an old site" },
-  msg_chip_3: { sk: "Chcem e-shop", en: "I want an e-shop" },
-  msg_chip_4: { sk: "Viac zákazníkov", en: "More customers" },
-  msg_chip_5: { sk: "Ešte neviem", en: "Not sure yet" },
-  contact_more: { sk: "Nepovinné detaily (firma, rozpočet, príloha)", en: "Optional details (company, budget, attachment)" },
   contact_note: {
     sk: "Vyplnenie ti zaberie pár sekúnd. Návrh webu na mieru ti pošleme do 24 hodín.",
     en: "Takes a few seconds to fill in. We'll send your custom website design within 24 hours.",
@@ -210,13 +191,16 @@ const dict = {
   opt_select: { sk: "Vyber možnosť", en: "Choose an option" },
   opt_type_web: { sk: "Web", en: "Website" },
   opt_type_eshop: { sk: "E-shop", en: "E-shop" },
+  opt_type_redesign: { sk: "Redizajn", en: "Redesign" },
   opt_type_app: { sk: "Aplikácia", en: "App" },
   opt_type_marketing: { sk: "Marketing", en: "Marketing" },
-  opt_budget_1: { sk: "do 500 €", en: "Up to €500" },
-  opt_budget_2: { sk: "500 – 1500 €", en: "€500 – €1,500" },
-  opt_budget_3: { sk: "1500 – 3000 €", en: "€1,500 – €3,000" },
-  opt_budget_4: { sk: "3000+ €", en: "€3,000+" },
-  opt_budget_5: { sk: "Ešte neviem, poraďte mi", en: "Not sure yet, advise me" },
+  opt_budget_1: { sk: "do 300 €", en: "Up to €300" },
+  opt_budget_2: { sk: "300 – 800 €", en: "€300 – €800" },
+  opt_budget_3: { sk: "800 – 2 000 €", en: "€800 – €2,000" },
+  opt_budget_4: { sk: "2 000 € a viac", en: "€2,000 and up" },
+  opt_when_1: { sk: "Čo najskôr", en: "As soon as possible" },
+  opt_when_2: { sk: "Do 1 – 2 mesiacov", en: "Within 1 – 2 months" },
+  opt_when_3: { sk: "Len zisťujem", en: "Just exploring" },
   contact_label_email: { sk: "E-mail", en: "E-mail" },
   contact_label_phone: { sk: "Telefón", en: "Phone" },
   contact_label_location: { sk: "Lokalita", en: "Location" },
@@ -230,13 +214,18 @@ const dict = {
 } as const;
 
 const phDict = {
-  ph_name: { sk: "Meno *", en: "Name *" },
+  ph_name: { sk: "Meno a priezvisko *", en: "Full name *" },
+  ph_company: { sk: "Názov firmy / prevádzky *", en: "Company / business name *" },
   ph_email: { sk: "E-mail *", en: "E-mail *" },
-  ph_company: { sk: "Spoločnosť (nepovinné)", en: "Company (optional)" },
-  ph_phone: { sk: "Telefónne číslo (nepovinné)", en: "Phone number (optional)" },
-  ph_msg: { sk: "O čom je tvoj projekt? (nepovinné)", en: "What is your project about? (optional)" },
+  ph_phone: { sk: "Telefón *", en: "Phone *" },
+  ph_site: { sk: "Web alebo Instagram *", en: "Website or Instagram *" },
   ph_project_type: { sk: "Typ projektu *", en: "Project type *" },
-  ph_budget: { sk: "Rozpočet (nepovinné)", en: "Budget (optional)" },
+  ph_budget: { sk: "Rozpočet *", en: "Budget *" },
+  ph_when: { sk: "Kedy to riešite", en: "When are you tackling this" },
+  ph_msg: {
+    sk: "Čo presne potrebujete? Aspoň pár viet *",
+    en: "What exactly do you need? A few sentences at least *",
+  },
 } as const;
 
 export type DictKey = keyof typeof dict;

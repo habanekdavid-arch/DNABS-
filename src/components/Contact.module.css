@@ -160,63 +160,160 @@ select.field:not(:has(option[value=""]:checked)):focus{
   overflow:hidden;
 }
 
-.presetWrap{
-  padding:18px 22px;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Pole s vysvetlivkou, ktorá naskočí až po kliknutí doň. */
+.fieldGroup{
+  display:flex;
+  flex-direction:column;
   border-bottom:1px solid rgba(255,255,255,.12);
-  transition:background .25s ease,border-color .25s ease;
+}
+.fieldGroup .field{
+  border-bottom:0;
 }
 
-/* Keď je správa vyplnená, blok s rýchlymi odpoveďami zbelie ako polia. */
-.presetWrapFilled{
+.fieldHint{
+  display:grid;
+  grid-template-rows:0fr;
+  margin:0;
+  padding:0 22px;
+  font-family:var(--mono);
+  font-size:11px;
+  line-height:1.5;
+  opacity:0;
+  transition:grid-template-rows .3s cubic-bezier(.2,.7,.2,1),opacity .3s ease,padding .3s ease;
+}
+.fieldHint > span{
+  overflow:hidden;
+}
+.fieldGroup:focus-within .fieldHint{
+  grid-template-rows:1fr;
+  opacity:.5;
+  padding-bottom:14px;
+}
+
+/* Keď je pole vyplnené, zbelie celý blok aj s vysvetlivkou. */
+.fieldGroup:has(input:not(:placeholder-shown)){
   background:#fff;
   border-bottom-color:rgba(10,10,10,.12);
 }
-.presetWrapFilled .presetLabel{
-  color:#0a0a0a;
-  opacity:.5;
-}
-.presetWrapFilled .presetChip{
-  color:#0a0a0a;
-  background:rgba(10,10,10,.07);
-}
-.presetWrapFilled .presetChip:hover{
-  background:var(--accent);
-  border-color:var(--accent);
+.fieldGroup:has(input:not(:placeholder-shown)) .fieldHint{
   color:#0a0a0a;
 }
 
-.presetLabel{
+/* Rozkliknuteľný výber — hlavička sa správa ako pole, panel sa vysunie pod ňou. */
+.picker{
+  border-bottom:1px solid rgba(255,255,255,.12);
+  transition:background .25s ease;
+}
+.picker[data-filled]{
+  background:#fff;
+  border-bottom-color:rgba(10,10,10,.12);
+}
+
+.pickerHead{
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  background:none;
+  border:0;
+  cursor:pointer;
+  text-align:left;
+  padding:20px 22px;
   font-family:var(--mono);
-  font-size:11px;
-  text-transform:uppercase;
-  letter-spacing:.05em;
-  opacity:.5;
-  margin-bottom:10px;
+  font-size:15px;
+  color:inherit;
+  transition:background .2s ease;
+}
+.picker:not([data-filled]) .pickerHead:hover{
+  background:rgba(255,255,255,.04);
 }
 
-.presetRow{
+.pickerLabel{
+  color:rgba(255,255,255,.35);
+}
+
+.pickerValue{
+  color:#0a0a0a;
+  font-weight:700;
+}
+
+.pickerIcon{
+  flex-shrink:0;
+  font-size:18px;
+  line-height:1;
+  color:var(--accent);
+  transition:transform .3s cubic-bezier(.2,.7,.2,1);
+}
+.pickerIconOpen{
+  transform:rotate(45deg);
+}
+
+.pickerPanel{
+  display:grid;
+  grid-template-rows:0fr;
+  transition:grid-template-rows .32s cubic-bezier(.2,.7,.2,1);
+}
+.pickerPanelOpen{
+  grid-template-rows:1fr;
+}
+
+.pickerPanelInner{
+  overflow:hidden;
+}
+
+.pickerOptions{
   display:flex;
   flex-wrap:wrap;
   gap:8px;
+  padding:0 22px 20px;
 }
 
-.presetChip{
+.pickerOption{
   font-family:var(--mono);
-  font-weight:700;
   font-size:12px;
+  font-weight:700;
   color:#fff;
   background:rgba(255,255,255,.09);
   border:1px solid transparent;
-  border-radius:999px;
-  padding:8px 14px;
+  border-radius:var(--radius-pill);
+  padding:10px 16px;
   cursor:pointer;
-  transition:.2s;
-  text-align:left;
-  max-width:100%;
+  transition:background .2s ease,color .2s ease,transform .25s cubic-bezier(.2,.7,.2,1);
 }
-.presetChip:hover{
+.pickerOption:hover{
   background:var(--accent);
-  border-color:var(--accent);
+  color:#0a0a0a;
+  transform:translateY(-2px);
+}
+.picker[data-filled] .pickerOption{
+  color:#0a0a0a;
+  background:rgba(10,10,10,.07);
+}
+.picker[data-filled] .pickerOption:hover{
+  background:var(--accent);
+}
+
+.pickerOptionActive{
+  background:var(--accent);
+  color:#0a0a0a;
+}
+.picker[data-filled] .pickerOptionActive{
+  background:var(--accent);
   color:#0a0a0a;
 }
 
