@@ -107,11 +107,11 @@ const dict = {
   contact_h1: { sk: "Objednaj si", en: "Order your" },
   contact_h2: { sk: "návrh zadarmo.", en: "free design." },
   contact_intro: {
-    sk: "Stačí meno, e-mail a jeden klik. Návrh webu na mieru ti pošleme **do 24 hodín** — ++zadarmo++, bez faktúry a bez záväzkov.",
-    en: "Just your name, e-mail and one click. We'll send your custom website design **within 24 hours** — ++free++, no invoice, no commitment.",
+    sk: "Stačí meno, e-mail a jeden klik. Návrh webu na mieru ti pošleme **do 24 hodín** — zadarmo, bez faktúry a bez záväzkov.",
+    en: "Just your name, e-mail and one click. We'll send your custom website design **within 24 hours** — free, no invoice, no commitment.",
   },
-  contact_perk1: { sk: "++Zadarmo++, bez záväzkov a bez rizika", en: "++Free++, no commitment, no risk" },
-  contact_perk2: { sk: "Návrh na mieru **do 24 hodín**", en: "A custom design **within 24 hours**" },
+  contact_perk1: { sk: "Zadarmo, bez záväzkov a bez rizika", en: "Free, no commitment, no risk" },
+  contact_perk2: { sk: "Návrh na mieru do 24 hodín", en: "A custom design within 24 hours" },
   contact_perk3: { sk: "Nepáči sa ti? Nestojí ťa to nič.", en: "Don't like it? It costs you nothing." },
   msg_preset_label: { sk: "Nechce sa ti písať? Klikni:", en: "Don't feel like typing? Just click:" },
   msg_preset_1: {
@@ -141,8 +141,8 @@ const dict = {
   msg_chip_5: { sk: "Ešte neviem", en: "Not sure yet" },
   contact_more: { sk: "Nepovinné detaily (firma, rozpočet, príloha)", en: "Optional details (company, budget, attachment)" },
   contact_note: {
-    sk: "Vyplnenie ti zaberie pár sekúnd. Návrh webu na mieru ti pošleme **do 24 hodín**.",
-    en: "Takes a few seconds to fill in. We'll send your custom website design **within 24 hours**.",
+    sk: "Vyplnenie ti zaberie pár sekúnd. Návrh webu na mieru ti pošleme do 24 hodín.",
+    en: "Takes a few seconds to fill in. We'll send your custom website design within 24 hours.",
   },
   upload_label: {
     sk: "Priložiť súbor (logo, návrh, dokument)",
@@ -155,7 +155,7 @@ const dict = {
     sk: "Nahrávanie zlyhalo, skús to znova alebo menší súbor.",
     en: "Upload failed, try again or a smaller file.",
   },
-  contact_submit: { sk: "Objednať návrh do 24 h →", en: "Order my design in 24 h →" },
+  contact_submit: { sk: "Objednať zadarmo návrh do 24 h →", en: "Order my free design in 24 h →" },
   contact_sending: { sk: "Odosielam objednávku…", en: "Sending your order…" },
   contact_error: {
     sk: "Niečo sa pokazilo, skús to prosím znova alebo napíš priamo na e-mail.",

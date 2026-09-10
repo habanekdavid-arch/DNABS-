@@ -273,9 +273,6 @@ export default function Contact() {
             className={styles.submit}
             data-cursor="cta"
           >
-            {status !== "sending" && (
-              <span className={styles.submitBadge}>{t("hero_cta_badge")}</span>
-            )}
             {status === "sending" ? t("contact_sending") : t("contact_submit")}
           </button>
           <p className={styles.formNote}>
