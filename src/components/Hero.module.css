@@ -113,10 +113,10 @@
 
 .laptopWrap{
   position:absolute;
-  top:60%;
-  right:clamp(40px,6vw,130px);
+  top:52%;
+  right:clamp(28px,5vw,120px);
   transform:translateY(-50%);
-  width:clamp(280px,32vw,560px);
+  width:min(clamp(260px,32vw,560px),58vh);
   aspect-ratio:2400/2186;
   z-index:3;
   animation:dnabs-float 9s ease-in-out infinite;
@@ -249,7 +249,7 @@
 .headline{
   position:absolute;
   left:clamp(20px,4vw,48px);
-  top:clamp(120px,22vh,220px);
+  top:clamp(92px,15vh,180px);
   z-index:5;
   max-width:min(720px,72vw);
 }
@@ -267,7 +267,7 @@
   margin:0;
   font-family:var(--disp);
   font-weight:800;
-  font-size:clamp(46px,9vw,156px);
+  font-size:clamp(44px,min(9vw,14.5vh),150px);
   line-height:.97;
   letter-spacing:-.015em;
   text-transform:uppercase;
@@ -308,7 +308,7 @@
   font-size:clamp(15px,1.4vw,19px);
   line-height:1.65;
   max-width:430px;
-  margin:clamp(28px,4vh,42px) 0 0;
+  margin:clamp(18px,2.8vh,34px) 0 0;
   color:#1a1a1a;
 }
 
@@ -316,7 +316,7 @@
   display:flex;
   flex-wrap:wrap;
   gap:12px;
-  margin-top:clamp(22px,3.5vh,34px);
+  margin-top:clamp(16px,2.4vh,30px);
 }
 
 .ctaPrimary,.ctaSecondary{
@@ -374,6 +374,22 @@
   transform:translateY(-2px);
 }
 
+/* Na nízkych oknách sa zvislý popis vľavo nezmestí na jeden riadok. */
+@media (max-height:700px){
+  .coordMarker{display:none;}
+}
+
+@media (min-width:861px) and (max-height:720px){
+  .ctaPrimary,.ctaSecondary{
+    padding:14px 24px;
+    font-size:14px;
+  }
+  .sub{
+    font-size:15px;
+    line-height:1.5;
+  }
+}
+
 @media (max-width: 860px){
   .hero{min-height:auto;padding-bottom:64px;}
   .laptopWrap{
@@ -383,17 +399,25 @@
     right:0;
     top:auto;
     transform:none;
-    width:min(420px,88vw);
-    margin:120px auto 0;
-    animation:dnabs-float-mobile 7s ease-in-out infinite;
+    width:min(330px,72vw);
+    margin:76px auto 0;
+    animation:dnabs-float-mobile 9s ease-in-out infinite;
   }
   .headline{
     position:relative;
     left:auto;top:auto;
     max-width:none;
-    padding:32px clamp(20px,6vw,48px) 0;
+    padding:18px clamp(20px,6vw,48px) 0;
   }
   .coordMarker,.figMarker,.renderTag,.barPurple,.barCyan,.barAccent,.barPurple2,.barGreen,.sysTag,.hexTag,.dot,.dotCyan,.versionTag,.bracketTag{
     display:none;
+  }
+}
+
+/* Tablety majú dosť miesta, nech notebook nepôsobí stratene. */
+@media (min-width:600px) and (max-width:860px){
+  .laptopWrap{
+    width:min(420px,55vw);
+    margin:60px auto 0;
   }
 }
