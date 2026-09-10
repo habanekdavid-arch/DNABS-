@@ -2,6 +2,8 @@ type Bilingual = { sk: string; en: string };
 
 export type Niche = {
   slug: string;
+  // Krátky názov odboru pre dlaždice na domovskej stránke.
+  label: Bilingual;
   headline: Bilingual;
   copy: Bilingual;
   bullets: Bilingual[];
@@ -14,6 +16,7 @@ export type Niche = {
 export const niches: Niche[] = [
   {
     slug: "svadobne-salony",
+    label: { sk: "Svadobné salóny", en: "Wedding salons" },
     headline: {
       sk: "Web pre svadobný salón, ktorý zaplní kalendár skúšok",
       en: "A wedding salon website that fills up your fitting calendar",
@@ -72,6 +75,7 @@ export const niches: Niche[] = [
   },
   {
     slug: "restauracie",
+    label: { sk: "Reštaurácie", en: "Restaurants" },
     headline: {
       sk: "Web pre reštauráciu, ktorý priláka hostí namiesto tabuľky v PDF",
       en: "A restaurant website that brings in guests instead of a PDF menu",
@@ -130,6 +134,7 @@ export const niches: Niche[] = [
   },
   {
     slug: "autoservisy",
+    label: { sk: "Autoservisy", en: "Auto service shops" },
     headline: {
       sk: "Web pre autoservis, ktorý dvíha telefón namiesto konkurencie",
       en: "An auto service website that gets the phone ringing instead of your competitor's",

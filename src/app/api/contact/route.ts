@@ -55,6 +55,38 @@ export async function POST(request: Request) {
     auth: { user: gmailUser, pass: gmailAppPassword },
   });
 
+  // Potvrdenie klientovi — nech vie, že dopyt dorazil, a má náš kontakt v schránke.
+  const looksLikeEmail = /^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/.test(email.trim());
+  if (looksLikeEmail) {
+    const firstName = String(name).trim().split(/\s+/)[0];
+    try {
+      await transporter.sendMail({
+        from: `"DNABS" <${gmailUser}>`,
+        to: email.trim(),
+        replyTo: CONTACT_EMAIL,
+        subject: "Máme tvoj dopyt — návrh ti pošleme do 24 hodín",
+        text: [
+          `Ahoj ${firstName},`,
+          "",
+          "ďakujeme za dopyt. Návrh tvojho webu na mieru pripravíme a pošleme ti ho do 24 hodín — zadarmo a nezáväzne.",
+          "",
+          "Ako to bude ďalej vyzerať:",
+          "1. Do 24 hodín ti na tento e-mail príde návrh.",
+          "2. Prejdeme si ho spolu a povieš, čo zmeniť alebo doplniť.",
+          "3. Až keď ti návrh sadne, dohodneme cenu a spustenie.",
+          "",
+          "Ak si chceš čokoľvek doplniť, stačí odpovedať na tento e-mail alebo zavolať na +421 949 390 797.",
+          "",
+          "DNABS",
+          "contact.dnabs@gmail.com · https://dnabs.online",
+        ].join("\n"),
+      });
+    } catch (err) {
+      // Potvrdenie je príjemnosť navyše — dopyt je uložený aj bez neho.
+      console.error("contact route confirmation mail failed:", err);
+    }
+  }
+
   try {
     await transporter.sendMail({
       from: `"DNABS web" <${gmailUser}>`,

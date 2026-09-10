@@ -23,6 +23,7 @@ export default function Footer() {
         <div className={styles.cols}>
           <div className={styles.col}>
             <div className={styles.colTitle}>{t("footer_nav")}</div>
+            <Link href="/#ako-to-funguje" className={styles.colLink}>{t("nav_how")}</Link>
             <Link href="/#sluzby" className={styles.colLink}>{t("nav_services")}</Link>
             <Link href="/o-nas" className={styles.colLink}>{t("nav_blog")}</Link>
             <Link href="/#o-nas" className={styles.colLink}>{t("nav_about")}</Link>

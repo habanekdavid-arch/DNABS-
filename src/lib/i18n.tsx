@@ -5,6 +5,7 @@ import { createContext, useContext, useState, type ReactNode } from "react";
 export type Lang = "sk" | "en";
 
 const dict = {
+  nav_how: { sk: "Ako to funguje", en: "How it works" },
   nav_services: { sk: "Služby", en: "Services" },
   nav_blog: { sk: "Blog", en: "Blog" },
   nav_about: { sk: "O nás", en: "About" },
@@ -46,7 +47,51 @@ const dict = {
   faq_kicker: { sk: "FAQ", en: "FAQ" },
   faq_title: { sk: "Časté otázky", en: "Frequently asked questions" },
   faq_count_label: { sk: "otázok, na ktoré sa pýtajú najčastejšie", en: "questions we get asked the most" },
-  realizacia_kicker: { sk: "(01) — Realizácia", en: "(01) — Case study" },
+  how_kicker: { sk: "(01) — Ako to funguje", en: "(01) — How it works" },
+  how_title: { sk: "Ako to funguje", en: "How it works" },
+  how_intro: {
+    sk: "Od formulára po hotový web — štyri kroky a žiadne prekvapenia. Platíš až vtedy, keď vieš, čo dostaneš.",
+    en: "From the form to a finished website — four steps, no surprises. You only pay once you know exactly what you're getting.",
+  },
+  how1_t: { sk: "Vyplníš formulár", en: "Fill in the form" },
+  how1_d: {
+    sk: "Meno, e-mail a pár klikov. Zaberie to pár sekúnd, nič neplatíš a k ničomu sa nezaväzuješ.",
+    en: "Your name, e-mail and a couple of clicks. It takes seconds, costs nothing and commits you to nothing.",
+  },
+  how1_note: { sk: "pár sekúnd", en: "a few seconds" },
+  how2_t: { sk: "Príde ti návrh", en: "Your design arrives" },
+  how2_d: {
+    sk: "Pripravíme návrh tvojho webu na mieru a pošleme ti ho e-mailom alebo správou. Pozrieš si ho v pokoji, kedy chceš.",
+    en: "We put together a custom design for your website and send it over by e-mail or message. You look at it whenever it suits you.",
+  },
+  how2_note: { sk: "do 24 hodín", en: "within 24 hours" },
+  how3_t: { sk: "Prejdeme si ho spolu", en: "We go through it together" },
+  how3_d: {
+    sk: "Krátka konzultácia — povieš, čo zmeniť, čo doplniť a čo od webu naozaj potrebuješ. Návrh podľa toho upravíme.",
+    en: "A short call — you tell us what to change, what to add and what you actually need from the site. We adjust the design accordingly.",
+  },
+  how3_note: { sk: "telefón alebo online", en: "call or online" },
+  how4_t: { sk: "Platba a spustenie", en: "Payment and launch" },
+  how4_d: {
+    sk: "Až keď ti návrh sadne, dohodneme cenu a spôsob platby — vopred a bez skrytých položiek. Potom web dokončíme, nasadíme na doménu a odovzdáme.",
+    en: "Only once the design works for you do we agree on the price and how you'll pay — upfront, with nothing hidden. Then we finish the site, deploy it to your domain and hand it over.",
+  },
+  how4_note: { sk: "až po tvojom odsúhlasení", en: "only after you approve" },
+  how_cta: { sk: "Začať prvým krokom →", en: "Start with step one →" },
+  niches_kicker: { sk: "// pre koho staviame", en: "// who we build for" },
+  niches_title: { sk: "Weby pre tvoj odbor", en: "Websites for your field" },
+  niches_intro: {
+    sk: "Vieme, čo od webu potrebuje konkrétny odbor. Pozri sa, ako by mohol vyzerať ten tvoj.",
+    en: "We know what a given field actually needs from a website. Take a look at what yours could be.",
+  },
+  niches_link: { sk: "Pozrieť →", en: "Take a look →" },
+  niches_missing: {
+    sk: "Tvoj odbor tu nie je? Nevadí — napíš nám a návrh pripravíme aj tak.",
+    en: "Your field isn't listed? No problem — write to us and we'll prepare a design anyway.",
+  },
+  ref_kicker: { sk: "// čo hovoria klienti", en: "// what clients say" },
+  ref_title: { sk: "Referencie", en: "Testimonials" },
+  realizacia_kicker: { sk: "(02) — Realizácia", en: "(02) — Case study" },
   realizacia_title: { sk: "Toto sme postavili", en: "This is what we built" },
   realizacia_intro: {
     sk: "VytlačTo3D — online konfigurátor a e-shop pre 3D tlač. Zákazník si nahrá model, vyberie parametre tlače a systém mu rovno spočíta cenu.",
@@ -54,7 +99,7 @@ const dict = {
   },
   realizacia_cta: { sk: "Live web", en: "Live site" },
   realizacia_cta2: { sk: "Chcem takýto web aj ja →", en: "I want a website like this →" },
-  svc_kicker: { sk: "(02) — Čo robíme", en: "(02) — What we do" },
+  svc_kicker: { sk: "(03) — Čo robíme", en: "(03) — What we do" },
   svc_title: { sk: "Služby", en: "Services" },
   svc_intro: {
     sk: "Tri veci, ktoré robíme poriadne. Bez balastu, s dôrazom na výsledok a rýchlosť nasadenia.",
@@ -85,7 +130,7 @@ const dict = {
     en: "We'll show you a custom design before you decide to pay for anything. Don't like it? It costs you nothing.",
   },
   band_cta: { sk: "Chcem návrh do 24 h →", en: "Get my design in 24 h →" },
-  about_kicker: { sk: "(03) — Kto sme", en: "(03) — Who we are" },
+  about_kicker: { sk: "(04) — Kto sme", en: "(04) — Who we are" },
   about_h1: { sk: "Nerobíme weby do šuplíka.", en: "We don’t build websites for the drawer." },
   about_h2: {
     sk: "Staviame nástroje, čo zrýchlia tvoju firmu.",
@@ -103,7 +148,7 @@ const dict = {
     en: "Experience carried over from prior years in the field · DNABS has operated as a studio since 2026.",
   },
   about_more_link: { sk: "Viac o nás →", en: "More about us →" },
-  contact_kicker: { sk: "(04) — Objednávka", en: "(04) — Order" },
+  contact_kicker: { sk: "(05) — Objednávka", en: "(05) — Order" },
   contact_h1: { sk: "Objednaj si", en: "Order your" },
   contact_h2: { sk: "návrh zadarmo.", en: "free design." },
   contact_intro: {
