@@ -42,6 +42,7 @@
 }
 
 .steps{
+  position:relative;
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
   gap:clamp(16px,2vw,28px);
@@ -49,7 +50,21 @@
   margin:0 auto;
 }
 
+/* Prerušovaná linka v medzerách medzi kartami — kroky idú po sebe. */
+.steps::before{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  top:calc(clamp(22px,2.4vw,30px) + 25px);
+  height:2px;
+  background:repeating-linear-gradient(90deg,rgba(10,10,10,.22) 0 7px,transparent 7px 14px);
+  z-index:0;
+}
+
 .step{
+  position:relative;
+  z-index:1;
   display:flex;
   flex-direction:column;
   align-items:flex-start;
@@ -57,36 +72,150 @@
   background:#faf9f6;
   border-radius:var(--radius-lg);
   padding:clamp(22px,2.4vw,30px);
-  transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s ease;
+  overflow:hidden;
+  transition:
+    transform .4s cubic-bezier(.2,.7,.2,1),
+    box-shadow .4s ease,
+    background .3s ease;
+}
+
+/* Farebný závoj, ktorý sa zdvihne zospodu. */
+.step::after{
+  content:"";
+  position:absolute;
+  inset:auto 0 0 0;
+  height:100%;
+  background:var(--c);
+  opacity:.07;
+  transform:translateY(100%);
+  transition:transform .5s cubic-bezier(.2,.7,.2,1);
+  pointer-events:none;
 }
 .step:hover{
-  transform:translateY(-5px);
-  box-shadow:0 18px 40px rgba(10,10,10,.09);
+  background:#fff;
+  transform:translateY(-6px);
+  box-shadow:0 22px 44px rgba(10,10,10,.12);
+}
+.step:hover::after{
+  transform:translateY(0);
 }
 
 .stepTop{
   display:flex;
   align-items:center;
+  justify-content:space-between;
   gap:12px;
   width:100%;
+}
+
+.icon{
+  position:relative;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:50px;
+  height:50px;
+  flex-shrink:0;
+  border-radius:16px;
+  /* Náhradná farba pre prehliadače bez color-mix(). */
+  background:rgba(10,10,10,.06);
+  background:color-mix(in srgb,var(--c) 14%,transparent);
+  color:var(--c);
+  transition:
+    background .35s ease,
+    color .35s ease,
+    transform .45s cubic-bezier(.2,.7,.2,1),
+    border-radius .45s ease;
+}
+.icon svg{
+  width:26px;
+  height:26px;
+  overflow:visible;
+}
+.step:hover .icon{
+  background:var(--c);
+  color:var(--ink);
+  border-radius:50%;
+  transform:rotate(-8deg) scale(1.08);
+}
+
+/* Detaily v ikonách ožijú až po nabehnutí. */
+.iconCursor,
+.iconSpark,
+.iconCheck,
+.iconBubble{
+  transform-box:fill-box;
+  transform-origin:center;
+  transition:transform .45s cubic-bezier(.2,.7,.2,1),opacity .35s ease;
+}
+.iconCursor{
+  transform:translate(-2px,-2px);
+}
+.step:hover .iconCursor{
+  transform:translate(1px,1px);
+}
+.iconSpark{
+  opacity:.35;
+  transform:scale(.6);
+}
+.step:hover .iconSpark{
+  opacity:1;
+  transform:scale(1);
+}
+.iconCheck{
+  opacity:.35;
+}
+.step:hover .iconCheck{
+  opacity:1;
+  transform:translateY(-1px);
+}
+.iconBubble{
+  transform:translateX(-2px);
+}
+.step:hover .iconBubble{
+  transform:translateX(1px);
 }
 
 .num{
   font-family:var(--mono);
   font-weight:700;
-  font-size:clamp(26px,3vw,40px);
+  font-size:clamp(26px,3vw,38px);
   line-height:1;
+  color:var(--c);
+  opacity:.35;
+  transition:opacity .35s ease,transform .45s cubic-bezier(.2,.7,.2,1);
+}
+.step:hover .num{
+  opacity:1;
+  transform:translateY(-2px);
 }
 
-.line{
-  flex:1;
+.track{
+  position:relative;
+  display:block;
+  width:100%;
   height:3px;
+  margin-top:6px;
   border-radius:2px;
-  opacity:.35;
+  background:rgba(10,10,10,.08);
+  overflow:hidden;
+}
+
+.fill{
+  position:absolute;
+  inset:0 auto 0 0;
+  width:22%;
+  border-radius:2px;
+  background:var(--c);
+  transition:width .6s cubic-bezier(.2,.7,.2,1);
+}
+.step:hover .fill{
+  width:100%;
 }
 
 .stepTitle{
-  margin:6px 0 0;
+  position:relative;
+  margin:8px 0 0;
   font-family:var(--disp);
   font-weight:700;
   font-size:clamp(18px,1.7vw,23px);
@@ -96,6 +225,7 @@
 }
 
 .stepDesc{
+  position:relative;
   margin:0;
   font-size:clamp(13px,1.15vw,15px);
   line-height:1.6;
@@ -103,16 +233,24 @@
 }
 
 .note{
+  position:relative;
   margin-top:auto;
-  padding-top:0;
   font-family:var(--mono);
   font-size:11px;
   font-weight:700;
   text-transform:uppercase;
   letter-spacing:.04em;
   color:#0a0a0a;
+  background:rgba(10,10,10,.08);
+  background:color-mix(in srgb,var(--c) 30%,transparent);
   border-radius:var(--radius-pill);
   padding:6px 12px;
+  transition:background .35s ease,transform .4s cubic-bezier(.2,.7,.2,1);
+}
+.step:hover .note{
+  background:var(--c);
+  color:var(--ink);
+  transform:translateY(-2px);
 }
 
 .ctaWrap{
@@ -139,4 +277,11 @@
   background:var(--accent);
   color:#0a0a0a;
   transform:translateY(-2px);
+}
+
+/* Pod dvoma stĺpcami by spojnica viedla cez prázdno. */
+@media (max-width:1000px){
+  .steps::before{
+    display:none;
+  }
 }
