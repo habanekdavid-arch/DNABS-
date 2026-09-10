@@ -117,8 +117,8 @@ const dict = {
   },
   svc3_t: { sk: "Marketing", en: "Marketing" },
   svc3_d: {
-    sk: "Digitálny marketing, ktorý prináša klientov. Rozhodujeme sa podľa dát, nie dohadov — výkonnostné kampane, brand aj obsah.",
-    en: "Digital marketing that brings clients. We decide by data, not guesses — performance campaigns, brand and content.",
+    sk: "Digitálny marketing, ktorý prináša klientov — od loga a fotiek až po kampane. Rozhodujeme sa podľa dát, nie dohadov.",
+    en: "Digital marketing that brings clients — from your logo and photos all the way to campaigns. We decide by data, not guesses.",
   },
   band_kicker: { sk: "// bez záväzkov", en: "// no commitment" },
   band_title: {

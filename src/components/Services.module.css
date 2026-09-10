@@ -106,8 +106,33 @@
   background:rgba(10,10,10,.06);
   padding:7px 14px;
   display:inline-block;
-  transition:background .25s ease;
+  transition:
+    background .25s ease,
+    color .25s ease,
+    transform .3s cubic-bezier(.2,.7,.2,1),
+    box-shadow .3s ease;
 }
 .row:hover .chip{
   background:rgba(255,255,255,.22);
+}
+
+/* Každý bodík má vlastný hover — nezávisle od karty pod ním. */
+.chip:hover{
+  background:#0a0a0a;
+  color:#fff;
+  transform:translateY(-3px) scale(1.05);
+  box-shadow:0 8px 18px rgba(10,10,10,.22);
+}
+/* Na vyfarbenej karte by čierny bodík zanikol, tak sa prehodí na biely. */
+.row:hover .chip:hover{
+  background:#fff;
+  color:#0a0a0a;
+  box-shadow:0 8px 18px rgba(10,10,10,.28);
+}
+
+/* Dotyk hover nemá — bodíky nech sú aspoň zreteľne odsadené. */
+@media (hover:none){
+  .chip{
+    background:rgba(10,10,10,.07);
+  }
 }

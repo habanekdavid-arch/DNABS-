@@ -8,18 +8,53 @@ import styles from "./Services.module.css";
 
 const SVC_COLORS = ["var(--accent)", "var(--purple)", "var(--green)"];
 
+type Chip = { sk: string; en: string };
+
 const ROWS: {
   titleKey: DictKey;
   descKey: DictKey;
-  chips: string[];
+  chips: Chip[];
 }[] = [
-  { titleKey: "svc1_t", descKey: "svc1_d", chips: ["Next.js", "Webflow", "E-commerce"] },
-  { titleKey: "svc2_t", descKey: "svc2_d", chips: ["Web app", "iOS / Android", "Automatizácia"] },
-  { titleKey: "svc3_t", descKey: "svc3_d", chips: ["Performance", "Brand", "SEO / Obsah"] },
+  {
+    titleKey: "svc1_t",
+    descKey: "svc1_d",
+    chips: [
+      { sk: "Next.js", en: "Next.js" },
+      { sk: "Webflow", en: "Webflow" },
+      { sk: "E-shop", en: "E-commerce" },
+      { sk: "Responzívny dizajn", en: "Responsive design" },
+      { sk: "SEO základ", en: "SEO foundations" },
+      { sk: "Doména a hosting", en: "Domain and hosting" },
+    ],
+  },
+  {
+    titleKey: "svc2_t",
+    descKey: "svc2_d",
+    chips: [
+      { sk: "Webové aplikácie", en: "Web apps" },
+      { sk: "iOS / Android", en: "iOS / Android" },
+      { sk: "Rezervačné systémy", en: "Booking systems" },
+      { sk: "Automatizácia", en: "Automation" },
+      { sk: "Napojenie na API", en: "API integrations" },
+      { sk: "Interné nástroje", en: "Internal tools" },
+    ],
+  },
+  {
+    titleKey: "svc3_t",
+    descKey: "svc3_d",
+    chips: [
+      { sk: "Logo a brand identita", en: "Logo and brand identity" },
+      { sk: "Fotografie", en: "Photography" },
+      { sk: "Google Ads", en: "Google Ads" },
+      { sk: "Sociálne siete", en: "Social media" },
+      { sk: "Výkonnostné kampane", en: "Performance campaigns" },
+      { sk: "SEO a obsah", en: "SEO and content" },
+    ],
+  },
 ];
 
 export default function Services() {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const [hovered, setHovered] = useState<number | null>(null);
 
   return (
@@ -64,7 +99,9 @@ export default function Services() {
               <p>{t(row.descKey)}</p>
               <div className={styles.chips}>
                 {row.chips.map((chip) => (
-                  <span key={chip} className={styles.chip}>{chip}</span>
+                  <span key={chip.en} className={styles.chip}>
+                    {chip[lang]}
+                  </span>
                 ))}
               </div>
             </div>
