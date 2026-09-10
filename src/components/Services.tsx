@@ -68,15 +68,6 @@ export default function Services() {
                 ))}
               </div>
             </div>
-            <div
-              className={styles.arrow}
-              style={{
-                color: isHovered ? textColor : undefined,
-                transform: isHovered ? "translateX(12px)" : "none",
-              }}
-            >
-              ↗
-            </div>
           </Reveal>
         );
       })}

@@ -4,6 +4,8 @@ import { currentUser } from "@clerk/nextjs/server";
 import { UserButton } from "@clerk/nextjs";
 import { isAdminEmail } from "@/lib/admin";
 import { getSql } from "@/lib/db";
+import { LEAD_STATUSES } from "@/lib/leadStatus";
+import { projectTypeLabel } from "@/lib/projectType";
 import StatusSelect from "../../StatusSelect";
 import DeleteLeadButton from "../../DeleteLeadButton";
 import styles from "../../admin.module.css";
@@ -54,7 +56,12 @@ export default async function LeadDetailPage({
     <div className={styles.page}>
       <div className={styles.header}>
         <div className={styles.title}>Detail objednávky</div>
-        <UserButton />
+        <div className={styles.headerActions}>
+          <Link href="/" className={styles.backToSite}>
+            ← Späť na web
+          </Link>
+          <UserButton />
+        </div>
       </div>
 
       <Link href="/admin" className={styles.backLink}>
@@ -73,6 +80,23 @@ export default async function LeadDetailPage({
             <StatusSelect id={lead.id} status={lead.status} />
             <DeleteLeadButton id={lead.id} />
           </div>
+        </div>
+
+        {/* Kde sa objednávka nachádza — zvýraznené sú fázy, ktoré už majú byť za nami. */}
+        <div className={styles.stages}>
+          {LEAD_STATUSES.map((stage, i) => {
+            const currentIndex = LEAD_STATUSES.findIndex((s) => s.value === lead.status);
+            const reached = i <= currentIndex;
+            return (
+              <div
+                key={stage.value}
+                className={`${styles.stage} ${reached ? styles.stageDone : ""}`}
+                style={reached ? { background: stage.color, color: stage.text } : undefined}
+              >
+                {stage.label}
+              </div>
+            );
+          })}
         </div>
 
         <div className={styles.fields}>
@@ -94,7 +118,7 @@ export default async function LeadDetailPage({
           </div>
           <div className={styles.field}>
             <label>Typ projektu</label>
-            <div>{lead.project_type || "—"}</div>
+            <div>{projectTypeLabel(lead.project_type)}</div>
           </div>
           <div className={styles.field}>
             <label>Rozpočet</label>

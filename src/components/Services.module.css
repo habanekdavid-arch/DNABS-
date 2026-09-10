@@ -43,7 +43,7 @@
 
 .row{
   display:grid;
-  grid-template-columns:clamp(80px,12vw,180px) 1fr auto;
+  grid-template-columns:clamp(80px,12vw,180px) 1fr;
   gap:clamp(16px,3vw,48px);
   align-items:center;
   padding:clamp(36px,5.5vh,62px) clamp(8px,2vw,28px);
@@ -110,11 +110,4 @@
 }
 .row:hover .chip{
   background:rgba(255,255,255,.22);
-}
-
-.arrow{
-  font-size:clamp(28px,4vw,52px);
-  line-height:1;
-  color:var(--accent);
-  transition:transform .4s cubic-bezier(.2,.7,.2,1),color .3s ease;
 }
