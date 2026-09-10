@@ -2,7 +2,6 @@
 
 import {
   useEffect,
-  useRef,
   useState,
   type ReactNode,
   type ElementType,
@@ -23,13 +22,17 @@ export default function Reveal({
   style?: CSSProperties;
   children: ReactNode;
 } & HTMLAttributes<HTMLElement>) {
-  const ref = useRef<HTMLElement | null>(null);
+  // Uzol držíme v stave, nie v ref — keď sa zmení `as` (napr. odkaz na
+  // dotyku vystrieda článok), React vymení DOM uzol a pozorovateľ musí
+  // preskočiť na nový. S ref-om by ostal visieť na starom a prvok by sa
+  // už nikdy neodhalil.
+  const [node, setNode] = useState<HTMLElement | null>(null);
   const [visible, setVisible] = useState(
     () => typeof window !== "undefined" && !("IntersectionObserver" in window)
   );
 
   useEffect(() => {
-    const el = ref.current;
+    const el = node;
     if (!el || !("IntersectionObserver" in window)) return;
     const io = new IntersectionObserver(
       (entries) => {
@@ -44,11 +47,11 @@ export default function Reveal({
     );
     io.observe(el);
     return () => io.disconnect();
-  }, []);
+  }, [node]);
 
   return (
     <Tag
-      ref={ref}
+      ref={setNode}
       className={className}
       style={{
         ...style,

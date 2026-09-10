@@ -105,6 +105,7 @@ const dict = {
     sk: "Tri veci, ktoré robíme poriadne. Bez balastu, s dôrazom na výsledok a rýchlosť nasadenia.",
     en: "Three things we do properly. No fluff, focused on results and speed of delivery.",
   },
+  svc_card_cta: { sk: "Chcem návrh →", en: "Get a design →" },
   svc1_t: { sk: "Weby", en: "Websites" },
   svc1_d: {
     sk: "Rýchle, škálovateľné weby na mieru — od landing page po e-shop. Postavené na moderných technológiách a vyladené na výkon.",

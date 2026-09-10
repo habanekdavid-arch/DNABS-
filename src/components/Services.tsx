@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useLanguage, type DictKey } from "@/lib/i18n";
 import Reveal from "./Reveal";
@@ -56,6 +56,18 @@ const ROWS: {
 export default function Services() {
   const { t, lang } = useLanguage();
   const [hovered, setHovered] = useState<number | null>(null);
+  // Na dotyku by klik na celú kartu odpálil scroll k formuláru skôr, než si
+  // človek stihne kartu prečítať. Tam preto karta nie je odkaz a klikacie je
+  // len tlačidlo v nej.
+  const [touch, setTouch] = useState(false);
+
+  useEffect(() => {
+    const query = window.matchMedia("(hover: none)");
+    const sync = () => setTouch(query.matches);
+    sync();
+    query.addEventListener("change", sync);
+    return () => query.removeEventListener("change", sync);
+  }, []);
 
   return (
     <section id="sluzby" className={styles.section}>
@@ -71,11 +83,13 @@ export default function Services() {
         const isHovered = hovered === i;
         const color = SVC_COLORS[i % SVC_COLORS.length];
         const textColor = color === "var(--green)" ? "#0a0a0a" : "#fff";
+        // Na oranžovej aj zelenej sa biely text zle číta, tak tam ide tmavý.
+        const ctaInk = color === "var(--purple)" ? "#fff" : "#0a0a0a";
         return (
           <Reveal
             key={i}
-            as={Link}
-            href="/#kontakt"
+            as={touch ? "article" : Link}
+            {...(touch ? {} : { href: "/#kontakt" })}
             className={`${styles.row} ${i === ROWS.length - 1 ? styles.last : ""}`}
             style={{
               background: isHovered ? color : "#fff",
@@ -104,6 +118,21 @@ export default function Services() {
                   </span>
                 ))}
               </div>
+
+              {touch && (
+                <Link
+                  href="/#kontakt"
+                  className={styles.cardCta}
+                  style={
+                    // Na vyfarbenej karte by tlačidlo v tej istej farbe zaniklo.
+                    isHovered
+                      ? { background: "#fff", color: "#0a0a0a" }
+                      : { background: color, color: ctaInk }
+                  }
+                >
+                  {t("svc_card_cta")}
+                </Link>
+              )}
             </div>
           </Reveal>
         );
