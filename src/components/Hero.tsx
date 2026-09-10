@@ -29,7 +29,7 @@ export default function Hero() {
           alt=""
           aria-hidden
           fill
-          sizes="(max-width: 860px) 420px, 42vw"
+          sizes="(max-width: 860px) 420px, 32vw"
           className={styles.laptopImg}
           priority
         />
@@ -38,7 +38,7 @@ export default function Hero() {
           alt=""
           aria-hidden
           fill
-          sizes="(max-width: 860px) 420px, 42vw"
+          sizes="(max-width: 860px) 420px, 32vw"
           className={styles.laptopEffects}
           priority
         />

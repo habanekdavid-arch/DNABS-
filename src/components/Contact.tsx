@@ -22,6 +22,7 @@ export default function Contact() {
   const [status, setStatus] = useState<"idle" | "sending" | "error">("idle");
   const [file, setFile] = useState<File | null>(null);
   const [uploadState, setUploadState] = useState<"idle" | "uploading" | "error">("idle");
+  const [hasMessage, setHasMessage] = useState(false);
   const messageRef = useRef<HTMLTextAreaElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -29,6 +30,7 @@ export default function Contact() {
     if (messageRef.current) {
       messageRef.current.value = t(key);
       messageRef.current.focus();
+      setHasMessage(true);
     }
   };
 
@@ -94,6 +96,7 @@ export default function Contact() {
       if (!res.ok) throw new Error("failed");
       form.reset();
       removeFile();
+      setHasMessage(false);
       sessionStorage.setItem("dnabs_conversion_pending", "1");
       router.push("/dakujeme");
     } catch {
@@ -182,7 +185,9 @@ export default function Contact() {
             className={styles.honeypot}
           />
 
-          <div className={styles.presetWrap}>
+          <div
+            className={`${styles.presetWrap} ${hasMessage ? styles.presetWrapFilled : ""}`}
+          >
             <div className={styles.presetLabel}>{t("msg_preset_label")}</div>
             <div className={styles.presetRow}>
               {MESSAGE_PRESETS.map((preset) => (
@@ -205,6 +210,7 @@ export default function Contact() {
             aria-label={tPh("ph_msg")}
             placeholder={tPh("ph_msg")}
             className={styles.field}
+            onChange={(e) => setHasMessage(e.target.value.trim().length > 0)}
           />
 
           <details className={styles.more}>

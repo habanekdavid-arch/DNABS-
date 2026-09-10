@@ -163,6 +163,26 @@ select.field:not(:has(option[value=""]:checked)):focus{
 .presetWrap{
   padding:18px 22px;
   border-bottom:1px solid rgba(255,255,255,.12);
+  transition:background .25s ease,border-color .25s ease;
+}
+
+/* Keď je správa vyplnená, blok s rýchlymi odpoveďami zbelie ako polia. */
+.presetWrapFilled{
+  background:#fff;
+  border-bottom-color:rgba(10,10,10,.12);
+}
+.presetWrapFilled .presetLabel{
+  color:#0a0a0a;
+  opacity:.5;
+}
+.presetWrapFilled .presetChip{
+  color:#0a0a0a;
+  background:rgba(10,10,10,.07);
+}
+.presetWrapFilled .presetChip:hover{
+  background:var(--accent);
+  border-color:var(--accent);
+  color:#0a0a0a;
 }
 
 .presetLabel{
