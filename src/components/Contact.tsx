@@ -329,6 +329,12 @@ export default function Contact() {
             <input type="text" autoComplete="name" {...fieldProps("name")} />
             {fieldError("name")}
 
+            <input type="email" autoComplete="email" {...fieldProps("email")} />
+            {fieldError("email")}
+
+            <input type="tel" autoComplete="tel" {...fieldProps("phone")} />
+            {fieldError("phone")}
+
             <FieldPicker
               name="industry"
               label={tPh("ph_business")}
@@ -372,12 +378,6 @@ export default function Contact() {
               setOpenId={setOpenPicker}
               error={errors.projectType}
             />
-
-            <input type="email" autoComplete="email" {...fieldProps("email")} />
-            {fieldError("email")}
-
-            <input type="tel" autoComplete="tel" {...fieldProps("phone")} />
-            {fieldError("phone")}
 
 
 
