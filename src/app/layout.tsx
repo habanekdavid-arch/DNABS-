@@ -58,6 +58,12 @@ const LOCAL_BUSINESS_JSON_LD = {
   sameAs: ["https://www.instagram.com/dnabs.sk/"],
 };
 
+/**
+ * GA4 sa načíta len vtedy, keď je v prostredí NEXT_PUBLIC_GA4_ID. Ads tag
+ * beží nezávisle od neho, takže bez GA4 sa na webe nič nezmení.
+ */
+const GA4_ID = process.env.NEXT_PUBLIC_GA4_ID;
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://dnabs.online"),
   title: {
@@ -105,6 +111,7 @@ export default function RootLayout({
               });
               gtag('js', new Date());
               gtag('config', 'AW-18360461587');
+              ${GA4_ID ? `gtag('config', '${GA4_ID}');` : ""}
             `,
           }}
         />

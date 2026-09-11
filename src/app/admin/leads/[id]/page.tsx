@@ -5,7 +5,7 @@ import { UserButton } from "@clerk/nextjs";
 import { isAdminEmail } from "@/lib/admin";
 import { getSql } from "@/lib/db";
 import { LEAD_STATUSES } from "@/lib/leadStatus";
-import { projectTypeLabel } from "@/lib/projectType";
+import { budgetLabel, entityLabel, projectTypeLabel, timelineLabel } from "@/lib/leadLabels";
 import StatusSelect from "../../StatusSelect";
 import DeleteLeadButton from "../../DeleteLeadButton";
 import styles from "../../admin.module.css";
@@ -17,6 +17,9 @@ type Lead = {
   email: string;
   phone: string | null;
   company: string | null;
+  business: string | null;
+  entity_type: string | null;
+  site_or_social: string | null;
   project_type: string | null;
   budget: string | null;
   timeline: string | null;
@@ -117,17 +120,29 @@ export default async function LeadDetailPage({
             <div>{lead.company || "—"}</div>
           </div>
           <div className={styles.field}>
+            <label>Typ subjektu</label>
+            <div>{entityLabel(lead.entity_type)}</div>
+          </div>
+          <div className={styles.field}>
+            <label>Čo podniká</label>
+            <div>{lead.business || "—"}</div>
+          </div>
+          <div className={styles.field}>
+            <label>Web / Instagram</label>
+            <div>{lead.site_or_social || "—"}</div>
+          </div>
+          <div className={styles.field}>
             <label>Typ projektu</label>
             <div>{projectTypeLabel(lead.project_type)}</div>
           </div>
           <div className={styles.field}>
             <label>Rozpočet</label>
-            <div>{lead.budget || "—"}</div>
+            <div>{budgetLabel(lead.budget)}</div>
           </div>
           {lead.timeline && (
             <div className={styles.field}>
-              <label>Termín</label>
-              <div>{lead.timeline}</div>
+              <label>Kedy to rieši</label>
+              <div>{timelineLabel(lead.timeline)}</div>
             </div>
           )}
           <div className={styles.field}>
