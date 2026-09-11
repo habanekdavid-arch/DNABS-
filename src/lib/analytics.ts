@@ -3,7 +3,7 @@
  * NEXT_PUBLIC_GA4_ID, keď gtag zablokuje adblock alebo keď návštevník
  * odmietne súhlas, formulár musí odísť úplne rovnako.
  *
- * Do GA4 neposielame žiadne osobné údaje — len typ služby a typ subjektu.
+ * Do GA4 neposielame žiadne osobné údaje — len typ služby a odvetvie.
  */
 
 declare global {
@@ -18,7 +18,9 @@ export type LeadEvent = {
   formLocation: string;
   /** Kód služby z formulára: web | eshop | redesign | app | marketing */
   sluzba: string;
-  /** firma | zivnostnik | nepodnikam */
+  /** Kód odvetvia z formulára: gastro | krasa | fitness | stavba | auto |
+   *  obchod | sluzby | reality | zdravie | vzdelavanie, alebo pri voľbe
+   *  „Iné“ text, ktorý návštevník napísal. */
   odvetvie: string;
 };
 
