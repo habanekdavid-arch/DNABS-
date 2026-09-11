@@ -17,7 +17,7 @@ const dict = {
     en: "// a custom website design within 24 h — free",
   },
   hero_l1: { sk: "Tvoj web,", en: "Your website," },
-  hero_l2: { sk: "hotový", en: "ready" },
+  hero_l2: { sk: "navrhnutý", en: "designed" },
   hero_l3: { sk: "zadarmo.", en: "for free." },
   hero_l4: { sk: "do 24 hodín", en: "in 24 hours" },
   hero_sub: {

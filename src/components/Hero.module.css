@@ -263,11 +263,14 @@
   margin-bottom:clamp(14px,3vh,28px);
 }
 
+/* Veľkosť je zladená s dĺžkou slova "NAVRHNUTÝ" — pri pôvodných 9vw sa riadok
+   "NAVRHNUTÝ zadarmo." odtlačil o ~250px doprava a písaný text pristál
+   uprostred notebooku. Pri 7.6vw končí opäť tesne pred ním, ako v návrhu. */
 .h1{
   margin:0;
   font-family:var(--disp);
   font-weight:800;
-  font-size:clamp(44px,min(9vw,14.5vh),150px);
+  font-size:clamp(44px,min(7.6vw,12.3vh),128px);
   line-height:.97;
   letter-spacing:-.015em;
   text-transform:uppercase;
@@ -277,6 +280,12 @@
 .h1Line{
   display:block;
   white-space:nowrap;
+}
+
+/* "NAVRHNUTÝ zadarmo." je na úzkych displejoch širšie než viewport a nowrap
+   by slovo "zadarmo." odrezal. Na mobile ho preto necháme zalomiť pod seba. */
+@media (max-width:600px){
+  .h1Line:nth-child(2){ white-space:normal; }
 }
 
 /* Termín ide do nadpisu ako zvýrazňovačom podfarbený blok. */
