@@ -34,12 +34,10 @@ export async function POST(request: Request) {
   // Tá istá kontrola ako vo formulári — prehliadač sa dá obísť, server nie.
   const missing =
     name.length < 2 ||
-    !company ||
     !business ||
     !entityType ||
     !EMAIL_RE.test(email) ||
     phone.replace(/\D/g, "").length < 6 ||
-    !siteOrSocial ||
     !projectType ||
     !budget ||
     message.length < 20;
@@ -130,10 +128,10 @@ export async function POST(request: Request) {
       text: [
         "KLIENT",
         `Meno:            ${name}`,
-        `Firma:           ${company}`,
+        `Firma:           ${company || "—"}`,
         `Typ subjektu:    ${entityLabel(entityType)}`,
         `Čo podniká:      ${business}`,
-        `Web / Instagram: ${siteOrSocial}`,
+        `Web / Instagram: ${siteOrSocial || "—"}`,
         "",
         "KONTAKT",
         `E-mail:          ${email}`,

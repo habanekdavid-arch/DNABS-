@@ -184,12 +184,12 @@ const dict = {
     en: "The form can't be sent — please check the highlighted fields.",
   },
   contact_site_hint: {
-    sk: "Odkaz na váš web alebo profil. Ak ešte nemáte, napíšte „nemám“.",
-    en: "A link to your site or profile. If you don't have one yet, write “none”.",
+    sk: "Odkaz na váš web alebo profil. Pomôže nám pri návrhu, ale nie je povinný.",
+    en: "A link to your site or profile. It helps us design, but it's not required.",
   },
   contact_more: {
-    sk: "Nepovinné — termín a prílohy",
-    en: "Optional — timing and attachments",
+    sk: "Nepovinné — firma, web, termín, prílohy",
+    en: "Optional — company, website, timing, attachments",
   },
   contact_note: {
     sk: "Vyplnenie ti zaberie pár sekúnd. Návrh webu na mieru ti pošleme do 24 hodín.",
@@ -242,10 +242,10 @@ const dict = {
 
 const phDict = {
   ph_name: { sk: "Meno a priezvisko *", en: "Full name *" },
-  ph_company: { sk: "Názov firmy / prevádzky *", en: "Company / business name *" },
+  ph_company: { sk: "Názov firmy / prevádzky", en: "Company / business name" },
   ph_email: { sk: "E-mail *", en: "E-mail *" },
   ph_phone: { sk: "Telefón *", en: "Phone *" },
-  ph_site: { sk: "Web alebo Instagram *", en: "Website or Instagram *" },
+  ph_site: { sk: "Web alebo Instagram", en: "Website or Instagram" },
   ph_business: { sk: "Čo podnikáte? *", en: "What's your business? *" },
   ph_entity: { sk: "Typ subjektu *", en: "Type of business *" },
   ph_project_type: { sk: "Typ projektu *", en: "Project type *" },

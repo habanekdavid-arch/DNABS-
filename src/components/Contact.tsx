@@ -150,12 +150,10 @@ export default function Contact() {
     const found: Record<string, string> = {};
 
     if (text("name").length < 2) found.name = t("err_required");
-    if (!text("company")) found.company = t("err_required");
     if (!text("business")) found.business = t("err_required");
     if (!entityType) found.entityType = t("err_pick");
     if (!EMAIL_RE.test(text("email"))) found.email = t("err_email");
     if (text("phone").replace(/\D/g, "").length < 6) found.phone = t("err_phone");
-    if (!text("siteOrSocial")) found.siteOrSocial = t("err_required");
     if (!projectType) found.projectType = t("err_pick");
     if (!budget) found.budget = t("err_pick");
     if (text("message").length < 20) found.message = t("err_min20");
@@ -325,9 +323,6 @@ export default function Contact() {
             <input type="text" autoComplete="name" {...fieldProps("name")} />
             {fieldError("name")}
 
-            <input type="text" autoComplete="organization" {...fieldProps("company")} />
-            {fieldError("company")}
-
             <div className={styles.fieldGroup}>
               <input type="text" {...fieldProps("business")} />
               <p className={styles.fieldHint}>
@@ -363,14 +358,6 @@ export default function Contact() {
 
             <input type="tel" autoComplete="tel" {...fieldProps("phone")} />
             {fieldError("phone")}
-
-            <div className={styles.fieldGroup}>
-              <input type="text" autoComplete="url" {...fieldProps("siteOrSocial")} />
-              <p className={styles.fieldHint}>
-                <span>{t("contact_site_hint")}</span>
-              </p>
-            </div>
-            {fieldError("siteOrSocial")}
 
             <FieldPicker
               name="projectType"
@@ -425,6 +412,13 @@ export default function Contact() {
             <details className={styles.more}>
               <summary className={styles.moreSummary}>{t("contact_more")}</summary>
               <div className={styles.moreInner}>
+                <input type="text" autoComplete="organization" {...fieldProps("company")} />
+                <div className={styles.fieldGroup}>
+                  <input type="text" autoComplete="url" {...fieldProps("siteOrSocial")} />
+                  <p className={styles.fieldHint}>
+                    <span>{t("contact_site_hint")}</span>
+                  </p>
+                </div>
                 <FieldPicker
                   name="timeline"
                   label={tPh("ph_when")}
