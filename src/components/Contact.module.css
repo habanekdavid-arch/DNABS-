@@ -254,6 +254,32 @@ select.field:not(:has(option[value=""]:checked)):focus{
 }
 
 /* Rozkliknuteľný výber — hlavička sa správa ako pole, panel sa vysunie pod ňou. */
+/* Typ subjektu a typ projektu zdieľajú jeden riadok — dva krátke výbery
+   vedľa seba pôsobia menej než dva samostatné riadky pod sebou. */
+.pairRow{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+}
+.pairRow > *:first-child{
+  border-right:1px solid rgba(255,255,255,.12);
+}
+/* V polovičnej šírke sa popisok pri bežnom odsadení zalomil a hviezdička
+   spadla na druhý riadok — tu preto stláčame bočné odsadenie aj medzeru. */
+.pairRow .pickerHead{
+  padding-left:14px;
+  padding-right:14px;
+  gap:8px;
+}
+.pairRow .pickerOptions{
+  padding-left:14px;
+  padding-right:14px;
+}
+/* Na úzkych displejoch by sa popisky nezmestili vedľa seba. */
+@media (max-width:380px){
+  .pairRow{grid-template-columns:1fr;}
+  .pairRow > *:first-child{border-right:0;}
+}
+
 .picker{
   border-bottom:1px solid rgba(255,255,255,.12);
   transition:background .25s ease;

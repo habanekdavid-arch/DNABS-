@@ -27,6 +27,19 @@ const ENTITY: Record<string, string> = {
   nepodnikam: "Zatiaľ nepodniká",
 };
 
+const INDUSTRY: Record<string, string> = {
+  gastro: "Gastro a pohostinstvo",
+  krasa: "Krása a wellness",
+  fitness: "Fitness a šport",
+  stavba: "Stavebníctvo a remeslá",
+  auto: "Auto-moto",
+  obchod: "Obchod a e-shop",
+  sluzby: "Služby a poradenstvo",
+  reality: "Reality",
+  zdravie: "Zdravotníctvo",
+  vzdelavanie: "Vzdelávanie",
+};
+
 const label = (map: Record<string, string>, value: string | null | undefined) =>
   value ? map[value] ?? value : "—";
 
@@ -34,3 +47,5 @@ export const projectTypeLabel = (value: string | null | undefined) => label(PROJ
 export const budgetLabel = (value: string | null | undefined) => label(BUDGET, value);
 export const timelineLabel = (value: string | null | undefined) => label(TIMELINE, value);
 export const entityLabel = (value: string | null | undefined) => label(ENTITY, value);
+/** Pri voľbe „Iné“ posiela formulár rovno napísaný text — ten sa vráti nezmenený. */
+export const industryLabel = (value: string | null | undefined) => label(INDUSTRY, value);

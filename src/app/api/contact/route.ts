@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 import { getSql } from "@/lib/db";
-import { budgetLabel, entityLabel, projectTypeLabel, timelineLabel } from "@/lib/leadLabels";
+import { budgetLabel, industryLabel, entityLabel, projectTypeLabel, timelineLabel } from "@/lib/leadLabels";
 
 const CONTACT_EMAIL = "contact.dnabs@gmail.com";
 const EMAIL_RE = /^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]{2,}$/;
@@ -39,7 +39,6 @@ export async function POST(request: Request) {
     !EMAIL_RE.test(email) ||
     phone.replace(/\D/g, "").length < 6 ||
     !projectType ||
-    !budget ||
     message.length < 20;
 
   if (missing) {
@@ -124,13 +123,13 @@ export async function POST(request: Request) {
       from: `"DNABS web" <${gmailUser}>`,
       to: CONTACT_EMAIL,
       replyTo: email,
-      subject: `${projectTypeLabel(projectType)} · ${budgetLabel(budget)} — nový dopyt`,
+      subject: `${projectTypeLabel(projectType)} · ${industryLabel(business)}${budget ? ` · ${budgetLabel(budget)}` : ""} — nový dopyt`,
       text: [
         "KLIENT",
         `Meno:            ${name}`,
         `Firma:           ${company || "—"}`,
         `Typ subjektu:    ${entityLabel(entityType)}`,
-        `Čo podniká:      ${business}`,
+        `Odvetvie:        ${industryLabel(business)}`,
         `Web / Instagram: ${siteOrSocial || "—"}`,
         "",
         "KONTAKT",
