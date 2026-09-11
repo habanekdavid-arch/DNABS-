@@ -174,6 +174,46 @@ select.field:not(:has(option[value=""]:checked)):focus{
 
 
 
+/* Pred-kvalifikačný text nad formulárom. */
+.prequal{
+  margin:0 0 18px;
+  font-family:var(--mono);
+  font-size:12px;
+  line-height:1.6;
+  opacity:.55;
+  max-width:52ch;
+}
+
+/* Chybová hláška pod poľom. */
+.fieldError{
+  margin:0;
+  padding:10px 22px;
+  font-family:var(--mono);
+  font-size:12px;
+  line-height:1.45;
+  color:#ff6b6b;
+  background:rgba(255,107,107,.08);
+  border-bottom:1px solid rgba(255,255,255,.12);
+}
+
+.fieldInvalid{
+  box-shadow:inset 3px 0 0 #ff6b6b;
+}
+
+/* Pokojná poznámka, keď človek nepodniká — formulár neblokuje. */
+.notice{
+  margin:0;
+  padding:14px 22px;
+  font-family:var(--mono);
+  font-size:12px;
+  line-height:1.55;
+  color:#fff;
+  opacity:.8;
+  background:rgba(255,255,255,.05);
+  box-shadow:inset 3px 0 0 var(--green);
+  border-bottom:1px solid rgba(255,255,255,.12);
+}
+
 /* Pole s vysvetlivkou, ktorá naskočí až po kliknutí doň. */
 .fieldGroup{
   display:flex;
@@ -221,6 +261,9 @@ select.field:not(:has(option[value=""]:checked)):focus{
 .picker[data-filled]{
   background:#fff;
   border-bottom-color:rgba(10,10,10,.12);
+}
+.picker .fieldError{
+  border-bottom:0;
 }
 
 .pickerHead{

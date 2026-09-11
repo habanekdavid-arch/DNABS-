@@ -4,7 +4,7 @@ import { UserButton } from "@clerk/nextjs";
 import { isAdminEmail } from "@/lib/admin";
 import { getSql } from "@/lib/db";
 import { LEAD_STATUSES, getStatus } from "@/lib/leadStatus";
-import { projectTypeLabel } from "@/lib/projectType";
+import { budgetLabel, entityLabel, projectTypeLabel, timelineLabel } from "@/lib/leadLabels";
 import StatusSelect from "./StatusSelect";
 import DeleteLeadButton from "./DeleteLeadButton";
 import styles from "./admin.module.css";
@@ -16,8 +16,12 @@ type Lead = {
   email: string;
   phone: string | null;
   company: string | null;
+  business: string | null;
+  entity_type: string | null;
+  site_or_social: string | null;
   project_type: string | null;
   budget: string | null;
+  timeline: string | null;
   message: string | null;
   source: string | null;
   status: string;
@@ -140,6 +144,12 @@ export default async function AdminPage({
                       <div className={styles.sub}>
                         <a href={`mailto:${lead.email}`}>{lead.email}</a>
                       </div>
+                      {lead.company && (
+                        <div className={styles.sub}>
+                          {lead.company}
+                          {lead.entity_type ? ` · ${entityLabel(lead.entity_type)}` : ""}
+                        </div>
+                      )}
                       {lead.phone && (
                         <div className={styles.sub}>
                           <a href={`tel:${lead.phone}`}>{lead.phone}</a>
@@ -148,8 +158,10 @@ export default async function AdminPage({
                     </td>
                     <td>
                       <div className={styles.projectType}>{projectTypeLabel(lead.project_type)}</div>
-                      {lead.budget && <div className={styles.sub}>{lead.budget}</div>}
-                      {lead.company && <div className={styles.sub}>{lead.company}</div>}
+                      <div className={styles.sub}>{budgetLabel(lead.budget)}</div>
+                      {lead.timeline && (
+                        <div className={styles.sub}>{timelineLabel(lead.timeline)}</div>
+                      )}
                     </td>
                     <td className={styles.message}>
                       {lead.message || <span className={styles.sub}>(bez správy)</span>}

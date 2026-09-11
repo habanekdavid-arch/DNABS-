@@ -58,6 +58,14 @@ const LOCAL_BUSINESS_JSON_LD = {
   sameAs: ["https://www.instagram.com/dnabs.sk/"],
 };
 
+/**
+ * GA4 Measurement ID. Nie je to tajný údaj — v zdrojáku stránky ho vidí každý,
+ * rovnako ako Ads tag nižšie, preto je tu natvrdo ako fallback. Cez
+ * NEXT_PUBLIC_GA4_ID sa dá prebiť (napr. iná property pre testovacie
+ * prostredie); prázdny reťazec GA4 vypne úplne.
+ */
+const GA4_ID = process.env.NEXT_PUBLIC_GA4_ID ?? "G-WPM8C948S2";
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://dnabs.online"),
   title: {
@@ -105,6 +113,7 @@ export default function RootLayout({
               });
               gtag('js', new Date());
               gtag('config', 'AW-18360461587');
+              ${GA4_ID ? `gtag('config', '${GA4_ID}');` : ""}
             `,
           }}
         />

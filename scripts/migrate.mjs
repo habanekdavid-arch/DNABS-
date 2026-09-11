@@ -2,6 +2,7 @@ import { neon } from "@neondatabase/serverless";
 
 const sql = neon(process.env.DATABASE_URL);
 
+// Základná tabuľka — ak už existuje, nič nerobí.
 await sql`
   CREATE TABLE IF NOT EXISTS leads (
     id SERIAL PRIMARY KEY,
@@ -18,5 +19,21 @@ await sql`
     email_sent BOOLEAN NOT NULL DEFAULT false
   )
 `;
+
+// Stĺpce, ktoré pribudli neskôr. ADD COLUMN IF NOT EXISTS je idempotentné,
+// takže skript sa dá pustiť koľkokrát treba.
+const columns = [
+  ["phone", "TEXT"],
+  ["attachment_url", "TEXT"],
+  ["attachment_name", "TEXT"],
+  ["business", "TEXT"],
+  ["entity_type", "TEXT"],
+  ["site_or_social", "TEXT"],
+];
+
+for (const [name, type] of columns) {
+  await sql(`ALTER TABLE leads ADD COLUMN IF NOT EXISTS ${name} ${type}`);
+  console.log(`  ✓ ${name}`);
+}
 
 console.log("Migration done: leads table ready.");

@@ -3,13 +3,23 @@
 import { useRef, useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { upload } from "@vercel/blob/client";
-import { useLanguage } from "@/lib/i18n";
+import { useLanguage, type DictKey } from "@/lib/i18n";
+import { trackLead } from "@/lib/analytics";
 import Emph from "./Emph";
 import Reveal from "./Reveal";
 import styles from "./Contact.module.css";
 
-/* Rozpočet aj termín ukladáme ako stabilné kódy, nie ako preložený text —
-   inak by v databáze skončilo raz „300 – 800 €“ a raz „€300 – €800“. */
+/* Rozpočet, termín aj typ subjektu ukladáme ako stabilné kódy, nie ako
+   preložený text — inak by v databáze aj v GA4 skončilo raz „300 – 800 €“
+   a raz „€300 – €800“ podľa jazyka návštevníka. */
+const PROJECT_TYPES = [
+  { value: "web", key: "opt_type_web" },
+  { value: "eshop", key: "opt_type_eshop" },
+  { value: "redesign", key: "opt_type_redesign" },
+  { value: "app", key: "opt_type_app" },
+  { value: "marketing", key: "opt_type_marketing" },
+] as const;
+
 const BUDGETS = [
   { value: "lt300", key: "opt_budget_1" },
   { value: "300_800", key: "opt_budget_2" },
@@ -23,14 +33,13 @@ const WHEN = [
   { value: "research", key: "opt_when_3" },
 ] as const;
 
-const PROJECT_TYPES = [
-  { value: "web", key: "opt_type_web" },
-  { value: "eshop", key: "opt_type_eshop" },
-  { value: "redesign", key: "opt_type_redesign" },
-  { value: "app", key: "opt_type_app" },
-  { value: "marketing", key: "opt_type_marketing" },
+const ENTITIES = [
+  { value: "firma", key: "opt_entity_1" },
+  { value: "zivnostnik", key: "opt_entity_2" },
+  { value: "nepodnikam", key: "opt_entity_3" },
 ] as const;
 
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 type PickerOption = { value: string; label: string };
 
@@ -44,6 +53,7 @@ function FieldPicker({
   onChange,
   openId,
   setOpenId,
+  error,
 }: {
   name: string;
   label: string;
@@ -52,6 +62,7 @@ function FieldPicker({
   onChange: (value: string) => void;
   openId: string | null;
   setOpenId: (id: string | null) => void;
+  error?: string;
 }) {
   const open = openId === name;
   const selected = options.find((option) => option.value === value);
@@ -60,8 +71,14 @@ function FieldPicker({
     <div className={styles.picker} data-filled={value ? "true" : undefined}>
       <button
         type="button"
+        id={`field-${name}`}
         className={styles.pickerHead}
+        role="combobox"
+        aria-haspopup="listbox"
+        aria-controls={`panel-${name}`}
         aria-expanded={open}
+        aria-invalid={error ? true : undefined}
+        aria-describedby={error ? `err-${name}` : undefined}
         onClick={() => setOpenId(open ? null : name)}
       >
         <span className={selected ? styles.pickerValue : styles.pickerLabel}>
@@ -73,11 +90,13 @@ function FieldPicker({
       </button>
       <div className={`${styles.pickerPanel} ${open ? styles.pickerPanelOpen : ""}`}>
         <div className={styles.pickerPanelInner}>
-          <div className={styles.pickerOptions}>
+          <div className={styles.pickerOptions} id={`panel-${name}`} role="listbox">
             {options.map((option) => (
               <button
                 key={option.value}
                 type="button"
+                role="option"
+                aria-selected={option.value === value}
                 className={`${styles.pickerOption} ${
                   option.value === value ? styles.pickerOptionActive : ""
                 }`}
@@ -93,6 +112,11 @@ function FieldPicker({
         </div>
       </div>
       <input type="hidden" name={name} value={value} />
+      {error && (
+        <p id={`err-${name}`} className={styles.fieldError} role="alert">
+          {error}
+        </p>
+      )}
     </div>
   );
 }
@@ -104,16 +128,39 @@ export default function Contact() {
   const [file, setFile] = useState<File | null>(null);
   const [uploadState, setUploadState] = useState<"idle" | "uploading" | "error">("idle");
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
+
   // Naraz nech je otvorený len jeden výber.
   const [openPicker, setOpenPicker] = useState<string | null>(null);
+  const [entityType, setEntityType] = useState("");
   const [projectType, setProjectType] = useState("");
   const [budget, setBudget] = useState("");
   const [timeline, setTimeline] = useState("");
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   const removeFile = () => {
     setFile(null);
     setUploadState("idle");
     if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
+  /** Vráti mapu chýb. Prázdna mapa = formulár sa môže odoslať. */
+  const validate = (data: FormData) => {
+    const text = (key: string) => String(data.get(key) ?? "").trim();
+    const found: Record<string, string> = {};
+
+    if (text("name").length < 2) found.name = t("err_required");
+    if (!text("company")) found.company = t("err_required");
+    if (!text("business")) found.business = t("err_required");
+    if (!entityType) found.entityType = t("err_pick");
+    if (!EMAIL_RE.test(text("email"))) found.email = t("err_email");
+    if (text("phone").replace(/\D/g, "").length < 6) found.phone = t("err_phone");
+    if (!text("siteOrSocial")) found.siteOrSocial = t("err_required");
+    if (!projectType) found.projectType = t("err_pick");
+    if (!budget) found.budget = t("err_pick");
+    if (text("message").length < 20) found.message = t("err_min20");
+
+    return found;
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -126,6 +173,17 @@ export default function Contact() {
     if (data.get("website")) {
       form.reset();
       router.push("/dakujeme");
+      return;
+    }
+
+    const found = validate(data);
+    setErrors(found);
+    if (Object.keys(found).length > 0) {
+      setStatus("idle");
+      const first = Object.keys(found)[0];
+      const el = form.querySelector<HTMLElement>(`[name="${first}"], #field-${first}`);
+      (el?.tagName === "INPUT" || el?.tagName === "TEXTAREA" ? el : form.querySelector<HTMLElement>(`#field-${first}`))?.focus();
+      el?.scrollIntoView({ block: "center", behavior: "smooth" });
       return;
     }
 
@@ -160,10 +218,12 @@ export default function Contact() {
           email: data.get("email"),
           phone: data.get("phone"),
           company: data.get("company"),
+          business: data.get("business"),
+          entityType,
           siteOrSocial: data.get("siteOrSocial"),
-          projectType: data.get("projectType"),
-          budget: data.get("budget"),
-          timeline: data.get("timeline"),
+          projectType,
+          budget,
+          timeline,
           message: data.get("message"),
           website: data.get("website"),
           attachmentUrl,
@@ -172,17 +232,58 @@ export default function Contact() {
         }),
       });
       if (!res.ok) throw new Error("failed");
+
+      // Konverzia sa počíta až po úspešnom odoslaní, nikdy pri chybe.
+      trackLead({ formLocation: "kontakt", sluzba: projectType, typSubjektu: entityType });
+
       form.reset();
       removeFile();
+      setEntityType("");
       setProjectType("");
       setBudget("");
       setTimeline("");
+      setErrors({});
       sessionStorage.setItem("dnabs_conversion_pending", "1");
       router.push("/dakujeme");
     } catch {
       setStatus("error");
     }
   };
+
+  // Názov poľa vo formulári nesedí vždy s názvom prekladového kľúča.
+  const PLACEHOLDERS = {
+    name: "ph_name",
+    company: "ph_company",
+    business: "ph_business",
+    email: "ph_email",
+    phone: "ph_phone",
+    siteOrSocial: "ph_site",
+    message: "ph_msg",
+  } as const;
+
+  /** Textové pole aj s chybovou hláškou pod ním. */
+  const fieldProps = (name: keyof typeof PLACEHOLDERS) => ({
+    name,
+    className: `${styles.field} ${errors[name] ? styles.fieldInvalid : ""}`,
+    "aria-invalid": errors[name] ? true : undefined,
+    "aria-describedby": errors[name] ? `err-${name}` : undefined,
+    "aria-label": tPh(PLACEHOLDERS[name]),
+    placeholder: tPh(PLACEHOLDERS[name]),
+    onChange: () =>
+      setErrors((prev) => {
+        if (!prev[name]) return prev;
+        const next = { ...prev };
+        delete next[name];
+        return next;
+      }),
+  });
+
+  const fieldError = (name: string) =>
+    errors[name] ? (
+      <p id={`err-${name}`} className={styles.fieldError} role="alert">
+        {errors[name]}
+      </p>
+    ) : null;
 
   return (
     <section id="kontakt" className={styles.section}>
@@ -217,158 +318,181 @@ export default function Contact() {
           </div>
         </div>
 
-        <form className={styles.form} onSubmit={handleSubmit} noValidate>
-          <input
-            type="text"
-            name="name"
-            required
-            autoComplete="name"
-            aria-label={tPh("ph_name")}
-            placeholder={tPh("ph_name")}
-            className={styles.field}
-          />
-          <input
-            type="text"
-            name="company"
-            required
-            autoComplete="organization"
-            aria-label={tPh("ph_company")}
-            placeholder={tPh("ph_company")}
-            className={styles.field}
-          />
-          <input
-            type="email"
-            name="email"
-            required
-            autoComplete="email"
-            aria-label={tPh("ph_email")}
-            placeholder={tPh("ph_email")}
-            className={styles.field}
-          />
-          <input
-            type="tel"
-            name="phone"
-            required
-            autoComplete="tel"
-            aria-label={tPh("ph_phone")}
-            placeholder={tPh("ph_phone")}
-            className={styles.field}
-          />
-          <div className={styles.fieldGroup}>
+        <div>
+          <p className={styles.prequal}>{t("contact_prequal")}</p>
+
+          <form className={styles.form} onSubmit={handleSubmit} noValidate ref={formRef}>
+            <input type="text" autoComplete="name" {...fieldProps("name")} />
+            {fieldError("name")}
+
+            <input type="text" autoComplete="organization" {...fieldProps("company")} />
+            {fieldError("company")}
+
+            <div className={styles.fieldGroup}>
+              <input type="text" {...fieldProps("business")} />
+              <p className={styles.fieldHint}>
+                <span>{t("contact_business_hint")}</span>
+              </p>
+            </div>
+            {fieldError("business")}
+
+            <FieldPicker
+              name="entityType"
+              label={tPh("ph_entity")}
+              options={ENTITIES.map((o) => ({ value: o.value, label: t(o.key as DictKey) }))}
+              value={entityType}
+              onChange={(next) => {
+                setEntityType(next);
+                setErrors((prev) => {
+                  if (!prev.entityType) return prev;
+                  const rest = { ...prev };
+                  delete rest.entityType;
+                  return rest;
+                });
+              }}
+              openId={openPicker}
+              setOpenId={setOpenPicker}
+              error={errors.entityType}
+            />
+            {entityType === "nepodnikam" && (
+              <p className={styles.notice}>{t("contact_entity_notice")}</p>
+            )}
+
+            <input type="email" autoComplete="email" {...fieldProps("email")} />
+            {fieldError("email")}
+
+            <input type="tel" autoComplete="tel" {...fieldProps("phone")} />
+            {fieldError("phone")}
+
+            <div className={styles.fieldGroup}>
+              <input type="text" autoComplete="url" {...fieldProps("siteOrSocial")} />
+              <p className={styles.fieldHint}>
+                <span>{t("contact_site_hint")}</span>
+              </p>
+            </div>
+            {fieldError("siteOrSocial")}
+
+            <FieldPicker
+              name="projectType"
+              label={tPh("ph_project_type")}
+              options={PROJECT_TYPES.map((o) => ({ value: o.value, label: t(o.key as DictKey) }))}
+              value={projectType}
+              onChange={(next) => {
+                setProjectType(next);
+                setErrors((prev) => {
+                  if (!prev.projectType) return prev;
+                  const rest = { ...prev };
+                  delete rest.projectType;
+                  return rest;
+                });
+              }}
+              openId={openPicker}
+              setOpenId={setOpenPicker}
+              error={errors.projectType}
+            />
+
+            <FieldPicker
+              name="budget"
+              label={tPh("ph_budget")}
+              options={BUDGETS.map((o) => ({ value: o.value, label: t(o.key as DictKey) }))}
+              value={budget}
+              onChange={(next) => {
+                setBudget(next);
+                setErrors((prev) => {
+                  if (!prev.budget) return prev;
+                  const rest = { ...prev };
+                  delete rest.budget;
+                  return rest;
+                });
+              }}
+              openId={openPicker}
+              setOpenId={setOpenPicker}
+              error={errors.budget}
+            />
+
+            <FieldPicker
+              name="timeline"
+              label={tPh("ph_when")}
+              options={WHEN.map((o) => ({ value: o.value, label: t(o.key as DictKey) }))}
+              value={timeline}
+              onChange={setTimeline}
+              openId={openPicker}
+              setOpenId={setOpenPicker}
+            />
+
+            <textarea rows={4} {...fieldProps("message")} />
+            {fieldError("message")}
+
             <input
               type="text"
-              name="siteOrSocial"
-              required
-              autoComplete="url"
-              aria-label={tPh("ph_site")}
-              placeholder={tPh("ph_site")}
-              className={styles.field}
+              name="website"
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden="true"
+              className={styles.honeypot}
             />
-            <p className={styles.fieldHint}>
-              <span>{t("contact_site_hint")}</span>
-            </p>
-          </div>
-          <FieldPicker
-            name="projectType"
-            label={tPh("ph_project_type")}
-            options={PROJECT_TYPES.map((o) => ({ value: o.value, label: t(o.key) }))}
-            value={projectType}
-            onChange={setProjectType}
-            openId={openPicker}
-            setOpenId={setOpenPicker}
-          />
-          <FieldPicker
-            name="budget"
-            label={tPh("ph_budget")}
-            options={BUDGETS.map((o) => ({ value: o.value, label: t(o.key) }))}
-            value={budget}
-            onChange={setBudget}
-            openId={openPicker}
-            setOpenId={setOpenPicker}
-          />
-          <FieldPicker
-            name="timeline"
-            label={tPh("ph_when")}
-            options={WHEN.map((o) => ({ value: o.value, label: t(o.key) }))}
-            value={timeline}
-            onChange={setTimeline}
-            openId={openPicker}
-            setOpenId={setOpenPicker}
-          />
-          <textarea
-            rows={4}
-            name="message"
-            required
-            minLength={20}
-            aria-label={tPh("ph_msg")}
-            placeholder={tPh("ph_msg")}
-            className={styles.field}
-          />
 
-          <input
-            type="text"
-            name="website"
-            tabIndex={-1}
-            autoComplete="off"
-            aria-hidden="true"
-            className={styles.honeypot}
-          />
-
-          <details className={styles.more}>
-            <summary className={styles.moreSummary}>{t("contact_more")}</summary>
-            <div className={styles.moreInner}>
-              <div className={styles.uploadWrap}>
-                <input
-                  ref={fileInputRef}
-                  id="attachment"
-                  type="file"
-                  accept="image/png,image/jpeg,image/webp,image/gif,application/pdf"
-                  className={styles.uploadInput}
-                  onChange={(e) => setFile(e.target.files?.[0] ?? null)}
-                />
-                {!file ? (
-                  <label htmlFor="attachment" className={styles.uploadLabel}>
-                    <span className={styles.uploadIcon} aria-hidden>
-                      +
-                    </span>
-                    <span>
-                      <span className={styles.uploadTitle}>{t("upload_label")}</span>
-                      <span className={styles.uploadHint}>{t("upload_hint")}</span>
-                    </span>
-                  </label>
-                ) : (
-                  <div className={styles.uploadFile}>
-                    <span className={styles.uploadFileName}>{file.name}</span>
-                    {uploadState === "uploading" ? (
-                      <span className={styles.uploadStatus}>{t("upload_uploading")}</span>
-                    ) : (
-                      <button type="button" className={styles.uploadRemove} onClick={removeFile}>
-                        {t("upload_remove")}
-                      </button>
-                    )}
-                  </div>
-                )}
+            <details className={styles.more}>
+              <summary className={styles.moreSummary}>{t("contact_more")}</summary>
+              <div className={styles.moreInner}>
+                <div className={styles.uploadWrap}>
+                  <input
+                    ref={fileInputRef}
+                    id="attachment"
+                    type="file"
+                    accept="image/png,image/jpeg,image/webp,image/gif,application/pdf"
+                    className={styles.uploadInput}
+                    onChange={(e) => setFile(e.target.files?.[0] ?? null)}
+                  />
+                  {!file ? (
+                    <label htmlFor="attachment" className={styles.uploadLabel}>
+                      <span className={styles.uploadIcon} aria-hidden>
+                        +
+                      </span>
+                      <span>
+                        <span className={styles.uploadTitle}>{t("upload_label")}</span>
+                        <span className={styles.uploadHint}>{t("upload_hint")}</span>
+                      </span>
+                    </label>
+                  ) : (
+                    <div className={styles.uploadFile}>
+                      <span className={styles.uploadFileName}>{file.name}</span>
+                      {uploadState === "uploading" ? (
+                        <span className={styles.uploadStatus}>{t("upload_uploading")}</span>
+                      ) : (
+                        <button type="button" className={styles.uploadRemove} onClick={removeFile}>
+                          {t("upload_remove")}
+                        </button>
+                      )}
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
-          </details>
+            </details>
 
-          <button
-            type="submit"
-            disabled={status === "sending"}
-            className={styles.submit}
-            data-cursor="cta"
-          >
-            {status === "sending" ? t("contact_sending") : t("contact_submit")}
-          </button>
-          <p className={styles.formNote}>
-            <Emph text={t("contact_note")} />
-          </p>
-          {status === "error" && (
-            <p className={styles.errorMsg}>
-              {uploadState === "error" ? t("upload_error") : t("contact_error")}
+            <button
+              type="submit"
+              disabled={status === "sending"}
+              className={styles.submit}
+              data-cursor="cta"
+            >
+              {status === "sending" ? t("contact_sending") : t("contact_submit")}
+            </button>
+            <p className={styles.formNote}>
+              <Emph text={t("contact_note")} />
             </p>
-          )}
-        </form>
+            {Object.keys(errors).length > 0 && (
+              <p className={styles.errorMsg} role="alert">
+                {t("err_summary")}
+              </p>
+            )}
+            {status === "error" && (
+              <p className={styles.errorMsg} role="alert">
+                {uploadState === "error" ? t("upload_error") : t("contact_error")}
+              </p>
+            )}
+          </form>
+        </div>
       </Reveal>
     </section>
   );
