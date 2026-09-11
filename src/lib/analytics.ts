@@ -19,16 +19,16 @@ export type LeadEvent = {
   /** Kód služby z formulára: web | eshop | redesign | app | marketing */
   sluzba: string;
   /** firma | zivnostnik | nepodnikam */
-  typSubjektu: string;
+  odvetvie: string;
 };
 
-export function trackLead({ formLocation, sluzba, typSubjektu }: LeadEvent) {
+export function trackLead({ formLocation, sluzba, odvetvie }: LeadEvent) {
   if (typeof window === "undefined") return;
 
   const payload = {
     form_location: formLocation,
     sluzba: sluzba || "neuvedene",
-    typ_subjektu: typSubjektu || "neuvedene",
+    odvetvie: odvetvie || "neuvedene",
   };
 
   try {

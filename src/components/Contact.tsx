@@ -47,12 +47,6 @@ const INDUSTRIES = [
   { value: "ine", key: "opt_ind_ine" },
 ] as const;
 
-const ENTITIES = [
-  { value: "firma", key: "opt_entity_1" },
-  { value: "zivnostnik", key: "opt_entity_2" },
-  { value: "nepodnikam", key: "opt_entity_3" },
-] as const;
-
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 type PickerOption = { value: string; label: string };
@@ -147,7 +141,6 @@ export default function Contact() {
   // Naraz nech je otvorený len jeden výber.
   const [openPicker, setOpenPicker] = useState<string | null>(null);
   const [industry, setIndustry] = useState("");
-  const [entityType, setEntityType] = useState("");
   const [projectType, setProjectType] = useState("");
   const [budget, setBudget] = useState("");
   const [timeline, setTimeline] = useState("");
@@ -167,7 +160,6 @@ export default function Contact() {
     if (text("name").length < 2) found.name = t("err_required");
     if (!industry) found.industry = t("err_pick");
     if (industry === "ine" && !text("business")) found.business = t("err_required");
-    if (!entityType) found.entityType = t("err_pick");
     if (!EMAIL_RE.test(text("email"))) found.email = t("err_email");
     if (text("phone").replace(/\D/g, "").length < 6) found.phone = t("err_phone");
     if (!projectType) found.projectType = t("err_pick");
@@ -232,7 +224,6 @@ export default function Contact() {
           phone: data.get("phone"),
           company: data.get("company"),
           business: industry === "ine" ? data.get("business") : industry,
-          entityType,
           siteOrSocial: data.get("siteOrSocial"),
           projectType,
           budget,
@@ -247,12 +238,11 @@ export default function Contact() {
       if (!res.ok) throw new Error("failed");
 
       // Konverzia sa počíta až po úspešnom odoslaní, nikdy pri chybe.
-      trackLead({ formLocation: "kontakt", sluzba: projectType, typSubjektu: entityType });
+      trackLead({ formLocation: "kontakt", sluzba: projectType, odvetvie: industry });
 
       form.reset();
       removeFile();
       setIndustry("");
-      setEntityType("");
       setProjectType("");
       setBudget("");
       setTimeline("");
@@ -364,47 +354,24 @@ export default function Contact() {
               </>
             )}
 
-            <div className={styles.pairRow}>
-              <FieldPicker
-                name="entityType"
-                label={tPh("ph_entity")}
-                options={ENTITIES.map((o) => ({ value: o.value, label: t(o.key as DictKey) }))}
-                value={entityType}
-                onChange={(next) => {
-                  setEntityType(next);
-                  setErrors((prev) => {
-                    if (!prev.entityType) return prev;
-                    const rest = { ...prev };
-                    delete rest.entityType;
-                    return rest;
-                  });
-                }}
-                openId={openPicker}
-                setOpenId={setOpenPicker}
-                error={errors.entityType}
-              />
-              <FieldPicker
-                name="projectType"
-                label={tPh("ph_project_type")}
-                options={PROJECT_TYPES.map((o) => ({ value: o.value, label: t(o.key as DictKey) }))}
-                value={projectType}
-                onChange={(next) => {
-                  setProjectType(next);
-                  setErrors((prev) => {
-                    if (!prev.projectType) return prev;
-                    const rest = { ...prev };
-                    delete rest.projectType;
-                    return rest;
-                  });
-                }}
-                openId={openPicker}
-                setOpenId={setOpenPicker}
-                error={errors.projectType}
-              />
-            </div>
-            {entityType === "nepodnikam" && (
-              <p className={styles.notice}>{t("contact_entity_notice")}</p>
-            )}
+            <FieldPicker
+              name="projectType"
+              label={tPh("ph_project_type")}
+              options={PROJECT_TYPES.map((o) => ({ value: o.value, label: t(o.key as DictKey) }))}
+              value={projectType}
+              onChange={(next) => {
+                setProjectType(next);
+                setErrors((prev) => {
+                  if (!prev.projectType) return prev;
+                  const rest = { ...prev };
+                  delete rest.projectType;
+                  return rest;
+                });
+              }}
+              openId={openPicker}
+              setOpenId={setOpenPicker}
+              error={errors.projectType}
+            />
 
             <input type="email" autoComplete="email" {...fieldProps("email")} />
             {fieldError("email")}
