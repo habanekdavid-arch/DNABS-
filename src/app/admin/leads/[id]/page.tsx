@@ -5,7 +5,7 @@ import { UserButton } from "@clerk/nextjs";
 import { isAdminEmail } from "@/lib/admin";
 import { getSql } from "@/lib/db";
 import { LEAD_STATUSES } from "@/lib/leadStatus";
-import { budgetLabel, entityLabel, projectTypeLabel, timelineLabel } from "@/lib/leadLabels";
+import { budgetLabel, entityLabel, industryLabel, projectTypeLabel, timelineLabel } from "@/lib/leadLabels";
 import StatusSelect from "../../StatusSelect";
 import DeleteLeadButton from "../../DeleteLeadButton";
 import styles from "../../admin.module.css";
@@ -124,8 +124,8 @@ export default async function LeadDetailPage({
             <div>{entityLabel(lead.entity_type)}</div>
           </div>
           <div className={styles.field}>
-            <label>Čo podniká</label>
-            <div>{lead.business || "—"}</div>
+            <label>Odvetvie</label>
+            <div>{industryLabel(lead.business)}</div>
           </div>
           <div className={styles.field}>
             <label>Web / Instagram</label>

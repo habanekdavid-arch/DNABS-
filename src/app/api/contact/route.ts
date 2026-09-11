@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 import { getSql } from "@/lib/db";
-import { budgetLabel, entityLabel, projectTypeLabel, timelineLabel } from "@/lib/leadLabels";
+import { budgetLabel, industryLabel, projectTypeLabel, timelineLabel } from "@/lib/leadLabels";
 
 const CONTACT_EMAIL = "contact.dnabs@gmail.com";
 const EMAIL_RE = /^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]{2,}$/;
@@ -19,7 +19,6 @@ export async function POST(request: Request) {
   const name = clean(body.name);
   const company = clean(body.company);
   const business = clean(body.business);
-  const entityType = clean(body.entityType);
   const email = clean(body.email);
   const phone = clean(body.phone);
   const siteOrSocial = clean(body.siteOrSocial);
@@ -34,14 +33,10 @@ export async function POST(request: Request) {
   // Tá istá kontrola ako vo formulári — prehliadač sa dá obísť, server nie.
   const missing =
     name.length < 2 ||
-    !company ||
     !business ||
-    !entityType ||
     !EMAIL_RE.test(email) ||
     phone.replace(/\D/g, "").length < 6 ||
-    !siteOrSocial ||
     !projectType ||
-    !budget ||
     message.length < 20;
 
   if (missing) {
@@ -58,7 +53,7 @@ export async function POST(request: Request) {
     try {
       const rows = (await sql`
         INSERT INTO leads (name, email, phone, company, business, entity_type, site_or_social, project_type, budget, timeline, message, source, attachment_url, attachment_name)
-        VALUES (${name}, ${email}, ${phone}, ${company}, ${business}, ${entityType}, ${siteOrSocial}, ${projectType}, ${budget}, ${timeline || null}, ${message}, ${source || null}, ${attachmentUrl}, ${attachmentName})
+        VALUES (${name}, ${email}, ${phone}, ${company}, ${business}, ${null}, ${siteOrSocial}, ${projectType}, ${budget}, ${timeline || null}, ${message}, ${source || null}, ${attachmentUrl}, ${attachmentName})
         RETURNING id
       `) as { id: number }[];
       leadId = rows[0].id;
@@ -126,14 +121,13 @@ export async function POST(request: Request) {
       from: `"DNABS web" <${gmailUser}>`,
       to: CONTACT_EMAIL,
       replyTo: email,
-      subject: `${projectTypeLabel(projectType)} · ${budgetLabel(budget)} — nový dopyt`,
+      subject: `${projectTypeLabel(projectType)} · ${industryLabel(business)}${budget ? ` · ${budgetLabel(budget)}` : ""} — nový dopyt`,
       text: [
         "KLIENT",
         `Meno:            ${name}`,
-        `Firma:           ${company}`,
-        `Typ subjektu:    ${entityLabel(entityType)}`,
-        `Čo podniká:      ${business}`,
-        `Web / Instagram: ${siteOrSocial}`,
+        `Firma:           ${company || "—"}`,
+        `Odvetvie:        ${industryLabel(business)}`,
+        `Web / Instagram: ${siteOrSocial || "—"}`,
         "",
         "KONTAKT",
         `E-mail:          ${email}`,

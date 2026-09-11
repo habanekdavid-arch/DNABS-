@@ -33,10 +33,18 @@ const WHEN = [
   { value: "research", key: "opt_when_3" },
 ] as const;
 
-const ENTITIES = [
-  { value: "firma", key: "opt_entity_1" },
-  { value: "zivnostnik", key: "opt_entity_2" },
-  { value: "nepodnikam", key: "opt_entity_3" },
+const INDUSTRIES = [
+  { value: "gastro", key: "opt_ind_gastro" },
+  { value: "krasa", key: "opt_ind_krasa" },
+  { value: "fitness", key: "opt_ind_fitness" },
+  { value: "stavba", key: "opt_ind_stavba" },
+  { value: "auto", key: "opt_ind_auto" },
+  { value: "obchod", key: "opt_ind_obchod" },
+  { value: "sluzby", key: "opt_ind_sluzby" },
+  { value: "reality", key: "opt_ind_reality" },
+  { value: "zdravie", key: "opt_ind_zdravie" },
+  { value: "vzdelavanie", key: "opt_ind_vzdelavanie" },
+  { value: "ine", key: "opt_ind_ine" },
 ] as const;
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -132,7 +140,7 @@ export default function Contact() {
 
   // Naraz nech je otvorený len jeden výber.
   const [openPicker, setOpenPicker] = useState<string | null>(null);
-  const [entityType, setEntityType] = useState("");
+  const [industry, setIndustry] = useState("");
   const [projectType, setProjectType] = useState("");
   const [budget, setBudget] = useState("");
   const [timeline, setTimeline] = useState("");
@@ -150,14 +158,11 @@ export default function Contact() {
     const found: Record<string, string> = {};
 
     if (text("name").length < 2) found.name = t("err_required");
-    if (!text("company")) found.company = t("err_required");
-    if (!text("business")) found.business = t("err_required");
-    if (!entityType) found.entityType = t("err_pick");
+    if (!industry) found.industry = t("err_pick");
+    if (industry === "ine" && !text("business")) found.business = t("err_required");
     if (!EMAIL_RE.test(text("email"))) found.email = t("err_email");
     if (text("phone").replace(/\D/g, "").length < 6) found.phone = t("err_phone");
-    if (!text("siteOrSocial")) found.siteOrSocial = t("err_required");
     if (!projectType) found.projectType = t("err_pick");
-    if (!budget) found.budget = t("err_pick");
     if (text("message").length < 20) found.message = t("err_min20");
 
     return found;
@@ -218,8 +223,7 @@ export default function Contact() {
           email: data.get("email"),
           phone: data.get("phone"),
           company: data.get("company"),
-          business: data.get("business"),
-          entityType,
+          business: industry === "ine" ? data.get("business") : industry,
           siteOrSocial: data.get("siteOrSocial"),
           projectType,
           budget,
@@ -234,11 +238,11 @@ export default function Contact() {
       if (!res.ok) throw new Error("failed");
 
       // Konverzia sa počíta až po úspešnom odoslaní, nikdy pri chybe.
-      trackLead({ formLocation: "kontakt", sluzba: projectType, typSubjektu: entityType });
+      trackLead({ formLocation: "kontakt", sluzba: projectType, odvetvie: industry });
 
       form.reset();
       removeFile();
-      setEntityType("");
+      setIndustry("");
       setProjectType("");
       setBudget("");
       setTimeline("");
@@ -254,7 +258,7 @@ export default function Contact() {
   const PLACEHOLDERS = {
     name: "ph_name",
     company: "ph_company",
-    business: "ph_business",
+    business: "ph_business_other",
     email: "ph_email",
     phone: "ph_phone",
     siteOrSocial: "ph_site",
@@ -325,52 +329,30 @@ export default function Contact() {
             <input type="text" autoComplete="name" {...fieldProps("name")} />
             {fieldError("name")}
 
-            <input type="text" autoComplete="organization" {...fieldProps("company")} />
-            {fieldError("company")}
-
-            <div className={styles.fieldGroup}>
-              <input type="text" {...fieldProps("business")} />
-              <p className={styles.fieldHint}>
-                <span>{t("contact_business_hint")}</span>
-              </p>
-            </div>
-            {fieldError("business")}
-
             <FieldPicker
-              name="entityType"
-              label={tPh("ph_entity")}
-              options={ENTITIES.map((o) => ({ value: o.value, label: t(o.key as DictKey) }))}
-              value={entityType}
+              name="industry"
+              label={tPh("ph_business")}
+              options={INDUSTRIES.map((o) => ({ value: o.value, label: t(o.key as DictKey) }))}
+              value={industry}
               onChange={(next) => {
-                setEntityType(next);
+                setIndustry(next);
                 setErrors((prev) => {
-                  if (!prev.entityType) return prev;
+                  if (!prev.industry) return prev;
                   const rest = { ...prev };
-                  delete rest.entityType;
+                  delete rest.industry;
                   return rest;
                 });
               }}
               openId={openPicker}
               setOpenId={setOpenPicker}
-              error={errors.entityType}
+              error={errors.industry}
             />
-            {entityType === "nepodnikam" && (
-              <p className={styles.notice}>{t("contact_entity_notice")}</p>
+            {industry === "ine" && (
+              <>
+                <input type="text" {...fieldProps("business")} />
+                {fieldError("business")}
+              </>
             )}
-
-            <input type="email" autoComplete="email" {...fieldProps("email")} />
-            {fieldError("email")}
-
-            <input type="tel" autoComplete="tel" {...fieldProps("phone")} />
-            {fieldError("phone")}
-
-            <div className={styles.fieldGroup}>
-              <input type="text" autoComplete="url" {...fieldProps("siteOrSocial")} />
-              <p className={styles.fieldHint}>
-                <span>{t("contact_site_hint")}</span>
-              </p>
-            </div>
-            {fieldError("siteOrSocial")}
 
             <FieldPicker
               name="projectType"
@@ -391,34 +373,13 @@ export default function Contact() {
               error={errors.projectType}
             />
 
-            <FieldPicker
-              name="budget"
-              label={tPh("ph_budget")}
-              options={BUDGETS.map((o) => ({ value: o.value, label: t(o.key as DictKey) }))}
-              value={budget}
-              onChange={(next) => {
-                setBudget(next);
-                setErrors((prev) => {
-                  if (!prev.budget) return prev;
-                  const rest = { ...prev };
-                  delete rest.budget;
-                  return rest;
-                });
-              }}
-              openId={openPicker}
-              setOpenId={setOpenPicker}
-              error={errors.budget}
-            />
+            <input type="email" autoComplete="email" {...fieldProps("email")} />
+            {fieldError("email")}
 
-            <FieldPicker
-              name="timeline"
-              label={tPh("ph_when")}
-              options={WHEN.map((o) => ({ value: o.value, label: t(o.key as DictKey) }))}
-              value={timeline}
-              onChange={setTimeline}
-              openId={openPicker}
-              setOpenId={setOpenPicker}
-            />
+            <input type="tel" autoComplete="tel" {...fieldProps("phone")} />
+            {fieldError("phone")}
+
+
 
             <textarea rows={4} {...fieldProps("message")} />
             {fieldError("message")}
@@ -435,6 +396,31 @@ export default function Contact() {
             <details className={styles.more}>
               <summary className={styles.moreSummary}>{t("contact_more")}</summary>
               <div className={styles.moreInner}>
+                <input type="text" autoComplete="organization" {...fieldProps("company")} />
+                <div className={styles.fieldGroup}>
+                  <input type="text" autoComplete="url" {...fieldProps("siteOrSocial")} />
+                  <p className={styles.fieldHint}>
+                    <span>{t("contact_site_hint")}</span>
+                  </p>
+                </div>
+                <FieldPicker
+                  name="budget"
+                  label={tPh("ph_budget")}
+                  options={BUDGETS.map((o) => ({ value: o.value, label: t(o.key as DictKey) }))}
+                  value={budget}
+                  onChange={setBudget}
+                  openId={openPicker}
+                  setOpenId={setOpenPicker}
+                />
+                <FieldPicker
+                  name="timeline"
+                  label={tPh("ph_when")}
+                  options={WHEN.map((o) => ({ value: o.value, label: t(o.key as DictKey) }))}
+                  value={timeline}
+                  onChange={setTimeline}
+                  openId={openPicker}
+                  setOpenId={setOpenPicker}
+                />
                 <div className={styles.uploadWrap}>
                   <input
                     ref={fileInputRef}
