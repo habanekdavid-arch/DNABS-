@@ -410,16 +410,6 @@ export default function Contact() {
               error={errors.budget}
             />
 
-            <FieldPicker
-              name="timeline"
-              label={tPh("ph_when")}
-              options={WHEN.map((o) => ({ value: o.value, label: t(o.key as DictKey) }))}
-              value={timeline}
-              onChange={setTimeline}
-              openId={openPicker}
-              setOpenId={setOpenPicker}
-            />
-
             <textarea rows={4} {...fieldProps("message")} />
             {fieldError("message")}
 
@@ -435,6 +425,15 @@ export default function Contact() {
             <details className={styles.more}>
               <summary className={styles.moreSummary}>{t("contact_more")}</summary>
               <div className={styles.moreInner}>
+                <FieldPicker
+                  name="timeline"
+                  label={tPh("ph_when")}
+                  options={WHEN.map((o) => ({ value: o.value, label: t(o.key as DictKey) }))}
+                  value={timeline}
+                  onChange={setTimeline}
+                  openId={openPicker}
+                  setOpenId={setOpenPicker}
+                />
                 <div className={styles.uploadWrap}>
                   <input
                     ref={fileInputRef}

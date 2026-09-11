@@ -188,8 +188,8 @@ const dict = {
     en: "A link to your site or profile. If you don't have one yet, write “none”.",
   },
   contact_more: {
-    sk: "Nepovinné — priložiť logo alebo podklady",
-    en: "Optional — attach a logo or materials",
+    sk: "Nepovinné — termín a prílohy",
+    en: "Optional — timing and attachments",
   },
   contact_note: {
     sk: "Vyplnenie ti zaberie pár sekúnd. Návrh webu na mieru ti pošleme do 24 hodín.",
