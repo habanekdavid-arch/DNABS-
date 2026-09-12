@@ -238,7 +238,15 @@ export default function Contact() {
       if (!res.ok) throw new Error("failed");
 
       // Konverzia sa počíta až po úspešnom odoslaní, nikdy pri chybe.
-      trackLead({ formLocation: "kontakt", sluzba: projectType, odvetvie: industry });
+      // E-mail a telefón slúžia len pre vylepšené konverzie — gtag ich
+      // zahashuje, do parametrov udalosti sa nikdy nedostanú.
+      trackLead({
+        formLocation: "kontakt",
+        sluzba: projectType,
+        odvetvie: industry,
+        email: String(data.get("email") ?? ""),
+        phone: String(data.get("phone") ?? ""),
+      });
 
       form.reset();
       removeFile();
