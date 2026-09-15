@@ -171,10 +171,6 @@ const dict = {
   err_email: { sk: "Zadajte platný e-mail.", en: "Enter a valid e-mail address." },
   err_phone: { sk: "Zadajte telefónne číslo, na ktorom vás zastihneme.", en: "Enter a phone number where we can reach you." },
   err_pick: { sk: "Vyberte jednu z možností.", en: "Pick one of the options." },
-  err_min20: {
-    sk: "Napíšte aspoň 20 znakov — čím konkrétnejšie, tým lepší návrh pripravíme.",
-    en: "Write at least 20 characters — the more specific, the better the design.",
-  },
   err_summary: {
     sk: "Formulár sa nedá odoslať — skontrolujte označené polia.",
     en: "The form can't be sent — please check the highlighted fields.",
@@ -256,8 +252,8 @@ const phDict = {
   ph_budget: { sk: "Rozpočet", en: "Budget" },
   ph_when: { sk: "Kedy to riešite", en: "When are you tackling this" },
   ph_msg: {
-    sk: "Čo presne potrebujete? Aspoň pár viet *",
-    en: "What exactly do you need? A few sentences at least *",
+    sk: "Čo presne potrebujete? *",
+    en: "What exactly do you need? *",
   },
 } as const;
 
