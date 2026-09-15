@@ -163,7 +163,7 @@ export default function Contact() {
     if (!EMAIL_RE.test(text("email"))) found.email = t("err_email");
     if (text("phone").replace(/\D/g, "").length < 6) found.phone = t("err_phone");
     if (!projectType) found.projectType = t("err_pick");
-    if (text("message").length < 20) found.message = t("err_min20");
+    if (!text("message")) found.message = t("err_required");
 
     return found;
   };

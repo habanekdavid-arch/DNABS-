@@ -37,7 +37,7 @@ export async function POST(request: Request) {
     !EMAIL_RE.test(email) ||
     phone.replace(/\D/g, "").length < 6 ||
     !projectType ||
-    message.length < 20;
+    !message;
 
   if (missing) {
     return NextResponse.json(
