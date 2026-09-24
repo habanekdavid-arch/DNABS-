@@ -20,7 +20,7 @@ export default function FaqSection({
         <div className={styles.head}>
           <div>
             <div className={styles.kicker}>{t("faq_kicker")}</div>
-            <h2 className={styles.title}>{t("faq_title")}</h2>
+            <h2 className={styles.title} data-fx>{t("faq_title")}</h2>
           </div>
           <div className={styles.count}>
             <span className={styles.countNum}>{String(items.length).padStart(2, "0")}</span>

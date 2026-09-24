@@ -14,14 +14,14 @@ export default function CtaBand() {
       <Reveal className={styles.band}>
         <div>
           <div className={styles.kicker}>{t("band_kicker")}</div>
-          <h2 className={styles.title}>
+          <h2 className={styles.title} data-fx>
             <Emph text={t("band_title")} variant="text" />
           </h2>
           <p className={styles.sub}>
             <Emph text={t("band_sub")} />
           </p>
         </div>
-        <Link href="/#kontakt" className={styles.cta} data-cursor="cta">
+        <Link href="/#kontakt" className={styles.cta} data-cursor="cta" data-fx>
           <span className={styles.ctaBadge}>{t("hero_cta_badge")}</span>
           {t("band_cta")}
         </Link>

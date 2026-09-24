@@ -74,7 +74,7 @@ export default function Services() {
       <Reveal className={styles.head}>
         <div>
           <div className={styles.kicker}>{t("svc_kicker")}</div>
-          <h2 className={styles.title}>{t("svc_title")}</h2>
+          <h2 className={styles.title} data-fx>{t("svc_title")}</h2>
         </div>
         <p className={styles.intro}>{t("svc_intro")}</p>
       </Reveal>

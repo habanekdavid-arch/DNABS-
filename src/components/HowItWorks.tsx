@@ -117,7 +117,7 @@ export default function HowItWorks() {
       <Reveal className={styles.head}>
         <div>
           <div className={styles.kicker}>{t("how_kicker")}</div>
-          <h2 className={styles.title}>{t("how_title")}</h2>
+          <h2 className={styles.title} data-fx>{t("how_title")}</h2>
         </div>
         <p className={styles.intro}>{t("how_intro")}</p>
       </Reveal>
@@ -154,7 +154,7 @@ export default function HowItWorks() {
       </div>
 
       <Reveal className={styles.ctaWrap}>
-        <Link href="/#kontakt" className={styles.cta} data-cursor="cta">
+        <Link href="/#kontakt" className={styles.cta} data-cursor="cta" data-fx>
           {t("how_cta")}
         </Link>
       </Reveal>

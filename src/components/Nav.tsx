@@ -35,7 +35,7 @@ export default function Nav() {
             EN
           </button>
         </div>
-        <Link href="/#kontakt" className={styles.cta} data-cursor="cta">
+        <Link href="/#kontakt" className={styles.cta} data-cursor="cta" data-fx>
           <span className={styles.ctaFull}>{t("nav_cta")}</span>
           <span className={styles.ctaShort}>{t("nav_cta_short")}</span>
         </Link>

@@ -469,6 +469,7 @@ export default function Contact() {
               disabled={status === "sending"}
               className={styles.submit}
               data-cursor="cta"
+              data-fx
             >
               {status === "sending" ? t("contact_sending") : t("contact_submit")}
             </button>

@@ -59,7 +59,7 @@ export default function Hero() {
 
       <div className={styles.headline}>
         <div className={styles.kicker}>{t("hero_kicker")}</div>
-        <h1 className={styles.h1}>
+        <h1 className={styles.h1} data-fx data-fx-idle>
           <span className={styles.h1Line}>{t("hero_l1")}</span>
           <span className={styles.h1Line}>
             {t("hero_l2")} <span className={styles.script}>{t("hero_l3")}</span>
@@ -72,11 +72,11 @@ export default function Hero() {
           <Emph text={t("hero_sub")} />
         </p>
         <div className={styles.ctaRow}>
-          <a href="#kontakt" className={styles.ctaPrimary} data-cursor="cta">
+          <a href="#kontakt" className={styles.ctaPrimary} data-cursor="cta" data-fx>
             <span className={styles.ctaBadge}>{t("hero_cta_badge")}</span>
             {t("hero_cta1")}
           </a>
-          <a href="#sluzby" className={styles.ctaSecondary}>{t("hero_cta2")}</a>
+          <a href="#sluzby" className={styles.ctaSecondary} data-fx>{t("hero_cta2")}</a>
         </div>
       </div>
     </section>
