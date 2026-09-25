@@ -1,0 +1,58 @@
+/* Kontajner škvŕn — sedí za obsahom sekcie a nechytá myš. */
+.blobs{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  overflow:hidden;
+  z-index:0;
+}
+
+.blob{
+  position:absolute;
+  border-radius:50%;
+  will-change:transform;
+}
+
+.blue{
+  right:-8%;
+  top:8%;
+  width:min(62vw,980px);
+  height:min(62vw,980px);
+  background:radial-gradient(circle, rgba(64,78,230,.55), rgba(64,78,230,0) 62%);
+  filter:blur(30px);
+}
+
+.orange{
+  right:12%;
+  top:40%;
+  width:min(44vw,720px);
+  height:min(44vw,720px);
+  background:radial-gradient(circle, rgba(255,90,31,.55), rgba(255,90,31,0) 62%);
+  filter:blur(30px);
+}
+
+.purple{
+  left:-10%;
+  bottom:-20%;
+  width:min(40vw,640px);
+  height:min(40vw,640px);
+  background:radial-gradient(circle, rgba(102,55,237,.28), rgba(102,55,237,0) 65%);
+  filter:blur(40px);
+}
+
+/* Kontaktná sekcia dostane tú istú hru farieb, len tlmenejšie a inak
+   rozloženú — oranžová vľavo, modrá v strede. */
+.soft{opacity:.35;}
+.soft .blue{right:auto;left:38%;top:12%;width:min(46vw,720px);height:min(46vw,720px);}
+.soft .orange{right:auto;left:-12%;top:30%;width:min(38vw,600px);height:min(38vw,600px);}
+.soft .purple{display:none;}
+
+/* Zrno cez celú stránku. */
+.grain{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:9990;
+  opacity:.07;
+  mix-blend-mode:multiply;
+}

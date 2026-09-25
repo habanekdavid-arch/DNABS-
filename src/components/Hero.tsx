@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useLanguage } from "@/lib/i18n";
 import Emph from "./Emph";
 import Nav from "./Nav";
+import AmbientBlobs from "./AmbientBlobs";
 import styles from "./Hero.module.css";
 import laptop from "../assets/hero-laptop.webp";
 import laptopEffects from "../assets/hero-laptop-effects.webp";
@@ -13,6 +14,7 @@ export default function Hero() {
 
   return (
     <section className={styles.hero}>
+      <AmbientBlobs />
       <div className={styles.grid} />
       <div className={styles.scanlines} />
 

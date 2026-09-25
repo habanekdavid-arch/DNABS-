@@ -21,7 +21,8 @@ html,body{max-width:100vw;overflow-x:hidden;}
 
 body{
   min-height:100%;
-  background:#efece6;
+  background:linear-gradient(180deg,#ECECEE 0%,#E3E3E7 100%);
+  background-attachment:fixed;
   color:#0a0a0a;
   font-family:var(--font-space-grotesk),system-ui,sans-serif;
   -webkit-font-smoothing:antialiased;
