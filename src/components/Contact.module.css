@@ -1,10 +1,14 @@
 .section{
+  position:relative;
+  overflow:hidden;
   background:#0a0a0a;
   color:#fff;
   padding:clamp(64px,11vh,140px) clamp(20px,4vw,48px);
 }
 
 .grid{
+  position:relative;
+  z-index:1;
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
   gap:clamp(28px,3.5vw,54px);

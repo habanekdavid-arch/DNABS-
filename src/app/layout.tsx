@@ -9,6 +9,8 @@ import {
 import CookieConsent from "@/components/CookieConsent";
 import Cursor from "@/components/Cursor";
 import SmoothAnchors from "@/components/SmoothAnchors";
+import ShapeBurst from "@/components/ShapeBurst";
+import Grain from "@/components/Grain";
 import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({
@@ -124,6 +126,8 @@ export default function RootLayout({
         <CookieConsent />
         <Cursor />
         <SmoothAnchors />
+        <ShapeBurst />
+        <Grain />
       </body>
     </html>
   );

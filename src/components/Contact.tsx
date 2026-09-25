@@ -7,6 +7,7 @@ import { useLanguage, type DictKey } from "@/lib/i18n";
 import { trackLead } from "@/lib/analytics";
 import Emph from "./Emph";
 import Reveal from "./Reveal";
+import AmbientBlobs from "./AmbientBlobs";
 import styles from "./Contact.module.css";
 
 /* Rozpočet, termín aj typ subjektu ukladáme ako stabilné kódy, nie ako
@@ -299,6 +300,7 @@ export default function Contact() {
 
   return (
     <section id="kontakt" className={styles.section}>
+      <AmbientBlobs soft />
       <Reveal className={styles.grid}>
         <div>
           <div className={styles.kicker}>{t("contact_kicker")}</div>
@@ -469,6 +471,7 @@ export default function Contact() {
               disabled={status === "sending"}
               className={styles.submit}
               data-cursor="cta"
+              data-fx
             >
               {status === "sending" ? t("contact_sending") : t("contact_submit")}
             </button>

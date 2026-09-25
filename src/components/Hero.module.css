@@ -61,7 +61,7 @@
 .hero{
   position:relative;
   min-height:100vh;
-  background:#efece6;
+  /* Pozadie prichádza z <body> — škvrny pod obsahom by inak nebolo vidieť. */
   overflow:hidden;
 }
 
