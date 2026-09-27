@@ -1,6 +1,6 @@
 /* Návrhová veľkosť 880×560, celé sa škáluje cez transform zvonka. */
 .wrap{
-  position:absolute;
+  position:relative;
   width:880px;
   height:640px;
   perspective:2400px;
