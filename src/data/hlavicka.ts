@@ -32,11 +32,10 @@ export const NAV_LOGO = "/logo.svg";
 /* ── HERO ───────────────────────────────────────────────────────────── */
 
 export const HERO = {
-  nadpis: "Digitálna DNA vašej značky.",
-  podnadpis:
-    "Robíme webstránky, aplikácie a reklamu na internete. Vy nám poviete, čo potrebujete — my sa postaráme o zvyšok, aby vás zákazníci našli a ozvali sa.",
-  tlacidloHlavne: { label: "Kontaktujte nás", href: "#kontakt" },
-  tlacidloVedlajsie: { label: "Realizácie", href: "#realizacia" },
+  /** Dve slová. Vypisuje sa veľkými písmenami, aj keď sú tu malé. */
+  nadpis: "Digitálna DNA",
+  /** Jediné tlačidlo pod nadpisom. */
+  tlacidlo: { label: "Konzultácia", href: "#kontakt" },
 };
 
 /* ── KOLÁŽ REALIZÁCIÍ ───────────────────────────────────────────────────
@@ -52,6 +51,7 @@ export const HERO = {
    Typy kariet:
      { typ: "obrazok",  src, alt }          — fotka alebo grafika
      { typ: "video",    src, poster, alt }  — video s play tlačidlom
+     { typ: "logo",     src, alt }          — logo klienta, bez rámu
      { typ: "stitok",   text }              — sklenený štítok
      { typ: "notebook", screenshot, alt }   — 3D notebook so screenshotom
 
@@ -61,6 +61,7 @@ export const HERO = {
 export type KartaKolaze =
   | { typ: "obrazok"; x: number; y: number; w: number; h: number; z?: number; rot?: number; src: string; alt: string }
   | { typ: "video"; x: number; y: number; w: number; h: number; z?: number; rot?: number; src: string; poster?: string; alt: string }
+  | { typ: "logo"; x: number; y: number; w: number; h: number; z?: number; rot?: number; src: string; alt: string }
   | { typ: "stitok"; x: number; y: number; z?: number; rot?: number; text: string }
   | { typ: "notebook"; x: number; y: number; z?: number; rot?: number; screenshot: string; alt: string };
 
@@ -99,7 +100,9 @@ export const PROJEKTY: Projekt[] = [
     nazov: "CLEVER",
     farba: "#E4191F",
     href: "https://clever.sk",
-    klikNa: "",                     // prázdne = stránka projektu /realizacie/clever
+    // Prezentačná stránka projektu — klik na notebook ide rovno sem,
+    // cez /realizacie/clever sa už neprechádza.
+    klikNa: "https://claude.ai/artifact/UZeSfxNY5a2JzXvKvFm4Dn",
     logo: "/realizacie/clever-logo.svg",
     popis: "2026 — Branding a web",
     tagline: "AI asistentka, ktorá pomáha seniorom zvládnuť moderný telefón.",
@@ -122,6 +125,7 @@ export const PROJEKTY: Projekt[] = [
       { src: "/realizacie/clever-galeria-3.png", alt: "Podstránka na stiahnutie aplikácie", popis: "Podstránka na stiahnutie" },
     ],
     karty: [
+      { typ: "logo", x: 42, y: 84, w: 230, h: 36, z: 140, rot: -2, src: "/realizacie/clever-logo-cervene.svg", alt: "Logo CLEVER" },
       { typ: "notebook", x: 20, y: 165, z: 90, rot: -3, screenshot: "/realizacie/clever-web.png", alt: "Web CLEVER" },
       // miesto 1 — siroke (320×205)
       { typ: "obrazok", x: 690, y: 55, w: 320, h: 205, z: 150, rot: 3, src: "/realizacie/clever-1.png", alt: "CLEVER — živé demo na webe" },
