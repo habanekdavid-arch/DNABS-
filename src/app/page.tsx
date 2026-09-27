@@ -7,6 +7,7 @@ import ServicesMarquee from "@/components/ServicesMarquee";
 import Services from "@/components/Services";
 import CtaBand from "@/components/CtaBand";
 import Referencie from "@/components/Referencie";
+import ImpactCharts from "@/components/ImpactCharts";
 import About from "@/components/About";
 import HomeFaq from "@/components/HomeFaq";
 import Contact from "@/components/Contact";
@@ -21,6 +22,7 @@ export default function Home() {
         <HowItWorks />
         <Realizacia />
         <ServicesMarquee />
+        <ImpactCharts />
         <Services />
         <CtaBand />
         <About />
