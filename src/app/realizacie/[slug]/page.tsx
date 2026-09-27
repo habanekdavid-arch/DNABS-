@@ -32,8 +32,12 @@ export default async function ProjektPage({ params }: { params: Promise<{ slug: 
       <div className={styles.head}>
         <div>
           {projekt.logo && (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={projekt.logo} alt={`Logo ${projekt.nazov}`} className={styles.logo} />
+            /* Logá sa dodávajú v negatívnej (svetlej) verzii pre farebný panel,
+               preto ich aj tu kladieme na doštičku vo firemnej farbe. */
+            <div className={styles.logoPlate}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={projekt.logo} alt={`Logo ${projekt.nazov}`} className={styles.logo} />
+            </div>
           )}
           <h1 className={styles.title}>{projekt.nazov}</h1>
           <div className={styles.meta}>{projekt.popis}</div>
