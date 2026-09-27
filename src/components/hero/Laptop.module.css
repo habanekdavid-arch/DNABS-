@@ -1,0 +1,153 @@
+/* Návrhová veľkosť 880×560, celé sa škáluje cez transform zvonka. */
+.wrap{
+  position:absolute;
+  width:880px;
+  height:640px;
+  perspective:2400px;
+  perspective-origin:50% 20%;
+  transform-origin:0 0;
+}
+
+.scene{
+  position:relative;
+  width:880px;
+  height:560px;
+  transform-style:preserve-3d;
+  transform-origin:50% 100%;
+  transform:rotateX(-16deg);
+}
+
+/* ── VEKO ──────────────────────────────────────────────────────────── */
+.lid{
+  position:absolute;
+  inset:0;
+  width:880px;
+  height:560px;
+  transform-origin:50% 100%;
+  transform-style:preserve-3d;
+  transform:rotateX(6deg);
+}
+
+.lidFront{
+  position:absolute;
+  inset:0;
+  backface-visibility:hidden;
+  background:#050506;
+  border-radius:26px 26px 8px 8px;
+  padding:16px 16px 26px;
+  box-shadow:0 40px 90px -30px rgba(14,14,17,.55);
+}
+
+.screen{
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  border-radius:12px;
+  background:#101014;
+  position:relative;
+}
+.screen img{width:100%;height:100%;object-fit:cover;display:block;}
+
+.lidBack{
+  position:absolute;
+  inset:0;
+  /* Bez toho sa zadná strana prekreslí cez prednú a screenshot zmizne. */
+  backface-visibility:hidden;
+  transform:rotateY(180deg);
+  border-radius:26px 26px 8px 8px;
+  background:linear-gradient(145deg,#C4C5CB,#E3E4E8 45%,#D6D7DC);
+  display:grid;
+  place-items:center;
+}
+
+/* ── ZÁKLADŇA ──────────────────────────────────────────────────────── */
+.base{
+  position:absolute;
+  top:560px;
+  left:0;
+  width:880px;
+  height:580px;
+  transform-origin:50% 0;
+  transform:rotateX(90deg);
+  background:linear-gradient(160deg,#C4C5CB,#E3E4E8 45%,#D6D7DC);
+  border-radius:0 0 30px 30px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.85);
+  padding:16px 34px 0;
+}
+
+/* Výrez na otváranie. */
+.notch{
+  width:140px;
+  height:6px;
+  margin:0 auto 10px;
+  border-radius:0 0 6px 6px;
+  background:linear-gradient(180deg,#A9AAB1,#C9CAD0);
+}
+
+.speakers{display:flex;gap:10px;align-items:flex-start;}
+.grille{
+  width:40px;
+  flex:0 0 40px;
+  height:250px;
+  border-radius:6px;
+  background-image:radial-gradient(circle, rgba(120,121,128,.55) 1px, transparent 1.4px);
+  background-size:7px 7px;
+}
+
+/* Klávesnica v zapustenej vaničke. */
+.keyboard{
+  flex:1;
+  background:#B4B5BB;
+  border-radius:10px;
+  padding:9px;
+  box-shadow:inset 0 3px 8px rgba(14,14,17,.32);
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+}
+.row{display:flex;gap:5px;}
+
+.key{
+  flex:1 1 0;
+  height:34px;
+  border-radius:5px;
+  background:linear-gradient(180deg,#26262B,#18181C);
+  color:#C9C9CF;
+  font-family:var(--font-geist-mono),monospace;
+  font-size:11px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 1px 0 rgba(255,255,255,.06) inset, 0 1px 2px rgba(0,0,0,.35);
+}
+/* F-klávesy sú nižšie. */
+.rowFn .key{height:20px;font-size:9px;}
+/* Modifikátory majú menšie písmo zarovnané do rohu. */
+.mod{
+  font-size:9px;
+  align-items:flex-end;
+  justify-content:flex-start;
+  padding:0 0 4px 5px;
+}
+
+.touchpad{
+  width:360px;
+  height:190px;
+  margin:14px auto 0;
+  border-radius:10px;
+  background:linear-gradient(180deg,#CFD0D6,#C4C5CB);
+  box-shadow:inset 0 1px 3px rgba(14,14,17,.22);
+}
+
+/* Mäkký tieň pod notebookom. */
+.shadow{
+  position:absolute;
+  left:50%;
+  top:585px;
+  width:960px;
+  height:90px;
+  transform:translateX(-50%);
+  background:radial-gradient(ellipse at center, rgba(14,14,17,.34), rgba(14,14,17,0) 70%);
+  filter:blur(8px);
+  pointer-events:none;
+}

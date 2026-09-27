@@ -5,6 +5,9 @@ import {
   Instrument_Serif,
   Bricolage_Grotesque,
   Allura,
+  Manrope,
+  Geist,
+  Geist_Mono,
 } from "next/font/google";
 import CookieConsent from "@/components/CookieConsent";
 import Cursor from "@/components/Cursor";
@@ -12,6 +15,25 @@ import SmoothAnchors from "@/components/SmoothAnchors";
 import ShapeBurst from "@/components/ShapeBurst";
 import Grain from "@/components/Grain";
 import "./globals.css";
+
+/* Vrchná časť webu — nadpisy Manrope 800, text Geist, štítky Geist Mono. */
+const manrope = Manrope({
+  variable: "--font-manrope",
+  subsets: ["latin", "latin-ext"],
+  weight: ["800"],
+});
+
+const geist = Geist({
+  variable: "--font-geist",
+  subsets: ["latin", "latin-ext"],
+  weight: ["400", "500"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin", "latin-ext"],
+  weight: ["400"],
+});
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
@@ -95,7 +117,7 @@ export default function RootLayout({
   return (
     <html
       lang="sk"
-      className={`${spaceGrotesk.variable} ${spaceMono.variable} ${instrumentSerif.variable} ${bricolage.variable} ${allura.variable}`}
+      className={`${spaceGrotesk.variable} ${spaceMono.variable} ${instrumentSerif.variable} ${bricolage.variable} ${allura.variable} ${manrope.variable} ${geist.variable} ${geistMono.variable}`}
     >
       <head>
         <script

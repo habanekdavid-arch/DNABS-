@@ -1,5 +1,6 @@
 import { LanguageProvider } from "@/lib/i18n";
-import Hero from "@/components/Hero";
+import TopNav from "@/components/hero/TopNav";
+import HeroTop from "@/components/hero/HeroTop";
 import HowItWorks from "@/components/HowItWorks";
 import Realizacia from "@/components/Realizacia";
 import ServicesMarquee from "@/components/ServicesMarquee";
@@ -14,8 +15,9 @@ import Footer from "@/components/Footer";
 export default function Home() {
   return (
     <LanguageProvider defaultLang="sk">
+      <TopNav />
       <main id="top">
-        <Hero />
+        <HeroTop />
         <HowItWorks />
         <Realizacia />
         <ServicesMarquee />

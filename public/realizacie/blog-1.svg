@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 600" width="480" height="600">
+  <rect width="480" height="600" fill="#FF5A1F"/>
+  <rect x="1" y="1" width="478" height="598" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="2" stroke-dasharray="8 8"/>
+  <text x="50%" y="48%" fill="rgba(255,255,255,.92)" font-family="monospace" font-size="21"
+        text-anchor="middle">fotka</text>
+  <text x="50%" y="58%" fill="rgba(255,255,255,.6)" font-family="monospace" font-size="14"
+        text-anchor="middle">480×600</text>
+</svg>
