@@ -6,19 +6,49 @@ import { PROJEKTY, AUTO_PREPNUTIE_MS, type KartaKolaze, type Projekt } from "@/d
 import Laptop from "./Laptop";
 import styles from "./Collage.module.css";
 
+/** Bez myši a pri obmedzenom pohybe hover nerobíme vôbec. */
+function jemnyUkazovatel() {
+  return window.matchMedia("(pointer: fine)").matches
+    && !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
 const DESIGN_W = 1040;
 const DESIGN_H = 680;
 
-/** Naklonenie karty podľa pozície kurzora nad ňou. */
-function tiltCard(card: HTMLElement, e: React.MouseEvent) {
-  const rect = card.getBoundingClientRect();
-  const px = (e.clientX - rect.left) / rect.width;
-  const py = (e.clientY - rect.top) / rect.height;
-  const base = card.dataset.base ?? "";
-  card.style.transform =
-    `${base} translateZ(60px) scale(1.04) rotateX(${(0.5 - py) * 22}deg) rotateY(${(px - 0.5) * 22}deg)`;
-  card.style.setProperty("--mx", `${px * 100}%`);
-  card.style.setProperty("--my", `${py * 100}%`);
+/** Každý typ prvku reaguje na kurzor inak. */
+type Hover = "tilt" | "lift" | "pop" | "tag" | "laptop";
+
+/** Poradie kariet v projekte určuje, ktorý hover dostanú. */
+function hoverPreKartu(karta: KartaKolaze, order: number): Hover {
+  if (karta.typ === "notebook") return "laptop";
+  if (karta.typ === "stitok") return "tag";
+  // Prvý obrázok je široký, druhý vysoký, tretí menší.
+  return (["tilt", "lift", "pop"] as const)[Math.min(order - 1, 2)] ?? "tilt";
+}
+
+/**
+ * Zloží transform pre daný hover. Posun a otočenie karty (`base`) musia
+ * ostať, inak by prvok odskočil z miesta.
+ */
+function hoverTransform(variant: Hover, posun: string, otocenie: string, px: number, py: number) {
+  switch (variant) {
+    // Nakláňa sa za kurzorom.
+    case "tilt":
+      return `${posun} ${otocenie} translateZ(70px) scale(1.05)`
+        + ` rotateX(${(0.5 - py) * 20}deg) rotateY(${(px - 0.5) * 20}deg)`;
+    // Zdvihne sa priamo hore a mierne sa narovná.
+    case "lift":
+      return `${posun} translateZ(100px) translateY(-20px) scale(1.06) rotateZ(0deg)`;
+    // Vyskočí a vyrovná sa.
+    case "pop":
+      return `${posun} translateZ(70px) scale(1.14) rotateZ(0deg)`;
+    // Štítok sa len priblíži.
+    case "tag":
+      return `${posun} ${otocenie} translateZ(90px) scale(1.12)`;
+    // Notebook sa jemne priblíži, zvyšok rieši otvorenie veka v CSS.
+    case "laptop":
+      return `${posun} ${otocenie} translateZ(45px) scale(1.03)`;
+  }
 }
 
 export default function Collage() {
@@ -157,14 +187,18 @@ function ProjectLayer({ projekt, active, onZoom }:
 function Card({ karta, order, active, projekt, onZoom }:
   { karta: KartaKolaze; order: number; active: boolean; projekt: Projekt; onZoom: (from: DOMRect) => void }) {
   const ref = useRef<HTMLDivElement>(null);
-  const base = `translate3d(${karta.x}px, ${karta.y}px, ${karta.z ?? 80}px) rotateZ(${karta.rot ?? 0}deg)`;
+  const posun = `translate3d(${karta.x}px, ${karta.y}px, ${karta.z ?? 80}px)`;
+  const otocenie = `rotateZ(${karta.rot ?? 0}deg)`;
+  const base = `${posun} ${otocenie}`;
+  const variant = hoverPreKartu(karta, order);
 
   // Nábeh: karty prichádzajú postupne zdola.
-  const style: React.CSSProperties = {
+  const style = {
     transform: active ? base : `${base} translateY(40px)`,
     transitionDelay: active ? `${order * 70}ms` : "0ms",
     ...(karta.typ === "obrazok" || karta.typ === "video" ? { width: karta.w, height: karta.h } : {}),
-  };
+    "--znacka": projekt.farba,
+  } as React.CSSProperties;
 
   // Každá karta pláva inak — inak by sa celá koláž hojdala ako jeden kus.
   const floatStyle = {
@@ -175,18 +209,28 @@ function Card({ karta, order, active, projekt, onZoom }:
     "--rot": `${order % 2 === 0 ? 0.9 : -1.1}deg`,
   } as React.CSSProperties;
 
-  const onEnter = () => { if (ref.current) ref.current.dataset.base = base; };
-  const onMove = (e: React.MouseEvent) => {
+  const onEnter = () => {
     if (!ref.current) return;
-    if (window.matchMedia("(pointer: coarse)").matches) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    tiltCard(ref.current, e);
+    if (!jemnyUkazovatel()) return;
+    // Varianty bez sledovania kurzora stačí nastaviť raz.
+    if (variant !== "tilt") ref.current.style.transform = hoverTransform(variant, posun, otocenie, .5, .5);
+  };
+  const onMove = (e: React.MouseEvent) => {
+    if (!ref.current || !jemnyUkazovatel()) return;
+    const rect = ref.current.getBoundingClientRect();
+    const px = (e.clientX - rect.left) / rect.width;
+    const py = (e.clientY - rect.top) / rect.height;
+    if (variant === "tilt") {
+      ref.current.style.transform = hoverTransform(variant, posun, otocenie, px, py);
+      ref.current.style.setProperty("--mx", `${px * 100}%`);
+      ref.current.style.setProperty("--my", `${py * 100}%`);
+    }
   };
   const onLeave = () => { if (ref.current) ref.current.style.transform = base; };
 
   if (karta.typ === "notebook") {
     return (
-      <div ref={ref} className={`${styles.card} ${styles.laptopSlot}`} style={style}
+      <div ref={ref} className={`${styles.card} ${styles.laptopSlot} ${styles.hoverLaptop}`} style={style}
            onMouseEnter={onEnter} onMouseMove={onMove} onMouseLeave={onLeave}>
         <button type="button" className={styles.laptopCard}
                 onClick={(e) => {
@@ -210,7 +254,7 @@ function Card({ karta, order, active, projekt, onZoom }:
 
   if (karta.typ === "stitok") {
     return (
-      <div ref={ref} className={styles.card} style={style}
+      <div ref={ref} className={`${styles.card} ${styles.hoverTag}`} style={style}
            onMouseEnter={onEnter} onMouseMove={onMove} onMouseLeave={onLeave}>
         <span className={styles.float} style={floatStyle}>
           <span className={styles.tag}>{karta.text}</span>
@@ -219,8 +263,11 @@ function Card({ karta, order, active, projekt, onZoom }:
     );
   }
 
+  const hoverTrieda = variant === "lift" ? styles.hoverLift
+    : variant === "pop" ? styles.hoverPop : styles.hoverTilt;
+
   return (
-    <div ref={ref} className={styles.card} style={style}
+    <div ref={ref} className={`${styles.card} ${hoverTrieda}`} style={style}
          onMouseEnter={onEnter} onMouseMove={onMove} onMouseLeave={onLeave}>
       <span className={styles.float} style={floatStyle}>
       <div className={styles.media}>
