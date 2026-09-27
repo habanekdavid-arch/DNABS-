@@ -90,10 +90,10 @@
 }
 .secondary:hover{background:#fff;}
 
-.right{position:relative;padding-bottom:78px;}
+.right{position:relative;padding-bottom:132px;}
 
 /* Pod ~720px je koláž pod textom a nechávame jej menej výšky. */
 @media (max-width:720px){
   .hero{justify-content:flex-start;}
-  .right{padding-bottom:84px;}
+  .right{padding-bottom:138px;}
 }

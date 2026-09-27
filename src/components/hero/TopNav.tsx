@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { NAV_LINKS, NAV_CTA } from "@/data/hlavicka";
+import { NAV_LINKS, NAV_CTA, NAV_LOGO } from "@/data/hlavicka";
 import { scramble } from "@/lib/scramble";
 import styles from "./TopNav.module.css";
 
@@ -41,7 +41,12 @@ export default function TopNav() {
     <header className={styles.header}>
       <nav className={styles.nav} aria-label="Hlavná navigácia">
         <a href="#top" className={styles.logo} aria-label="DNABS — domov" onClick={(e) => onClick(e, "#top")}>
-          <LogoPlaceholder />
+          {NAV_LOGO ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={NAV_LOGO} alt="DNABS" className={styles.logoImg} />
+          ) : (
+            <LogoPlaceholder />
+          )}
         </a>
 
         <div className={styles.links}>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import { PROJEKTY, AUTO_PREPNUTIE_MS, type KartaKolaze, type Projekt } from "@/data/hlavicka";
 import Laptop from "./Laptop";
 import styles from "./Collage.module.css";
@@ -23,7 +24,7 @@ function tiltCard(card: HTMLElement, e: React.MouseEvent) {
 export default function Collage() {
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
-  const [zoom, setZoom] = useState<Projekt | null>(null);
+  const [zoom, setZoom] = useState<{ projekt: Projekt; from: DOMRect } | null>(null);
 
   const viewportRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
@@ -101,11 +102,13 @@ export default function Collage() {
               key={projekt.nazov}
               projekt={projekt}
               active={i === index}
-              onZoom={() => setZoom(projekt)}
+              onZoom={(from) => setZoom({ projekt, from })}
             />
           ))}
         </div>
       </div>
+
+      <p className={styles.tagline}>{PROJEKTY[index].tagline}</p>
 
       <div className={styles.controls}>
         <button type="button" className={`${styles.navBtn} ${styles.prev}`} onClick={() => go(-1)} aria-label="Predchádzajúca realizácia">←</button>
@@ -115,14 +118,15 @@ export default function Collage() {
         <button type="button" className={`${styles.navBtn} ${styles.next}`} onClick={() => go(1)} aria-label="Ďalšia realizácia">→</button>
       </div>
 
-      {zoom && <ZoomOverlay projekt={zoom} onDone={() => setZoom(null)} />}
+      {zoom && <ZoomOverlay projekt={zoom.projekt} from={zoom.from} onDone={() => setZoom(null)} />}
     </div>
   );
 }
 
 /* ── Jedna vrstva koláže ─────────────────────────────────────────────── */
 
-function ProjectLayer({ projekt, active, onZoom }: { projekt: Projekt; active: boolean; onZoom: () => void }) {
+function ProjectLayer({ projekt, active, onZoom }:
+  { projekt: Projekt; active: boolean; onZoom: (from: DOMRect) => void }) {
   return (
     <div className={`${styles.project} ${active ? styles.projectActive : ""}`} aria-hidden={!active}>
       <div
@@ -146,7 +150,7 @@ function ProjectLayer({ projekt, active, onZoom }: { projekt: Projekt; active: b
 }
 
 function Card({ karta, order, active, projekt, onZoom }:
-  { karta: KartaKolaze; order: number; active: boolean; projekt: Projekt; onZoom: () => void }) {
+  { karta: KartaKolaze; order: number; active: boolean; projekt: Projekt; onZoom: (from: DOMRect) => void }) {
   const ref = useRef<HTMLDivElement>(null);
   const base = `translate3d(${karta.x}px, ${karta.y}px, ${karta.z ?? 80}px) rotateZ(${karta.rot ?? 0}deg)`;
 
@@ -168,9 +172,13 @@ function Card({ karta, order, active, projekt, onZoom }:
 
   if (karta.typ === "notebook") {
     return (
-      <div ref={ref} className={`${styles.card} ${styles.laptopCard}`} style={style}
+      <div ref={ref} className={`${styles.card} ${styles.laptopSlot}`} style={style}
            onMouseEnter={onEnter} onMouseMove={onMove} onMouseLeave={onLeave}>
-        <button type="button" onClick={onZoom} className={styles.laptopCard}
+        <button type="button" className={styles.laptopCard}
+                onClick={(e) => {
+                  const screen = e.currentTarget.querySelector('[class*="screen"]');
+                  onZoom((screen ?? e.currentTarget).getBoundingClientRect());
+                }}
                 aria-label={`Otvoriť web ${projekt.nazov}`}>
           <span className={styles.openBtn} aria-hidden>
             <span className={styles.openDot} />
@@ -214,29 +222,37 @@ function Card({ karta, order, active, projekt, onZoom }:
 
 /* ── Zoom pri kliknutí na notebook ───────────────────────────────────── */
 
-function ZoomOverlay({ projekt, onDone }: { projekt: Projekt; onDone: () => void }) {
+/**
+ * Let dovnútra notebooku. Rám sa spustí presne tam, kde je displej na
+ * stránke, roztiahne sa cez celé okno a potom sa prejde na stránku
+ * s prezentáciou projektu.
+ */
+function ZoomOverlay({ projekt, from, onDone }:
+  { projekt: Projekt; from: DOMRect; onDone: () => void }) {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const notebook = projekt.karty.find((k) => k.typ === "notebook");
-  const domena = (() => { try { return new URL(projekt.href).hostname; } catch { return projekt.href; } })();
+  const cielova = `/realizacie/${projekt.slug}`;
 
   useEffect(() => {
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced) { router.push(cielova); return; }
+
     const raf = requestAnimationFrame(() => setOpen(true));
-    const openTimer = window.setTimeout(() => {
-      const win = window.open(projekt.href, "_blank", "noopener,noreferrer");
-      // Keď prehliadač nové okno zablokuje, ideme v tej istej karte.
-      if (!win || win.closed) window.location.href = projekt.href;
-    }, 1250);
-    const doneTimer = window.setTimeout(onDone, 2100);
+    // Prejdeme až keď je obrazovka roztiahnutá — prechod tak plynie ďalej.
+    const goTimer = window.setTimeout(() => router.push(cielova), 900);
+    const doneTimer = window.setTimeout(onDone, 1500);
     return () => {
       cancelAnimationFrame(raf);
-      window.clearTimeout(openTimer);
+      window.clearTimeout(goTimer);
       window.clearTimeout(doneTimer);
     };
-  }, [projekt.href, onDone]);
+  }, [router, cielova, onDone]);
 
+  // Štart presne na displeji notebooku, cieľ cez celé okno.
   const frameStyle: React.CSSProperties = open
-    ? { left: 0, top: 0, width: "100vw", height: "100vh", borderRadius: 0 }
-    : { left: "28vw", top: "34vh", width: "34vw", height: "22vh" };
+    ? { left: 0, top: 0, width: "100vw", height: "100vh", borderRadius: 0, padding: 0 }
+    : { left: from.left, top: from.top, width: from.width, height: from.height };
 
   return (
     <div className={styles.overlay} role="status" aria-live="polite">
@@ -248,7 +264,7 @@ function ZoomOverlay({ projekt, onDone }: { projekt: Projekt; onDone: () => void
         )}
       </div>
       <div className={`${styles.opening} ${open ? styles.openingOn : ""}`}>
-        Otváram {domena}
+        Otváram {projekt.nazov}
         <div className={styles.progress}>
           <div className={`${styles.progressBar} ${open ? styles.progressOn : ""}`} />
         </div>
