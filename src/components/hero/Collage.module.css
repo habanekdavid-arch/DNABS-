@@ -126,6 +126,39 @@
 }
 .media img,.media video{width:100%;height:100%;object-fit:cover;display:block;}
 
+/* ── Päť rôznych hoverov ──────────────────────────────────────────────
+   Každý typ prvku reaguje inak. Posun a mierku rieši JavaScript (musí
+   nadviazať na polohu karty), farby a tiene sú tu. */
+
+/* 1 — široký obrázok: nakláňa sa za kurzorom, lesk ho sleduje */
+.hoverTilt .media{transition:box-shadow .45s ease;}
+.hoverTilt:hover .media{box-shadow:0 44px 80px -28px rgba(14,14,17,.55);}
+
+/* 2 — vysoký obrázok: zdvihne sa a dostane farebnú žiaru značky */
+.hoverLift .media{transition:box-shadow .5s ease, filter .5s ease;}
+.hoverLift:hover .media{
+  box-shadow:0 54px 90px -30px var(--znacka,rgba(14,14,17,.5));
+  filter:saturate(1.15);
+}
+
+/* 3 — menší obrázok: vyrovná sa, zväčší a orámuje sa */
+.hoverPop .media{transition:box-shadow .4s ease, outline-color .4s ease;outline:2px solid transparent;outline-offset:4px;}
+.hoverPop:hover .media{
+  outline-color:var(--znacka,#6637ED);
+  box-shadow:0 36px 64px -26px rgba(14,14,17,.5);
+}
+
+/* 4 — sklenený štítok: vyplní sa farbou značky, text zbelie */
+.hoverTag .tag{transition:background .35s ease, border-color .35s ease, color .35s ease;}
+.hoverTag:hover .tag{
+  background:var(--znacka,#6637ED);
+  border-color:var(--znacka,#6637ED);
+  color:#fff;
+}
+
+/* 5 — notebook: veko sa pootvorí a displej sa rozsvieti */
+.hoverLaptop:hover{--veko:-3deg;--jas:1.12;--sytost:1.1;}
+
 /* Lesk sledujúci kurzor. */
 .sheen{
   position:absolute;
@@ -136,7 +169,7 @@
   transition:opacity .3s ease;
   background:radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(255,255,255,.85), rgba(255,255,255,0) 55%);
 }
-.card:hover .sheen{opacity:1;}
+.hoverTilt:hover .sheen{opacity:1;}
 
 .play{
   position:absolute;
