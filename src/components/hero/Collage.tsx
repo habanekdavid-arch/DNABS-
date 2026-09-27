@@ -16,14 +16,19 @@ const DESIGN_W = 1040;
 const DESIGN_H = 680;
 
 /** Každý typ prvku reaguje na kurzor inak. */
-type Hover = "tilt" | "lift" | "pop" | "tag" | "laptop";
+type Hover = "tilt" | "lift" | "pop" | "tag" | "laptop" | "znacka";
 
-/** Poradie kariet v projekte určuje, ktorý hover dostanú. */
-function hoverPreKartu(karta: KartaKolaze, order: number): Hover {
+/**
+ * Každý typ karty má vlastný hover. Obrázky sa rozlišujú podľa poradia
+ * medzi obrázkami (nie medzi všetkými kartami) — inak by sa varianty
+ * posunuli vždy, keď do koláže pribudne štítok alebo logo.
+ */
+function hoverPreKartu(karta: KartaKolaze, obrazokPoradie: number): Hover {
   if (karta.typ === "notebook") return "laptop";
   if (karta.typ === "stitok") return "tag";
+  if (karta.typ === "logo") return "znacka";
   // Prvý obrázok je široký, druhý vysoký, tretí menší.
-  return (["tilt", "lift", "pop"] as const)[Math.min(order - 1, 2)] ?? "tilt";
+  return (["tilt", "lift", "pop"] as const)[Math.min(obrazokPoradie, 2)] ?? "tilt";
 }
 
 /**
@@ -42,6 +47,9 @@ function hoverTransform(variant: Hover, posun: string, otocenie: string, px: num
     // Vyskočí a vyrovná sa.
     case "pop":
       return `${posun} translateZ(70px) scale(1.14) rotateZ(0deg)`;
+    // Logo sa narovná a jemne priblíži — nič viac, je to značka klienta.
+    case "znacka":
+      return `${posun} translateZ(80px) scale(1.07) rotateZ(0deg)`;
     // Štítok sa len priblíži.
     case "tag":
       return `${posun} ${otocenie} translateZ(90px) scale(1.12)`;
@@ -177,26 +185,35 @@ function ProjectLayer({ projekt, active, onZoom }:
         <span className={styles.panelMeta}>{projekt.popis}</span>
       </div>
 
-      {projekt.karty.map((karta, i) => (
-        <Card key={i} karta={karta} order={i} active={active} projekt={projekt} onZoom={onZoom} />
-      ))}
+      {(() => {
+        let obrazok = 0;
+        return projekt.karty.map((karta, i) => {
+          const poradie = karta.typ === "obrazok" || karta.typ === "video" ? obrazok++ : -1;
+          return (
+            <Card key={i} karta={karta} order={i} obrazokPoradie={poradie}
+                  active={active} projekt={projekt} onZoom={onZoom} />
+          );
+        });
+      })()}
     </div>
   );
 }
 
-function Card({ karta, order, active, projekt, onZoom }:
-  { karta: KartaKolaze; order: number; active: boolean; projekt: Projekt; onZoom: (from: DOMRect) => void }) {
+function Card({ karta, order, obrazokPoradie, active, projekt, onZoom }:
+  { karta: KartaKolaze; order: number; obrazokPoradie: number; active: boolean;
+    projekt: Projekt; onZoom: (from: DOMRect) => void }) {
   const ref = useRef<HTMLDivElement>(null);
   const posun = `translate3d(${karta.x}px, ${karta.y}px, ${karta.z ?? 80}px)`;
   const otocenie = `rotateZ(${karta.rot ?? 0}deg)`;
   const base = `${posun} ${otocenie}`;
-  const variant = hoverPreKartu(karta, order);
+  const variant = hoverPreKartu(karta, obrazokPoradie);
 
   // Nábeh: karty prichádzajú postupne zdola.
   const style = {
     transform: active ? base : `${base} translateY(40px)`,
     transitionDelay: active ? `${order * 70}ms` : "0ms",
-    ...(karta.typ === "obrazok" || karta.typ === "video" ? { width: karta.w, height: karta.h } : {}),
+    ...(karta.typ === "obrazok" || karta.typ === "video" || karta.typ === "logo"
+      ? { width: karta.w, height: karta.h } : {}),
     "--znacka": projekt.farba,
   } as React.CSSProperties;
 
@@ -248,6 +265,18 @@ function Card({ karta, order, active, projekt, onZoom }:
             </span>
           </span>
         </button>
+      </div>
+    );
+  }
+
+  if (karta.typ === "logo") {
+    return (
+      <div ref={ref} className={`${styles.card} ${styles.hoverZnacka}`} style={style}
+           onMouseEnter={onEnter} onMouseMove={onMove} onMouseLeave={onLeave}>
+        <span className={styles.float} style={floatStyle}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={karta.src} alt={karta.alt} className={styles.znackaLogo} />
+        </span>
       </div>
     );
   }

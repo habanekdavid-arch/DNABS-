@@ -25,22 +25,15 @@
   gap:clamp(18px,4vh,44px);
 }
 
+/* Dve slová veľkými písmenami — nesie celú ľavú stranu sama. */
 .h1{
   font-family:var(--font-manrope),system-ui,sans-serif;
   font-weight:800;
-  font-size:clamp(38px, min(7.4vw,11vh), 132px);
-  line-height:.95;
-  letter-spacing:-.05em;
+  font-size:clamp(46px, min(8.6vw,13vh), 150px);
+  line-height:.88;
+  letter-spacing:-.045em;
+  text-transform:uppercase;
   text-wrap:balance;
-  margin:0;
-}
-
-.sub{
-  max-width:460px;
-  font-family:var(--font-geist),system-ui,sans-serif;
-  font-size:clamp(17px,1.3vw,20px);
-  line-height:1.45;
-  color:#3B3B42;
   margin:0;
 }
 
@@ -80,24 +73,6 @@
   font-size:13px;
   flex:0 0 auto;
 }
-
-.secondary{
-  display:inline-flex;
-  align-items:center;
-  padding:18px 26px;
-  border-radius:999px;
-  text-decoration:none;
-  color:#0E0E11;
-  font-family:var(--font-geist),system-ui,sans-serif;
-  font-size:16px;
-  font-weight:500;
-  background:rgba(255,255,255,.55);
-  border:1px solid rgba(255,255,255,.9);
-  -webkit-backdrop-filter:blur(14px);
-  backdrop-filter:blur(14px);
-  transition:background .25s ease;
-}
-.secondary:hover{background:#fff;}
 
 .right{position:relative;padding-bottom:132px;}
 

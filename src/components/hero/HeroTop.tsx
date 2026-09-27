@@ -16,15 +16,11 @@ export default function HeroTop() {
           <h1 className={styles.h1} data-fx data-fx-idle>
             {HERO.nadpis}
           </h1>
-          <p className={styles.sub}>{HERO.podnadpis}</p>
           <hr className={styles.divider} />
           <div className={styles.actions}>
-            <a href={HERO.tlacidloHlavne.href} className={styles.primary} data-fx data-cursor="cta">
-              {HERO.tlacidloHlavne.label}
+            <a href={HERO.tlacidlo.href} className={styles.primary} data-fx data-cursor="cta">
+              {HERO.tlacidlo.label}
               <span className={styles.arrow} aria-hidden>↗</span>
-            </a>
-            <a href={HERO.tlacidloVedlajsie.href} className={styles.secondary} data-fx>
-              {HERO.tlacidloVedlajsie.label}
             </a>
           </div>
         </div>
