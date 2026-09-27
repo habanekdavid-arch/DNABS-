@@ -68,3 +68,8 @@
   border:1px dashed rgba(14,14,17,.22);
   font-family:var(--font-geist),system-ui,sans-serif;font-size:15px;color:#5E5E66;
 }
+
+.chyba{
+  font-family:var(--font-geist),system-ui,sans-serif;
+  font-size:16px;color:#5E5E66;font-style:italic;
+}

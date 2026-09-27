@@ -38,24 +38,31 @@ export default async function ProjektPage({ params }: { params: Promise<{ slug: 
           <h1 className={styles.title}>{projekt.nazov}</h1>
           <div className={styles.meta}>{projekt.popis}</div>
         </div>
-        <p className={styles.tagline}>{projekt.tagline}</p>
+        {projekt.tagline && <p className={styles.tagline}>{projekt.tagline}</p>}
       </div>
 
       <div className={styles.band} style={{ background: projekt.farba }} />
 
       <div className={styles.body}>
         <div className={styles.text}>
-          {projekt.text.map((odstavec, i) => <p key={i}>{odstavec}</p>)}
-          <a href={projekt.href} target="_blank" rel="noopener noreferrer" className={styles.cta}>
-            Otvoriť živý web ↗
-          </a>
+          {projekt.text.length > 0
+            ? projekt.text.map((odstavec, i) => <p key={i}>{odstavec}</p>)
+            : <p className={styles.chyba}>Popis projektu sa pripravuje.</p>}
+          {/* Odkaz dáva zmysel, až keď je vyplnená adresa. */}
+          {projekt.href && (
+            <a href={projekt.href} target="_blank" rel="noopener noreferrer" className={styles.cta}>
+              Otvoriť živý web ↗
+            </a>
+          )}
         </div>
-        <div>
-          <p className={styles.sluzbyTitle}>Čo sme spravili</p>
-          <ul className={styles.sluzby}>
-            {projekt.sluzby.map((s) => <li key={s}>{s}</li>)}
-          </ul>
-        </div>
+        {projekt.sluzby.length > 0 && (
+          <div>
+            <p className={styles.sluzbyTitle}>Čo sme spravili</p>
+            <ul className={styles.sluzby}>
+              {projekt.sluzby.map((s) => <li key={s}>{s}</li>)}
+            </ul>
+          </div>
+        )}
       </div>
 
       <div className={styles.galeria}>
