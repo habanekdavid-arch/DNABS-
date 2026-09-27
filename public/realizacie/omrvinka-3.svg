@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 430 300" width="430" height="300">
-  <rect width="430" height="300" fill="#C2410C"/>
-  <rect x="7" y="7" width="416" height="286" fill="none" stroke="rgba(255,255,255,.42)"
-        stroke-width="2.5" stroke-dasharray="12 9" rx="12"/>
-  <text x="50%" y="40%" fill="#fff" font-family="monospace" font-size="21" font-weight="bold" text-anchor="middle">OMRVINKA</text>
-  <text x="50%" y="53%" fill="rgba(255,255,255,.9)" font-family="monospace" font-size="17" text-anchor="middle">miesto 3 — menšie</text>
-  <text x="50%" y="66%" fill="rgba(255,255,255,.68)" font-family="monospace" font-size="15" text-anchor="middle">omrvinka-3.jpg</text>
-  <text x="50%" y="78%" fill="rgba(255,255,255,.5)" font-family="monospace" font-size="14" text-anchor="middle">430×300</text>
-</svg>

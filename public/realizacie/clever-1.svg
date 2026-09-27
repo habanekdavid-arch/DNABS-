@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 410" width="640" height="410">
-  <rect width="640" height="410" fill="#6637ED"/>
-  <rect x="7" y="7" width="626" height="396" fill="none" stroke="rgba(255,255,255,.42)"
-        stroke-width="2.5" stroke-dasharray="12 9" rx="12"/>
-  <text x="50%" y="40%" fill="#fff" font-family="monospace" font-size="29" font-weight="bold" text-anchor="middle">CLEVER</text>
-  <text x="50%" y="53%" fill="rgba(255,255,255,.9)" font-family="monospace" font-size="25" text-anchor="middle">miesto 1 — na šírku</text>
-  <text x="50%" y="66%" fill="rgba(255,255,255,.68)" font-family="monospace" font-size="23" text-anchor="middle">clever-1.jpg</text>
-  <text x="50%" y="78%" fill="rgba(255,255,255,.5)" font-family="monospace" font-size="22" text-anchor="middle">640×410</text>
-</svg>

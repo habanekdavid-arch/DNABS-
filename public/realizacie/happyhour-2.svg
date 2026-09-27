@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 660" width="500" height="660">
-  <rect width="500" height="660" fill="#FF5A1F"/>
-  <rect x="7" y="7" width="486" height="646" fill="none" stroke="rgba(255,255,255,.42)"
-        stroke-width="2.5" stroke-dasharray="12 9" rx="12"/>
-  <text x="50%" y="40%" fill="#fff" font-family="monospace" font-size="35" font-weight="bold" text-anchor="middle">HAPPYHOUR</text>
-  <text x="50%" y="53%" fill="rgba(255,255,255,.9)" font-family="monospace" font-size="31" text-anchor="middle">miesto 2 — na výšku</text>
-  <text x="50%" y="66%" fill="rgba(255,255,255,.68)" font-family="monospace" font-size="29" text-anchor="middle">happyhour-2.jpg</text>
-  <text x="50%" y="78%" fill="rgba(255,255,255,.5)" font-family="monospace" font-size="28" text-anchor="middle">500×660</text>
-</svg>
