@@ -25,7 +25,7 @@ export const NAV_CTA = { label: "Začať projekt", href: "#kontakt" };
 
 /** Logo v navigácii. Nahrajte SVG do public/ a cestu zadajte sem.
  *  Kým je prázdne, zobrazí sa nápis DNABS. */
-export const NAV_LOGO = "";
+export const NAV_LOGO = "/logo.svg";
 
 /* ── HERO ───────────────────────────────────────────────────────────── */
 
