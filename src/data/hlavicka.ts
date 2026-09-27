@@ -97,25 +97,40 @@ export const PROJEKTY: Projekt[] = [
   {
     slug: "clever",
     nazov: "CLEVER",
-    farba: "#6637ED",              // TODO: firemná farba klienta
-    href: "",                       // TODO: adresa živého webu
-    klikNa: "",                     // TODO: kam vedie klik na notebook (prázdne = stránka projektu)
-    logo: "",                       // TODO: /realizacie/clever-logo.svg
-    popis: "2026 — Web",            // TODO
-    tagline: "",                    // TODO: jedna veta o projekte
-    text: [],                       // TODO: odstavce na stránku projektu
-    sluzby: [],                     // TODO: čo ste pre klienta spravili
-    ukazky: [],                     // TODO: obrázky do galérie
+    farba: "#E4191F",
+    href: "https://clever.sk",
+    klikNa: "",                     // prázdne = stránka projektu /realizacie/clever
+    logo: "/realizacie/clever-logo.svg",
+    popis: "2026 — Branding a web",
+    tagline: "AI asistentka, ktorá pomáha seniorom zvládnuť moderný telefón.",
+    text: [
+      "Lekár, banka aj vnúčatá sú dnes v aplikácii. Menu, skratky a cudzie slová ale vytvárajú strach — a rodina nemôže byť pri telefóne vždy.",
+      "CLEVER je trpezlivá asistentka vo vrecku. Počúva, ukáže na obrazovke, kam ťuknúť, a počká. Toľkokrát, koľkokrát treba — pokojne a po slovensky.",
+      "Logo sme postavili na pevných verzálkach pre istotu a čitateľnosť. Mozog namiesto písmena nesie inteligenciu — jednoducho, bez technického chladu. Písmo Outfit má veľké otvory, takže zostáva čitateľné aj pri slabšom zraku.",
+      "Web vedie návštevníka 3D scrollom a sticky príbehom až k živému demu, kde si znak priamo ukáže, kam na mobile ťuknúť. Samostatná podstránka potom prevedie inštaláciou — aj na diaľku, do telefónu rodičov.",
+    ],
+    sluzby: [
+      "Vizuálna identita",
+      "Logo a znak",
+      "Farby a typografia",
+      "Dizajn a vývoj webu",
+      "Interaktívne demo produktu",
+    ],
+    ukazky: [
+      { src: "/realizacie/clever-galeria-1.png", alt: "Logo CLEVER — wordmark a znak", popis: "Logo — wordmark a znak" },
+      { src: "/realizacie/clever-galeria-2.png", alt: "Živé demo na webe CLEVER", popis: "Živé demo priamo na webe" },
+      { src: "/realizacie/clever-galeria-3.png", alt: "Podstránka na stiahnutie aplikácie", popis: "Podstránka na stiahnutie" },
+    ],
     karty: [
       { typ: "notebook", x: 20, y: 165, z: 90, rot: -3, screenshot: "/realizacie/clever-web.png", alt: "Web CLEVER" },
       // miesto 1 — siroke (320×205)
-      { typ: "obrazok", x: 690, y: 55, w: 320, h: 205, z: 150, rot: 3, src: "/realizacie/clever-1.png", alt: "CLEVER — ukážka 1" },
+      { typ: "obrazok", x: 690, y: 55, w: 320, h: 205, z: 150, rot: 3, src: "/realizacie/clever-1.png", alt: "CLEVER — živé demo na webe" },
       // miesto 2 — vysoke (250×330)
-      { typ: "obrazok", x: 735, y: 300, w: 250, h: 330, z: 120, rot: -2, src: "/realizacie/clever-2.png", alt: "CLEVER — ukážka 2" },
+      { typ: "obrazok", x: 735, y: 300, w: 250, h: 330, z: 120, rot: -2, src: "/realizacie/clever-2.png", alt: "CLEVER — web na mobile" },
       // miesto 3 — male (215×150)
-      { typ: "obrazok", x: 410, y: 470, w: 215, h: 150, z: 100, rot: 2, src: "/realizacie/clever-3.png", alt: "CLEVER — ukážka 3" },
+      { typ: "obrazok", x: 410, y: 470, w: 215, h: 150, z: 100, rot: 2, src: "/realizacie/clever-3.png", alt: "CLEVER — sekcia Postráži pred podvodom" },
       { typ: "stitok", x: 430, y: 62, z: 150, rot: -2, text: "Nový web" },
-      { typ: "stitok", x: 455, y: 385, z: 150, rot: 3, text: "Foto produktov" },
+      { typ: "stitok", x: 455, y: 385, z: 150, rot: 3, text: "Identita značky" },
     ],
   },
   {
