@@ -73,6 +73,9 @@ export type Projekt = {
   farba: string;
   /** Adresa živého webu — otvorí sa zo stránky projektu. */
   href: string;
+  /** Kam vedie kliknutie na notebook. Prázdne = stránka projektu
+   *  /realizacie/<slug>. Dá sa sem dať aj plná adresa (https://…). */
+  klikNa?: string;
   /** Logo klienta — priehľadné SVG alebo PNG. Nepovinné. */
   logo?: string;
   /** Krátky riadok pod logom, napr. "2026 — Web a branding". */
@@ -90,80 +93,136 @@ export type Projekt = {
 
 export const PROJEKTY: Projekt[] = [
   {
-    slug: "fraid-coffee",
-    nazov: "FRAID Coffee",
-    farba: "#6637ED",
-    href: "https://fraid-coffee.vercel.app",
-    popis: "2026 — Web a branding",
-    tagline: "Moderný web, ktorý predáva kávu aj cez obrazovku.",
-    text: [
-      "Kaviareň mala skvelú kávu a žiadny web. Ľudia ju našli, len keď šli okolo.",
-      "Postavili sme stránku, ktorá ukazuje, čo je na nich iné — pôvod zrna, ľudí za pultom aj miesto samotné. K tomu jednoduchú objednávku zrna domov.",
-    ],
-    sluzby: ["Web na mieru", "Logo a vizuálny štýl", "Fotografie", "Napojenie na objednávky"],
-    ukazky: [],
+    slug: "clever",
+    nazov: "CLEVER",
+    farba: "#6637ED",              // TODO: firemná farba klienta
+    href: "",                       // TODO: adresa živého webu
+    klikNa: "",                     // TODO: kam vedie klik na notebook (prázdne = stránka projektu)
+    logo: "",                       // TODO: /realizacie/clever-logo.svg
+    popis: "2026 — Web",            // TODO
+    tagline: "",                    // TODO: jedna veta o projekte
+    text: [],                       // TODO: odstavce na stránku projektu
+    sluzby: [],                     // TODO: čo ste pre klienta spravili
+    ukazky: [],                     // TODO: obrázky do galérie
     karty: [
-      { typ: "notebook", x: 20, y: 170, z: 90, rot: -3, screenshot: "/realizacie/fraid-web.svg", alt: "Web FRAID Coffee" },
-      { typ: "obrazok", x: 700, y: 60, w: 250, h: 180, z: 140, rot: 4, src: "/realizacie/fraid-1.svg", alt: "Balenie kávy FRAID" },
-      { typ: "obrazok", x: 720, y: 400, w: 220, h: 200, z: 110, rot: -2, src: "/realizacie/fraid-2.svg", alt: "Interiér kaviarne" },
-      { typ: "stitok", x: 640, y: 310, z: 150, rot: 2, text: "Nový web" },
+      { typ: "notebook", x: 20, y: 170, z: 90, rot: -3, screenshot: "/realizacie/clever-web.svg", alt: "Web CLEVER" },
+      { typ: "obrazok", x: 700, y: 40, w: 260, h: 190, z: 140, rot: 4, src: "/realizacie/clever-1.svg", alt: "CLEVER — ukážka 1" },
+      { typ: "obrazok", x: 700, y: 255, w: 260, h: 190, z: 120, rot: -2, src: "/realizacie/clever-2.svg", alt: "CLEVER — ukážka 2" },
+      { typ: "obrazok", x: 700, y: 470, w: 260, h: 140, z: 100, rot: 3, src: "/realizacie/clever-3.svg", alt: "CLEVER — ukážka 3" },
     ],
   },
   {
-    slug: "blog-david-habanek",
-    nazov: "Blog Dávid Habánek",
-    farba: "#FF5A1F",
-    href: "https://david-habanek-blog.vercel.app",
-    popis: "2026 — Web",
-    tagline: "Miesto na písanie, ktoré sa dobre číta aj na mobile.",
-    text: [
-      "Blog o technológiách potreboval hlavne jedno — aby sa dal čítať bez rušenia.",
-      "Typografia, rýchlosť načítania a jednoduché pridávanie článkov. Nič navyše.",
-    ],
-    sluzby: ["Web na mieru", "Typografia", "SEO základ", "Správa obsahu"],
-    ukazky: [],
+    slug: "mnam",
+    nazov: "MŇAM",
+    farba: "#FF5A1F",              // TODO: firemná farba klienta
+    href: "",                       // TODO: adresa živého webu
+    klikNa: "",                     // TODO: kam vedie klik na notebook (prázdne = stránka projektu)
+    logo: "",                       // TODO: /realizacie/mnam-logo.svg
+    popis: "2026 — Web",            // TODO
+    tagline: "",                    // TODO: jedna veta o projekte
+    text: [],                       // TODO: odstavce na stránku projektu
+    sluzby: [],                     // TODO: čo ste pre klienta spravili
+    ukazky: [],                     // TODO: obrázky do galérie
     karty: [
-      { typ: "notebook", x: 20, y: 170, z: 90, rot: -2, screenshot: "/realizacie/blog-web.svg", alt: "Blog Dávid Habánek" },
-      { typ: "obrazok", x: 710, y: 90, w: 240, h: 300, z: 130, rot: 3, src: "/realizacie/blog-1.svg", alt: "Ukážka článku" },
-      { typ: "stitok", x: 660, y: 450, z: 150, rot: -3, text: "Obsah a SEO" },
+      { typ: "notebook", x: 20, y: 170, z: 90, rot: -3, screenshot: "/realizacie/mnam-web.svg", alt: "Web MŇAM" },
+      { typ: "obrazok", x: 700, y: 40, w: 260, h: 190, z: 140, rot: 4, src: "/realizacie/mnam-1.svg", alt: "MŇAM — ukážka 1" },
+      { typ: "obrazok", x: 700, y: 255, w: 260, h: 190, z: 120, rot: -2, src: "/realizacie/mnam-2.svg", alt: "MŇAM — ukážka 2" },
+      { typ: "obrazok", x: 700, y: 470, w: 260, h: 140, z: 100, rot: 3, src: "/realizacie/mnam-3.svg", alt: "MŇAM — ukážka 3" },
+    ],
+  },
+  {
+    slug: "happyhour",
+    nazov: "HAPPYHOUR",
+    farba: "#404EE6",              // TODO: firemná farba klienta
+    href: "",                       // TODO: adresa živého webu
+    klikNa: "",                     // TODO: kam vedie klik na notebook (prázdne = stránka projektu)
+    logo: "",                       // TODO: /realizacie/happyhour-logo.svg
+    popis: "2026 — Web",            // TODO
+    tagline: "",                    // TODO: jedna veta o projekte
+    text: [],                       // TODO: odstavce na stránku projektu
+    sluzby: [],                     // TODO: čo ste pre klienta spravili
+    ukazky: [],                     // TODO: obrázky do galérie
+    karty: [
+      { typ: "notebook", x: 20, y: 170, z: 90, rot: -3, screenshot: "/realizacie/happyhour-web.svg", alt: "Web HAPPYHOUR" },
+      { typ: "obrazok", x: 700, y: 40, w: 260, h: 190, z: 140, rot: 4, src: "/realizacie/happyhour-1.svg", alt: "HAPPYHOUR — ukážka 1" },
+      { typ: "obrazok", x: 700, y: 255, w: 260, h: 190, z: 120, rot: -2, src: "/realizacie/happyhour-2.svg", alt: "HAPPYHOUR — ukážka 2" },
+      { typ: "obrazok", x: 700, y: 470, w: 260, h: 140, z: 100, rot: 3, src: "/realizacie/happyhour-3.svg", alt: "HAPPYHOUR — ukážka 3" },
+    ],
+  },
+  {
+    slug: "omrvinka",
+    nazov: "OMRVINKA",
+    farba: "#C2410C",              // TODO: firemná farba klienta
+    href: "",                       // TODO: adresa živého webu
+    klikNa: "",                     // TODO: kam vedie klik na notebook (prázdne = stránka projektu)
+    logo: "",                       // TODO: /realizacie/omrvinka-logo.svg
+    popis: "2026 — Web",            // TODO
+    tagline: "",                    // TODO: jedna veta o projekte
+    text: [],                       // TODO: odstavce na stránku projektu
+    sluzby: [],                     // TODO: čo ste pre klienta spravili
+    ukazky: [],                     // TODO: obrázky do galérie
+    karty: [
+      { typ: "notebook", x: 20, y: 170, z: 90, rot: -3, screenshot: "/realizacie/omrvinka-web.svg", alt: "Web OMRVINKA" },
+      { typ: "obrazok", x: 700, y: 40, w: 260, h: 190, z: 140, rot: 4, src: "/realizacie/omrvinka-1.svg", alt: "OMRVINKA — ukážka 1" },
+      { typ: "obrazok", x: 700, y: 255, w: 260, h: 190, z: 120, rot: -2, src: "/realizacie/omrvinka-2.svg", alt: "OMRVINKA — ukážka 2" },
+      { typ: "obrazok", x: 700, y: 470, w: 260, h: 140, z: 100, rot: 3, src: "/realizacie/omrvinka-3.svg", alt: "OMRVINKA — ukážka 3" },
+    ],
+  },
+  {
+    slug: "nicepoke",
+    nazov: "NICEPOKE",
+    farba: "#0E7C66",              // TODO: firemná farba klienta
+    href: "",                       // TODO: adresa živého webu
+    klikNa: "",                     // TODO: kam vedie klik na notebook (prázdne = stránka projektu)
+    logo: "",                       // TODO: /realizacie/nicepoke-logo.svg
+    popis: "2026 — Web",            // TODO
+    tagline: "",                    // TODO: jedna veta o projekte
+    text: [],                       // TODO: odstavce na stránku projektu
+    sluzby: [],                     // TODO: čo ste pre klienta spravili
+    ukazky: [],                     // TODO: obrázky do galérie
+    karty: [
+      { typ: "notebook", x: 20, y: 170, z: 90, rot: -3, screenshot: "/realizacie/nicepoke-web.svg", alt: "Web NICEPOKE" },
+      { typ: "obrazok", x: 700, y: 40, w: 260, h: 190, z: 140, rot: 4, src: "/realizacie/nicepoke-1.svg", alt: "NICEPOKE — ukážka 1" },
+      { typ: "obrazok", x: 700, y: 255, w: 260, h: 190, z: 120, rot: -2, src: "/realizacie/nicepoke-2.svg", alt: "NICEPOKE — ukážka 2" },
+      { typ: "obrazok", x: 700, y: 470, w: 260, h: 140, z: 100, rot: 3, src: "/realizacie/nicepoke-3.svg", alt: "NICEPOKE — ukážka 3" },
+    ],
+  },
+  {
+    slug: "risebloom",
+    nazov: "RISEBLOOM",
+    farba: "#9333EA",              // TODO: firemná farba klienta
+    href: "",                       // TODO: adresa živého webu
+    klikNa: "",                     // TODO: kam vedie klik na notebook (prázdne = stránka projektu)
+    logo: "",                       // TODO: /realizacie/risebloom-logo.svg
+    popis: "2026 — Web",            // TODO
+    tagline: "",                    // TODO: jedna veta o projekte
+    text: [],                       // TODO: odstavce na stránku projektu
+    sluzby: [],                     // TODO: čo ste pre klienta spravili
+    ukazky: [],                     // TODO: obrázky do galérie
+    karty: [
+      { typ: "notebook", x: 20, y: 170, z: 90, rot: -3, screenshot: "/realizacie/risebloom-web.svg", alt: "Web RISEBLOOM" },
+      { typ: "obrazok", x: 700, y: 40, w: 260, h: 190, z: 140, rot: 4, src: "/realizacie/risebloom-1.svg", alt: "RISEBLOOM — ukážka 1" },
+      { typ: "obrazok", x: 700, y: 255, w: 260, h: 190, z: 120, rot: -2, src: "/realizacie/risebloom-2.svg", alt: "RISEBLOOM — ukážka 2" },
+      { typ: "obrazok", x: 700, y: 470, w: 260, h: 140, z: 100, rot: 3, src: "/realizacie/risebloom-3.svg", alt: "RISEBLOOM — ukážka 3" },
     ],
   },
   {
     slug: "vytlacto-3d",
-    nazov: "Vytlačto 3D",
-    farba: "#404EE6",
-    href: "https://vytlacto3d.sk",
-    popis: "2026 — E-shop",
-    tagline: "E-shop, kde si zákazník navrhne výrobok sám.",
-    text: [
-      "3D tlač sa ťažko predáva z katalógu — každá zákazka je iná.",
-      "Spravili sme e-shop, kde zákazník nahrá svoj model alebo si vyberie z hotových, a hneď vidí cenu aj termín.",
-    ],
-    sluzby: ["E-shop na mieru", "Nahrávanie modelov", "Výpočet ceny", "Platobná brána"],
-    ukazky: [],
+    nazov: "VYTLAČTO 3D",
+    farba: "#0E0E11",              // TODO: firemná farba klienta
+    href: "",                       // TODO: adresa živého webu
+    klikNa: "",                     // TODO: kam vedie klik na notebook (prázdne = stránka projektu)
+    logo: "",                       // TODO: /realizacie/vytlacto-3d-logo.svg
+    popis: "2026 — Web",            // TODO
+    tagline: "",                    // TODO: jedna veta o projekte
+    text: [],                       // TODO: odstavce na stránku projektu
+    sluzby: [],                     // TODO: čo ste pre klienta spravili
+    ukazky: [],                     // TODO: obrázky do galérie
     karty: [
-      { typ: "notebook", x: 20, y: 170, z: 90, rot: -3, screenshot: "/realizacie/vytlacto-web.svg", alt: "E-shop Vytlačto 3D" },
-      { typ: "obrazok", x: 700, y: 70, w: 260, h: 190, z: 140, rot: 4, src: "/realizacie/vytlacto-1.svg", alt: "3D tlačené výrobky" },
-      { typ: "stitok", x: 650, y: 330, z: 150, rot: 1, text: "E-shop" },
-    ],
-  },
-  {
-    slug: "dnabs",
-    nazov: "DNABS",
-    farba: "#0E0E11",
-    href: "https://dnabs.online",
-    popis: "2026 — Vlastný web",
-    tagline: "Náš web. Skúšame na ňom všetko skôr, než to dáme klientom.",
-    text: [
-      "Vlastný web je najlepšia vizitka. Preto na ňom skúšame veci, ktoré potom ponúkame ďalej.",
-      "Od animácií cez meranie konverzií až po formulár, ktorý dopyty rovno triedi.",
-    ],
-    sluzby: ["Web na mieru", "Animácie", "Meranie konverzií", "Predkvalifikácia dopytov"],
-    ukazky: [],
-    karty: [
-      { typ: "notebook", x: 20, y: 170, z: 90, rot: -2, screenshot: "/realizacie/dnabs-web.svg", alt: "Web DNABS" },
-      { typ: "stitok", x: 670, y: 270, z: 150, rot: -2, text: "Branding" },
-      { typ: "stitok", x: 710, y: 370, z: 150, rot: 3, text: "Web" },
+      { typ: "notebook", x: 20, y: 170, z: 90, rot: -3, screenshot: "/realizacie/vytlacto-3d-web.svg", alt: "Web VYTLAČTO 3D" },
+      { typ: "obrazok", x: 700, y: 40, w: 260, h: 190, z: 140, rot: 4, src: "/realizacie/vytlacto-3d-1.svg", alt: "VYTLAČTO 3D — ukážka 1" },
+      { typ: "obrazok", x: 700, y: 255, w: 260, h: 190, z: 120, rot: -2, src: "/realizacie/vytlacto-3d-2.svg", alt: "VYTLAČTO 3D — ukážka 2" },
+      { typ: "obrazok", x: 700, y: 470, w: 260, h: 140, z: 100, rot: 3, src: "/realizacie/vytlacto-3d-3.svg", alt: "VYTLAČTO 3D — ukážka 3" },
     ],
   },
 ];

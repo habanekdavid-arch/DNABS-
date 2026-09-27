@@ -108,7 +108,9 @@ export default function Collage() {
         </div>
       </div>
 
-      <p className={styles.tagline}>{PROJEKTY[index].tagline}</p>
+      {PROJEKTY[index].tagline && (
+        <p className={styles.tagline}>{PROJEKTY[index].tagline}</p>
+      )}
 
       <div className={styles.controls}>
         <button type="button" className={`${styles.navBtn} ${styles.prev}`} onClick={() => go(-1)} aria-label="Predchádzajúca realizácia">←</button>
@@ -161,6 +163,15 @@ function Card({ karta, order, active, projekt, onZoom }:
     ...(karta.typ === "obrazok" || karta.typ === "video" ? { width: karta.w, height: karta.h } : {}),
   };
 
+  // Každá karta pláva inak — inak by sa celá koláž hojdala ako jeden kus.
+  const floatStyle = {
+    "--trvanie": `${5.4 + order * 0.9}s`,
+    "--posun": `${order * -0.7}s`,
+    "--dy": `${order % 2 === 0 ? -11 : -7}px`,
+    "--dx": `${order % 2 === 0 ? 4 : -5}px`,
+    "--rot": `${order % 2 === 0 ? 0.9 : -1.1}deg`,
+  } as React.CSSProperties;
+
   const onEnter = () => { if (ref.current) ref.current.dataset.base = base; };
   const onMove = (e: React.MouseEvent) => {
     if (!ref.current) return;
@@ -184,8 +195,10 @@ function Card({ karta, order, active, projekt, onZoom }:
             <span className={styles.openDot} />
             Otvoriť web ↗
           </span>
-          <span className={styles.laptopScale} style={{ display: "block" }}>
-            <Laptop screenshot={karta.screenshot} alt={karta.alt} />
+          <span className={styles.float} style={floatStyle}>
+            <span className={styles.laptopScale}>
+              <Laptop screenshot={karta.screenshot} alt={karta.alt} />
+            </span>
           </span>
         </button>
       </div>
@@ -196,7 +209,9 @@ function Card({ karta, order, active, projekt, onZoom }:
     return (
       <div ref={ref} className={styles.card} style={style}
            onMouseEnter={onEnter} onMouseMove={onMove} onMouseLeave={onLeave}>
-        <span className={styles.tag}>{karta.text}</span>
+        <span className={styles.float} style={floatStyle}>
+          <span className={styles.tag}>{karta.text}</span>
+        </span>
       </div>
     );
   }
@@ -204,6 +219,7 @@ function Card({ karta, order, active, projekt, onZoom }:
   return (
     <div ref={ref} className={styles.card} style={style}
          onMouseEnter={onEnter} onMouseMove={onMove} onMouseLeave={onLeave}>
+      <span className={styles.float} style={floatStyle}>
       <div className={styles.media}>
         {karta.typ === "video" ? (
           <>
@@ -216,6 +232,7 @@ function Card({ karta, order, active, projekt, onZoom }:
         )}
         <span className={styles.sheen} aria-hidden />
       </div>
+      </span>
     </div>
   );
 }
@@ -232,22 +249,31 @@ function ZoomOverlay({ projekt, from, onDone }:
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const notebook = projekt.karty.find((k) => k.typ === "notebook");
-  const cielova = `/realizacie/${projekt.slug}`;
+  // Keď je vyplnené klikNa, ide sa tam; inak na stránku projektu.
+  const cielova = projekt.klikNa || `/realizacie/${projekt.slug}`;
+  const jeExterny = /^https?:\/\//.test(cielova);
 
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduced) { router.push(cielova); return; }
+    if (reduced) {
+      if (jeExterny) window.location.href = cielova;
+      else router.push(cielova);
+      return;
+    }
 
     const raf = requestAnimationFrame(() => setOpen(true));
     // Prejdeme až keď je obrazovka roztiahnutá — prechod tak plynie ďalej.
-    const goTimer = window.setTimeout(() => router.push(cielova), 900);
+    const goTimer = window.setTimeout(() => {
+      if (jeExterny) window.location.href = cielova;
+      else router.push(cielova);
+    }, 900);
     const doneTimer = window.setTimeout(onDone, 1500);
     return () => {
       cancelAnimationFrame(raf);
       window.clearTimeout(goTimer);
       window.clearTimeout(doneTimer);
     };
-  }, [router, cielova, onDone]);
+  }, [router, cielova, jeExterny, onDone]);
 
   // Štart presne na displeji notebooku, cieľ cez celé okno.
   const frameStyle: React.CSSProperties = open

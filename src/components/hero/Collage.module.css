@@ -83,6 +83,23 @@
 }
 .projectActive .card{opacity:1;}
 
+/* Každý prvok sa hýbe sám za seba. Obal plávania je oddelený od karty,
+   aby si nekonkuroval s posunom, naklápaním pri hoveri ani s nábehom. */
+.float{
+  display:block;
+  width:100%;
+  height:100%;
+  animation:plavanie var(--trvanie,6s) ease-in-out var(--posun,0s) infinite;
+  will-change:transform;
+}
+@keyframes plavanie{
+  0%,100%{transform:translate3d(0,0,0) rotate(0deg);}
+  50%{transform:translate3d(var(--dx,4px),var(--dy,-11px),0) rotate(var(--rot,.9deg));}
+}
+@media (prefers-reduced-motion: reduce){
+  .float{animation:none;}
+}
+
 .media{
   width:100%;
   height:100%;
