@@ -57,6 +57,21 @@
   object-fit:contain;
   display:block;
 }
+/* Kým logo nie je nahraté, je vidieť, kam patrí. */
+.logoSlot{
+  width:220px;
+  height:96px;
+  display:grid;
+  place-items:center;
+  border:1.5px dashed rgba(255,255,255,.55);
+  border-radius:14px;
+  font-family:var(--font-geist-mono),monospace;
+  font-size:11px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.8);
+}
+
 .panelName{
   font-family:var(--font-manrope),system-ui,sans-serif;
   font-weight:800;

@@ -9,16 +9,17 @@ Všetko sa deje na dvoch miestach:
 
 ## 1 · Obrázky do koláže
 
-Každý projekt má **jeden notebook a tri rovnaké miesta** na obrázky.
-Miesta sú vo všetkých projektoch na rovnakých súradniciach, takže
-netreba nič prepočítavať — len vymeniť súbor.
+Každý projekt má **jeden notebook a tri miesta** na obrázky — jedno na
+šírku, jedno na výšku a jedno menšie. Miesta sú vo všetkých projektoch
+na rovnakých súradniciach, takže netreba nič prepočítavať — len vymeniť
+súbor.
 
 | Súbor | Čo to je | Rozmer | Formát |
 |---|---|---|---|
 | `<projekt>-web.jpg` | screenshot webu do notebooku | 1600 × 1000 | JPG / WebP |
-| `<projekt>-1.jpg` | miesto 1 — hore vpravo | 1040 × 760 | JPG / WebP |
-| `<projekt>-2.jpg` | miesto 2 — v strede vpravo | 1040 × 760 | JPG / WebP |
-| `<projekt>-3.jpg` | miesto 3 — dole vpravo | 1040 × 560 | JPG / WebP |
+| `<projekt>-1.jpg` | miesto 1 — **na šírku**, hore vpravo | 640 × 410 | JPG / WebP |
+| `<projekt>-2.jpg` | miesto 2 — **na výšku**, dole vpravo | 500 × 660 | JPG / WebP |
+| `<projekt>-3.jpg` | miesto 3 — **menšie na šírku**, dole v strede | 430 × 300 | JPG / WebP |
 
 Rozmery sú **dvojnásobok** toho, čo sa zobrazí — aby to bolo ostré na
 retina displejoch.

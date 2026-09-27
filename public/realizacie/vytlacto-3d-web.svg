@@ -1,13 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" width="1600" height="1000">
   <rect width="1600" height="1000" fill="#0E0E11"/>
-  <rect x="6" y="6" width="1588" height="988" fill="none" stroke="rgba(255,255,255,.4)"
-        stroke-width="2" stroke-dasharray="10 8" rx="10"/>
-  <text x="50%" y="40%" fill="#fff" font-family="monospace" font-size="88"
-        font-weight="bold" text-anchor="middle">VYTLAČTO 3D</text>
-  <text x="50%" y="55%" fill="rgba(255,255,255,.9)" font-family="monospace" font-size="53"
-        text-anchor="middle">screenshot webu</text>
-  <text x="50%" y="70%" fill="rgba(255,255,255,.65)" font-family="monospace" font-size="42"
-        text-anchor="middle">vytlacto-3d-web.jpg</text>
-  <text x="50%" y="82%" fill="rgba(255,255,255,.5)" font-family="monospace" font-size="36"
-        text-anchor="middle">1600×1000</text>
+  <rect x="7" y="7" width="1586" height="986" fill="none" stroke="rgba(255,255,255,.42)"
+        stroke-width="2.5" stroke-dasharray="12 9" rx="12"/>
+  <text x="50%" y="40%" fill="#fff" font-family="monospace" font-size="71" font-weight="bold" text-anchor="middle">VYTLAČTO 3D</text>
+  <text x="50%" y="53%" fill="rgba(255,255,255,.9)" font-family="monospace" font-size="67" text-anchor="middle">screenshot webu</text>
+  <text x="50%" y="66%" fill="rgba(255,255,255,.68)" font-family="monospace" font-size="65" text-anchor="middle">vytlacto-3d-web.jpg</text>
+  <text x="50%" y="78%" fill="rgba(255,255,255,.5)" font-family="monospace" font-size="64" text-anchor="middle">1600×1000</text>
 </svg>

@@ -1,8 +1,6 @@
 "use client";
 
-import { useRef } from "react";
 import { NAV_LINKS, NAV_CTA, NAV_LOGO } from "@/data/hlavicka";
-import { scramble } from "@/lib/scramble";
 import styles from "./TopNav.module.css";
 
 /** Placeholder loga — nahraďte vlastným SVG, stačí zachovať fill="currentColor". */
@@ -17,18 +15,6 @@ function LogoPlaceholder() {
 }
 
 export default function TopNav() {
-  // Kým efekt na odkaze beží, druhé spustenie sa ignoruje.
-  const running = useRef(new WeakMap<HTMLElement, () => void>());
-
-  const onEnter = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    const el = e.currentTarget;
-    if (running.current.has(el)) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const cancel = scramble(el);
-    running.current.set(el, cancel);
-    window.setTimeout(() => running.current.delete(el), 420);
-  };
-
   const onClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     if (!href.startsWith("#")) return;
     const target = document.querySelector(href);
@@ -55,11 +41,11 @@ export default function TopNav() {
               key={item.href}
               href={item.href}
               className={styles.link}
-              data-label={item.label}
-              onMouseEnter={onEnter}
               onClick={(e) => onClick(e, item.href)}
             >
-              {item.label}
+              {/* Dva rovnaké nápisy nad sebou — pri hoveri sa vymenia. */}
+              <span className={styles.linkText}>{item.label}</span>
+              <span className={styles.linkTextHover} aria-hidden>{item.label}</span>
             </a>
           ))}
         </div>

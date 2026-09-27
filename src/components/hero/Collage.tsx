@@ -139,7 +139,10 @@ function ProjectLayer({ projekt, active, onZoom }:
           // eslint-disable-next-line @next/next/no-img-element
           <img src={projekt.logo} alt={`Logo ${projekt.nazov}`} className={styles.panelLogo} />
         ) : (
-          <span className={styles.panelName}>{projekt.nazov}</span>
+          <>
+            <span className={styles.logoSlot} aria-hidden>+ logo (svg)</span>
+            <span className={styles.panelName}>{projekt.nazov}</span>
+          </>
         )}
         <span className={styles.panelMeta}>{projekt.popis}</span>
       </div>

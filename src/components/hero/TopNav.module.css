@@ -43,7 +43,12 @@
 
 .links{display:flex;align-items:center;gap:2px;flex:0 0 auto;}
 
+/* Nápis sa pri hoveri vysunie hore a zdola príde ten istý — text tak
+   ostane čitateľný po celý čas a šírka odkazu sa nemení. */
 .link{
+  position:relative;
+  display:inline-block;
+  overflow:hidden;
   font-family:var(--font-geist),system-ui,sans-serif;
   font-size:14px;
   font-weight:500;
@@ -52,11 +57,30 @@
   padding:10px 14px;
   border-radius:999px;
   white-space:nowrap;
-  transition:background .2s ease;
-  /* Šírka sa počas rozsypania nemení — znaky majú rovnaký rozstup. */
-  font-variant-numeric:tabular-nums;
+  transition:background .25s ease;
 }
 .link:hover{background:rgba(14,14,17,.06);}
+
+.linkText,.linkTextHover{
+  display:block;
+  transition:transform .42s cubic-bezier(.2,.8,.2,1), opacity .3s ease;
+}
+.linkTextHover{
+  position:absolute;
+  left:14px;right:14px;
+  top:10px;
+  transform:translateY(105%);
+  opacity:0;
+  color:#6637ED;
+}
+.link:hover .linkText{transform:translateY(-105%);opacity:0;}
+.link:hover .linkTextHover{transform:translateY(0);opacity:1;}
+
+@media (prefers-reduced-motion: reduce){
+  .linkText,.linkTextHover{transition:none;}
+  .link:hover .linkText{transform:none;opacity:1;}
+  .link:hover .linkTextHover{display:none;}
+}
 
 .cta{
   display:inline-flex;

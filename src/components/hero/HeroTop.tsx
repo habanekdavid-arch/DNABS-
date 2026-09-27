@@ -17,6 +17,7 @@ export default function HeroTop() {
             {HERO.nadpis}
           </h1>
           <p className={styles.sub}>{HERO.podnadpis}</p>
+          <hr className={styles.divider} />
           <div className={styles.actions}>
             <a href={HERO.tlacidloHlavne.href} className={styles.primary} data-fx data-cursor="cta">
               {HERO.tlacidloHlavne.label}
