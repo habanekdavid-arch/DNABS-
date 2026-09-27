@@ -11,18 +11,22 @@ Všetko sa deje na dvoch miestach:
 
 Každý projekt má **jeden notebook a tri miesta** na obrázky — jedno na
 šírku, jedno na výšku a jedno menšie. Miesta sú vo všetkých projektoch
-na rovnakých súradniciach, takže netreba nič prepočítavať — len vymeniť
-súbor.
+na rovnakých súradniciach, takže netreba nič prepočítavať.
 
-| Súbor | Čo to je | Rozmer | Formát |
-|---|---|---|---|
-| `<projekt>-web.jpg` | screenshot webu do notebooku | 1600 × 1000 | JPG / WebP |
-| `<projekt>-1.jpg` | miesto 1 — **na šírku**, hore vpravo | 640 × 410 | JPG / WebP |
-| `<projekt>-2.jpg` | miesto 2 — **na výšku**, dole vpravo | 500 × 660 | JPG / WebP |
-| `<projekt>-3.jpg` | miesto 3 — **menšie na šírku**, dole v strede | 430 × 300 | JPG / WebP |
+V tomto priečinku sú **zástupné PNG** so správnymi rozmermi. Na každom
+je napísané, kam patrí. Stačí ich **prepísať vlastnou fotkou pod
+rovnakým názvom** — v kóde sa potom nemusí meniť nič.
+
+| Súbor | Čo to je | Rozmer |
+|---|---|---|
+| `<projekt>-web.png` | screenshot webu do notebooku | 1600 × 1000 |
+| `<projekt>-1.png` | miesto 1 — **na šírku**, hore vpravo | 640 × 410 |
+| `<projekt>-2.png` | miesto 2 — **na výšku**, dole vpravo | 500 × 660 |
+| `<projekt>-3.png` | miesto 3 — **menšie na šírku**, dole v strede | 430 × 300 |
 
 Rozmery sú **dvojnásobok** toho, čo sa zobrazí — aby to bolo ostré na
-retina displejoch.
+retina displejoch. Keď má fotka iný pomer strán, nič sa nepokazí —
+orežeme ju cez `object-fit: cover`, ale ideálne je držať sa tabuľky.
 
 Názvy projektov (`<projekt>`):
 `clever` · `mnam` · `happyhour` · `omrvinka` · `nicepoke` · `risebloom` · `vytlacto-3d`
@@ -30,21 +34,22 @@ Názvy projektov (`<projekt>`):
 Príklad — obrázky pre CLEVER:
 
 ```
-public/realizacie/clever-web.jpg
-public/realizacie/clever-1.jpg
-public/realizacie/clever-2.jpg
-public/realizacie/clever-3.jpg
+public/realizacie/clever-web.png
+public/realizacie/clever-1.png
+public/realizacie/clever-2.png
+public/realizacie/clever-3.png
 ```
 
-Potom v `src/data/hlavicka.ts` nájdete projekt `clever` a v jeho `karty`
-prepíšete koncovku `.svg` na `.jpg`:
+### Keď máte JPG alebo WebP
+
+Funguje aj to, len sa v `src/data/hlavicka.ts` musí prepísať koncovka
+pri danom projekte:
 
 ```ts
 src: "/realizacie/clever-1.jpg",
 ```
 
-Teraz sú tam zástupné `.svg` — na každom je napísané, kam patrí.
-Pokojne ich zmažte.
+Jednoduchšie je fotku pred nahraním uložiť ako PNG a názov nechať tak.
 
 ---
 
