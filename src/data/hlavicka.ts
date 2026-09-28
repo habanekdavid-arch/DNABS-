@@ -12,15 +12,16 @@
 
 /* ── NAVIGÁCIA ──────────────────────────────────────────────────────────
    Odkazy musia sedieť so sekciami, ktoré na stránke naozaj sú.
-   Aktuálne existujú: #sluzby #ako-to-funguje #realizacia #pre-koho
-   #referencie #o-nas #faq #kontakt
+   Aktuálne existujú: #sluzby #ako-to-funguje #realizacia #spolupraca
+   #navrh #referencie #faq #kontakt
+   Plus samostatná stránka /o-nas.
    ─────────────────────────────────────────────────────────────────────── */
 
 export const NAV_LINKS = [
   { label: "Služby", href: "#sluzby" },
   { label: "Ako to funguje", href: "#ako-to-funguje" },
   { label: "Realizácie", href: "#realizacia" },
-  { label: "O nás", href: "#o-nas" },
+  { label: "O nás", href: "/o-nas" },
 ] as const;
 
 export const NAV_CTA = { label: "Začať projekt", href: "#kontakt" };

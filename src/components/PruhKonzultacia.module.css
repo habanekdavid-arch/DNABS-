@@ -1,0 +1,85 @@
+/* ── PRUH S KONZULTÁCIOU ──────────────────────────────────────────────
+   Tenký pás medzi sekciami: jedna veta a tlačidlo. Zámerne nízky —
+   má stránku prerušiť, nie zdržať.
+   ─────────────────────────────────────────────────────────────────── */
+
+.section{
+  background:transparent;
+  padding:clamp(24px,4vh,48px) clamp(20px,4vw,48px);
+}
+
+.pruh{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:center;
+  gap:clamp(14px,2vw,32px);
+  max-width:1000px;
+  margin:0 auto;
+  padding:10px 10px 10px clamp(22px,3vw,42px);
+  border:1px solid rgba(14,14,17,.16);
+  border-radius:999px;
+  background:rgba(255,255,255,.4);
+  transition:border-color .3s ease,box-shadow .3s ease;
+}
+.pruh:hover{
+  border-color:var(--fig-znacka);
+  box-shadow:0 16px 40px -18px rgba(86,51,135,.5);
+}
+
+.text{
+  margin:0;
+  font-family:var(--font-geist),system-ui,sans-serif;
+  font-size:clamp(14px,1.2vw,17px);
+  line-height:1.4;
+  color:var(--fig-ink-2);
+}
+.text strong{color:var(--fig-ink);font-weight:600;}
+
+.cta{
+  display:inline-flex;
+  align-items:center;
+  gap:12px;
+  flex:0 0 auto;
+  background:#1C1030;
+  color:#fff;
+  text-decoration:none;
+  font-family:var(--manrope),system-ui,sans-serif;
+  font-weight:800;
+  font-size:clamp(12px,1vw,14px);
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  border-radius:999px;
+  padding:16px 18px 16px 26px;
+  transition:background .3s ease,transform .3s cubic-bezier(.2,.7,.2,1);
+}
+.cta:hover{
+  background:var(--fig-znacka);
+  transform:translateY(-2px);
+}
+
+.ctaText{white-space:nowrap;}
+
+.ctaSipka{
+  display:grid;
+  place-items:center;
+  width:26px;
+  height:26px;
+  flex:0 0 auto;
+  border-radius:50%;
+  background:rgba(255,255,255,.2);
+  font-size:15px;
+  line-height:1;
+  transition:transform .3s cubic-bezier(.2,.7,.2,1),background .3s ease;
+}
+.cta:hover .ctaSipka{transform:translateX(3px);background:rgba(255,255,255,.32);}
+
+@media (max-width:620px){
+  .pruh{
+    flex-direction:column;
+    border-radius:26px;
+    padding:20px;
+    text-align:center;
+  }
+  .cta{width:100%;justify-content:center;}
+}

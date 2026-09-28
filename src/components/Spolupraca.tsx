@@ -5,51 +5,70 @@ import Link from "next/link";
 import { useLanguage } from "@/lib/i18n";
 import styles from "./Spolupraca.module.css";
 
-/* Písmená loga. Každé má nad sebou číslo a pri hoveri sa rozsype. */
-const PISMENA = ["D", "N", "A", "B", "S"];
+/* Počet párov v závitnici a uhol, o ktorý sa každý ďalší pootočí. */
+const PAROV = 26;
+const UHOL_NA_PAR = 26;
+
+/** Body, v ktorých sedí informácia. Index = ktorý pár závitnice. */
+const UZLY: {
+  par: number;
+  farba: string;
+  titul: { sk: string; en: string };
+  text: { sk: string; en: string };
+}[] = [
+  {
+    par: 2,
+    farba: "#00E9FF",
+    titul: { sk: "Dizajn na mieru", en: "Custom design" },
+    text: {
+      sk: "Žiadna šablóna. Návrh staviame na tom, čo predávate a komu.",
+      en: "No template. We build the design around what you sell and to whom.",
+    },
+  },
+  {
+    par: 7,
+    farba: "#6637ED",
+    titul: { sk: "Rýchlosť", en: "Speed" },
+    text: {
+      sk: "Web vyladený na výkon, nie na efekty. Načítanie meriame, nie hádame.",
+      en: "Tuned for performance, not for effects. We measure load time, not guess it.",
+    },
+  },
+  {
+    par: 12,
+    farba: "#FF5A1F",
+    titul: { sk: "Web aj reklama", en: "Site and ads" },
+    text: {
+      sk: "Jedni ľudia na web aj kampane. Nikto si neprehadzuje zodpovednosť.",
+      en: "The same people for the site and the campaigns. Nobody passes the buck.",
+    },
+  },
+  {
+    par: 17,
+    farba: "#54FA80",
+    titul: { sk: "Merateľné dopyty", en: "Measurable leads" },
+    text: {
+      sk: "Každý dopyt viete dohľadať až ku kampani, z ktorej prišiel.",
+      en: "Every lead can be traced back to the campaign it came from.",
+    },
+  },
+  {
+    par: 22,
+    farba: "#FF3D8B",
+    titul: { sk: "Ladenie podľa čísel", en: "Tuning by numbers" },
+    text: {
+      sk: "Web spustíme a potom ho upravujeme podľa toho, čo dáta ukážu.",
+      en: "We launch, then keep adjusting based on what the data shows.",
+    },
+  },
+];
 
 const OBSAH = {
   label: { sk: "[ FIG.05 — SPOLUPRÁCA ]", en: "[ FIG.05 — PARTNERSHIP ]" },
-  podpis: { sk: "DIGITÁLNE ŠTÚDIO", en: "DIGITAL STUDIO" },
-  tvrdenia: {
-    sk: [
-      ["Web, ktorý", "ľudia naozaj používajú."],
-      ["Reklama, ktorá", "má dôvod fungovať."],
-      ["Čísla, ktoré", "si viete overiť."],
-    ],
-    en: [
-      ["A site people", "actually use."],
-      ["Ads that have", "a reason to work."],
-      ["Numbers you", "can verify."],
-    ],
-  },
-  anoTitul: { sk: "Pre koho", en: "Who it's" },
-  anoZvyrazne: { sk: "ÁNO", en: "FOR" },
-  nieTitul: { sk: "Pre koho", en: "Who it's" },
-  nieZvyrazne: { sk: "NIE", en: "NOT" },
-  ano: {
-    sk: [
-      ["Firmy, ktoré rastú", "Chcú web, ktorý im vozí dopyty, nie len vizitku."],
-      ["Jasné zadanie", "Viete, čo predávate a komu. Zvyšok doriešime spolu."],
-      ["Dlhodobá spolupráca", "Web spustíme a potom ho ladíme podľa čísel."],
-    ],
-    en: [
-      ["Companies that grow", "They want a site that brings leads, not just a business card."],
-      ["A clear brief", "You know what you sell and to whom. We work out the rest together."],
-      ["Long-term work", "We launch, then tune it against the numbers."],
-    ],
-  },
-  nie: {
-    sk: [
-      ["Najlacnejšie riešenie", "Ak rozhoduje len cena, nájdete lacnejšieho dodávateľa."],
-      ["Web za dva dni", "Poriadny návrh a texty potrebujú čas. Rýchlokvasku nerobíme."],
-      ["Hotovo a zabudnuté", "Web bez merania a údržby prestane fungovať do roka."],
-    ],
-    en: [
-      ["The cheapest option", "If price is all that counts, you'll find someone cheaper."],
-      ["A site in two days", "A proper design and copy take time. We don't do rush jobs."],
-      ["Done and forgotten", "A site with no measurement or upkeep stops working within a year."],
-    ],
+  titul: { sk: "Digitálna DNA\nvašej značky", en: "The digital DNA\nof your brand" },
+  sub: {
+    sk: "Päť vecí, ktoré dostanete v každom projekte. Prejdite po bodoch závitnice.",
+    en: "Five things you get in every project. Run over the nodes of the helix.",
   },
   cta: { sk: "Poďme do toho →", en: "Let's do it →" },
 };
@@ -58,6 +77,7 @@ export default function Spolupraca() {
   const { lang } = useLanguage();
   const ref = useRef<HTMLDivElement>(null);
   const [on, setOn] = useState(false);
+  const [aktivny, setAktivny] = useState<number | null>(null);
 
   useEffect(() => {
     const el = ref.current;
@@ -78,113 +98,90 @@ export default function Spolupraca() {
     return () => io.disconnect();
   }, []);
 
+  const uzolPreZaklad = new Map(UZLY.map((u) => [u.par, u]));
+  const [r1, r2] = OBSAH.titul[lang].split("\n");
+
   return (
-    <section id="spolupraca" className={`fig-section ${styles.section}`}>
-      <div className="fig-inner">
-        <div className="fig-label">{OBSAH.label[lang]}</div>
+    <section id="spolupraca" className={styles.section}>
+      <div className={styles.inner}>
+        <div className={styles.hlava}>
+          <div>
+            <div className={styles.label}>{OBSAH.label[lang]}</div>
+            <h2 className={styles.titul}>
+              <span>{r1}</span>
+              <span className={styles.titulZvyr}>{r2}</span>
+            </h2>
+          </div>
+          <p className={styles.sub}>{OBSAH.sub[lang]}</p>
+        </div>
 
-        {/* ── Lockup loga ─────────────────────────────────────────── */}
-        <div ref={ref} className={`${styles.lockup} ${on ? styles.on : ""}`}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo.svg" alt="DNABS" className={styles.znak} />
+        <div
+          ref={ref}
+          className={`${styles.scena} ${on ? styles.on : ""} ${aktivny !== null ? styles.drzi : ""}`}
+        >
+          <div className={styles.helix}>
+            {Array.from({ length: PAROV }, (_, i) => {
+              const uzol = uzolPreZaklad.get(i);
+              const uhol = i * UHOL_NA_PAR;
+              return (
+                <div
+                  key={i}
+                  className={styles.par}
+                  style={
+                    {
+                      "--uhol": `${uhol}deg`,
+                      "--y": `${(i - (PAROV - 1) / 2) * 26}px`,
+                      "--c": uzol?.farba ?? "rgba(255,255,255,.5)",
+                    } as React.CSSProperties
+                  }
+                >
+                  <span className={styles.priecka} aria-hidden />
+                  <span className={`${styles.gula} ${styles.gulaA}`} aria-hidden />
+                  <span className={`${styles.gula} ${styles.gulaB}`} aria-hidden />
 
-          <div className={styles.pismena}>
-            {PISMENA.map((p, i) => (
-              <span
-                key={p}
-                className={styles.pismeno}
-                style={{ "--i": i } as React.CSSProperties}
+                  {uzol && (
+                    <button
+                      type="button"
+                      className={`${styles.uzol} ${aktivny === i ? styles.uzolAktivny : ""}`}
+                      onMouseEnter={() => setAktivny(i)}
+                      onMouseLeave={() => setAktivny(null)}
+                      onFocus={() => setAktivny(i)}
+                      onBlur={() => setAktivny(null)}
+                      aria-label={uzol.titul[lang]}
+                    >
+                      <span className={styles.uzolJadro} aria-hidden />
+                      <span className={styles.uzolKruh} aria-hidden />
+                    </button>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Karty sedia mimo točiacej sa scény, takže ostávajú čitateľné. */}
+          <div className={styles.karty}>
+            {UZLY.map((u, i) => (
+              <div
+                key={u.par}
+                className={`${styles.karta} ${aktivny === u.par ? styles.kartaAktivna : ""}`}
+                style={{ "--c": u.farba, "--i": i } as React.CSSProperties}
+                onMouseEnter={() => setAktivny(u.par)}
+                onMouseLeave={() => setAktivny(null)}
               >
-                <span className={styles.pismenoZnak} data-text={p}>{p}</span>
-                <span className={styles.cislo}>{i + 1}</span>
-              </span>
-            ))}
-          </div>
-        </div>
-
-        <div className={styles.podpis} aria-hidden>
-          {[...OBSAH.podpis[lang]].map((z, i) => (
-            <span key={i}>{z === " " ? " " : z}</span>
-          ))}
-        </div>
-
-        {/* ── Tmavý pás s tvrdeniami ──────────────────────────────── */}
-        <div className={styles.pas}>
-          <DnaStuha />
-          <div className={styles.pasText}>
-            {OBSAH.tvrdenia[lang].map(([a, b], i) => (
-              <p key={i} className={styles.tvrdenie} style={{ "--i": i } as React.CSSProperties}>
-                <span className={styles.tvrdenieDioda} aria-hidden />
-                {a} <strong>{b}</strong>
-              </p>
-            ))}
-          </div>
-        </div>
-
-        {/* ── Pre koho áno / nie ──────────────────────────────────── */}
-        <div className={styles.stlpce}>
-          <div className={styles.stlpec} style={{ "--c": "#12A03F" } as React.CSSProperties}>
-            <h3 className={styles.stlpecTitul}>
-              {OBSAH.anoTitul[lang]} <em>{OBSAH.anoZvyrazne[lang]}</em>
-            </h3>
-            {OBSAH.ano[lang].map(([t, d]) => (
-              <div key={t} className={styles.polozka}>
-                <div className={styles.polozkaTitul}>
-                  <span className={styles.krizik} aria-hidden>◇</span>
-                  {t}
+                <span className={styles.kartaDioda} aria-hidden />
+                <div>
+                  <div className={styles.kartaTitul}>{u.titul[lang]}</div>
+                  <p className={styles.kartaText}>{u.text[lang]}</p>
                 </div>
-                <p className={styles.polozkaText}>{d}</p>
-              </div>
-            ))}
-          </div>
-
-          <div className={`${styles.stlpec} ${styles.stlpecNie}`} style={{ "--c": "#D11149" } as React.CSSProperties}>
-            <h3 className={styles.stlpecTitul}>
-              {OBSAH.nieTitul[lang]} <em>{OBSAH.nieZvyrazne[lang]}</em>
-            </h3>
-            {OBSAH.nie[lang].map(([t, d]) => (
-              <div key={t} className={styles.polozka}>
-                <div className={styles.polozkaTitul}>
-                  {t}
-                  <span className={styles.krizik} aria-hidden>◈</span>
-                </div>
-                <p className={styles.polozkaText}>{d}</p>
               </div>
             ))}
           </div>
         </div>
 
-        <Link href="/#kontakt" className={`fig-cta ${styles.cta}`} data-cursor="cta" data-fx>
+        <Link href="/#kontakt" className={styles.cta} data-cursor="cta" data-fx>
           {OBSAH.cta[lang]}
         </Link>
       </div>
     </section>
-  );
-}
-
-/**
- * Dvojzávitnica v pozadí tmavého pásu. Dve sínusovky z bodov, ktoré sa
- * proti sebe vlnia — obe sú len SVG, takže to nestojí skoro nič.
- */
-function DnaStuha() {
-  const bodov = 44;
-  const sirka = 1200;
-  const vyska = 120;
-  const krok = sirka / (bodov - 1);
-
-  return (
-    <svg className={styles.dna} viewBox={`0 0 ${sirka} ${vyska}`} preserveAspectRatio="none" aria-hidden>
-      {Array.from({ length: bodov }, (_, i) => {
-        const x = i * krok;
-        const posun = `${(i / bodov) * -2.2}s`;
-        return (
-          <g key={i} style={{ "--posun": posun } as React.CSSProperties} className={styles.dnaPar}>
-            <line x1={x} x2={x} y1={vyska * 0.5 - 26} y2={vyska * 0.5 + 26} className={styles.dnaSpojka} />
-            <circle cx={x} cy={vyska * 0.5} r="3.2" className={styles.dnaBodA} />
-            <circle cx={x} cy={vyska * 0.5} r="3.2" className={styles.dnaBodB} />
-          </g>
-        );
-      })}
-    </svg>
   );
 }
