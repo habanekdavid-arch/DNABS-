@@ -1,15 +1,16 @@
 type Bilingual = { sk: string; en: string };
 
 /**
- * ⚠ VYMYSLENÉ ČÍSLA — SEKCIA NIE JE NA STRÁNKE.
+ * ⚠ ILUSTRAČNÉ HODNOTY — NIE SÚ TO NAMERANÉ VÝSLEDKY KLIENTA.
  *
- * Tieto hodnoty nikto nenameral. Sekcia ImpactCharts je preto odpojená
- * z app/page.tsx a na web sa nedostane. Tvrdiť konkrétne výsledky, ktoré
- * sa nestali, je klamlivá reklama (smernica 2005/29/ES).
+ * Tieto čísla nikto nenameral, sú tu ako ukážka. Preto musí byť pri
+ * grafoch vždy viditeľné označenie, že ide o ilustráciu — bez neho by to
+ * boli tvrdenia o výsledkoch, ktoré sa nestali, čo je klamlivá reklama
+ * (smernica 2005/29/ES). O označenie sa stará IMPACT_IS_PLACEHOLDER.
  *
- * Ako sekciu vrátiť: prepísať čísla nižšie skutočnými nameranými údajmi
- * z konkrétneho projektu, prepnúť IMPACT_IS_PLACEHOLDER na false a pridať
- * <ImpactCharts /> späť do app/page.tsx.
+ * Keď budú k dispozícii skutočné namerané čísla z projektu: prepísať
+ * hodnoty nižšie a prepnúť IMPACT_IS_PLACEHOLDER na false. Označenie
+ * vtedy zmizne samo, lebo už nebude čo označovať.
  */
 export const IMPACT_IS_PLACEHOLDER = true;
 
@@ -44,5 +45,8 @@ export const IMPACT_COPY: Record<string, Bilingual> = {
     sk: "Rýchlejší web, viac dopytov, vyššia konverzia. Toto sledujeme pri každom projekte.",
     en: "A faster site, more leads, higher conversion. This is what we track on every project.",
   },
-  placeholder: { sk: "Ilustračné dáta — doplniť reálne", en: "Illustrative data — replace with real" },
+  placeholder: {
+    sk: "Ilustračný príklad — nejde o namerané výsledky klienta",
+    en: "Illustrative example — not measured client results",
+  },
 };
