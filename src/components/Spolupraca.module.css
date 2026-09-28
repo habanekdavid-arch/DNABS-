@@ -1,30 +1,11 @@
 /* ── SPOLUPRÁCA ───────────────────────────────────────────────────────
-   Levitujúca dvojzávitnica na čistom pozadí. Točí sa, hojdá sa a v
-   piatich bodoch nesie informácie. Všetko sú CSS 3D transformácie —
-   žiadne plátno, žiadna knižnica.
+   Časticová dvojzávitnica na čistom pozadí a vedľa nej grafy. Samotné
+   body kreslí plátno (DnaPlatno), tu je len rozloženie a karty.
    ─────────────────────────────────────────────────────────────────── */
 
-/* Závitnica je naklonená doprava aj dopredu, nie kolmá — tak z nej vidno
-   hĺbku. Naklonenie drží jeden prvok, točenie druhý. */
-@keyframes sp-tocenie{from{transform:rotateY(0);}to{transform:rotateY(360deg);}}
-/* Náklon do strany drží rotateZ, rotateX je len jemný — pri väčšom by
-   sme sa pozerali pozdĺž osi a priečky by sa prekrývali do nečitateľnej
-   spleti. Takto ostane závitnica zreteľne naklonená, ale čitateľná. */
-@keyframes sp-levitacia{
-  0%,100%{transform:rotateZ(-17deg) rotateX(9deg) translateY(-16px);}
-  50%{transform:rotateZ(-12deg) rotateX(15deg) translateY(16px);}
-}
-@keyframes sp-pulz{
-  0%,100%{transform:scale(1);opacity:.85;}
-  50%{transform:scale(2.1);opacity:0;}
-}
 @keyframes sp-prilet{
-  from{opacity:0;transform:translateY(18px);}
+  from{opacity:0;transform:translateY(20px);}
   to{opacity:1;transform:none;}
-}
-@keyframes sp-bublina{
-  from{opacity:0;transform:translate(var(--dx),calc(-50% + 8px)) scale(.94);}
-  to{opacity:1;transform:translate(var(--dx),-50%) scale(1);}
 }
 
 .section{
@@ -69,264 +50,215 @@
 .titul span{display:block;}
 .titulZvyr{color:var(--fig-znacka);}
 
+/* Nápoveda o kurzore dáva zmysel len s myšou. */
+.napoveda{color:rgba(14,14,17,.42);}
+@media (hover:none){
+  .napoveda{display:none;}
+}
+
 .sub{
   margin:0;
-  max-width:36ch;
+  max-width:38ch;
   font-size:15px;
   line-height:1.6;
   color:rgba(14,14,17,.58);
 }
 
-/* ── Scéna ───────────────────────────────────────────────────────── */
+/* ── Rozloženie ──────────────────────────────────────────────────── */
 
 .scena{
   position:relative;
   display:grid;
-  grid-template-columns:minmax(0,1fr) minmax(300px,420px);
+  grid-template-columns:minmax(0,1fr) minmax(320px,440px);
   gap:clamp(20px,3vw,48px);
-  align-items:center;
-  padding:clamp(12px,2vw,32px) 0;
+  align-items:stretch;
+  min-height:clamp(520px,58vw,760px);
   /* Čisté pozadie — závitnica stojí priamo na stránke. */
   background:transparent;
-  perspective:1100px;
-  /* Naklonená závitnica sa premieta širšie než jej box — bez orezania by
-     na telefóne rozťahovala stránku do strán. */
-  overflow:clip;
-  overflow-clip-margin:24px;
 }
 
-/* ── Závitnica ──────────────────────────────────────────────────── */
+/* ── Karty s grafmi ──────────────────────────────────────────────── */
 
-/* Obal len zmenšuje celok na úzkych obrazovkách. Výška sedí s tým, koľko
-   miesta zaberú páry (43 × 15 px), aby závitnica nepretekala do ďalšej
-   sekcie. */
-.helixObal{
-  position:relative;
-  grid-column:1;
-  justify-self:center;
-  width:260px;
-  height:700px;
-  transform-style:preserve-3d;
-}
-
-.helix{
-  position:absolute;
-  inset:0;
-  transform-style:preserve-3d;
-  animation:sp-levitacia 8s ease-in-out infinite;
-  opacity:0;
-  transition:opacity .9s ease;
-}
-.on .helix{opacity:1;}
-
-/* Vnútro sa točí. Samostatný prvok, aby si dve animácie neprepisovali tú
-   istú vlastnosť — predtým točenie vôbec nebežalo. */
-.otacanie{
-  position:absolute;
-  inset:0;
-  transform-style:preserve-3d;
-  animation:sp-tocenie 34s linear infinite;
-}
-/* Točiaci sa bod sa nedá trafiť, tak sa všetko zastaví hneď, ako myš
-   vojde do scény — aj levitácia, inak by bod pod kurzorom stále plával
-   hore-dole. Kým sa oň nikto nezaujíma, závitnica žije ďalej. */
-.scena:hover .otacanie,
-.drzi .otacanie,
-.scena:hover .helix,
-.drzi .helix{animation-play-state:paused;}
-
-.par{
-  position:absolute;
-  left:50%;
-  top:50%;
-  transform-style:preserve-3d;
-  transform:translateY(var(--y)) rotateY(var(--uhol));
-}
-
-/* Priečka je pár báz — dve polovice, každá inej bázy, ako v modeli
-   molekuly. Leží pozdĺž osi Z medzi oboma kostrami. */
-.priecka{
-  position:absolute;
-  left:-70px;
-  top:-1.5px;
-  width:140px;
-  height:3px;
-  border-radius:3px;
-  background:linear-gradient(90deg,var(--bA) 0 calc(50% - 1px),rgba(14,14,17,.55) calc(50% - 1px) calc(50% + 1px),var(--bB) calc(50% + 1px) 100%);
-  box-shadow:0 1px 3px rgba(14,14,17,.28);
-  transform:rotateY(90deg);
-}
-
-/* Guľôčky kostry sú väčšie než rozostup párov, takže na seba nadväzujú a
-   splynú do súvislej stuhy. Prechod robí lesk — bez neho by to boli
-   ploché kolieska. */
-.gula{
-  position:absolute;
-  width:17px;
-  height:17px;
-  margin:-8.5px 0 0 -8.5px;
-  border-radius:50%;
-  background:radial-gradient(circle at 33% 28%,#7C7C92 0%,#2E2E3C 45%,#0D0D14 100%);
-  box-shadow:0 2px 6px rgba(14,14,17,.34), 0 0 0 .5px rgba(255,255,255,.28) inset;
-}
-.gulaA{transform:translateZ(70px);}
-
-/* Kostra — tyčka od guľôčky k tej istej guľôčke nasledujúceho páru.
-   Susedné páry delí vždy rovnaký posun (15 px hore, 34,3° dookola pri
-   polomere 70 px), takže spojnica má vždy dĺžku 43,9 px a ten istý sklon
-   — jedno pravidlo platí pre celú závitnicu. */
-.kostra{
-  position:absolute;
-  left:0;
-  top:-2px;
-  width:44px;
-  height:4px;
-  border-radius:2px;
-  transform-origin:0 50%;
-  background:linear-gradient(180deg,#5B5B70,#23232E);
-  box-shadow:0 1px 3px rgba(14,14,17,.3);
-}
-.kostraA{transform:translateZ(70px) rotateY(17.15deg) rotateZ(19.97deg);}
-/* Zadná kostra vedie na druhú stranu, preto opačný uhol. Je ďalej od oka,
-   tak je svetlejšia — inak by sa predná a zadná zliali. */
-.kostraB{
-  transform:translateZ(-70px) rotateY(-162.85deg) rotateZ(19.97deg);
-  opacity:.42;
-}
-/* Zadná kostra je ďalej — zosvetlíme a zmenšíme ju, aby bolo vidno hĺbku. */
-.gulaB{transform:translateZ(-70px) scale(.86);opacity:.42;}
-
-/* ── Bod s informáciou ───────────────────────────────────────────── */
-
-.uzol{
-  position:absolute;
-  left:-21px;
-  top:-21px;
-  width:42px;
-  height:42px;
-  padding:0;
-  border:0;
-  background:none;
-  cursor:pointer;
-  transform:translateZ(70px);
-  -webkit-tap-highlight-color:transparent;
-}
-.uzolJadro{
-  position:absolute;
-  inset:11px;
-  border-radius:50%;
-  background:radial-gradient(circle at 34% 30%,#fff 0%,var(--c) 52%,var(--c) 100%);
-  box-shadow:0 0 22px var(--c), 0 0 48px var(--c);
-  transition:transform .3s cubic-bezier(.2,.8,.2,1);
-}
-.uzolKruh{
-  position:absolute;
-  inset:8px;
-  border-radius:50%;
-  border:2px solid var(--c);
-  animation:sp-pulz 2.4s ease-out infinite;
-}
-.uzol:hover .uzolJadro,
-.uzol:focus-visible .uzolJadro,
-.uzolAktivny .uzolJadro{transform:scale(1.5);}
-.uzolAktivny .uzolKruh{animation-duration:1.1s;}
-.uzol:focus-visible{outline:2px solid var(--fig-ink);outline-offset:6px;border-radius:50%;}
-
-/* ── Bublina pri bode ─────────────────────────────────────────────────
-   Leží mimo 3D scény, len sa posunie tam, kde bod práve je. Vďaka tomu
-   je vždy čelom k čitateľovi — v scéne by sa točila spolu s ňou. */
-.bublina{
-  position:absolute;
-  left:var(--x);
-  top:var(--y);
-  z-index:3;
-  --dx:22px;
-  width:250px;
-  padding:14px 16px;
-  border-radius:15px;
-  background:#15101F;
-  text-align:left;
-  pointer-events:none;
-  animation:sp-bublina .26s cubic-bezier(.2,.8,.2,1) forwards;
-  box-shadow:0 0 0 1px color-mix(in srgb,var(--c) 55%,transparent), 0 24px 50px -18px rgba(14,14,17,.6);
-}
-/* Pri pravom okraji scény sa bublina preklopí na druhú stranu bodu. */
-.bublinaVlavo{--dx:calc(-100% - 22px);}
-
-.bublinaTitul{
-  display:block;
-  font-family:var(--manrope),system-ui,sans-serif;
-  font-weight:800;
-  font-size:14px;
-  letter-spacing:-.01em;
-  color:var(--c);
-  margin-bottom:4px;
-}
-.bublinaText{
-  display:block;
-  font-family:var(--font-geist),system-ui,sans-serif;
-  font-size:12.5px;
-  line-height:1.45;
-  color:rgba(255,255,255,.74);
-}
-
-/* ── Karty s informáciami ────────────────────────────────────────── */
-
-.karty{
-  position:relative;
-  grid-column:2;
+.grafy{
   display:flex;
   flex-direction:column;
-  gap:10px;
+  gap:12px;
+  justify-content:center;
 }
 
 .karta{
-  display:flex;
-  align-items:flex-start;
-  gap:14px;
-  padding:16px 18px;
-  border-radius:16px;
+  padding:18px 20px;
+  border-radius:18px;
   border:1px solid rgba(14,14,17,.12);
-  background:linear-gradient(180deg,rgba(255,255,255,.72),rgba(255,255,255,.4));
+  background:linear-gradient(180deg,rgba(255,255,255,.78),rgba(255,255,255,.46));
   opacity:0;
-  transition:border-color .3s ease,background .3s ease,transform .3s cubic-bezier(.2,.8,.2,1);
+  transition:border-color .3s ease,box-shadow .3s ease,transform .3s cubic-bezier(.2,.8,.2,1);
 }
 .on .karta{
   animation:sp-prilet .7s cubic-bezier(.2,.8,.2,1) forwards;
-  animation-delay:calc(240ms + var(--i) * 110ms);
+  animation-delay:calc(160ms + var(--i) * 140ms);
 }
-.karta:hover,
-.kartaAktivna{
-  border-color:var(--c);
+.karta:hover{
+  border-color:var(--fig-znacka);
   background:#fff;
-  transform:translateX(-6px);
-  box-shadow:0 18px 40px -18px color-mix(in srgb,var(--c) 70%,transparent);
+  transform:translateX(-5px);
+  box-shadow:0 20px 44px -20px rgba(86,51,135,.45);
 }
 
-.kartaDioda{
-  width:9px;
-  height:9px;
-  margin-top:6px;
-  flex:0 0 auto;
+.kartaHlava{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:6px;
+}
+.kartaLabel{
+  font-family:var(--gmono);
+  font-size:10px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--fig-znacka);
+}
+.dioda{
+  width:7px;
+  height:7px;
   border-radius:2px;
-  background:var(--c);
-  box-shadow:0 0 12px var(--c);
+  background:var(--fig-znacka);
+  box-shadow:0 0 10px var(--fig-znacka);
   animation:fig-blink 1.8s infinite;
 }
 
 .kartaTitul{
   font-family:var(--manrope);
   font-weight:800;
-  font-size:16px;
-  letter-spacing:-.01em;
+  font-size:17px;
+  letter-spacing:-.015em;
   color:var(--fig-ink);
-  margin-bottom:3px;
+  margin-bottom:14px;
 }
 
-.kartaText{
-  margin:0;
-  font-size:13.5px;
+/* ── Riadok grafu ────────────────────────────────────────────────── */
+
+.riadok{margin-bottom:11px;}
+.riadok:last-of-type{margin-bottom:0;}
+
+.riadokHlava{
+  display:flex;
+  align-items:baseline;
+  gap:8px;
+  margin-bottom:5px;
+}
+.kod{
+  font-family:var(--gmono);
+  font-size:10.5px;
+  letter-spacing:.1em;
+  color:var(--fig-ink);
+  flex:0 0 auto;
+}
+.riadokPopis{
+  font-size:12px;
+  line-height:1.35;
+  color:var(--fig-ink-3);
+  flex:1 1 auto;
+}
+.hodnota{
+  font-family:var(--manrope);
+  font-weight:800;
+  font-size:13px;
+  color:var(--fig-ink);
+  flex:0 0 auto;
+  white-space:nowrap;
+}
+.fajka{
+  font-size:12px;
+  font-weight:700;
+  color:var(--c);
+  flex:0 0 auto;
+}
+
+.drazka{
+  position:relative;
+  height:5px;
+  border-radius:3px;
+  background:rgba(14,14,17,.09);
+  overflow:hidden;
+}
+/* Výplň narastie, až keď sekcia príde do zorného poľa — inak by sa
+   celá animácia minula nad obrazovkou. */
+.vypln{
+  display:block;
+  height:100%;
+  width:0;
+  border-radius:3px;
+  background:linear-gradient(90deg,color-mix(in srgb,var(--c) 55%,transparent),var(--c));
+  box-shadow:0 0 12px color-mix(in srgb,var(--c) 60%,transparent);
+  transition:width 1.1s cubic-bezier(.2,.8,.2,1);
+  transition-delay:var(--d,0ms);
+}
+.on .vypln{width:var(--p,100%);}
+
+.pata{
+  margin:14px 0 0;
+  font-size:11.5px;
   line-height:1.5;
+  color:var(--fig-ink-3);
+}
+
+/* ── Kroky ───────────────────────────────────────────────────────── */
+
+.kroky{
+  list-style:none;
+  margin:0;
+  padding:0;
+  position:relative;
+}
+/* Spojnica medzi bodmi. Vedie len po predposledný, aby nevytŕčala. */
+.kroky::before{
+  content:"";
+  position:absolute;
+  left:4.5px;
+  top:9px;
+  bottom:19px;
+  width:1px;
+  background:rgba(14,14,17,.16);
+}
+
+.krok{
+  position:relative;
+  display:flex;
+  align-items:baseline;
+  gap:10px;
+  padding:0 0 12px 22px;
+  opacity:0;
+}
+.krok:last-child{padding-bottom:0;}
+.on .krok{
+  animation:sp-prilet .6s cubic-bezier(.2,.8,.2,1) forwards;
+  animation-delay:var(--d,0ms);
+}
+
+.krokBod{
+  position:absolute;
+  left:0;
+  top:5px;
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:#fff;
+  border:2px solid var(--fig-znacka);
+}
+.krok:last-child .krokBod{background:var(--fig-znacka);}
+
+.krokCislo{
+  font-family:var(--gmono);
+  font-size:10.5px;
+  letter-spacing:.1em;
+  color:var(--fig-znacka);
+  flex:0 0 auto;
+}
+.krokText{
+  font-size:13.5px;
+  line-height:1.4;
   color:var(--fig-ink-2);
 }
 
@@ -351,31 +283,17 @@
 
 /* ── Užšie obrazovky ─────────────────────────────────────────────── */
 
-/* Závitnica sa nezmenšuje prepočtom geometrie, len sa celá odmocní —
-   vďaka tomu ostanú proporcie rovnaké ako na veľkej obrazovke. */
-@media (max-width:1200px){
-  .helixObal{height:600px;}
-  .helix{transform-origin:center;scale:.86;}
-}
-
-@media (max-width:900px){
-  .scena{grid-template-columns:1fr;gap:clamp(24px,5vw,40px);}
-  .helixObal{grid-column:1;width:200px;height:430px;}
-  .helix{scale:.6;}
-  .karty{grid-column:1;}
-  .karta:hover,.kartaAktivna{transform:none;}
-  .bublina{display:none;}
-}
-
-/* Na dotyku sa nedá prejsť myšou, tak sú karty rovno čitateľné. */
-@media (hover:none){
-  .karta{border-color:rgba(14,14,17,.16);background:rgba(255,255,255,.7);}
+@media (max-width:1000px){
+  .scena{
+    grid-template-columns:1fr;
+    min-height:0;
+    gap:clamp(20px,4vw,32px);
+  }
+  .karta:hover{transform:none;}
 }
 
 @media (prefers-reduced-motion: reduce){
-  .helix,.otacanie{animation:none;}
-  .helix{transform:rotateZ(-15deg) rotateX(12deg);}
-  .uzolKruh,.kartaDioda{animation:none;}
-  .karta{opacity:1;animation:none;}
-  .bublina{animation:none;opacity:1;transform:translate(var(--dx),-50%);}
+  .dioda{animation:none;}
+  .karta,.krok{opacity:1;animation:none;}
+  .vypln{transition:none;}
 }
