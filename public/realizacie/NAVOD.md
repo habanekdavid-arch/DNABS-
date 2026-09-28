@@ -24,12 +24,11 @@ rovnakým názvom** — v kóde sa potom nemusí meniť nič.
 | `<projekt>-2.png` | miesto 2 — **na výšku**, dole vpravo | 500 × 660 |
 | `<projekt>-3.png` | miesto 3 — **menšie na šírku**, dole v strede | 430 × 300 |
 
-Projekt **VYTLAČTO 3D** má navyše miesto na príspevok z Instagramu.
-Nahradí miesto 1 a je v pomere 4:3:
+Projekt **VYTLAČTO 3D** má miesto 1 v pomere **4:3** (nie 640 × 410):
 
 | Súbor | Čo to je | Rozmer |
 |---|---|---|
-| `vytlacto-3d-ig.png` | príspevok z Instagramu, hore vpravo | 1440 × 1080 |
+| `vytlacto-3d-1.png` | miesto 1 — pomer 4:3, hore vpravo | 1440 × 1080 |
 
 Rozmery sú **dvojnásobok** toho, čo sa zobrazí — aby to bolo ostré na
 retina displejoch. Keď má fotka iný pomer strán, nič sa nepokazí —
