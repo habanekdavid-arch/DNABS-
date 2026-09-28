@@ -37,7 +37,7 @@ export default function Image() {
           Tvoj web, hotový&nbsp;<span style={{ color: "#ff5a01" }}>zadarmo.</span>
         </div>
         <div style={{ fontSize: 26, color: "rgba(255,255,255,.7)", marginTop: 36, display: "flex" }}>
-          Návrh webu na mieru do 24 h — zadarmo · dnabs.online
+          Bezplatná 30-minútová konzultácia · dnabs.online
         </div>
       </div>
     ),

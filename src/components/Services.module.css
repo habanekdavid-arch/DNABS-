@@ -14,9 +14,10 @@
   padding:clamp(80px,12vh,140px) clamp(20px,4vw,48px);
 }
 
+
 .inner{
   position:relative;
-  max-width:1440px;
+  max-width:1680px;
   margin:0 auto;
 }
 
@@ -88,7 +89,7 @@
   border:1px solid rgba(14,14,17,.12);
   border-radius:26px;
   background:linear-gradient(180deg,rgba(255,255,255,.72),rgba(255,255,255,.4));
-  padding:clamp(26px,2.4vw,38px);
+  padding:clamp(30px,2.8vw,46px);
   transition:border-color .3s ease,transform .3s ease,box-shadow .3s ease;
 }
 .tile:hover{
@@ -103,10 +104,10 @@
   align-items:baseline;
   gap:12px;
   font-family:var(--gmono);
-  font-size:13px;
+  font-size:14px;
   letter-spacing:.08em;
   text-transform:uppercase;
-  color:rgba(14,14,17,.75);
+  color:rgba(14,14,17,.8);
 }
 .sep{color:rgba(14,14,17,.3);}
 
@@ -130,8 +131,8 @@
 
 .desc{
   margin:0;
-  font-size:clamp(15px,1.25vw,18px);
-  line-height:1.62;
+  font-size:clamp(16px,1.4vw,20px);
+  line-height:1.6;
   color:rgba(14,14,17,.68);
 }
 

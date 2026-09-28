@@ -117,31 +117,98 @@
 .form{
   display:flex;
   flex-direction:column;
-  gap:0;
+  gap:clamp(14px,2vh,24px);
   border:1px solid rgba(86,51,135,.55);
   border-radius:clamp(20px,2.2vw,30px);
-  overflow:hidden;
   background:#1C1030;
   color:#fff;
+  padding:clamp(26px,3.4vw,52px);
   box-shadow:0 30px 80px rgba(86,51,135,.26);
 }
 
+/* Spodok: súhlas vľavo, odoslanie vpravo. */
+.spodok{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  margin-top:clamp(8px,1.6vh,18px);
+}
+
+.suhlas{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  cursor:pointer;
+  max-width:42ch;
+}
+.suhlasVstup{
+  position:absolute;
+  width:1px;height:1px;
+  opacity:0;
+  pointer-events:none;
+}
+.prepinac{
+  position:relative;
+  width:40px;
+  height:22px;
+  flex:0 0 auto;
+  border-radius:999px;
+  background:rgba(255,255,255,.16);
+  transition:background .25s ease;
+}
+.prepinac::after{
+  content:"";
+  position:absolute;
+  top:3px;left:3px;
+  width:16px;height:16px;
+  border-radius:50%;
+  background:#fff;
+  transition:transform .25s cubic-bezier(.2,.8,.2,1);
+}
+.suhlasVstup:checked + .prepinac{background:#6637ED;}
+.suhlasVstup:checked + .prepinac::after{transform:translateX(18px);}
+.suhlasVstup:focus-visible + .prepinac{outline:2px solid #fff;outline-offset:3px;}
+.suhlasVstup[aria-invalid="true"] + .prepinac{box-shadow:0 0 0 2px #ff6b6b;}
+
+.suhlasText{
+  font-family:var(--font-geist),system-ui,sans-serif;
+  font-size:12.5px;
+  line-height:1.45;
+  color:rgba(255,255,255,.6);
+}
+
+/* Polia sú len podčiarknuté riadky — bez rámov a bez výplne. */
 .field{
+  width:100%;
   background:transparent;
   border:0;
-  border-bottom:1px solid rgba(255,255,255,.12);
+  border-bottom:1px solid rgba(255,255,255,.16);
   color:#fff;
-  font-family:var(--mono);
+  font-family:var(--font-geist),system-ui,sans-serif;
   font-size:15px;
-  padding:20px 22px;
+  padding:14px 2px;
   outline:none;
-  transition:.2s;
+  transition:border-color .25s ease;
 }
-.field:focus{
-  background:rgba(255,255,255,.04);
-}
+.field::placeholder{color:rgba(255,255,255,.5);}
+.field:focus{border-bottom-color:#fff;}
 textarea.field{
   resize:vertical;
+  min-height:96px;
+}
+
+/* Dva stĺpce vedľa seba, ako na predlohe. */
+.dvojica{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:clamp(18px,3vw,44px);
+}
+.pole{display:flex;flex-direction:column;}
+
+@media (max-width:640px){
+  .dvojica{grid-template-columns:1fr;gap:0;}
 }
 
 select.field{
@@ -158,18 +225,10 @@ select.field option{
   background:#fff;
 }
 
-/* Vyplnené pole zbelie — na prvý pohľad vidno, čo už je hotové. */
+/* Vyplnený riadok zosilnie — na prvý pohľad vidno, čo už je hotové. */
 input.field:not(:placeholder-shown),
-textarea.field:not(:placeholder-shown),
-select.field:not(:has(option[value=""]:checked)){
-  background:#fff;
-  color:#0a0a0a;
-  border-bottom-color:rgba(10,10,10,.12);
-}
-input.field:not(:placeholder-shown):focus,
-textarea.field:not(:placeholder-shown):focus,
-select.field:not(:has(option[value=""]:checked)):focus{
-  background:#fff;
+textarea.field:not(:placeholder-shown){
+  border-bottom-color:rgba(255,255,255,.55);
 }
 
 .honeypot{
@@ -522,23 +581,42 @@ select.field:not(:has(option[value=""]:checked)):focus{
 
 .submit{
   position:relative;
+  display:inline-flex;
+  align-items:center;
+  gap:12px;
+  flex:0 0 auto;
   background:linear-gradient(120deg,#6637ED,#FF5A1F);
   color:#fff;
   border:0;
+  border-radius:999px;
   font-family:var(--manrope);
   font-weight:800;
-  font-size:clamp(15px,1.3vw,19px);
+  font-size:clamp(12px,1vw,14px);
   text-transform:uppercase;
-  letter-spacing:.03em;
-  padding:clamp(22px,2.2vw,28px);
+  letter-spacing:.06em;
+  padding:16px 18px 16px 28px;
   cursor:pointer;
-  transition:filter .25s ease;
+  transition:filter .25s ease,transform .25s cubic-bezier(.2,.7,.2,1);
   animation:contact-cta-pulse 2.2s ease-out infinite;
 }
 .submit:hover{
   filter:brightness(1.12);
+  transform:translateY(-2px);
   animation-play-state:paused;
 }
+
+.submitSipka{
+  display:grid;
+  place-items:center;
+  width:26px;height:26px;
+  flex:0 0 auto;
+  border-radius:50%;
+  background:rgba(255,255,255,.22);
+  font-size:15px;
+  line-height:1;
+  transition:transform .3s cubic-bezier(.2,.7,.2,1);
+}
+.submit:hover .submitSipka{transform:translateX(3px);}
 .submit:disabled{
   opacity:.6;
   cursor:not-allowed;

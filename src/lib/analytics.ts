@@ -22,10 +22,9 @@ export type LeadEvent = {
   formLocation: string;
   /** Kód služby z formulára: web | eshop | redesign | app | marketing */
   sluzba: string;
-  /** Kód odvetvia z formulára: gastro | krasa | fitness | stavba | auto |
-   *  obchod | sluzby | reality | zdravie | vzdelavanie, alebo pri voľbe
-   *  „Iné“ text, ktorý návštevník napísal. */
-  odvetvie: string;
+  /** Kód odvetvia. Formulár sa naň už nepýta, tak je nepovinné — staré
+   *  volania s ním fungujú ďalej. */
+  odvetvie?: string;
   /** Pre vylepšené konverzie. Nikdy sa nedostane do parametrov udalosti. */
   email?: string;
   /** Pre vylepšené konverzie. Nikdy sa nedostane do parametrov udalosti. */

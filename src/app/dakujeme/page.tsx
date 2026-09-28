@@ -5,7 +5,7 @@ import styles from "./page.module.css";
 
 export const metadata: Metadata = {
   title: "Ďakujeme",
-  description: "Tvoj dopyt sme prijali, návrh webu na mieru ti pošleme do 24 hodín.",
+  description: "Tvoj dopyt sme prijali, ozveme sa ti a dohodneme bezplatnú 30-minútovú konzultáciu.",
   robots: { index: false, follow: true },
 };
 
@@ -20,8 +20,8 @@ export default function DakujemePage() {
           <span className={styles.script}>— ozveme sa.</span>
         </h1>
         <p className={styles.body}>
-          Tvoju správu sme prijali. Návrh webu na mieru ti pripravíme a zadarmo pošleme do 24 hodín
-          na e-mail alebo telefón, ktorý si nám nechal/-a.
+          Tvoju správu sme prijali. Ozveme sa ti na e-mail alebo telefón, ktorý si nám nechal/-a,
+          a dohodneme si rýchlu 30-minútovú konzultáciu — zadarmo a nezáväzne.
         </p>
         <Link href="/" className={styles.cta}>
           Späť na web →

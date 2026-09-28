@@ -4,8 +4,8 @@ export const homeFaq: { q: Bilingual; a: Bilingual }[] = [
   {
     q: { sk: "Ako dlho to trvá?", en: "How long does it take?" },
     a: {
-      sk: "Návrh webu na mieru ti pripravíme do 24 hodín od prvého kontaktu — zadarmo. Samotná realizácia finálneho webu potom závisí od rozsahu projektu — bežne ide o dni až pár týždňov.",
-      en: "We'll have a custom website design ready within 24 hours of first contact — free. Building the final site then depends on the project's scope — usually a matter of days to a couple of weeks.",
+      sk: "Po vyplnení formulára sa ozveme a dohodneme si polhodinovú konzultáciu — tá je zadarmo. Samotná realizácia webu potom závisí od rozsahu projektu — bežne ide o dni až pár týždňov.",
+      en: "Once you send the form we'll get in touch and set up a 30-minute consultation — that one is free. Building the site itself then depends on the project's scope — usually a matter of days to a couple of weeks.",
     },
   },
   {
@@ -21,8 +21,8 @@ export const homeFaq: { q: Bilingual; a: Bilingual }[] = [
   {
     q: { sk: "Čo presne je v cene?", en: "What exactly is included in the price?" },
     a: {
-      sk: "Návrh webu na mieru je úplne zadarmo a bez záväzkov. Cena finálneho webu zvyčajne zahŕňa dizajn, naprogramovanie, základné SEO nastavenie a nasadenie na doménu — presný rozsah si vždy upresníme podľa toho, čo tvoj projekt potrebuje.",
-      en: "The custom website design is completely free with no strings attached. The final website's price usually covers design, development, basic SEO setup and deployment to your domain — we always confirm the exact scope based on what your project needs.",
+      sk: "Prvá polhodinová konzultácia je úplne zadarmo a bez záväzkov. Cena webu zvyčajne zahŕňa dizajn, naprogramovanie, základné SEO nastavenie a nasadenie na doménu — presný rozsah si vždy upresníme podľa toho, čo tvoj projekt potrebuje.",
+      en: "The first 30-minute consultation is completely free with no strings attached. The website's price usually covers design, development, basic SEO setup and deployment to your domain — we always confirm the exact scope based on what your project needs.",
     },
   },
   {

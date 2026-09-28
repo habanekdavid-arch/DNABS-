@@ -6,8 +6,8 @@ import styles from "./PruhKonzultacia.module.css";
 
 const OBSAH = {
   text: {
-    sk: ["Návrh webu na mieru ", "zadarmo", ", bez záväzkov."],
-    en: ["A custom website design ", "free of charge", ", no commitment."],
+    sk: ["Rýchla 30-minútová konzultácia ", "zadarmo", ", bez záväzkov."],
+    en: ["A quick 30-minute consultation ", "free of charge", ", no commitment."],
   },
   tlacidlo: { sk: "Kontaktný formulár", en: "Contact form" },
 };
