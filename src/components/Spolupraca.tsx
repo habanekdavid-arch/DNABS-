@@ -12,32 +12,67 @@ import styles from "./Spolupraca.module.css";
    opis toho, čo naozaj nastavujeme — nie vymyslené výsledky klientov.
    ─────────────────────────────────────────────────────────────────── */
 
-const RYCHLOST = [
-  { kod: "LCP", hodnota: "2,5 s", podiel: 100, farba: "#6637ED",
-    popis: { sk: "kým sa zobrazí hlavný obsah", en: "until the main content shows" } },
-  { kod: "INP", hodnota: "200 ms", podiel: 78, farba: "#9B4BE8",
-    popis: { sk: "kým web odpovie na klik", en: "until the page answers a tap" } },
-  { kod: "CLS", hodnota: "0,1", podiel: 56, farba: "#FF3D8B",
-    popis: { sk: "koľko sa obsah pri načítaní pohne", en: "how much content shifts while loading" } },
-];
-
-const MERANIE = [
-  { podiel: 100, farba: "#6637ED",
-    text: { sk: "Dopyt z formulára", en: "Form enquiry" } },
-  { podiel: 100, farba: "#9B4BE8",
-    text: { sk: "Zdroj kampane pri dopyte", en: "Campaign source of the enquiry" } },
-  { podiel: 100, farba: "#00C6DE",
-    text: { sk: "Klik na telefón a e-mail", en: "Phone and e-mail taps" } },
-  { podiel: 100, farba: "#FF5A1F",
-    text: { sk: "Rozpracovaný formulár", en: "Abandoned form" } },
-];
-
-const KROKY = [
-  { sk: "Konzultácia", en: "Consultation" },
-  { sk: "Návrh", en: "Design" },
-  { sk: "Spustenie", en: "Launch" },
-  { sk: "Ladenie podľa čísel", en: "Tuning by numbers" },
-];
+/** Kartičky vedľa závitnice: čo konkrétna služba prinesie. Každá si
+    nesie svoj účinok na DNA — index tvaru a farbu, do ktorej sa naladí. */
+const POLICKA = [
+  {
+    tvar: 0,
+    farba: "#6637ED",
+    label: { sk: "[ WEBY ]", en: "[ WEBSITES ]" },
+    titul: { sk: "Rýchlosť, ktorá udrží návštevníka", en: "Speed that keeps visitors" },
+    text: {
+      sk: "Web ladíme na hranice, pod ktorými Google hodnotí načítanie ako dobré. Overíte si to kedykoľvek v PageSpeed Insights.",
+      en: "We tune the site to the thresholds Google rates as good. You can verify it any time in PageSpeed Insights.",
+    },
+    metriky: [
+      { kod: "LCP", hodnota: "≤ 2,5 s", podiel: 100 },
+      { kod: "INP", hodnota: "≤ 200 ms", podiel: 76 },
+      { kod: "CLS", hodnota: "≤ 0,1", podiel: 54 },
+    ],
+  },
+  {
+    tvar: 1,
+    farba: "#00C6DE",
+    label: { sk: "[ APLIKÁCIE ]", en: "[ APPS ]" },
+    titul: { sk: "Menej ručnej roboty", en: "Less manual work" },
+    text: {
+      sk: "Kroky, ktoré dnes klikáte ručne — objednávky, rezervácie, prepisovanie do tabuliek — prevezme aplikácia.",
+      en: "The steps you click through by hand today — orders, bookings, retyping into spreadsheets — get taken over by an app.",
+    },
+    zoznam: {
+      sk: ["Objednávky a rezervácie", "Napojenie na vaše nástroje", "Interné postupy na jedno miesto"],
+      en: ["Orders and bookings", "Hooked into your tools", "Internal steps in one place"],
+    },
+  },
+  {
+    tvar: 2,
+    farba: "#FF5A1F",
+    label: { sk: "[ MARKETING ]", en: "[ MARKETING ]" },
+    titul: { sk: "Viete, za čo platíte", en: "You know what you pay for" },
+    text: {
+      sk: "Každý dopyt viete dohľadať až ku kampani, z ktorej prišiel. Prestanete platiť za to, čo nefunguje.",
+      en: "Every enquiry can be traced back to the campaign it came from. You stop paying for what does not work.",
+    },
+    zoznam: {
+      sk: ["Dopyt z formulára", "Zdroj kampane pri dopyte", "Klik na telefón a e-mail"],
+      en: ["Form enquiry", "Campaign source of the enquiry", "Phone and e-mail taps"],
+    },
+  },
+  {
+    tvar: 3,
+    farba: "#FF3D8B",
+    label: { sk: "[ SPOLUPRÁCA ]", en: "[ PARTNERSHIP ]" },
+    titul: { sk: "Jedni ľudia na web aj kampane", en: "One team for site and ads" },
+    text: {
+      sk: "Nikto si neprehadzuje zodpovednosť medzi agentúrou a programátorom. Web spustíme a ďalej ho ladíme podľa čísel.",
+      en: "Nobody passes the buck between the agency and the developer. We launch, then keep tuning by the numbers.",
+    },
+    kroky: {
+      sk: ["Konzultácia", "Návrh", "Spustenie", "Ladenie podľa čísel"],
+      en: ["Consultation", "Design", "Launch", "Tuning by numbers"],
+    },
+  },
+] as const;
 
 const OBSAH = {
   label: { sk: "[ FIG.05 — SPOLUPRÁCA ]", en: "[ FIG.05 — PARTNERSHIP ]" },
@@ -48,33 +83,18 @@ const OBSAH = {
   },
   /* Nápoveda len tam, kde je kurzor — na dotyku by mýlila. */
   napoveda: {
-    sk: "Prejdite myšou po závitnici.",
-    en: "Run your cursor over the helix.",
+    sk: "Prejdite po kartičkách, závitnica zareaguje.",
+    en: "Run over the cards, the helix will react.",
   },
   cta: { sk: "Poďme do toho →", en: "Let's do it →" },
-
-  rychlostLabel: { sk: "[ RÝCHLOSŤ ]", en: "[ SPEED ]" },
-  rychlostTitul: { sk: "Na čo web ladíme", en: "What we tune for" },
-  rychlostPata: {
-    sk: "Hranice, pod ktorými Google hodnotí načítanie ako dobré. Merateľné kedykoľvek v PageSpeed Insights.",
-    en: "The thresholds Google rates as good. Measurable any time in PageSpeed Insights.",
-  },
-
-  meranieLabel: { sk: "[ MERATEĽNOSŤ ]", en: "[ MEASURABILITY ]" },
-  meranieTitul: { sk: "Čo uvidíte v reporte", en: "What you'll see in the report" },
-  meraniePata: {
-    sk: "Každý dopyt viete dohľadať až ku kampani, z ktorej prišiel.",
-    en: "Every enquiry can be traced back to the campaign it came from.",
-  },
-
-  krokyLabel: { sk: "[ PRIEBEH ]", en: "[ PROCESS ]" },
-  krokyTitul: { sk: "Ako to beží", en: "How it runs" },
 };
 
 export default function Spolupraca() {
   const { lang } = useLanguage();
   const ref = useRef<HTMLDivElement>(null);
   const [on, setOn] = useState(false);
+  /* Ktorá kartička je práve pod kurzorom. Podľa nej sa naladí závitnica. */
+  const [aktivna, setAktivna] = useState<number | null>(null);
 
   useEffect(() => {
     const el = ref.current;
@@ -96,6 +116,7 @@ export default function Spolupraca() {
   }, []);
 
   const [r1, r2] = OBSAH.titul[lang].split("\n");
+  const p = aktivna === null ? null : POLICKA[aktivna];
 
   return (
     <section id="spolupraca" className={styles.section}>
@@ -115,98 +136,74 @@ export default function Spolupraca() {
         </div>
 
         <div ref={ref} className={`${styles.scena} ${on ? styles.on : ""}`}>
-          <DnaPlatno />
+          <DnaPlatno ucinok={p ? { tvar: p.tvar, farba: p.farba } : null} />
 
           <div className={styles.grafy}>
-            {/* Rýchlosť */}
-            <div className={styles.karta} style={{ "--i": 0 } as React.CSSProperties}>
-              <div className={styles.kartaHlava}>
-                <span className={styles.kartaLabel}>{OBSAH.rychlostLabel[lang]}</span>
-                <span className={styles.dioda} aria-hidden />
-              </div>
-              <div className={styles.kartaTitul}>{OBSAH.rychlostTitul[lang]}</div>
-
-              {RYCHLOST.map((m, i) => (
-                <div key={m.kod} className={styles.riadok}>
-                  <div className={styles.riadokHlava}>
-                    <span className={styles.kod}>{m.kod}</span>
-                    <span className={styles.riadokPopis}>{m.popis[lang]}</span>
-                    <span className={styles.hodnota}>≤&nbsp;{m.hodnota}</span>
-                  </div>
-                  <div className={styles.drazka}>
-                    <span
-                      className={styles.vypln}
-                      style={
-                        {
-                          "--p": `${m.podiel}%`,
-                          "--c": m.farba,
-                          "--d": `${180 + i * 130}ms`,
-                        } as React.CSSProperties
-                      }
-                    />
-                  </div>
+            {POLICKA.map((k, i) => (
+              <div
+                key={k.titul.sk}
+                className={`${styles.karta} ${aktivna === i ? styles.kartaAktivna : ""}`}
+                style={{ "--c": k.farba, "--i": i } as React.CSSProperties}
+                onMouseEnter={() => setAktivna(i)}
+                onMouseLeave={() => setAktivna((b) => (b === i ? null : b))}
+              >
+                <div className={styles.kartaHlava}>
+                  <span className={styles.kartaLabel}>{k.label[lang]}</span>
+                  <span className={styles.dioda} aria-hidden />
                 </div>
-              ))}
+                <div className={styles.kartaTitul}>{k.titul[lang]}</div>
+                <p className={styles.kartaText}>{k.text[lang]}</p>
 
-              <p className={styles.pata}>{OBSAH.rychlostPata[lang]}</p>
-            </div>
-
-            {/* Merateľnosť */}
-            <div className={styles.karta} style={{ "--i": 1 } as React.CSSProperties}>
-              <div className={styles.kartaHlava}>
-                <span className={styles.kartaLabel}>{OBSAH.meranieLabel[lang]}</span>
-                <span className={styles.dioda} aria-hidden />
-              </div>
-              <div className={styles.kartaTitul}>{OBSAH.meranieTitul[lang]}</div>
-
-              {MERANIE.map((m, i) => (
-                <div key={m.text.sk} className={styles.riadok}>
-                  <div className={styles.riadokHlava}>
-                    <span className={styles.riadokPopis}>{m.text[lang]}</span>
-                    <span className={styles.fajka} style={{ "--c": m.farba } as React.CSSProperties}>
-                      ✓
-                    </span>
+                {"metriky" in k && (
+                  <div className={styles.metriky}>
+                    {k.metriky.map((m, j) => (
+                      <div key={m.kod} className={styles.riadok}>
+                        <div className={styles.riadokHlava}>
+                          <span className={styles.kod}>{m.kod}</span>
+                          <span className={styles.hodnota}>{m.hodnota}</span>
+                        </div>
+                        <div className={styles.drazka}>
+                          <span
+                            className={styles.vypln}
+                            style={
+                              {
+                                "--p": `${m.podiel}%`,
+                                "--d": `${200 + j * 120}ms`,
+                              } as React.CSSProperties
+                            }
+                          />
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                  <div className={styles.drazka}>
-                    <span
-                      className={styles.vypln}
-                      style={
-                        {
-                          "--p": `${m.podiel}%`,
-                          "--c": m.farba,
-                          "--d": `${240 + i * 120}ms`,
-                        } as React.CSSProperties
-                      }
-                    />
-                  </div>
-                </div>
-              ))}
+                )}
 
-              <p className={styles.pata}>{OBSAH.meraniePata[lang]}</p>
-            </div>
+                {"zoznam" in k && (
+                  <ul className={styles.zoznam}>
+                    {k.zoznam[lang].map((z) => (
+                      <li key={z} className={styles.polozka}>
+                        <span className={styles.fajka} aria-hidden>
+                          ✓
+                        </span>
+                        {z}
+                      </li>
+                    ))}
+                  </ul>
+                )}
 
-            {/* Priebeh */}
-            <div className={styles.karta} style={{ "--i": 2 } as React.CSSProperties}>
-              <div className={styles.kartaHlava}>
-                <span className={styles.kartaLabel}>{OBSAH.krokyLabel[lang]}</span>
-                <span className={styles.dioda} aria-hidden />
+                {"kroky" in k && (
+                  <ol className={styles.kroky}>
+                    {k.kroky[lang].map((z, j) => (
+                      <li key={z} className={styles.krok}>
+                        <span className={styles.krokBod} aria-hidden />
+                        <span className={styles.krokCislo}>0{j + 1}</span>
+                        <span className={styles.krokText}>{z}</span>
+                      </li>
+                    ))}
+                  </ol>
+                )}
               </div>
-              <div className={styles.kartaTitul}>{OBSAH.krokyTitul[lang]}</div>
-
-              <ol className={styles.kroky}>
-                {KROKY.map((k, i) => (
-                  <li
-                    key={k.sk}
-                    className={styles.krok}
-                    style={{ "--d": `${300 + i * 140}ms` } as React.CSSProperties}
-                  >
-                    <span className={styles.krokBod} aria-hidden />
-                    <span className={styles.krokCislo}>0{i + 1}</span>
-                    <span className={styles.krokText}>{k[lang]}</span>
-                  </li>
-                ))}
-              </ol>
-            </div>
+            ))}
           </div>
         </div>
 
