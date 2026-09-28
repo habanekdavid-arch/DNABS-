@@ -7,7 +7,6 @@ import Services from "@/components/Services";
 import Spolupraca from "@/components/Spolupraca";
 import CtaBand from "@/components/CtaBand";
 import Referencie from "@/components/Referencie";
-import ImpactCharts from "@/components/ImpactCharts";
 import PruhKonzultacia from "@/components/PruhKonzultacia";
 import HomeFaq from "@/components/HomeFaq";
 import Contact from "@/components/Contact";
@@ -23,7 +22,6 @@ export default function Home() {
         <HeroTop />
         <HowItWorks />
         <ServicesMarquee />
-        <ImpactCharts />
         <Services />
         <Spolupraca />
         <CtaBand />
