@@ -1,40 +1,16 @@
-@keyframes ic-scan{from{transform:translateY(0);}to{transform:translateY(4px);}}
+/* ── VÝSLEDKY ─────────────────────────────────────────────────────────
+   Tá istá technická schéma ako „Ako to funguje", len s číslami a grafmi.
+   Na čistom svetlom pozadí — presvitá gradient stránky, takže sekcia
+   nadväzuje na zvyšok webu namiesto tmavého bloku uprostred.
+   ─────────────────────────────────────────────────────────────────── */
 
-@keyframes ic-split-a{
-  0%,82%,100%{opacity:0;transform:translate(0,0);clip-path:inset(0 0 0 0);}
-  84%{opacity:.8;transform:translate(-6px,1px);clip-path:inset(12% 0 55% 0);}
-  87%{opacity:.8;transform:translate(5px,-2px);clip-path:inset(58% 0 14% 0);}
-  90%{opacity:.6;transform:translate(-3px,0);clip-path:inset(30% 0 40% 0);}
-  92%{opacity:0;}
-}
-@keyframes ic-split-b{
-  0%,82%,100%{opacity:0;transform:translate(0,0);clip-path:inset(0 0 0 0);}
-  85%{opacity:.8;transform:translate(6px,-1px);clip-path:inset(40% 0 30% 0);}
-  88%{opacity:.8;transform:translate(-5px,2px);clip-path:inset(5% 0 70% 0);}
-  91%{opacity:0;}
-}
-@keyframes ic-title{
-  0%,88%,100%{text-shadow:none;transform:none;}
-  89%{text-shadow:-4px 0 #00e9ff,4px 0 #ff5a01;transform:translate(2px,-1px);}
-  91%{text-shadow:4px 0 #6637ed,-4px 0 #54fa80;transform:translate(-2px,1px);}
-  93%{text-shadow:none;transform:none;}
-}
 @keyframes ic-blink{0%,49%{opacity:1;}50%,100%{opacity:.25;}}
 
 .section{
   position:relative;
-  overflow:hidden;
-  background:#0e0e11;
-  color:#fff;
+  background:transparent;
+  color:#0E0E11;
   padding:clamp(80px,12vh,140px) clamp(20px,4vw,48px);
-}
-
-.scan{
-  position:absolute;
-  inset:-8px;
-  pointer-events:none;
-  background-image:repeating-linear-gradient(0deg,rgba(255,255,255,.035) 0 1px,transparent 1px 3px);
-  animation:ic-scan 1s linear infinite;
 }
 
 .inner{
@@ -57,7 +33,7 @@
   font-size:11px;
   letter-spacing:.14em;
   text-transform:uppercase;
-  color:#00e9ff;
+  color:#563387;
   margin-bottom:14px;
 }
 
@@ -68,7 +44,10 @@
   font-size:clamp(40px,5vw,80px);
   line-height:1;
   letter-spacing:-.03em;
-  animation:ic-title 5s infinite;
+  text-transform:uppercase;
+  /* Rovnaké zhrubnutie ako nadpis v hero — Manrope nemá ťažší rez. */
+  -webkit-text-stroke:.024em currentColor;
+  paint-order:stroke fill;
 }
 
 .sub{
@@ -76,7 +55,7 @@
   max-width:38ch;
   font-size:15px;
   line-height:1.6;
-  color:rgba(255,255,255,.6);
+  color:rgba(14,14,17,.58);
 }
 
 .placeholder{
@@ -102,16 +81,17 @@
 
 .tile{
   position:relative;
-  border:1px solid rgba(255,255,255,.14);
+  border:1px solid rgba(14,14,17,.12);
   border-radius:22px;
-  background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.01));
+  background:linear-gradient(180deg,rgba(255,255,255,.72),rgba(255,255,255,.4));
   padding:22px;
   overflow:hidden;
-  transition:border-color .3s ease,transform .3s ease;
+  transition:border-color .3s ease,transform .3s ease,box-shadow .3s ease;
 }
 .tile:hover{
-  border-color:rgba(0,233,255,.5);
+  border-color:#563387;
   transform:translateY(-3px);
+  box-shadow:0 18px 40px rgba(14,14,17,.09);
 }
 
 .tileHead{
@@ -123,7 +103,7 @@
   font-size:11px;
   letter-spacing:.08em;
   text-transform:uppercase;
-  color:rgba(255,255,255,.55);
+  color:rgba(14,14,17,.55);
   margin-bottom:22px;
 }
 
@@ -132,23 +112,23 @@
   font-weight:800;
   font-size:28px;
   letter-spacing:-.02em;
-  color:#54fa80;
+  color:#12A03F;
   text-transform:none;
 }
 
-/* bars */
+/* ── Stĺpce ───────────────────────────────────────────────────────── */
 .bars{display:flex;flex-direction:column;gap:22px;margin-top:10px;}
 .barLabel{
   display:flex;
   justify-content:space-between;
   font-family:var(--gmono);
   font-size:12px;
-  color:rgba(255,255,255,.75);
+  color:rgba(14,14,17,.7);
   margin-bottom:8px;
 }
 .barTrack{
   height:34px;
-  background:rgba(255,255,255,.06);
+  background:rgba(14,14,17,.07);
   border-radius:8px;
   overflow:hidden;
 }
@@ -160,46 +140,31 @@
   transition:transform 1.2s cubic-bezier(.2,.8,.2,1);
 }
 .barBefore{
-  background:repeating-linear-gradient(135deg,rgba(255,255,255,.28) 0 6px,rgba(255,255,255,.12) 6px 12px);
+  background:repeating-linear-gradient(135deg,rgba(14,14,17,.22) 0 6px,rgba(14,14,17,.1) 6px 12px);
 }
 .barAfter{
-  background:linear-gradient(90deg,#6637ed,#00e9ff);
-  box-shadow:0 0 24px rgba(0,233,255,.45);
+  background:linear-gradient(90deg,#563387,#2F6BFF);
+  box-shadow:0 6px 18px rgba(47,107,255,.28);
   transition-delay:.25s;
 }
 .on .bar{transform:scaleX(1);}
 
-/* glitch wrapper */
+/* Na svetlom pozadí by sa posunuté farebné kópie len zašpinili. */
 .glitch{position:relative;}
 .layerMain{position:relative;}
-.layer{
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  opacity:0;
-}
-.layerA{
-  filter:drop-shadow(0 0 0 #00e9ff) hue-rotate(160deg);
-  mix-blend-mode:screen;
-  animation:ic-split-a 4.2s infinite;
-}
-.layerB{
-  filter:hue-rotate(250deg);
-  mix-blend-mode:screen;
-  animation:ic-split-b 4.2s infinite .6s;
-}
+.layer{display:none;}
 
-/* line chart */
+/* ── Čiarový graf ─────────────────────────────────────────────────── */
 .chart{
   width:100%;
   height:clamp(180px,20vw,250px);
   display:block;
   overflow:visible;
 }
-.gridLine{stroke:rgba(255,255,255,.08);stroke-width:1;}
-.launch{stroke:#54fa80;stroke-width:1;stroke-dasharray:4 4;}
+.gridLine{stroke:rgba(14,14,17,.12);stroke-width:1;}
+.launch{stroke:#12A03F;stroke-width:1;stroke-dasharray:4 4;}
 .launchText{
-  fill:#54fa80;
+  fill:#12A03F;
   font-family:var(--gmono);
   font-size:10px;
   letter-spacing:.1em;
@@ -208,18 +173,17 @@
 .area{opacity:0;transition:opacity 1s ease .8s;}
 .line{
   fill:none;
-  stroke:#ff5a01;
+  stroke:#E24A08;
   stroke-width:3;
   stroke-linejoin:round;
   stroke-dasharray:1;
   stroke-dashoffset:1;
-  filter:drop-shadow(0 0 8px rgba(255,90,1,.7));
   transition:stroke-dashoffset 1.8s cubic-bezier(.4,0,.2,1);
 }
 .on .line{stroke-dashoffset:0;}
 .on .area{opacity:1;}
 
-/* ring */
+/* ── Prstenec ─────────────────────────────────────────────────────── */
 .ringWrap{
   position:relative;
   display:grid;
@@ -230,14 +194,13 @@
   height:auto;
   transform:rotate(-90deg);
 }
-.ringTrack{fill:none;stroke:rgba(255,255,255,.08);stroke-width:14;}
+.ringTrack{fill:none;stroke:rgba(14,14,17,.1);stroke-width:14;}
 .ringBar{
   fill:none;
-  stroke:#6637ed;
+  stroke:#563387;
   stroke-width:14;
   stroke-linecap:round;
   stroke-dashoffset:440;
-  filter:drop-shadow(0 0 10px rgba(102,55,237,.8));
   transition:stroke-dashoffset 1.6s cubic-bezier(.2,.8,.2,1) .3s;
 }
 .on .ringBar{stroke-dashoffset:var(--ring-off);}
@@ -260,11 +223,11 @@
   font-size:10px;
   letter-spacing:.06em;
   text-transform:uppercase;
-  color:rgba(255,255,255,.5);
+  color:rgba(14,14,17,.5);
   margin-top:4px;
 }
 
 @media (prefers-reduced-motion: reduce){
-  .layer{display:none;}
   .bar,.line,.area,.ringBar{transition:none;}
+  .launchText{animation:none;}
 }

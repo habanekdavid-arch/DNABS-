@@ -61,7 +61,6 @@ export default function ImpactCharts() {
 
   return (
     <section ref={ref} className={`${styles.section} ${on ? styles.on : ""}`}>
-      <div className={styles.scan} aria-hidden />
       <div className={styles.inner}>
         <div className={styles.head}>
           <div>

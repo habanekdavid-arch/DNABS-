@@ -46,6 +46,9 @@
   line-height:1;
   letter-spacing:-.03em;
   text-transform:uppercase;
+  /* Rovnaké zhrubnutie ako nadpis v hero — Manrope nemá ťažší rez. */
+  -webkit-text-stroke:.024em currentColor;
+  paint-order:stroke fill;
 }
 
 .sub{

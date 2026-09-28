@@ -1,23 +1,24 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useLanguage, type DictKey } from "@/lib/i18n";
 import Reveal from "./Reveal";
 import styles from "./Services.module.css";
-
-const SVC_COLORS = ["var(--accent)", "var(--purple)", "var(--green)"];
 
 type Chip = { sk: string; en: string };
 
 const ROWS: {
   titleKey: DictKey;
   descKey: DictKey;
+  /** Farba služby. Musí byť čitateľná na svetlom pozadí. */
+  color: string;
   chips: Chip[];
 }[] = [
   {
     titleKey: "svc1_t",
     descKey: "svc1_d",
+    color: "#E24A08",
     chips: [
       { sk: "Next.js", en: "Next.js" },
       { sk: "Webflow", en: "Webflow" },
@@ -30,6 +31,7 @@ const ROWS: {
   {
     titleKey: "svc2_t",
     descKey: "svc2_d",
+    color: "#563387",
     chips: [
       { sk: "Webové aplikácie", en: "Web apps" },
       { sk: "iOS / Android", en: "iOS / Android" },
@@ -42,6 +44,7 @@ const ROWS: {
   {
     titleKey: "svc3_t",
     descKey: "svc3_d",
+    color: "#12A03F",
     chips: [
       { sk: "Logo a brand identita", en: "Logo and brand identity" },
       { sk: "Fotografie", en: "Photography" },
@@ -55,62 +58,75 @@ const ROWS: {
 
 export default function Services() {
   const { t, lang } = useLanguage();
-  const [hovered, setHovered] = useState<number | null>(null);
-  // Na dotyku by klik na celú kartu odpálil scroll k formuláru skôr, než si
-  // človek stihne kartu prečítať. Tam preto karta nie je odkaz a klikacie je
-  // len tlačidlo v nej.
-  const [touch, setTouch] = useState(false);
+
+  /* Ukazovatele sa rozbehnú, až keď sa na sekciu doscrolluje — rovnako
+     ako grafy vo výsledkoch. */
+  const ref = useRef<HTMLDivElement>(null);
+  const [on, setOn] = useState(false);
 
   useEffect(() => {
-    const query = window.matchMedia("(hover: none)");
-    const sync = () => setTouch(query.matches);
-    sync();
-    query.addEventListener("change", sync);
-    return () => query.removeEventListener("change", sync);
+    const el = ref.current;
+    if (!el || !("IntersectionObserver" in window)) {
+      setOn(true);
+      return;
+    }
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) {
+          setOn(true);
+          io.disconnect();
+        }
+      },
+      { threshold: 0.2 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
   }, []);
+
+  const stav = lang === "en" ? "AVAILABLE" : "DOSTUPNÉ";
 
   return (
     <section id="sluzby" className={styles.section}>
-      <Reveal className={styles.head}>
-        <div>
-          <div className={styles.kicker}>{t("svc_kicker")}</div>
-          <h2 className={styles.title} data-fx>{t("svc_title")}</h2>
-        </div>
-        <p className={styles.intro}>{t("svc_intro")}</p>
-      </Reveal>
+      <div className={styles.inner}>
+        <Reveal className={styles.head}>
+          <div>
+            <div className={styles.label}>{t("svc_kicker")}</div>
+            <h2 className={styles.title} data-fx>
+              {t("svc_title")}
+              <span className={styles.caret} aria-hidden />
+            </h2>
+          </div>
+          <p className={styles.sub}>{t("svc_intro")}</p>
+        </Reveal>
 
-      {ROWS.map((row, i) => {
-        const isHovered = hovered === i;
-        const color = SVC_COLORS[i % SVC_COLORS.length];
-        const textColor = color === "var(--green)" ? "#0a0a0a" : "#fff";
-        // Na oranžovej aj zelenej sa biely text zle číta, tak tam ide tmavý.
-        const ctaInk = color === "var(--purple)" ? "#fff" : "#0a0a0a";
-        return (
-          <Reveal
-            key={i}
-            as={touch ? "article" : Link}
-            {...(touch ? {} : { href: "/#kontakt" })}
-            className={`${styles.row} ${i === ROWS.length - 1 ? styles.last : ""}`}
-            style={{
-              background: isHovered ? color : "#fff",
-              color: isHovered ? textColor : "#0a0a0a",
-              transform: isHovered ? "translateY(-4px)" : "none",
-            }}
-            onMouseEnter={() => setHovered(i)}
-            onMouseLeave={() => setHovered(null)}
-          >
-            <div
-              className={styles.num}
-              style={{
-                color: isHovered ? textColor : undefined,
-                transform: isHovered ? "translateX(8px)" : "none",
-              }}
+        <div ref={ref} className={`${styles.grid} ${on ? styles.on : ""}`}>
+          {ROWS.map((row, i) => (
+            <Reveal
+              key={row.titleKey}
+              as="article"
+              className={styles.tile}
+              style={
+                {
+                  transitionDelay: `${i * 90}ms`,
+                  "--c": row.color,
+                  "--d": `${300 + i * 160}ms`,
+                } as React.CSSProperties
+              }
             >
-              {String(i + 1).padStart(2, "0")}
-            </div>
-            <div className={styles.body}>
-              <h3>{t(row.titleKey)}</h3>
-              <p>{t(row.descKey)}</p>
+              <div className={styles.tileHead}>
+                <span>
+                  {String(i + 1).padStart(2, "0")}
+                  <span className={styles.sep}> / </span>
+                  {t(row.titleKey)}
+                </span>
+                <span className={styles.stav}>
+                  <span className={styles.dioda} aria-hidden />
+                  {stav}
+                </span>
+              </div>
+
+              <p className={styles.desc}>{t(row.descKey)}</p>
+
               <div className={styles.chips}>
                 {row.chips.map((chip) => (
                   <span key={chip.en} className={styles.chip}>
@@ -119,24 +135,17 @@ export default function Services() {
                 ))}
               </div>
 
-              {touch && (
-                <Link
-                  href="/#kontakt"
-                  className={styles.cardCta}
-                  style={
-                    // Na vyfarbenej karte by tlačidlo v tej istej farbe zaniklo.
-                    isHovered
-                      ? { background: "#fff", color: "#0a0a0a" }
-                      : { background: color, color: ctaInk }
-                  }
-                >
-                  {t("svc_card_cta")}
-                </Link>
-              )}
-            </div>
-          </Reveal>
-        );
-      })}
+              <span className={styles.track} aria-hidden>
+                <span className={styles.fill} />
+              </span>
+
+              <Link href="/#kontakt" className={styles.cta} data-cursor="cta">
+                {t("svc_card_cta")}
+              </Link>
+            </Reveal>
+          ))}
+        </div>
+      </div>
     </section>
   );
 }

@@ -27,7 +27,9 @@ export default function HeroTop() {
           </div>
         </div>
 
-        <div className={styles.right}>
+        {/* Kotva #realizacia — koláž je zoznam realizácií, na ktorý
+            vedie odkaz v navigácii aj návrat zo stránky projektu. */}
+        <div className={styles.right} id="realizacia">
           <Collage />
         </div>
       </div>
