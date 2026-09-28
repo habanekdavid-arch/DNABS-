@@ -18,10 +18,10 @@
   text-transform:uppercase;
   box-shadow:0 16px 40px rgba(86,51,135,.32);
   transform:translate(var(--tx,0px), var(--ty,0px));
-  transition:transform .32s cubic-bezier(.2,.8,.2,1), box-shadow .32s ease;
+  transition:transform .32s cubic-bezier(.2,.8,.2,1), box-shadow .4s ease;
   -webkit-tap-highlight-color:transparent;
 }
-.btn:hover{box-shadow:0 24px 56px rgba(255,90,31,.38);}
+.btn:hover{box-shadow:0 26px 60px rgba(255,90,31,.42);}
 
 /* Výplň sa rozleje z bodu, kde kurzor vošiel. */
 .vypln{
@@ -32,48 +32,74 @@
   width:0;
   height:0;
   border-radius:50%;
-  background:linear-gradient(120deg,#6637ED,#FF5A1F);
+  background:linear-gradient(120deg,#6637ED 0%,#FF5A1F 100%);
   transform:translate(-50%,-50%);
-  transition:width .55s cubic-bezier(.2,.8,.2,1), height .55s cubic-bezier(.2,.8,.2,1);
+  transition:width .6s cubic-bezier(.2,.8,.2,1), height .6s cubic-bezier(.2,.8,.2,1);
 }
 .btn:hover .vypln,
-.btn:focus-visible .vypln{width:260%;height:600%;}
+.btn:focus-visible .vypln{width:280%;height:640%;}
 
-/* Nápis sa vysunie hore a zdola príde ten istý. Šírka sa nemení. */
+/* ── Nápis po písmenách ───────────────────────────────────────────────
+   Každé písmeno odchádza hore a zdola prichádza to isté, s malým
+   oneskorením zľava doprava. Šírka nápisu sa pritom nemení. */
 .popisBox{
   position:relative;
   display:block;
   overflow:hidden;
   white-space:nowrap;
+  line-height:1.15;
 }
-.popis,.popisHover{
-  display:block;
-  transition:transform .42s cubic-bezier(.2,.8,.2,1), opacity .3s ease;
-}
+.popis,.popisHover{display:block;}
 .popisHover{
   position:absolute;
   left:0;right:0;top:0;
-  transform:translateY(110%);
-  opacity:0;
 }
-.btn:hover .popis,
-.btn:focus-visible .popis{transform:translateY(-110%);opacity:0;}
-.btn:hover .popisHover,
-.btn:focus-visible .popisHover{transform:translateY(0);opacity:1;}
 
+.pismeno{
+  display:inline-block;
+  will-change:transform;
+  transition:transform .46s cubic-bezier(.2,.8,.2,1);
+  transition-delay:calc(var(--i, 0) * 24ms);
+}
+.popisHover .pismeno{transform:translateY(105%);}
+.btn:hover .popis .pismeno,
+.btn:focus-visible .popis .pismeno{transform:translateY(-105%);}
+.btn:hover .popisHover .pismeno,
+.btn:focus-visible .popisHover .pismeno{transform:translateY(0);}
+
+/* ── Šípka ────────────────────────────────────────────────────────────
+   Krúžok sa prevráti na bielo a šípka odletí doprava, zatiaľ čo zľava
+   priletí nová. */
 .sipka{
   position:relative;
-  width:36px;
-  height:36px;
+  width:38px;
+  height:38px;
   flex:0 0 auto;
   border-radius:50%;
+  overflow:hidden;
   background:rgba(255,255,255,.18);
   display:grid;
   place-items:center;
   font-size:16px;
-  transition:transform .35s cubic-bezier(.2,.8,.2,1), background .35s ease;
+  transition:background .4s ease, color .4s ease, transform .4s cubic-bezier(.2,.8,.2,1);
 }
-.btn:hover .sipka{transform:translateX(5px) rotate(-45deg);background:rgba(255,255,255,.3);}
+.btn:hover .sipka,
+.btn:focus-visible .sipka{background:#fff;color:#0E0E11;transform:scale(1.08);}
+
+.sipkaZnak{
+  display:block;
+  transition:transform .42s cubic-bezier(.2,.8,.2,1);
+}
+.btn:hover .sipkaZnak,
+.btn:focus-visible .sipkaZnak{
+  animation:preletSipky .52s cubic-bezier(.2,.8,.2,1);
+}
+@keyframes preletSipky{
+  0%{transform:translateX(0);}
+  45%{transform:translateX(140%);}
+  46%{transform:translateX(-140%);}
+  100%{transform:translateX(0);}
+}
 
 .btn:focus-visible{outline:3px solid #0E0E11;outline-offset:4px;}
 
@@ -85,8 +111,9 @@
 }
 
 @media (prefers-reduced-motion: reduce){
-  .btn,.vypln,.sipka,.popis,.popisHover{transition:none;}
+  .btn,.vypln,.sipka,.sipkaZnak,.pismeno{transition:none;}
   .btn{transform:none;}
   .popisHover{display:none;}
-  .btn:hover .popis{transform:none;opacity:1;}
+  .btn:hover .popis .pismeno{transform:none;}
+  .btn:hover .sipkaZnak{animation:none;}
 }

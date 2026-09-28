@@ -4,16 +4,19 @@ import { useRef } from "react";
 import styles from "./MagnetickeTlacidlo.module.css";
 
 /**
- * Tlačidlo, ktoré sa pri myši správa živo: mierne sa nakloní ku kurzoru
- * a farebná výplň sa rozleje presne z miesta, kde kurzor vošiel.
+ * Tlačidlo, ktoré sa pri myši správa živo:
+ *  — mierne sa ťahá ku kurzoru,
+ *  — farebná výplň sa rozleje presne z miesta, kde kurzor vošiel,
+ *  — nápis sa vymení po písmenách, jedno po druhom zľava doprava.
  *
  * Na dotykových displejoch a pri „obmedziť pohyb" je z toho obyčajné
  * veľké tlačidlo — efekt sa vôbec nezapne.
  */
 export default function MagnetickeTlacidlo(
-  { href, children }: { href: string; children: React.ReactNode },
+  { href, label }: { href: string; label: string },
 ) {
   const ref = useRef<HTMLAnchorElement>(null);
+  const pismena = [...label];
 
   const jemnyUkazovatel = () =>
     window.matchMedia("(pointer: fine)").matches &&
@@ -46,10 +49,23 @@ export default function MagnetickeTlacidlo(
     el.style.setProperty("--ty", "0px");
   };
 
+  /* Nápis rozobratý na písmená. Čítačke obrazovky ho podáva aria-label
+     na odkaze, samotné písmená sú pred ňou schované. */
+  const riadok = (trieda: string) => (
+    <span className={trieda} aria-hidden>
+      {pismena.map((z, i) => (
+        <span key={i} className={styles.pismeno} style={{ "--i": i } as React.CSSProperties}>
+          {z === " " ? " " : z}
+        </span>
+      ))}
+    </span>
+  );
+
   return (
     <a
       ref={ref}
       href={href}
+      aria-label={label}
       className={styles.btn}
       onMouseEnter={nastav}
       onMouseMove={onMove}
@@ -57,12 +73,13 @@ export default function MagnetickeTlacidlo(
       data-cursor="cta"
     >
       <span className={styles.vypln} aria-hidden />
-      {/* Dva rovnaké nápisy nad sebou — pri hoveri sa vymenia. */}
       <span className={styles.popisBox}>
-        <span className={styles.popis}>{children}</span>
-        <span className={styles.popisHover} aria-hidden>{children}</span>
+        {riadok(styles.popis)}
+        {riadok(styles.popisHover)}
       </span>
-      <span className={styles.sipka} aria-hidden>→</span>
+      <span className={styles.sipka} aria-hidden>
+        <span className={styles.sipkaZnak}>→</span>
+      </span>
     </a>
   );
 }
