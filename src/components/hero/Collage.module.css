@@ -3,12 +3,19 @@
 .wrap{
   position:relative;
   width:100%;
-  height:clamp(380px,46vw,760px);
+  /* Vyššie, než koláž potrebuje — mierka sa počíta ako menšia z pomeru
+     šírky a výšky, tak nech ju výška nebrzdí a rozhoduje šírka. */
+  height:clamp(380px,50vw,820px);
 }
+/* Presah smie siahať nanajvýš po okraj obrazovky — teda presne o
+   odsadenie hero sekcie. Viac by koláž orezalo. */
+/* Presah siaha tesne pod okraj obrazovky. Nie až po okraj — najpravejšia
+   karta je pootočená, takže trčí o kúsok za návrhovú plochu a pri plnom
+   presahu by sa orezala. */
 @media (min-width:1200px){
   .wrap{
-    width:calc(100% + clamp(20px,5vw,90px));
-    margin-right:clamp(-90px,-5vw,-20px);
+    width:calc(100% + clamp(16px,3vw,48px));
+    margin-right:clamp(-48px,-3vw,-16px);
   }
 }
 

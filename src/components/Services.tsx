@@ -83,6 +83,31 @@ export default function Services() {
     return () => io.disconnect();
   }, []);
 
+  /* Každá dlaždica sleduje kurzor sama za seba: podľa toho, kde na nej
+     myš je, sa nakloní a posvieti si na to miesto. Hodnoty ukladáme ako
+     premenné priamo na tú dlaždicu, takže susedné o sebe nevedia. */
+  const naPohyb = (e: React.PointerEvent<HTMLElement>) => {
+    if (e.pointerType !== "mouse") return;
+    const el = e.currentTarget;
+    const r = el.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width;
+    const y = (e.clientY - r.top) / r.height;
+    el.style.setProperty("--mx", `${(x * 100).toFixed(1)}%`);
+    el.style.setProperty("--my", `${(y * 100).toFixed(1)}%`);
+    /* Naklonenie píšeme rovno do inline štýlu, nie cez :hover v CSS.
+       Reveal si totiž transform drží tiež inline (kvôli nábehu zdola) a
+       inline štýl prebije akékoľvek pravidlo zo súboru — hover cez CSS
+       by sa sem nikdy nedostal. */
+    el.style.transform =
+      `perspective(900px) rotateY(${((x - 0.5) * 7).toFixed(2)}deg)` +
+      ` rotateX(${((0.5 - y) * 7).toFixed(2)}deg) translateY(-6px) scale(1.015)`;
+  };
+
+  /* Späť na hodnotu, ktorú prvku dáva Reveal v odhalenom stave. */
+  const naOdchod = (e: React.PointerEvent<HTMLElement>) => {
+    e.currentTarget.style.transform = "none";
+  };
+
   const stav = lang === "en" ? "AVAILABLE" : "DOSTUPNÉ";
 
   return (
@@ -105,6 +130,8 @@ export default function Services() {
               key={row.titleKey}
               as="article"
               className={styles.tile}
+              onPointerMove={naPohyb}
+              onPointerLeave={naOdchod}
               style={
                 {
                   transitionDelay: `${i * 90}ms`,

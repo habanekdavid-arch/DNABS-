@@ -19,6 +19,16 @@
   width:100%;
 }
 
+/* Realizácie sú to, čo návštevníka presvedčí, tak im na širokej
+   obrazovke dáme výrazne väčší diel mriežky než textu. Menšia medzera
+   medzi stĺpcami pridá koláži ďalšie miesto. */
+@media (min-width:900px){
+  .grid{
+    grid-template-columns:minmax(0,.76fr) minmax(0,1.24fr);
+    gap:clamp(28px,3.4vw,70px);
+  }
+}
+
 .left{
   display:flex;
   flex-direction:column;
@@ -28,7 +38,7 @@
 /* Na širokej obrazovke je text aj tlačidlo odsadené od kraja. Na
    telefóne ostávajú pri okraji, tam je miesta málo. */
 @media (min-width:900px){
-  .left{padding-left:clamp(24px,5vw,110px);}
+  .left{padding-left:clamp(20px,3vw,64px);}
 }
 
 /* Veľkými písmenami, aj keď sú v dátovom súbore napísané malé.
@@ -37,7 +47,9 @@
 .h1{
   font-family:var(--font-manrope),system-ui,sans-serif;
   font-weight:800;
-  font-size:clamp(26px, min(3.6vw,5.4vh), 56px);
+  /* Menšie než predtým — realizácie dostali väčší diel mriežky, tak sa
+     nadpis musí zmestiť do užšieho stĺpca na dva riadky, ako má byť. */
+  font-size:clamp(24px, min(2.7vw,4.4vh), 42px);
   line-height:1.04;
   letter-spacing:-.035em;
   text-transform:uppercase;
