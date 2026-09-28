@@ -193,7 +193,11 @@
   border-color:color-mix(in srgb,var(--c) 45%,transparent);
   color:var(--c);
 }
-.chip:hover{
+/* Obidva zápisy sú tu naschvál: samotné .chip:hover je menej špecifické
+   než .tile:hover .chip vyššie, takže by ho tá farba služby prebila —
+   nápis by ostal vo farbe pozadia a celkom by zmizol. */
+.chip:hover,
+.tile:hover .chip:hover{
   color:#fff;
   background:var(--c);
   border-color:var(--c);
