@@ -57,7 +57,11 @@ export default function MagnetickeTlacidlo(
       data-cursor="cta"
     >
       <span className={styles.vypln} aria-hidden />
-      <span className={styles.popis}>{children}</span>
+      {/* Dva rovnaké nápisy nad sebou — pri hoveri sa vymenia. */}
+      <span className={styles.popisBox}>
+        <span className={styles.popis}>{children}</span>
+        <span className={styles.popisHover} aria-hidden>{children}</span>
+      </span>
       <span className={styles.sipka} aria-hidden>→</span>
     </a>
   );

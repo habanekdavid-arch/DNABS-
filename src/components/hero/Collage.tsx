@@ -64,6 +64,8 @@ function hoverTransform(variant: Hover, posun: string, otocenie: string, px: num
 
 export default function Collage() {
   const [index, setIndex] = useState(0);
+  /** Vrstva, ktorá práve odchádza — drží sa len počas prelínačky. */
+  const [predosly, setPredosly] = useState<number | null>(null);
   const [paused, setPaused] = useState(false);
   const [zoom, setZoom] = useState<{ projekt: Projekt; from: DOMRect } | null>(null);
 
@@ -73,6 +75,18 @@ export default function Collage() {
   const go = useCallback((delta: number) => {
     setIndex((i) => (i + delta + PROJEKTY.length) % PROJEKTY.length);
   }, []);
+
+  /* Predchádzajúca vrstva sa drží len počas prelínačky a potom sa
+     odpojí, aby v pamäti ostala jediná. Sedem vrstiev naraz znamenalo
+     62 MB dekódovaných obrázkov a Chrome na telefóne na tom padal. */
+  const poslednyIndex = useRef(index);
+  useEffect(() => {
+    if (poslednyIndex.current === index) return;
+    setPredosly(poslednyIndex.current);
+    poslednyIndex.current = index;
+    const t = window.setTimeout(() => setPredosly(null), 900);
+    return () => window.clearTimeout(t);
+  }, [index]);
 
   /* Scéna sa zmenší podľa kontajnera a natáča sa za myšou. */
   useEffect(() => {
@@ -138,14 +152,18 @@ export default function Collage() {
     >
       <div ref={viewportRef} className={styles.viewport}>
         <div ref={stageRef} className={styles.stage}>
-          {PROJEKTY.map((projekt, i) => (
-            <ProjectLayer
-              key={projekt.nazov}
-              projekt={projekt}
-              active={i === index}
-              onZoom={(from) => setZoom({ projekt, from })}
-            />
-          ))}
+          {/* V DOM je len aktívna vrstva, plus tá odchádzajúca počas
+              prelínačky. Všetkých sedem naraz telefón neutiahol. */}
+          {PROJEKTY.map((projekt, i) =>
+            i === index || i === predosly ? (
+              <ProjectLayer
+                key={projekt.nazov}
+                projekt={projekt}
+                active={i === index}
+                onZoom={(from) => setZoom({ projekt, from })}
+              />
+            ) : null,
+          )}
         </div>
       </div>
 
