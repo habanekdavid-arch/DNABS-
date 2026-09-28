@@ -8,7 +8,7 @@ import Spolupraca from "@/components/Spolupraca";
 import CtaBand from "@/components/CtaBand";
 import Referencie from "@/components/Referencie";
 import ImpactCharts from "@/components/ImpactCharts";
-import About from "@/components/About";
+import PruhKonzultacia from "@/components/PruhKonzultacia";
 import HomeFaq from "@/components/HomeFaq";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
@@ -27,7 +27,9 @@ export default function Home() {
         <Services />
         <Spolupraca />
         <CtaBand />
-        <About />
+        {/* Dlhá sekcia „o nás" je preč — namiesto nej len tenký pruh
+            s výzvou na formulár. */}
+        <PruhKonzultacia />
         <HomeFaq />
         <Referencie />
         <Contact />

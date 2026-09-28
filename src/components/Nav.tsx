@@ -17,7 +17,7 @@ export default function Nav() {
       <div className={styles.right}>
         <Link href="/#sluzby" className={styles.link}>{t("nav_services")}</Link>
         <Link href="/o-nas" className={styles.link}>{t("nav_blog")}</Link>
-        <Link href="/#o-nas" className={styles.link}>{t("nav_about")}</Link>
+        <Link href="/o-nas" className={styles.link}>{t("nav_about")}</Link>
         <Link href="/#kontakt" className={styles.link}>{t("nav_contact")}</Link>
         <div className={styles.langSwitch}>
           <button
