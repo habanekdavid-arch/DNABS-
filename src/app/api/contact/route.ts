@@ -31,9 +31,9 @@ export async function POST(request: Request) {
   const attachmentName = clean(body.attachmentName) || null;
 
   // Tá istá kontrola ako vo formulári — prehliadač sa dá obísť, server nie.
+  // Odvetvie sa už vo formulári nepýtame, tak ho ani nevyžadujeme.
   const missing =
     name.length < 2 ||
-    !business ||
     !EMAIL_RE.test(email) ||
     phone.replace(/\D/g, "").length < 6 ||
     !projectType ||
@@ -92,16 +92,16 @@ export async function POST(request: Request) {
       from: `"DNABS" <${gmailUser}>`,
       to: email,
       replyTo: CONTACT_EMAIL,
-      subject: "Máme tvoj dopyt — návrh ti pošleme do 24 hodín",
+      subject: "Máme tvoj dopyt — ozveme sa ti s termínom konzultácie",
       text: [
         `Ahoj ${firstName},`,
         "",
-        "ďakujeme za dopyt. Návrh tvojho webu na mieru pripravíme a pošleme ti ho do 24 hodín — zadarmo a nezáväzne.",
+        "ďakujeme za dopyt. Ozveme sa ti a dohodneme si rýchlu 30-minútovú konzultáciu — zadarmo a nezáväzne.",
         "",
         "Ako to bude ďalej vyzerať:",
-        "1. Do 24 hodín ti na tento e-mail príde návrh.",
-        "2. Prejdeme si ho spolu a povieš, čo zmeniť alebo doplniť.",
-        "3. Až keď ti návrh sadne, dohodneme cenu a spustenie.",
+        "1. Ozveme sa ti a dohodneme termín polhodinovej konzultácie.",
+        "2. Na konzultácii si prejdeme, čo potrebuješ a čo ti dáva zmysel.",
+        "3. Až potom dostaneš konkrétnu ponuku — cenu aj termín spustenia.",
         "",
         "Ak si chceš čokoľvek doplniť, stačí odpovedať na tento e-mail alebo zavolať na +421 949 390 797.",
         "",

@@ -8,6 +8,10 @@
   justify-content:center;
   padding:0 16px;
   pointer-events:none;
+  /* Pevná hlavička nie je orezaná telom stránky, tak si šírku
+     ustrážime sami — inak by rozťahovala dokument. */
+  max-width:100%;
+  overflow-x:clip;
 }
 
 .nav{

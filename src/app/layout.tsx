@@ -101,7 +101,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "DNABS — Digitál, čo rastie.",
     description:
-      "Návrh webu na mieru do 24 h — zadarmo. Weby, aplikácie a digitálny marketing pre firmy, ktoré chcú zrýchliť svoje procesy.",
+      "Bezplatná 30-minútová konzultácia. Weby, aplikácie a digitálny marketing pre firmy, ktoré chcú zrýchliť svoje procesy.",
     url: "https://dnabs.online",
     siteName: "DNABS",
     locale: "sk_SK",

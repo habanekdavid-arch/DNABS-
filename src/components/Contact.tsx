@@ -2,7 +2,6 @@
 
 import { useRef, useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
-import { upload } from "@vercel/blob/client";
 import { useLanguage, type DictKey } from "@/lib/i18n";
 import { trackLead } from "@/lib/analytics";
 import Emph from "./Emph";
@@ -19,33 +18,6 @@ const PROJECT_TYPES = [
   { value: "redesign", key: "opt_type_redesign" },
   { value: "app", key: "opt_type_app" },
   { value: "marketing", key: "opt_type_marketing" },
-] as const;
-
-const BUDGETS = [
-  { value: "lt300", key: "opt_budget_1" },
-  { value: "300_800", key: "opt_budget_2" },
-  { value: "800_2000", key: "opt_budget_3" },
-  { value: "2000plus", key: "opt_budget_4" },
-] as const;
-
-const WHEN = [
-  { value: "asap", key: "opt_when_1" },
-  { value: "1_2m", key: "opt_when_2" },
-  { value: "research", key: "opt_when_3" },
-] as const;
-
-const INDUSTRIES = [
-  { value: "gastro", key: "opt_ind_gastro" },
-  { value: "krasa", key: "opt_ind_krasa" },
-  { value: "fitness", key: "opt_ind_fitness" },
-  { value: "stavba", key: "opt_ind_stavba" },
-  { value: "auto", key: "opt_ind_auto" },
-  { value: "obchod", key: "opt_ind_obchod" },
-  { value: "sluzby", key: "opt_ind_sluzby" },
-  { value: "reality", key: "opt_ind_reality" },
-  { value: "zdravie", key: "opt_ind_zdravie" },
-  { value: "vzdelavanie", key: "opt_ind_vzdelavanie" },
-  { value: "ine", key: "opt_ind_ine" },
 ] as const;
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -134,24 +106,13 @@ export default function Contact() {
   const { t, tPh } = useLanguage();
   const router = useRouter();
   const [status, setStatus] = useState<"idle" | "sending" | "error">("idle");
-  const [file, setFile] = useState<File | null>(null);
-  const [uploadState, setUploadState] = useState<"idle" | "uploading" | "error">("idle");
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
 
   // Naraz nech je otvorený len jeden výber.
   const [openPicker, setOpenPicker] = useState<string | null>(null);
-  const [industry, setIndustry] = useState("");
   const [projectType, setProjectType] = useState("");
-  const [budget, setBudget] = useState("");
-  const [timeline, setTimeline] = useState("");
+  const [suhlas, setSuhlas] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
-
-  const removeFile = () => {
-    setFile(null);
-    setUploadState("idle");
-    if (fileInputRef.current) fileInputRef.current.value = "";
-  };
 
   /** Vráti mapu chýb. Prázdna mapa = formulár sa môže odoslať. */
   const validate = (data: FormData) => {
@@ -159,12 +120,12 @@ export default function Contact() {
     const found: Record<string, string> = {};
 
     if (text("name").length < 2) found.name = t("err_required");
-    if (!industry) found.industry = t("err_pick");
-    if (industry === "ine" && !text("business")) found.business = t("err_required");
+    if (!text("company")) found.company = t("err_required");
     if (!EMAIL_RE.test(text("email"))) found.email = t("err_email");
     if (text("phone").replace(/\D/g, "").length < 6) found.phone = t("err_phone");
     if (!projectType) found.projectType = t("err_pick");
     if (!text("message")) found.message = t("err_required");
+    if (!suhlas) found.suhlas = t("err_required");
 
     return found;
   };
@@ -195,26 +156,6 @@ export default function Contact() {
 
     setStatus("sending");
 
-    let attachmentUrl: string | null = null;
-    let attachmentName: string | null = null;
-
-    if (file) {
-      setUploadState("uploading");
-      try {
-        const blob = await upload(file.name, file, {
-          access: "private",
-          handleUploadUrl: "/api/upload",
-        });
-        attachmentUrl = blob.url;
-        attachmentName = file.name;
-        setUploadState("idle");
-      } catch {
-        setUploadState("error");
-        setStatus("error");
-        return;
-      }
-    }
-
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
@@ -224,15 +165,9 @@ export default function Contact() {
           email: data.get("email"),
           phone: data.get("phone"),
           company: data.get("company"),
-          business: industry === "ine" ? data.get("business") : industry,
-          siteOrSocial: data.get("siteOrSocial"),
           projectType,
-          budget,
-          timeline,
           message: data.get("message"),
           website: data.get("website"),
-          attachmentUrl,
-          attachmentName,
           source: typeof window !== "undefined" ? window.location.pathname : undefined,
         }),
       });
@@ -244,17 +179,13 @@ export default function Contact() {
       trackLead({
         formLocation: "kontakt",
         sluzba: projectType,
-        odvetvie: industry,
         email: String(data.get("email") ?? ""),
         phone: String(data.get("phone") ?? ""),
       });
 
       form.reset();
-      removeFile();
-      setIndustry("");
       setProjectType("");
-      setBudget("");
-      setTimeline("");
+      setSuhlas(false);
       setErrors({});
       sessionStorage.setItem("dnabs_conversion_pending", "1");
       router.push("/dakujeme");
@@ -267,10 +198,8 @@ export default function Contact() {
   const PLACEHOLDERS = {
     name: "ph_name",
     company: "ph_company",
-    business: "ph_business_other",
     email: "ph_email",
     phone: "ph_phone",
-    siteOrSocial: "ph_site",
     message: "ph_msg",
   } as const;
 
@@ -336,39 +265,27 @@ export default function Contact() {
           <p className={styles.prequal}>{t("contact_prequal")}</p>
 
           <form className={styles.form} onSubmit={handleSubmit} noValidate ref={formRef}>
-            <input type="text" autoComplete="name" {...fieldProps("name")} />
-            {fieldError("name")}
+            <div className={styles.dvojica}>
+              <div className={styles.pole}>
+                <input type="text" autoComplete="name" {...fieldProps("name")} />
+                {fieldError("name")}
+              </div>
+              <div className={styles.pole}>
+                <input type="text" autoComplete="organization" {...fieldProps("company")} />
+                {fieldError("company")}
+              </div>
+            </div>
 
-            <input type="email" autoComplete="email" {...fieldProps("email")} />
-            {fieldError("email")}
-
-            <input type="tel" autoComplete="tel" {...fieldProps("phone")} />
-            {fieldError("phone")}
-
-            <FieldPicker
-              name="industry"
-              label={tPh("ph_business")}
-              options={INDUSTRIES.map((o) => ({ value: o.value, label: t(o.key as DictKey) }))}
-              value={industry}
-              onChange={(next) => {
-                setIndustry(next);
-                setErrors((prev) => {
-                  if (!prev.industry) return prev;
-                  const rest = { ...prev };
-                  delete rest.industry;
-                  return rest;
-                });
-              }}
-              openId={openPicker}
-              setOpenId={setOpenPicker}
-              error={errors.industry}
-            />
-            {industry === "ine" && (
-              <>
-                <input type="text" {...fieldProps("business")} />
-                {fieldError("business")}
-              </>
-            )}
+            <div className={styles.dvojica}>
+              <div className={styles.pole}>
+                <input type="email" autoComplete="email" {...fieldProps("email")} />
+                {fieldError("email")}
+              </div>
+              <div className={styles.pole}>
+                <input type="tel" autoComplete="tel" {...fieldProps("phone")} />
+                {fieldError("phone")}
+              </div>
+            </div>
 
             <FieldPicker
               name="projectType"
@@ -389,8 +306,6 @@ export default function Contact() {
               error={errors.projectType}
             />
 
-
-
             <textarea rows={4} {...fieldProps("message")} />
             {fieldError("message")}
 
@@ -403,81 +318,39 @@ export default function Contact() {
               className={styles.honeypot}
             />
 
-            <details className={styles.more}>
-              <summary className={styles.moreSummary}>{t("contact_more")}</summary>
-              <div className={styles.moreInner}>
-                <input type="text" autoComplete="organization" {...fieldProps("company")} />
-                <div className={styles.fieldGroup}>
-                  <input type="text" autoComplete="url" {...fieldProps("siteOrSocial")} />
-                  <p className={styles.fieldHint}>
-                    <span>{t("contact_site_hint")}</span>
-                  </p>
-                </div>
-                <FieldPicker
-                  name="budget"
-                  label={tPh("ph_budget")}
-                  options={BUDGETS.map((o) => ({ value: o.value, label: t(o.key as DictKey) }))}
-                  value={budget}
-                  onChange={setBudget}
-                  openId={openPicker}
-                  setOpenId={setOpenPicker}
+            <div className={styles.spodok}>
+              <label className={styles.suhlas}>
+                <input
+                  type="checkbox"
+                  checked={suhlas}
+                  className={styles.suhlasVstup}
+                  aria-invalid={errors.suhlas ? true : undefined}
+                  onChange={(e) => {
+                    setSuhlas(e.target.checked);
+                    setErrors((prev) => {
+                      if (!prev.suhlas) return prev;
+                      const rest = { ...prev };
+                      delete rest.suhlas;
+                      return rest;
+                    });
+                  }}
                 />
-                <FieldPicker
-                  name="timeline"
-                  label={tPh("ph_when")}
-                  options={WHEN.map((o) => ({ value: o.value, label: t(o.key as DictKey) }))}
-                  value={timeline}
-                  onChange={setTimeline}
-                  openId={openPicker}
-                  setOpenId={setOpenPicker}
-                />
-                <div className={styles.uploadWrap}>
-                  <input
-                    ref={fileInputRef}
-                    id="attachment"
-                    type="file"
-                    accept="image/png,image/jpeg,image/webp,image/gif,application/pdf"
-                    className={styles.uploadInput}
-                    onChange={(e) => setFile(e.target.files?.[0] ?? null)}
-                  />
-                  {!file ? (
-                    <label htmlFor="attachment" className={styles.uploadLabel}>
-                      <span className={styles.uploadIcon} aria-hidden>
-                        +
-                      </span>
-                      <span>
-                        <span className={styles.uploadTitle}>{t("upload_label")}</span>
-                        <span className={styles.uploadHint}>{t("upload_hint")}</span>
-                      </span>
-                    </label>
-                  ) : (
-                    <div className={styles.uploadFile}>
-                      <span className={styles.uploadFileName}>{file.name}</span>
-                      {uploadState === "uploading" ? (
-                        <span className={styles.uploadStatus}>{t("upload_uploading")}</span>
-                      ) : (
-                        <button type="button" className={styles.uploadRemove} onClick={removeFile}>
-                          {t("upload_remove")}
-                        </button>
-                      )}
-                    </div>
-                  )}
-                </div>
-              </div>
-            </details>
+                <span className={styles.prepinac} aria-hidden />
+                <span className={styles.suhlasText}>{t("contact_gdpr")}</span>
+              </label>
 
-            <button
-              type="submit"
-              disabled={status === "sending"}
-              className={styles.submit}
-              data-cursor="cta"
-              data-fx
-            >
-              {status === "sending" ? t("contact_sending") : t("contact_submit")}
-            </button>
-            <p className={styles.formNote}>
-              <Emph text={t("contact_note")} />
-            </p>
+              <button
+                type="submit"
+                disabled={status === "sending"}
+                className={styles.submit}
+                data-cursor="cta"
+                data-fx
+              >
+                {status === "sending" ? t("contact_sending") : t("contact_submit")}
+                <span className={styles.submitSipka} aria-hidden>›</span>
+              </button>
+            </div>
+
             {Object.keys(errors).length > 0 && (
               <p className={styles.errorMsg} role="alert">
                 {t("err_summary")}
@@ -485,7 +358,7 @@ export default function Contact() {
             )}
             {status === "error" && (
               <p className={styles.errorMsg} role="alert">
-                {uploadState === "error" ? t("upload_error") : t("contact_error")}
+                {t("contact_error")}
               </p>
             )}
           </form>

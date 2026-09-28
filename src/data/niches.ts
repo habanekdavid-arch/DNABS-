@@ -67,11 +67,11 @@ export const niches: Niche[] = [
         en: "Websites for wedding salons | DNABS",
       },
       description: {
-        sk: "Návrh webu na mieru pre váš svadobný salón do 24 h — zadarmo. Galéria, rezervácia termínov, mobil aj Google.",
-        en: "A custom website design for your wedding salon within 24 h — free. Gallery, appointment booking, mobile and Google ready.",
+        sk: "Polhodinová konzultácia pre váš svadobný salón — zadarmo. Galéria, rezervácia termínov, mobil aj Google.",
+        en: "A 30-minute consultation for your wedding salon — free. Gallery, appointment booking, mobile and Google ready.",
       },
     },
-    cielStranky: "Konverzia: dopyt na bezplatný návrh webu cez kontaktný formulár.",
+    cielStranky: "Konverzia: dopyt na bezplatnú 30-minútovú konzultáciu cez kontaktný formulár.",
   },
   {
     slug: "restauracie",
@@ -126,11 +126,11 @@ export const niches: Niche[] = [
         en: "Websites for restaurants | DNABS",
       },
       description: {
-        sk: "Návrh webu na mieru pre vašu reštauráciu do 24 h — zadarmo. Menu, rezervácie, fotky, ktoré predávajú.",
-        en: "A custom website design for your restaurant within 24 h — free. Menu, reservations, photos that sell.",
+        sk: "Polhodinová konzultácia pre vašu reštauráciu — zadarmo. Menu, rezervácie, fotky, ktoré predávajú.",
+        en: "A 30-minute consultation for your restaurant — free. Menu, reservations, photos that sell.",
       },
     },
-    cielStranky: "Konverzia: dopyt na bezplatný návrh webu cez kontaktný formulár.",
+    cielStranky: "Konverzia: dopyt na bezplatnú 30-minútovú konzultáciu cez kontaktný formulár.",
   },
   {
     slug: "autoservisy",
@@ -185,11 +185,11 @@ export const niches: Niche[] = [
         en: "Websites for auto service shops | DNABS",
       },
       description: {
-        sk: "Návrh webu na mieru pre váš autoservis do 24 h — zadarmo. Služby, ceny, rýchly kontakt z mobilu.",
-        en: "A custom website design for your auto service shop within 24 h — free. Services, pricing, fast mobile contact.",
+        sk: "Polhodinová konzultácia pre váš autoservis — zadarmo. Služby, ceny, rýchly kontakt z mobilu.",
+        en: "A 30-minute consultation for your auto service shop — free. Services, pricing, fast mobile contact.",
       },
     },
-    cielStranky: "Konverzia: dopyt na bezplatný návrh webu cez kontaktný formulár.",
+    cielStranky: "Konverzia: dopyt na bezplatnú 30-minútovú konzultáciu cez kontaktný formulár.",
   },
 ];
 
