@@ -167,13 +167,17 @@ export default function Collage() {
 
 function ProjectLayer({ projekt, active, onZoom }:
   { projekt: Projekt; active: boolean; onZoom: (from: DOMRect) => void }) {
+  // Keď má projekt logo priamo v koláži, na paneli ho už neopakujeme —
+  // panel ostane čistou plochou vo firemnej farbe.
+  const logoVKolazi = projekt.karty.some((k) => k.typ === "logo");
+
   return (
     <div className={`${styles.project} ${active ? styles.projectActive : ""}`} aria-hidden={!active}>
       <div
         className={styles.panel}
         style={{ background: projekt.farba, boxShadow: `0 50px 90px -40px ${projekt.farba}` }}
       >
-        {projekt.logo ? (
+        {!logoVKolazi && (projekt.logo ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img src={projekt.logo} alt={`Logo ${projekt.nazov}`} className={styles.panelLogo} />
         ) : (
@@ -181,7 +185,7 @@ function ProjectLayer({ projekt, active, onZoom }:
             <span className={styles.logoSlot} aria-hidden>+ logo (svg)</span>
             <span className={styles.panelName}>{projekt.nazov}</span>
           </>
-        )}
+        ))}
         <span className={styles.panelMeta}>{projekt.popis}</span>
       </div>
 

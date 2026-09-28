@@ -1,6 +1,6 @@
 .header{
   position:fixed;
-  top:16px;
+  top:20px;
   left:0;
   right:0;
   z-index:100;
@@ -12,24 +12,21 @@
 
 .nav{
   pointer-events:auto;
-  display:flex;
-  align-items:center;
-  gap:6px;
-  padding:6px 6px 6px 18px;
+  padding:9px 9px 9px 26px;
   border-radius:999px;
   max-width:100%;
-  background:rgba(246,246,248,.62);
-  border:1px solid rgba(255,255,255,.75);
+  background:rgba(246,246,248,.7);
+  border:1px solid rgba(255,255,255,.8);
   -webkit-backdrop-filter:blur(22px) saturate(1.8);
   backdrop-filter:blur(22px) saturate(1.8);
-  box-shadow:0 1px 0 rgba(255,255,255,.9) inset, 0 12px 40px rgba(14,14,17,.08);
+  box-shadow:0 1px 0 rgba(255,255,255,.9) inset, 0 16px 48px rgba(14,14,17,.12);
+  transition:border-radius .3s ease;
 }
+.rad{display:flex;align-items:center;gap:8px;}
 
-/* Na úzkych displejoch sa pilulka dá posúvať do strán. */
-@media (max-width:860px){
-  .nav{overflow-x:auto;scrollbar-width:none;}
-  .nav::-webkit-scrollbar{display:none;}
-}
+/* Hamburger a rozbalené menu sú len na telefóne. */
+.burger{display:none;}
+.panel{display:none;}
 
 .logo{
   display:flex;
@@ -38,8 +35,8 @@
   color:#0E0E11;
   margin-right:6px;
 }
-.logo svg,.logo .logoImg{height:24px;width:auto;display:block;}
-.logoImg{max-width:150px;object-fit:contain;}
+.logo svg,.logo .logoImg{height:42px;width:auto;display:block;}
+.logoImg{max-width:230px;object-fit:contain;}
 
 .links{display:flex;align-items:center;gap:2px;flex:0 0 auto;}
 
@@ -50,11 +47,11 @@
   display:inline-block;
   overflow:hidden;
   font-family:var(--font-geist),system-ui,sans-serif;
-  font-size:14px;
+  font-size:16px;
   font-weight:500;
   color:#0E0E11;
   text-decoration:none;
-  padding:10px 14px;
+  padding:13px 18px;
   border-radius:999px;
   white-space:nowrap;
   transition:background .25s ease;
@@ -65,10 +62,11 @@
   display:block;
   transition:transform .42s cubic-bezier(.2,.8,.2,1), opacity .3s ease;
 }
+/* Odsadenie musí sedieť s paddingom .link, inak nápis pri hoveri poskočí. */
 .linkTextHover{
   position:absolute;
-  left:14px;right:14px;
-  top:10px;
+  left:18px;right:18px;
+  top:13px;
   transform:translateY(105%);
   opacity:0;
   color:#6637ED;
@@ -85,16 +83,16 @@
 .cta{
   display:inline-flex;
   align-items:center;
-  gap:8px;
+  gap:10px;
   flex:0 0 auto;
-  margin-left:8px;
-  padding:10px 16px 10px 14px;
+  margin-left:10px;
+  padding:14px 22px 14px 18px;
   border-radius:999px;
   background:#0E0E11;
   color:#fff;
   text-decoration:none;
   font-family:var(--font-geist),system-ui,sans-serif;
-  font-size:14px;
+  font-size:16px;
   font-weight:500;
   white-space:nowrap;
   transition:background .25s ease;
@@ -102,10 +100,96 @@
 .cta:hover{background:#6637ED;}
 
 .dot{
-  width:7px;
-  height:7px;
+  width:9px;
+  height:9px;
   border-radius:50%;
   background:#FF5A1F;
-  box-shadow:0 0 10px #FF5A1F;
+  box-shadow:0 0 12px #FF5A1F;
   flex:0 0 auto;
+}
+
+/* ── Telefón ──────────────────────────────────────────────────────────
+   Pod 860 px sa odkazy aj výzva k akcii schovajú do rozbaľovacieho
+   menu. Predtým tu bola len posuvná pilulka — tlačidlo „Začať projekt"
+   bolo 240 px mimo obrazovky a nikto ho nenašiel.
+   ─────────────────────────────────────────────────────────────────── */
+@media (max-width:860px){
+  .header{padding:0 12px;}
+  .nav{width:100%;padding:8px 8px 8px 14px;}
+  .navOtvorene{border-radius:26px;}
+  .rad{gap:10px;}
+
+  /* Logo ostáva vľavo, hamburger vpravo. */
+  .logo{margin-right:auto;}
+  .links{display:none;}
+  .cta{display:none;}
+
+  .burger{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    gap:6px;
+    flex:0 0 auto;
+    width:50px;
+    height:50px;
+    padding:0 13px;
+    border:0;
+    border-radius:999px;
+    background:#0E0E11;
+    cursor:pointer;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .burgerCiara{
+    display:block;
+    height:2.5px;
+    width:100%;
+    border-radius:2px;
+    background:#fff;
+    transition:transform .3s cubic-bezier(.2,.8,.2,1);
+  }
+  /* Otvorené = krížik. */
+  .navOtvorene .burger .burgerCiara:first-child{transform:translateY(4.25px) rotate(45deg);}
+  .navOtvorene .burger .burgerCiara:last-child{transform:translateY(-4.25px) rotate(-45deg);}
+
+  .panel{
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+    padding:12px 6px 6px;
+    margin-top:8px;
+    border-top:1px solid rgba(14,14,17,.08);
+  }
+  .panel[hidden]{display:none;}
+
+  .panelLink{
+    display:block;
+    padding:14px 12px;
+    border-radius:14px;
+    text-decoration:none;
+    color:#0E0E11;
+    font-family:var(--font-geist),system-ui,sans-serif;
+    font-size:17px;
+    font-weight:500;
+  }
+  .panelLink:active{background:rgba(14,14,17,.06);}
+
+  .panelCta{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:9px;
+    margin-top:8px;
+    padding:16px 20px;
+    border-radius:999px;
+    background:#0E0E11;
+    color:#fff;
+    text-decoration:none;
+    font-family:var(--font-geist),system-ui,sans-serif;
+    font-size:16px;
+    font-weight:500;
+  }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .nav,.burgerCiara{transition:none;}
 }

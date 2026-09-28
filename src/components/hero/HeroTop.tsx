@@ -3,6 +3,7 @@
 import { HERO } from "@/data/hlavicka";
 import AmbientBlobs from "../AmbientBlobs";
 import Collage from "./Collage";
+import MagnetickeTlacidlo from "./MagnetickeTlacidlo";
 import styles from "./HeroTop.module.css";
 
 export default function HeroTop() {
@@ -14,14 +15,28 @@ export default function HeroTop() {
         <div className={styles.left}>
           {/* data-fx = z nadpisu vyletujú tvary, data-fx-idle = aj samo od seba */}
           <h1 className={styles.h1} data-fx data-fx-idle>
-            {HERO.nadpis}
+            {HERO.nadpis.map((riadok) => (
+              <span key={riadok} className={styles.h1Riadok}>{riadok}</span>
+            ))}
           </h1>
+
+          {HERO.vyhody.length > 0 && (
+            <ul className={styles.vyhody}>
+              {HERO.vyhody.map((v) => (
+                <li key={v} className={styles.vyhoda}>
+                  <span className={styles.bodka} aria-hidden />
+                  {v}
+                </li>
+              ))}
+            </ul>
+          )}
+
           <hr className={styles.divider} />
+
           <div className={styles.actions}>
-            <a href={HERO.tlacidlo.href} className={styles.primary} data-fx data-cursor="cta">
+            <MagnetickeTlacidlo href={HERO.tlacidlo.href}>
               {HERO.tlacidlo.label}
-              <span className={styles.arrow} aria-hidden>↗</span>
-            </a>
+            </MagnetickeTlacidlo>
           </div>
         </div>
 
