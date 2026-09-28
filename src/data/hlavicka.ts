@@ -269,22 +269,22 @@ export const PROJEKTY: Projekt[] = [
     klikNa: "https://www.vytlacto3d.sk",
     logo: "/realizacie/vytlacto-3d-logo.svg",
     popis: "2026 — Web",
-    tagline: "Nahráte 3D model, nastavíte parametre — a oni ho vytlačia a doručia.",
+    tagline: "Online konfigurátor 3D tlače — nahráte model, systém spočíta cenu a výtlačok príde poštou.",
     text: [],                       // TODO: odstavce na stránku projektu
     sluzby: [],                     // TODO: čo sme pre klienta spravili
     ukazky: [],                     // TODO: obrázky do galérie
     karty: [
       // Logo levituje mimo žltej plochy — panel začína až na x = 320.
       { typ: "logo", x: 42, y: 84, w: 220, h: 53, z: 140, rot: -2, src: "/realizacie/vytlacto-3d-logo.svg", alt: "Logo VYTLAČTO 3D" },
-      { typ: "notebook", x: 20, y: 165, z: 90, rot: -3, screenshot: "/realizacie/vytlacto-3d-web.png", alt: "Web VYTLAČTO 3D" },
-      // miesto 1 — prispevok z Instagramu v pomere 4:3, lezi na zltom paneli
-      { typ: "obrazok", x: 600, y: 55, w: 320, h: 240, z: 150, rot: 3, src: "/realizacie/vytlacto-3d-ig.png", alt: "VYTLAČTO 3D — príspevok z Instagramu" },
-      // miesto 2 — vysoke (250×330)
-      { typ: "obrazok", x: 735, y: 330, w: 250, h: 300, z: 120, rot: -2, src: "/realizacie/vytlacto-3d-2.png", alt: "VYTLAČTO 3D — ukážka 2" },
+      { typ: "notebook", x: 20, y: 165, z: 90, rot: -3, screenshot: "/realizacie/vytlacto-3d-web.png", alt: "Web VYTLAČTO 3D — online konfigurátor 3D tlače" },
+      // miesto 1 — v pomere 4:3, lezi na zltom paneli
+      { typ: "obrazok", x: 600, y: 55, w: 320, h: 240, z: 150, rot: 3, src: "/realizacie/vytlacto-3d-1.png", alt: "VYTLAČTO 3D — ako funguje objednávka 3D tlače" },
+      // miesto 2 — vysoke (250×300)
+      { typ: "obrazok", x: 735, y: 330, w: 250, h: 300, z: 120, rot: -2, src: "/realizacie/vytlacto-3d-2.png", alt: "VYTLAČTO 3D — konfigurátor na mobile" },
       // miesto 3 — male (215×150)
-      { typ: "obrazok", x: 410, y: 470, w: 215, h: 150, z: 100, rot: 2, src: "/realizacie/vytlacto-3d-3.png", alt: "VYTLAČTO 3D — ukážka 3" },
+      { typ: "obrazok", x: 410, y: 470, w: 215, h: 150, z: 100, rot: 2, src: "/realizacie/vytlacto-3d-3.png", alt: "VYTLAČTO 3D — cenník materiálov" },
       { typ: "stitok", x: 430, y: 118, z: 150, rot: -2, text: "Nový web" },
-      { typ: "stitok", x: 455, y: 385, z: 150, rot: 3, text: "3D tlač na mieru" },
+      { typ: "stitok", x: 455, y: 385, z: 150, rot: 3, text: "Konfigurátor a e-shop" },
     ],
   },
 ];
