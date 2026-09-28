@@ -37,12 +37,14 @@ const PASOV = 72;
 export type Ucinok = { tvar: number; farba: string } | null;
 
 const TVARY = [
-  { roztiahnutie: -0.3, krut: 1.6, vlna: 4 }, // stiahne sa a zatočí — „rýchlosť"
-  { roztiahnutie: 0.42, krut: -0.7, vlna: 12 }, // rozostúpi sa — „menej roboty"
-  { roztiahnutie: 0.1, krut: 0.5, vlna: 30 }, // rozvlní sa — „vidno, čo funguje"
-  { roztiahnutie: 0.26, krut: 2.3, vlna: 8 }, // pevne sa zovrie — „jeden tím"
+  /* Pri „rýchlosti" sa závitnica stiahne, zatočí a roztočí sa citeľne
+     rýchlejšie — na tom je tá kartička celá postavená. */
+  { roztiahnutie: -0.3, krut: 1.6, vlna: 4, rychlost: 3.4 },
+  { roztiahnutie: 0.42, krut: -0.7, vlna: 12, rychlost: 0.75 }, // rozostúpi sa
+  { roztiahnutie: 0.1, krut: 0.5, vlna: 30, rychlost: 1.15 }, // rozvlní sa
+  { roztiahnutie: 0.26, krut: 2.3, vlna: 8, rychlost: 1.5 }, // pevne sa zovrie
 ];
-const POKOJ = { roztiahnutie: 0, krut: 0, vlna: 0 };
+const POKOJ = { roztiahnutie: 0, krut: 0, vlna: 0, rychlost: 1 };
 
 /** Deterministický generátor — rovnaký obraz pri každom načítaní. */
 function nahodne(seed: number) {
@@ -242,7 +244,7 @@ export default function DnaPlatno({ ucinok }: { ucinok?: Ucinok }) {
 
     /* Aktuálny stav sa k cieľu len približuje, nikdy naň neskočí — vďaka
        tomu sa závitnica pri odchode myši plynule vráti. */
-    const akt = { roztiahnutie: 0, krut: 0, vlna: 0, ton: 0 };
+    const akt = { roztiahnutie: 0, krut: 0, vlna: 0, ton: 0, rychlost: 1 };
     let poslednyAkcent = FARBY[0];
 
     let uhol = 0;
@@ -256,11 +258,6 @@ export default function DnaPlatno({ ucinok }: { ucinok?: Ucinok }) {
       posledny = teraz;
       if (!vidno) return;
 
-      if (!tiche) {
-        uhol += dt * 0.00021;
-        cas += dt * 0.0016;
-      }
-
       const u = ucinokRef.current;
       const ciel = u ? TVARY[u.tvar % TVARY.length] : POKOJ;
       const cielTon = u ? 1 : 0;
@@ -272,6 +269,14 @@ export default function DnaPlatno({ ucinok }: { ucinok?: Ucinok }) {
       akt.krut += (ciel.krut - akt.krut) * k;
       akt.vlna += (ciel.vlna - akt.vlna) * k;
       akt.ton += (cielTon - akt.ton) * k;
+      akt.rychlost += (ciel.rychlost - akt.rychlost) * k;
+
+      /* Otáčanie posúvame až po dobehnutí, nech sa zrýchlenie nabehne
+         plynule a nie skokom. */
+      if (!tiche) {
+        uhol += dt * 0.00021 * akt.rychlost;
+        cas += dt * 0.0016 * akt.rychlost;
+      }
 
       const tonKrok = Math.round(akt.ton * 24) / 24;
       if (tonKrok !== stylTon || poslednyAkcent !== stylFarba) {

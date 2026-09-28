@@ -1,10 +1,15 @@
 type Bilingual = { sk: string; en: string };
 
 /**
- * ⚠ PLACEHOLDER — ILUSTRAČNÉ HODNOTY.
- * DNABS zatiaľ nemá zverejnené namerané výsledky, preto sú tu len vzorové
- * čísla, aby sa dal doladiť vizuál sekcie. Pred nasadením ich treba nahradiť
- * reálnymi dátami (alebo sekciu vypnúť cez IMPACT_IS_PLACEHOLDER).
+ * ⚠ VYMYSLENÉ ČÍSLA — SEKCIA NIE JE NA STRÁNKE.
+ *
+ * Tieto hodnoty nikto nenameral. Sekcia ImpactCharts je preto odpojená
+ * z app/page.tsx a na web sa nedostane. Tvrdiť konkrétne výsledky, ktoré
+ * sa nestali, je klamlivá reklama (smernica 2005/29/ES).
+ *
+ * Ako sekciu vrátiť: prepísať čísla nižšie skutočnými nameranými údajmi
+ * z konkrétneho projektu, prepnúť IMPACT_IS_PLACEHOLDER na false a pridať
+ * <ImpactCharts /> späť do app/page.tsx.
  */
 export const IMPACT_IS_PLACEHOLDER = true;
 
