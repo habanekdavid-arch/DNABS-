@@ -35,12 +35,6 @@ export const HERO = {
   /** Každý riadok zvlášť — tu sa rozhoduje, kde sa nadpis zalomí.
    *  Vypisuje sa veľkými písmenami vo fialovej z loga, aj keď sú tu malé. */
   nadpis: ["Spolu tvoríme veci,", "ktoré majú hodnotu."],
-  /** Tri krátke výhody pod nadpisom. Pokojne prepíšte alebo uberte. */
-  vyhody: [
-    "Web, aplikácia aj reklama z jedného miesta",
-    "Vy poviete, čo potrebujete — o zvyšok sa staráme my",
-    "Všetko meriame, takže viete, čo vám to prináša",
-  ],
   /** Jediné tlačidlo pod nadpisom — vedie na kontaktný formulár. */
   tlacidlo: { label: "Nezáväzná konzultácia", href: "#kontakt" },
 };
@@ -134,13 +128,13 @@ export const PROJEKTY: Projekt[] = [
     karty: [
       { typ: "logo", x: 42, y: 84, w: 230, h: 36, z: 140, rot: -2, src: "/realizacie/clever-logo-cervene.svg", alt: "Logo CLEVER" },
       { typ: "notebook", x: 20, y: 165, z: 90, rot: -3, screenshot: "/realizacie/clever-web.png", alt: "Web CLEVER" },
-      // miesto 1 — siroke (320×205)
-      { typ: "obrazok", x: 690, y: 55, w: 320, h: 205, z: 150, rot: 3, src: "/realizacie/clever-1.png", alt: "CLEVER — podstránka na stiahnutie aplikácie" },
+      // miesto 1 — siroke (300×192)
+      { typ: "obrazok", x: 726, y: 55, w: 300, h: 192, z: 150, rot: 3, src: "/realizacie/clever-1.png", alt: "CLEVER — podstránka na stiahnutie aplikácie" },
       // miesto 2 — vysoke (250×330)
       { typ: "obrazok", x: 735, y: 300, w: 250, h: 330, z: 120, rot: -2, src: "/realizacie/clever-2.png", alt: "CLEVER — web na mobile" },
       // miesto 3 — male (215×150)
       { typ: "obrazok", x: 410, y: 470, w: 215, h: 150, z: 100, rot: 2, src: "/realizacie/clever-3.png", alt: "CLEVER — sekcia Postráži pred podvodom" },
-      { typ: "stitok", x: 430, y: 62, z: 150, rot: -2, text: "Nový web" },
+      { typ: "stitok", x: 430, y: 118, z: 150, rot: -2, text: "Nový web" },
       { typ: "stitok", x: 455, y: 385, z: 150, rot: 3, text: "Identita značky" },
     ],
   },
@@ -158,13 +152,13 @@ export const PROJEKTY: Projekt[] = [
     ukazky: [],                     // TODO: obrázky do galérie
     karty: [
       { typ: "notebook", x: 20, y: 165, z: 90, rot: -3, screenshot: "/realizacie/mnam-web.png", alt: "Web MŇAM" },
-      // miesto 1 — siroke (320×205)
-      { typ: "obrazok", x: 690, y: 55, w: 320, h: 205, z: 150, rot: 3, src: "/realizacie/mnam-1.png", alt: "MŇAM — ukážka 1" },
+      // miesto 1 — siroke (300×192)
+      { typ: "obrazok", x: 726, y: 55, w: 300, h: 192, z: 150, rot: 3, src: "/realizacie/mnam-1.png", alt: "MŇAM — ukážka 1" },
       // miesto 2 — vysoke (250×330)
       { typ: "obrazok", x: 735, y: 300, w: 250, h: 330, z: 120, rot: -2, src: "/realizacie/mnam-2.png", alt: "MŇAM — ukážka 2" },
       // miesto 3 — male (215×150)
       { typ: "obrazok", x: 410, y: 470, w: 215, h: 150, z: 100, rot: 2, src: "/realizacie/mnam-3.png", alt: "MŇAM — ukážka 3" },
-      { typ: "stitok", x: 430, y: 62, z: 150, rot: -2, text: "Nový web" },
+      { typ: "stitok", x: 430, y: 118, z: 150, rot: -2, text: "Nový web" },
       { typ: "stitok", x: 455, y: 385, z: 150, rot: 3, text: "Foto produktov" },
     ],
   },
@@ -182,13 +176,13 @@ export const PROJEKTY: Projekt[] = [
     ukazky: [],                     // TODO: obrázky do galérie
     karty: [
       { typ: "notebook", x: 20, y: 165, z: 90, rot: -3, screenshot: "/realizacie/happyhour-web.png", alt: "Web HAPPYHOUR" },
-      // miesto 1 — siroke (320×205)
-      { typ: "obrazok", x: 690, y: 55, w: 320, h: 205, z: 150, rot: 3, src: "/realizacie/happyhour-1.png", alt: "HAPPYHOUR — ukážka 1" },
+      // miesto 1 — siroke (300×192)
+      { typ: "obrazok", x: 726, y: 55, w: 300, h: 192, z: 150, rot: 3, src: "/realizacie/happyhour-1.png", alt: "HAPPYHOUR — ukážka 1" },
       // miesto 2 — vysoke (250×330)
       { typ: "obrazok", x: 735, y: 300, w: 250, h: 330, z: 120, rot: -2, src: "/realizacie/happyhour-2.png", alt: "HAPPYHOUR — ukážka 2" },
       // miesto 3 — male (215×150)
       { typ: "obrazok", x: 410, y: 470, w: 215, h: 150, z: 100, rot: 2, src: "/realizacie/happyhour-3.png", alt: "HAPPYHOUR — ukážka 3" },
-      { typ: "stitok", x: 430, y: 62, z: 150, rot: -2, text: "Nový web" },
+      { typ: "stitok", x: 430, y: 118, z: 150, rot: -2, text: "Nový web" },
       { typ: "stitok", x: 455, y: 385, z: 150, rot: 3, text: "Foto produktov" },
     ],
   },
@@ -206,13 +200,13 @@ export const PROJEKTY: Projekt[] = [
     ukazky: [],                     // TODO: obrázky do galérie
     karty: [
       { typ: "notebook", x: 20, y: 165, z: 90, rot: -3, screenshot: "/realizacie/omrvinka-web.png", alt: "Web OMRVINKA" },
-      // miesto 1 — siroke (320×205)
-      { typ: "obrazok", x: 690, y: 55, w: 320, h: 205, z: 150, rot: 3, src: "/realizacie/omrvinka-1.png", alt: "OMRVINKA — ukážka 1" },
+      // miesto 1 — siroke (300×192)
+      { typ: "obrazok", x: 726, y: 55, w: 300, h: 192, z: 150, rot: 3, src: "/realizacie/omrvinka-1.png", alt: "OMRVINKA — ukážka 1" },
       // miesto 2 — vysoke (250×330)
       { typ: "obrazok", x: 735, y: 300, w: 250, h: 330, z: 120, rot: -2, src: "/realizacie/omrvinka-2.png", alt: "OMRVINKA — ukážka 2" },
       // miesto 3 — male (215×150)
       { typ: "obrazok", x: 410, y: 470, w: 215, h: 150, z: 100, rot: 2, src: "/realizacie/omrvinka-3.png", alt: "OMRVINKA — ukážka 3" },
-      { typ: "stitok", x: 430, y: 62, z: 150, rot: -2, text: "Nový web" },
+      { typ: "stitok", x: 430, y: 118, z: 150, rot: -2, text: "Nový web" },
       { typ: "stitok", x: 455, y: 385, z: 150, rot: 3, text: "Foto produktov" },
     ],
   },
@@ -230,13 +224,13 @@ export const PROJEKTY: Projekt[] = [
     ukazky: [],                     // TODO: obrázky do galérie
     karty: [
       { typ: "notebook", x: 20, y: 165, z: 90, rot: -3, screenshot: "/realizacie/nicepoke-web.png", alt: "Web NICEPOKE" },
-      // miesto 1 — siroke (320×205)
-      { typ: "obrazok", x: 690, y: 55, w: 320, h: 205, z: 150, rot: 3, src: "/realizacie/nicepoke-1.png", alt: "NICEPOKE — ukážka 1" },
+      // miesto 1 — siroke (300×192)
+      { typ: "obrazok", x: 726, y: 55, w: 300, h: 192, z: 150, rot: 3, src: "/realizacie/nicepoke-1.png", alt: "NICEPOKE — ukážka 1" },
       // miesto 2 — vysoke (250×330)
       { typ: "obrazok", x: 735, y: 300, w: 250, h: 330, z: 120, rot: -2, src: "/realizacie/nicepoke-2.png", alt: "NICEPOKE — ukážka 2" },
       // miesto 3 — male (215×150)
       { typ: "obrazok", x: 410, y: 470, w: 215, h: 150, z: 100, rot: 2, src: "/realizacie/nicepoke-3.png", alt: "NICEPOKE — ukážka 3" },
-      { typ: "stitok", x: 430, y: 62, z: 150, rot: -2, text: "Nový web" },
+      { typ: "stitok", x: 430, y: 118, z: 150, rot: -2, text: "Nový web" },
       { typ: "stitok", x: 455, y: 385, z: 150, rot: 3, text: "Foto produktov" },
     ],
   },
@@ -254,13 +248,13 @@ export const PROJEKTY: Projekt[] = [
     ukazky: [],                     // TODO: obrázky do galérie
     karty: [
       { typ: "notebook", x: 20, y: 165, z: 90, rot: -3, screenshot: "/realizacie/risebloom-web.png", alt: "Web RISEBLOOM" },
-      // miesto 1 — siroke (320×205)
-      { typ: "obrazok", x: 690, y: 55, w: 320, h: 205, z: 150, rot: 3, src: "/realizacie/risebloom-1.png", alt: "RISEBLOOM — ukážka 1" },
+      // miesto 1 — siroke (300×192)
+      { typ: "obrazok", x: 726, y: 55, w: 300, h: 192, z: 150, rot: 3, src: "/realizacie/risebloom-1.png", alt: "RISEBLOOM — ukážka 1" },
       // miesto 2 — vysoke (250×330)
       { typ: "obrazok", x: 735, y: 300, w: 250, h: 330, z: 120, rot: -2, src: "/realizacie/risebloom-2.png", alt: "RISEBLOOM — ukážka 2" },
       // miesto 3 — male (215×150)
       { typ: "obrazok", x: 410, y: 470, w: 215, h: 150, z: 100, rot: 2, src: "/realizacie/risebloom-3.png", alt: "RISEBLOOM — ukážka 3" },
-      { typ: "stitok", x: 430, y: 62, z: 150, rot: -2, text: "Nový web" },
+      { typ: "stitok", x: 430, y: 118, z: 150, rot: -2, text: "Nový web" },
       { typ: "stitok", x: 455, y: 385, z: 150, rot: 3, text: "Foto produktov" },
     ],
   },
@@ -278,13 +272,13 @@ export const PROJEKTY: Projekt[] = [
     ukazky: [],                     // TODO: obrázky do galérie
     karty: [
       { typ: "notebook", x: 20, y: 165, z: 90, rot: -3, screenshot: "/realizacie/vytlacto-3d-web.png", alt: "Web VYTLAČTO 3D" },
-      // miesto 1 — siroke (320×205)
-      { typ: "obrazok", x: 690, y: 55, w: 320, h: 205, z: 150, rot: 3, src: "/realizacie/vytlacto-3d-1.png", alt: "VYTLAČTO 3D — ukážka 1" },
+      // miesto 1 — siroke (300×192)
+      { typ: "obrazok", x: 726, y: 55, w: 300, h: 192, z: 150, rot: 3, src: "/realizacie/vytlacto-3d-1.png", alt: "VYTLAČTO 3D — ukážka 1" },
       // miesto 2 — vysoke (250×330)
       { typ: "obrazok", x: 735, y: 300, w: 250, h: 330, z: 120, rot: -2, src: "/realizacie/vytlacto-3d-2.png", alt: "VYTLAČTO 3D — ukážka 2" },
       // miesto 3 — male (215×150)
       { typ: "obrazok", x: 410, y: 470, w: 215, h: 150, z: 100, rot: 2, src: "/realizacie/vytlacto-3d-3.png", alt: "VYTLAČTO 3D — ukážka 3" },
-      { typ: "stitok", x: 430, y: 62, z: 150, rot: -2, text: "Nový web" },
+      { typ: "stitok", x: 430, y: 118, z: 150, rot: -2, text: "Nový web" },
       { typ: "stitok", x: 455, y: 385, z: 150, rot: 3, text: "Foto produktov" },
     ],
   },
