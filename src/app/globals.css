@@ -67,6 +67,221 @@ section[id],main[id]{scroll-margin-top:106px;}
 
 input::placeholder,textarea::placeholder{color:rgba(255,255,255,.35);}
 
+/* ══════════════════════════════════════════════════════════════════════
+   FIG — spoločná reč sekcií
+
+   Technická schéma na svetlom: mono popisky v hranatých zátvorkách,
+   dlaždice s tenkým rámom, blikajúce diódy a ukazovatele, ktoré sa
+   naplnia po doscrollovaní. Tieto triedy sú globálne, aby všetky
+   sekcie vyzerali naozaj rovnako a efekty boli na jednom mieste.
+   ══════════════════════════════════════════════════════════════════════ */
+
+:root{
+  --fig-ink:#0E0E11;
+  --fig-ink-2:rgba(14,14,17,.62);
+  --fig-ink-3:rgba(14,14,17,.55);
+  --fig-ram:rgba(14,14,17,.12);
+  --fig-znacka:#563387;
+}
+
+@keyframes fig-blink{0%,49%{opacity:1;}50%,100%{opacity:.2;}}
+@keyframes fig-caret{0%,49%{opacity:1;}50%,100%{opacity:0;}}
+@keyframes fig-sweep{0%{transform:translateX(-120%);}100%{transform:translateX(220%);}}
+@keyframes fig-glitch-a{
+  0%,88%,100%{opacity:0;transform:translate(0,0);clip-path:inset(0 0 0 0);}
+  89%{opacity:1;transform:translate(-4px,1px);clip-path:inset(10% 0 58% 0);}
+  92%{opacity:1;transform:translate(3px,-2px);clip-path:inset(60% 0 12% 0);}
+  95%{opacity:0;}
+}
+@keyframes fig-glitch-b{
+  0%,88%,100%{opacity:0;transform:translate(0,0);clip-path:inset(0 0 0 0);}
+  90%{opacity:1;transform:translate(4px,-1px);clip-path:inset(38% 0 32% 0);}
+  93%{opacity:1;transform:translate(-3px,2px);clip-path:inset(4% 0 72% 0);}
+  96%{opacity:0;}
+}
+
+/* ── Hlavička sekcie ─────────────────────────────────────────────── */
+
+.fig-section{
+  position:relative;
+  background:transparent;
+  color:var(--fig-ink);
+  padding:clamp(80px,12vh,140px) clamp(20px,4vw,48px);
+}
+.fig-inner{position:relative;max-width:1440px;margin:0 auto;}
+
+.fig-head{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:24px;
+  margin-bottom:clamp(32px,5vw,60px);
+}
+
+.fig-label{
+  font-family:var(--gmono);
+  font-size:11px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--fig-znacka);
+  margin-bottom:14px;
+}
+
+.fig-title{
+  margin:0;
+  font-family:var(--manrope);
+  font-weight:800;
+  font-size:clamp(40px,5vw,80px);
+  line-height:1;
+  letter-spacing:-.03em;
+  text-transform:uppercase;
+  /* Manrope nemá ťažší rez ako 800, tak ho zhrubneme obrysom. */
+  -webkit-text-stroke:.024em currentColor;
+  paint-order:stroke fill;
+}
+
+.fig-sub{
+  margin:0;
+  max-width:38ch;
+  font-size:15px;
+  line-height:1.6;
+  color:rgba(14,14,17,.58);
+}
+
+/* Blikajúci kurzor za nadpisom, ako v termináli. */
+.fig-caret{
+  display:inline-block;
+  width:.42em;
+  height:.78em;
+  margin-left:.14em;
+  background:var(--fig-znacka);
+  animation:fig-caret 1.1s step-end infinite;
+}
+
+/* ── Dlaždica ────────────────────────────────────────────────────── */
+
+.fig-tile{
+  position:relative;
+  border:1px solid var(--fig-ram);
+  border-radius:22px;
+  background:linear-gradient(180deg,rgba(255,255,255,.72),rgba(255,255,255,.4));
+  overflow:hidden;
+  transition:border-color .3s ease,transform .3s ease,box-shadow .3s ease;
+}
+.fig-tile:hover{
+  border-color:var(--c,var(--fig-znacka));
+  transform:translateY(-3px);
+  box-shadow:0 18px 40px rgba(14,14,17,.09);
+}
+
+/* Svetelný pruh, ktorý pri hoveri prebehne cez dlaždicu. */
+.fig-tile::before{
+  content:"";
+  position:absolute;
+  top:0;bottom:0;
+  left:0;
+  width:38%;
+  pointer-events:none;
+  opacity:0;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.85),transparent);
+}
+.fig-tile:hover::before{opacity:1;animation:fig-sweep .9s ease-out;}
+
+.fig-tileHead{
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  gap:12px;
+  font-family:var(--gmono);
+  font-size:11px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--fig-ink-3);
+}
+.fig-sep{color:rgba(14,14,17,.3);}
+
+/* Stav s blikajúcou diódou. */
+.fig-stav{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  flex:0 0 auto;
+  color:var(--c,var(--fig-znacka));
+  font-size:10px;
+  letter-spacing:.1em;
+}
+.fig-dioda{
+  width:7px;height:7px;
+  border-radius:2px;
+  background:var(--c,var(--fig-znacka));
+  animation:fig-blink 1.4s infinite;
+}
+
+/* ── Ukazovateľ ──────────────────────────────────────────────────── */
+
+.fig-track{
+  position:relative;
+  display:block;
+  width:100%;
+  height:4px;
+  border-radius:2px;
+  background:rgba(14,14,17,.08);
+  overflow:hidden;
+}
+.fig-fill{
+  position:absolute;
+  inset:0 auto 0 0;
+  width:0;
+  border-radius:2px;
+  background:var(--c,var(--fig-znacka));
+  transition:width 1.1s cubic-bezier(.2,.8,.2,1);
+  transition-delay:var(--d,0ms);
+}
+.fig-on .fig-fill{width:var(--p,100%);}
+
+/* ── Tlačidlo ────────────────────────────────────────────────────── */
+
+.fig-cta{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  align-self:flex-start;
+  background:var(--fig-ink);
+  color:#fff;
+  font-family:var(--gmono);
+  font-size:12px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  text-decoration:none;
+  border-radius:999px;
+  padding:15px 26px;
+  transition:background .25s ease,transform .25s cubic-bezier(.2,.7,.2,1);
+}
+.fig-cta:hover{background:var(--c,var(--fig-znacka));transform:translateY(-2px);}
+
+/* ── Štítok ──────────────────────────────────────────────────────── */
+
+.fig-chip{
+  font-family:var(--gmono);
+  font-size:11px;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+  color:var(--fig-ink-2);
+  border:1px solid rgba(14,14,17,.14);
+  border-radius:6px;
+  padding:6px 10px;
+  transition:border-color .3s ease,color .3s ease;
+}
+.fig-tile:hover .fig-chip{
+  border-color:color-mix(in srgb,var(--c,var(--fig-znacka)) 45%,transparent);
+  color:var(--c,var(--fig-znacka));
+}
+
+@media (max-width:620px){
+  .fig-title{font-size:clamp(32px,9vw,48px);}
+}
+
 @media (prefers-reduced-motion: reduce){
   html{scroll-behavior:auto;}
   *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;}

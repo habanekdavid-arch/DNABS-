@@ -77,18 +77,18 @@
 .grid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:18px;
+  gap:clamp(18px,1.8vw,26px);
 }
 
 .tile{
   position:relative;
   display:flex;
   flex-direction:column;
-  gap:14px;
+  gap:18px;
   border:1px solid rgba(14,14,17,.12);
-  border-radius:22px;
+  border-radius:26px;
   background:linear-gradient(180deg,rgba(255,255,255,.72),rgba(255,255,255,.4));
-  padding:22px;
+  padding:clamp(26px,2.4vw,38px);
   transition:border-color .3s ease,transform .3s ease,box-shadow .3s ease;
 }
 .tile:hover{
@@ -103,10 +103,10 @@
   align-items:baseline;
   gap:12px;
   font-family:var(--gmono);
-  font-size:11px;
+  font-size:13px;
   letter-spacing:.08em;
   text-transform:uppercase;
-  color:rgba(14,14,17,.7);
+  color:rgba(14,14,17,.75);
 }
 .sep{color:rgba(14,14,17,.3);}
 
@@ -114,10 +114,10 @@
 .stav{
   display:inline-flex;
   align-items:center;
-  gap:7px;
+  gap:8px;
   flex:0 0 auto;
   color:var(--c);
-  font-size:10px;
+  font-size:11.5px;
   letter-spacing:.1em;
 }
 .dioda{
@@ -130,9 +130,9 @@
 
 .desc{
   margin:0;
-  font-size:14px;
-  line-height:1.6;
-  color:rgba(14,14,17,.62);
+  font-size:clamp(15px,1.25vw,18px);
+  line-height:1.62;
+  color:rgba(14,14,17,.68);
 }
 
 /* ── Štítky technológií ───────────────────────────────────────────── */
@@ -140,17 +140,17 @@
 .chips{
   display:flex;
   flex-wrap:wrap;
-  gap:6px;
+  gap:8px;
 }
 .chip{
   font-family:var(--gmono);
-  font-size:10.5px;
+  font-size:12px;
   letter-spacing:.04em;
   text-transform:uppercase;
   color:rgba(14,14,17,.68);
   border:1px solid rgba(14,14,17,.14);
-  border-radius:6px;
-  padding:5px 9px;
+  border-radius:7px;
+  padding:7px 11px;
   transition:border-color .3s ease,color .3s ease;
 }
 .tile:hover .chip{
@@ -190,12 +190,12 @@
   background:#0E0E11;
   color:#fff;
   font-family:var(--gmono);
-  font-size:12px;
+  font-size:13px;
   letter-spacing:.08em;
   text-transform:uppercase;
   text-decoration:none;
   border-radius:999px;
-  padding:13px 22px;
+  padding:16px 28px;
   transition:background .25s ease,transform .25s cubic-bezier(.2,.7,.2,1);
 }
 .cta:hover{

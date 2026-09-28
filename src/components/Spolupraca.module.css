@@ -1,0 +1,272 @@
+/* ── SPOLUPRÁCA ───────────────────────────────────────────────────────
+   Veľký lockup značky, tmavý pás s dvojzávitnicou a dva stĺpce
+   „pre koho áno / pre koho nie".
+   ─────────────────────────────────────────────────────────────────── */
+
+@keyframes sp-prilet{
+  from{opacity:0;transform:translateY(26px) scale(.94);}
+  to{opacity:1;transform:none;}
+}
+@keyframes sp-glitch-a{
+  0%,100%{transform:translate(0,0);clip-path:inset(0 0 0 0);opacity:0;}
+  20%{opacity:.9;transform:translate(-5px,1px);clip-path:inset(8% 0 62% 0);}
+  45%{opacity:.9;transform:translate(4px,-2px);clip-path:inset(58% 0 14% 0);}
+  70%{opacity:.7;transform:translate(-3px,1px);clip-path:inset(32% 0 38% 0);}
+  85%{opacity:0;}
+}
+@keyframes sp-glitch-b{
+  0%,100%{transform:translate(0,0);clip-path:inset(0 0 0 0);opacity:0;}
+  25%{opacity:.9;transform:translate(5px,-1px);clip-path:inset(40% 0 28% 0);}
+  55%{opacity:.9;transform:translate(-4px,2px);clip-path:inset(4% 0 70% 0);}
+  80%{opacity:0;}
+}
+@keyframes sp-dnaA{
+  0%,100%{transform:translateY(-26px);}
+  50%{transform:translateY(26px);}
+}
+@keyframes sp-dnaB{
+  0%,100%{transform:translateY(26px);}
+  50%{transform:translateY(-26px);}
+}
+@keyframes sp-spojka{
+  0%,100%{opacity:.5;transform:scaleY(1);}
+  50%{opacity:.08;transform:scaleY(.06);}
+}
+
+.section{overflow:hidden;}
+
+/* ── Lockup ──────────────────────────────────────────────────────── */
+
+.lockup{
+  display:flex;
+  align-items:center;
+  gap:clamp(16px,3vw,48px);
+  margin-bottom:6px;
+}
+
+.znak{
+  height:clamp(72px,11vw,168px);
+  width:auto;
+  flex:0 0 auto;
+  opacity:0;
+  transform:translateY(26px) scale(.94);
+  transition:filter .4s ease;
+}
+.on .znak{animation:sp-prilet .9s cubic-bezier(.2,.8,.2,1) forwards;}
+.lockup:hover .znak{filter:drop-shadow(0 0 22px rgba(86,51,135,.55));}
+
+.pismena{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex:1 1 auto;
+  min-width:0;
+}
+
+.pismeno{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:clamp(4px,.7vw,12px);
+  opacity:0;
+  transform:translateY(26px) scale(.94);
+}
+.on .pismeno{
+  animation:sp-prilet .8s cubic-bezier(.2,.8,.2,1) forwards;
+  animation-delay:calc(140ms + var(--i) * 90ms);
+}
+
+/* Samotné písmeno. Pri hoveri sa rozdvojí do dvoch farebných kópií. */
+.pismenoZnak{
+  position:relative;
+  display:block;
+  font-family:var(--manrope),system-ui,sans-serif;
+  font-weight:800;
+  font-size:clamp(46px,9.5vw,148px);
+  line-height:.86;
+  letter-spacing:-.02em;
+  color:rgba(14,14,17,.22);
+  transition:color .35s ease;
+  cursor:default;
+}
+.pismeno:hover .pismenoZnak{color:var(--fig-ink);}
+
+.pismenoZnak::before,
+.pismenoZnak::after{
+  content:attr(data-text);
+  position:absolute;
+  inset:0;
+  opacity:0;
+  pointer-events:none;
+}
+.pismenoZnak::before{color:#00E9FF;}
+.pismenoZnak::after{color:#FF5A1F;}
+.pismeno:hover .pismenoZnak::before{animation:sp-glitch-a .55s steps(2,end);}
+.pismeno:hover .pismenoZnak::after{animation:sp-glitch-b .55s steps(2,end) .04s;}
+
+.cislo{
+  display:grid;
+  place-items:center;
+  width:clamp(16px,1.5vw,22px);
+  height:clamp(16px,1.5vw,22px);
+  border-radius:50%;
+  background:var(--fig-znacka);
+  color:#fff;
+  font-family:var(--gmono);
+  font-size:clamp(8px,.7vw,11px);
+  transition:transform .35s cubic-bezier(.2,.8,.2,1),background .35s ease;
+}
+.pismeno:hover .cislo{transform:scale(1.25);background:#FF5A1F;}
+
+/* Rozpálkovaný podpis pod lockupom. */
+.podpis{
+  display:flex;
+  justify-content:space-between;
+  margin:clamp(6px,1vw,14px) 0 clamp(34px,5vw,58px);
+  padding:0 clamp(0px,1vw,10px);
+  font-family:var(--gmono);
+  font-size:clamp(9px,1vw,14px);
+  letter-spacing:0;
+  color:rgba(14,14,17,.34);
+}
+
+/* ── Tmavý pás ───────────────────────────────────────────────────── */
+
+.pas{
+  position:relative;
+  border-radius:clamp(18px,2vw,26px);
+  background:#15101F;
+  overflow:hidden;
+  padding:clamp(28px,4vw,52px) clamp(22px,3.4vw,54px);
+  box-shadow:0 0 0 1px rgba(86,51,135,.5), 0 26px 70px rgba(86,51,135,.28);
+}
+
+.dna{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  opacity:.5;
+  pointer-events:none;
+}
+/* Každý pár má vlastný posun, takže sa závitnica vlní pozdĺž pásu. */
+.dnaBodA{fill:#6637ED;animation:sp-dnaA 3.6s ease-in-out infinite var(--posun,0s);}
+.dnaBodB{fill:#00E9FF;animation:sp-dnaB 3.6s ease-in-out infinite var(--posun,0s);}
+.dnaSpojka{
+  stroke:rgba(255,255,255,.4);
+  stroke-width:1;
+  transform-origin:center;
+  animation:sp-spojka 3.6s ease-in-out infinite var(--posun,0s);
+}
+
+.pasText{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  gap:clamp(10px,1.4vw,18px);
+}
+
+.tvrdenie{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  margin:0;
+  font-family:var(--font-geist),system-ui,sans-serif;
+  font-size:clamp(15px,1.7vw,24px);
+  line-height:1.35;
+  color:rgba(255,255,255,.72);
+}
+.tvrdenie strong{color:#fff;font-weight:600;}
+
+.tvrdenieDioda{
+  width:8px;height:8px;
+  flex:0 0 auto;
+  border-radius:2px;
+  background:#00E9FF;
+  box-shadow:0 0 12px #00E9FF;
+  animation:fig-blink 1.6s infinite;
+  animation-delay:calc(var(--i) * .3s);
+}
+
+/* ── Pre koho áno / nie ──────────────────────────────────────────── */
+
+.stlpce{
+  display:grid;
+  grid-template-columns:1fr 1px 1fr;
+  gap:clamp(20px,3vw,48px);
+  margin-top:clamp(40px,6vw,76px);
+}
+.stlpce::before{
+  content:"";
+  grid-column:2;
+  grid-row:1;
+  background:repeating-linear-gradient(180deg,rgba(14,14,17,.2) 0 5px,transparent 5px 11px);
+}
+
+.stlpec{display:flex;flex-direction:column;gap:clamp(14px,2vw,26px);}
+.stlpecNie{text-align:right;}
+
+.stlpecTitul{
+  margin:0 0 4px;
+  font-family:var(--manrope);
+  font-weight:800;
+  font-size:clamp(26px,3.6vw,54px);
+  line-height:1;
+  letter-spacing:-.03em;
+  text-transform:uppercase;
+  color:var(--fig-ink);
+  -webkit-text-stroke:.02em currentColor;
+  paint-order:stroke fill;
+}
+.stlpecTitul em{font-style:normal;color:var(--c);}
+
+.polozka{display:flex;flex-direction:column;gap:5px;}
+
+.polozkaTitul{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  font-family:var(--manrope);
+  font-weight:800;
+  font-size:clamp(16px,1.6vw,22px);
+  letter-spacing:-.01em;
+  color:var(--c);
+}
+.stlpecNie .polozkaTitul{justify-content:flex-end;}
+
+.krizik{
+  font-size:.62em;
+  opacity:.75;
+  transition:transform .35s cubic-bezier(.2,.8,.2,1);
+}
+.polozka:hover .krizik{transform:rotate(90deg) scale(1.25);}
+
+.polozkaText{
+  margin:0;
+  font-size:clamp(13px,1.15vw,16px);
+  line-height:1.55;
+  font-style:italic;
+  color:var(--fig-ink-2);
+}
+
+.cta{margin-top:clamp(36px,5vw,60px);}
+
+/* ── Užšie obrazovky ─────────────────────────────────────────────── */
+
+@media (max-width:860px){
+  .lockup{flex-direction:column;align-items:flex-start;gap:14px;}
+  .pismena{width:100%;}
+  .podpis{font-size:9px;}
+  .stlpce{grid-template-columns:1fr;}
+  .stlpce::before{display:none;}
+  .stlpecNie{text-align:left;}
+  .stlpecNie .polozkaTitul{justify-content:flex-start;flex-direction:row-reverse;}
+}
+
+@media (prefers-reduced-motion: reduce){
+  .znak,.pismeno{opacity:1;transform:none;animation:none;}
+  .dnaBodA,.dnaBodB,.dnaSpojka,.tvrdenieDioda{animation:none;}
+  .pismeno:hover .pismenoZnak::before,
+  .pismeno:hover .pismenoZnak::after{animation:none;}
+}

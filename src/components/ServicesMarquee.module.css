@@ -3,28 +3,46 @@
   to{transform:translateX(-50%);}
 }
 
+/* Pás beží na svetlom ako zvyšok stránky — len tenké linky nad a pod,
+   nech pôsobí ako riadok prístrojovej dosky. */
 .strip{
-  background:#0a0a0a;
+  position:relative;
+  background:transparent;
   overflow:hidden;
-  padding:24px 0;
+  padding:22px 0;
   white-space:nowrap;
+  border-top:1px solid rgba(14,14,17,.12);
+  border-bottom:1px solid rgba(14,14,17,.12);
 }
+
+/* Okraje sa strácajú do pozadia, aby text nekončil useknutý. */
+.strip::before,
+.strip::after{
+  content:"";
+  position:absolute;
+  top:0;bottom:0;
+  width:clamp(40px,8vw,140px);
+  z-index:1;
+  pointer-events:none;
+}
+.strip::before{left:0;background:linear-gradient(90deg,#EAEAEC,transparent);}
+.strip::after{right:0;background:linear-gradient(270deg,#EAEAEC,transparent);}
 
 .track{
   display:flex;
   flex-wrap:nowrap;
   white-space:nowrap;
   animation:dnabs-marquee 30s linear infinite;
-  font-family:var(--mono);
+  font-family:var(--gmono);
   font-weight:400;
   font-size:12px;
   text-transform:uppercase;
   letter-spacing:.12em;
   line-height:1;
-  color:#fff;
+  color:rgba(14,14,17,.62);
 }
 
-.sep{padding:0 12px;}
-.accent{color:var(--accent);}
-.purple{color:var(--purple);}
-.green{color:var(--green);}
+.sep{padding:0 12px;color:rgba(14,14,17,.25);}
+.accent{color:#E24A08;}
+.purple{color:#563387;}
+.green{color:#12A03F;}
