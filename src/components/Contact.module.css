@@ -1,9 +1,11 @@
+/* Sekcia je svetlá ako zvyšok stránky, samotný formulár sedí v tmavom
+   paneli. Polia vo vnútri ostávajú svetlé na tmavom, ako boli. */
 .section{
   position:relative;
   overflow:hidden;
-  background:#0a0a0a;
-  color:#fff;
-  padding:clamp(64px,11vh,140px) clamp(20px,4vw,48px);
+  background:transparent;
+  color:var(--fig-ink);
+  padding:clamp(80px,12vh,140px) clamp(20px,4vw,48px);
 }
 
 .grid{
@@ -22,22 +24,26 @@
 }
 
 .kicker{
-  font-family:var(--mono);
-  font-size:13px;
-  letter-spacing:.1em;
+  font-family:var(--gmono);
+  font-size:11px;
+  letter-spacing:.14em;
   text-transform:uppercase;
-  color:var(--accent);
-  margin-bottom:clamp(18px,3vh,32px);
+  color:var(--fig-znacka);
+  margin-bottom:14px;
 }
 
 .h2{
   margin:0;
-  font-family:var(--disp);
-  font-weight:700;
-  font-size:clamp(44px,8vw,128px);
-  line-height:.84;
-  letter-spacing:-.01em;
+  font-family:var(--manrope);
+  font-weight:800;
+  font-size:clamp(40px,6.4vw,104px);
+  line-height:.94;
+  letter-spacing:-.035em;
   text-transform:uppercase;
+  color:var(--fig-ink);
+  /* Rovnaké zhrubnutie ako nadpis v hero. */
+  -webkit-text-stroke:.024em currentColor;
+  paint-order:stroke fill;
 }
 
 .h2Line{
@@ -46,20 +52,26 @@
 
 .h2Script{
   display:block;
-  font-family:var(--script);
-  font-weight:400;
-  text-transform:none;
-  color:var(--accent);
-  font-size:1.2em;
-  line-height:.98;
+  color:var(--fig-znacka);
 }
 
+/* Tenká čiara pod nadpisom, ako na predlohe. */
 .intro{
+  position:relative;
   font-size:15px;
   line-height:1.6;
   max-width:440px;
-  opacity:.75;
-  margin:clamp(20px,3vh,28px) 0 0;
+  color:var(--fig-ink-2);
+  margin:clamp(24px,3.4vh,34px) 0 0;
+  padding-top:clamp(20px,2.6vh,28px);
+}
+.intro::before{
+  content:"";
+  position:absolute;
+  left:0;top:0;
+  width:min(300px,70%);
+  height:1px;
+  background:rgba(14,14,17,.2);
 }
 
 .perks{
@@ -75,7 +87,7 @@
 
 .perkIcon{
   display:inline-block;
-  color:var(--green);
+  color:#12A03F;
   font-weight:700;
 }
 
@@ -88,7 +100,7 @@
 }
 
 .infoLabel{
-  opacity:.5;
+  color:rgba(14,14,17,.45);
   font-size:11px;
   text-transform:uppercase;
   margin-top:18px;
@@ -96,18 +108,22 @@
 .infoLabel:first-child{margin-top:0;}
 
 .emailLink{
-  color:#fff;
+  color:var(--fig-ink);
   text-decoration:none;
-  border-bottom:1px solid var(--accent);
+  border-bottom:1px solid var(--fig-znacka);
 }
 
+/* Tmavý panel, v ktorom sedí celý formulár. */
 .form{
   display:flex;
   flex-direction:column;
   gap:0;
-  border:1px solid rgba(255,255,255,.14);
-  border-radius:var(--radius-lg);
+  border:1px solid rgba(86,51,135,.55);
+  border-radius:clamp(20px,2.2vw,30px);
   overflow:hidden;
+  background:#1C1030;
+  color:#fff;
+  box-shadow:0 30px 80px rgba(86,51,135,.26);
 }
 
 .field{
@@ -181,10 +197,10 @@ select.field:not(:has(option[value=""]:checked)):focus{
 /* Pred-kvalifikačný text nad formulárom. */
 .prequal{
   margin:0 0 18px;
-  font-family:var(--mono);
+  font-family:var(--gmono);
   font-size:12px;
   line-height:1.6;
-  opacity:.55;
+  color:rgba(14,14,17,.5);
   max-width:52ch;
 }
 
@@ -506,21 +522,21 @@ select.field:not(:has(option[value=""]:checked)):focus{
 
 .submit{
   position:relative;
-  background:var(--accent);
-  color:#0a0a0a;
+  background:linear-gradient(120deg,#6637ED,#FF5A1F);
+  color:#fff;
   border:0;
-  font-family:var(--disp);
+  font-family:var(--manrope);
   font-weight:800;
-  font-size:clamp(17px,1.5vw,22px);
+  font-size:clamp(15px,1.3vw,19px);
   text-transform:uppercase;
-  letter-spacing:.01em;
+  letter-spacing:.03em;
   padding:clamp(22px,2.2vw,28px);
   cursor:pointer;
-  transition:.2s;
+  transition:filter .25s ease;
   animation:contact-cta-pulse 2.2s ease-out infinite;
 }
 .submit:hover{
-  background:#fff;
+  filter:brightness(1.12);
   animation-play-state:paused;
 }
 .submit:disabled{

@@ -4,6 +4,7 @@ import HeroTop from "@/components/hero/HeroTop";
 import HowItWorks from "@/components/HowItWorks";
 import ServicesMarquee from "@/components/ServicesMarquee";
 import Services from "@/components/Services";
+import Spolupraca from "@/components/Spolupraca";
 import CtaBand from "@/components/CtaBand";
 import Referencie from "@/components/Referencie";
 import ImpactCharts from "@/components/ImpactCharts";
@@ -24,6 +25,7 @@ export default function Home() {
         <ServicesMarquee />
         <ImpactCharts />
         <Services />
+        <Spolupraca />
         <CtaBand />
         <About />
         <HomeFaq />

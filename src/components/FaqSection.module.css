@@ -1,12 +1,12 @@
 .section{
-  background:#fff;
-  color:#0a0a0a;
-  padding:clamp(56px,8vh,96px) clamp(20px,4vw,48px);
+  background:transparent;
+  color:var(--fig-ink);
+  padding:clamp(80px,12vh,140px) clamp(20px,4vw,48px);
 }
 
 /* Otázky idú cez celú šírku, hlavička je nad nimi v jednom riadku. */
 .inner{
-  max-width:1320px;
+  max-width:1440px;
   margin:0 auto;
 }
 
@@ -22,22 +22,24 @@
 }
 
 .kicker{
-  font-family:var(--mono);
-  font-size:12px;
-  letter-spacing:.1em;
+  font-family:var(--gmono);
+  font-size:11px;
+  letter-spacing:.14em;
   text-transform:uppercase;
-  color:var(--accent);
-  margin-bottom:8px;
+  color:var(--fig-znacka);
+  margin-bottom:14px;
 }
 
 .title{
   margin:0;
-  font-family:var(--disp);
-  font-weight:700;
-  font-size:clamp(30px,3.6vw,52px);
-  line-height:.95;
-  letter-spacing:-.01em;
+  font-family:var(--manrope);
+  font-weight:800;
+  font-size:clamp(40px,5vw,80px);
+  line-height:1;
+  letter-spacing:-.03em;
   text-transform:uppercase;
+  -webkit-text-stroke:.024em currentColor;
+  paint-order:stroke fill;
 }
 
 .count{

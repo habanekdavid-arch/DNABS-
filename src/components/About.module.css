@@ -1,11 +1,12 @@
 .section{
   position:relative;
-  background:var(--purple);
-  color:#fff;
+  background:transparent;
+  color:var(--fig-ink);
   overflow:hidden;
-  padding:clamp(64px,11vh,140px) clamp(20px,4vw,48px);
+  padding:clamp(80px,12vh,140px) clamp(20px,4vw,48px);
 }
 
+/* Logo v pozadí ostáva, len teraz svieti fialovou na svetlom. */
 .ghostLogo{
   position:absolute;
   right:clamp(-60px,-3vw,0px);
@@ -13,8 +14,7 @@
   transform:translateY(-50%);
   width:min(760px,58vw);
   height:auto;
-  filter:brightness(0) invert(1);
-  opacity:.13;
+  opacity:.07;
   pointer-events:none;
 }
 
@@ -32,21 +32,25 @@
 }
 
 .kicker{
-  font-family:var(--mono);
-  font-size:13px;
-  letter-spacing:.1em;
+  font-family:var(--gmono);
+  font-size:11px;
+  letter-spacing:.14em;
   text-transform:uppercase;
-  opacity:.7;
-  margin-bottom:clamp(24px,4vh,44px);
+  color:var(--fig-znacka);
+  margin-bottom:14px;
 }
 
 .h2{
   margin:0;
-  font-weight:700;
+  font-family:var(--manrope);
+  font-weight:800;
   font-size:clamp(34px,5.2vw,84px);
   line-height:1.02;
-  letter-spacing:-.02em;
+  letter-spacing:-.03em;
   max-width:18ch;
+  text-transform:uppercase;
+  -webkit-text-stroke:.024em currentColor;
+  paint-order:stroke fill;
 }
 
 .h2Line{
@@ -55,9 +59,7 @@
 
 .h2Serif{
   display:block;
-  font-family:var(--serif);
-  font-style:italic;
-  font-weight:400;
+  color:var(--fig-znacka);
 }
 
 .body{
@@ -65,15 +67,17 @@
   line-height:1.55;
   max-width:600px;
   margin:clamp(28px,4vh,44px) 0 0;
-  opacity:.85;
+  color:var(--fig-ink-2);
 }
 
+/* Čísla v riadku, oddelené prerušovanou linkou ako v schéme. */
 .stats{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
   gap:clamp(16px,3vw,40px);
   margin-top:clamp(40px,6vh,72px);
-  border-top:2px solid rgba(255,255,255,.3);
+  border-top:1px solid transparent;
+  border-image:repeating-linear-gradient(90deg,rgba(14,14,17,.26) 0 6px,transparent 6px 13px) 1;
   padding-top:clamp(28px,4vh,44px);
 }
 
@@ -82,45 +86,46 @@
 }
 
 .statNum{
-  font-family:var(--disp);
-  font-weight:700;
+  font-family:var(--manrope);
+  font-weight:800;
   font-size:clamp(40px,5vw,72px);
   line-height:1;
+  letter-spacing:-.03em;
   transition:color .35s ease;
 }
 
 .plus{
-  color:var(--green);
+  color:#12A03F;
 }
 
 .statLabel{
-  font-family:var(--mono);
+  font-family:var(--gmono);
   font-size:12px;
   text-transform:uppercase;
   letter-spacing:.08em;
-  opacity:.7;
+  color:var(--fig-ink-3);
   margin-top:8px;
 }
 
 .foundedNote{
-  font-family:var(--mono);
+  font-family:var(--gmono);
   font-size:12px;
   letter-spacing:.03em;
-  opacity:.55;
+  color:rgba(14,14,17,.5);
   margin:clamp(20px,3vh,28px) 0 0;
 }
 
 .moreLink{
   display:inline-block;
   margin-top:16px;
-  font-family:var(--mono);
+  font-family:var(--gmono);
   font-size:13px;
   text-transform:uppercase;
   letter-spacing:.05em;
   text-decoration:underline;
   text-underline-offset:3px;
-  color:#fff;
+  color:var(--fig-ink);
 }
 .moreLink:hover{
-  color:var(--green);
+  color:var(--fig-znacka);
 }

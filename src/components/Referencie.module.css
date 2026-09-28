@@ -1,56 +1,68 @@
 .section{
-  background:#fff;
-  color:#0a0a0a;
-  padding:clamp(56px,8vh,100px) clamp(20px,4vw,48px);
+  background:transparent;
+  color:var(--fig-ink);
+  padding:clamp(80px,12vh,140px) clamp(20px,4vw,48px);
 }
 
 .head{
-  max-width:1320px;
-  margin:0 auto clamp(24px,4vh,40px);
+  max-width:1440px;
+  margin:0 auto clamp(32px,5vw,60px);
 }
 
 .kicker{
-  font-family:var(--mono);
-  font-size:12px;
-  letter-spacing:.1em;
+  font-family:var(--gmono);
+  font-size:11px;
+  letter-spacing:.14em;
   text-transform:uppercase;
-  color:var(--accent);
-  margin-bottom:8px;
+  color:var(--fig-znacka);
+  margin-bottom:14px;
 }
 
 .title{
   margin:0;
-  font-family:var(--disp);
-  font-weight:700;
-  font-size:clamp(28px,3.6vw,52px);
-  line-height:.95;
-  letter-spacing:-.01em;
+  font-family:var(--manrope);
+  font-weight:800;
+  font-size:clamp(40px,5vw,80px);
+  line-height:1;
+  letter-spacing:-.03em;
   text-transform:uppercase;
+  -webkit-text-stroke:.024em currentColor;
+  paint-order:stroke fill;
 }
 
 .grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:clamp(14px,1.8vw,22px);
-  max-width:1320px;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:clamp(16px,1.8vw,24px);
+  max-width:1440px;
   margin:0 auto;
 }
 
 .card{
+  position:relative;
   display:flex;
   flex-direction:column;
   gap:12px;
   margin:0;
-  background:#faf9f6;
-  border-radius:var(--radius-lg);
-  padding:clamp(22px,2.4vw,30px);
+  border:1px solid rgba(14,14,17,.12);
+  border-radius:22px;
+  background:linear-gradient(180deg,rgba(255,255,255,.72),rgba(255,255,255,.4));
+  padding:clamp(24px,2.4vw,32px);
+  transition:border-color .3s ease,transform .3s ease,box-shadow .3s ease;
+}
+.card:hover{
+  border-color:var(--fig-znacka);
+  transform:translateY(-3px);
+  box-shadow:0 18px 40px rgba(14,14,17,.09);
 }
 
 .mark{
-  font-family:var(--script);
-  font-size:52px;
+  font-family:var(--manrope);
+  font-weight:800;
+  font-size:46px;
   line-height:.6;
   height:26px;
+  color:var(--fig-znacka);
 }
 
 .quote{
@@ -68,15 +80,16 @@
 }
 
 .name{
-  font-family:var(--disp);
-  font-weight:700;
-  font-size:15px;
+  font-family:var(--manrope);
+  font-weight:800;
+  font-size:16px;
+  letter-spacing:-.01em;
 }
 
 .role{
-  font-family:var(--mono);
+  font-family:var(--gmono);
   font-size:11px;
   text-transform:uppercase;
   letter-spacing:.04em;
-  opacity:.5;
+  color:var(--fig-ink-3);
 }
