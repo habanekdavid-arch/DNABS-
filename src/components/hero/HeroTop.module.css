@@ -25,6 +25,12 @@
   gap:clamp(16px,3vh,32px);
 }
 
+/* Na širokej obrazovke je text aj tlačidlo odsadené od kraja. Na
+   telefóne ostávajú pri okraji, tam je miesta málo. */
+@media (min-width:900px){
+  .left{padding-left:clamp(24px,5vw,110px);}
+}
+
 /* Veľkými písmenami, aj keď sú v dátovom súbore napísané malé.
    Farba je presne tá z loga DNABS (public/logo.svg).
    Zalomenie určuje dátový súbor — každý riadok je vlastný span. */

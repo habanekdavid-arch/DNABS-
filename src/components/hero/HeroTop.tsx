@@ -23,9 +23,7 @@ export default function HeroTop() {
           <hr className={styles.divider} />
 
           <div className={styles.actions}>
-            <MagnetickeTlacidlo href={HERO.tlacidlo.href}>
-              {HERO.tlacidlo.label}
-            </MagnetickeTlacidlo>
+            <MagnetickeTlacidlo href={HERO.tlacidlo.href} label={HERO.tlacidlo.label} />
           </div>
         </div>
 
