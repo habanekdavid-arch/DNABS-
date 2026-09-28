@@ -22,20 +22,53 @@
 .left{
   display:flex;
   flex-direction:column;
-  gap:clamp(18px,4vh,44px);
+  gap:clamp(16px,3vh,32px);
 }
 
-/* Dve slová veľkými písmenami — nesie celú ľavú stranu sama. */
+/* Veľkými písmenami, aj keď sú v dátovom súbore napísané malé.
+   Farba je presne tá z loga DNABS (public/logo.svg).
+   Zalomenie určuje dátový súbor — každý riadok je vlastný span. */
 .h1{
   font-family:var(--font-manrope),system-ui,sans-serif;
   font-weight:800;
-  font-size:clamp(46px, min(8.6vw,13vh), 150px);
-  line-height:.88;
-  letter-spacing:-.045em;
+  font-size:clamp(26px, min(3.6vw,5.4vh), 56px);
+  line-height:1.04;
+  letter-spacing:-.035em;
   text-transform:uppercase;
-  text-wrap:balance;
+  color:#563387;
   margin:0;
 }
+.h1Riadok{display:block;}
+
+/* Tri výhody pod nadpisom. */
+.vyhody{
+  list-style:none;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  margin:0;
+  padding:0;
+  max-width:480px;
+}
+.vyhoda{
+  display:flex;
+  align-items:flex-start;
+  gap:11px;
+  font-family:var(--font-geist),system-ui,sans-serif;
+  font-size:clamp(15px,1.15vw,18px);
+  line-height:1.4;
+  color:#3B3B42;
+}
+.bodka{
+  width:7px;
+  height:7px;
+  margin-top:.55em;
+  border-radius:50%;
+  flex:0 0 auto;
+  background:#6637ED;
+}
+.vyhoda:nth-child(2) .bodka{background:#FF5A1F;}
+.vyhoda:nth-child(3) .bodka{background:#2F6BFF;}
 
 /* Tenká čiara oddeľuje text od výzvy k akcii. */
 .divider{
@@ -46,33 +79,8 @@
   margin:0;
 }
 
+/* Samotné tlačidlo má vlastný súbor — MagnetickeTlacidlo.module.css. */
 .actions{display:flex;gap:10px;flex-wrap:wrap;}
-
-.primary{
-  display:inline-flex;
-  align-items:center;
-  gap:14px;
-  padding:18px 22px 18px 26px;
-  border-radius:999px;
-  background:#0E0E11;
-  color:#fff;
-  text-decoration:none;
-  font-family:var(--font-geist),system-ui,sans-serif;
-  font-size:16px;
-  font-weight:500;
-  box-shadow:0 14px 34px rgba(14,14,17,.22);
-  transition:background .25s ease;
-}
-.primary:hover{background:#FF5A1F;}
-
-.arrow{
-  width:28px;height:28px;
-  border-radius:50%;
-  background:rgba(255,255,255,.14);
-  display:grid;place-items:center;
-  font-size:13px;
-  flex:0 0 auto;
-}
 
 .right{position:relative;padding-bottom:132px;}
 

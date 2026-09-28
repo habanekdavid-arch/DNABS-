@@ -32,10 +32,17 @@ export const NAV_LOGO = "/logo.svg";
 /* ── HERO ───────────────────────────────────────────────────────────── */
 
 export const HERO = {
-  /** Dve slová. Vypisuje sa veľkými písmenami, aj keď sú tu malé. */
-  nadpis: "Digitálna DNA",
-  /** Jediné tlačidlo pod nadpisom. */
-  tlacidlo: { label: "Konzultácia", href: "#kontakt" },
+  /** Každý riadok zvlášť — tu sa rozhoduje, kde sa nadpis zalomí.
+   *  Vypisuje sa veľkými písmenami vo fialovej z loga, aj keď sú tu malé. */
+  nadpis: ["Spolu tvoríme veci,", "ktoré majú hodnotu."],
+  /** Tri krátke výhody pod nadpisom. Pokojne prepíšte alebo uberte. */
+  vyhody: [
+    "Web, aplikácia aj reklama z jedného miesta",
+    "Vy poviete, čo potrebujete — o zvyšok sa staráme my",
+    "Všetko meriame, takže viete, čo vám to prináša",
+  ],
+  /** Jediné tlačidlo pod nadpisom — vedie na kontaktný formulár. */
+  tlacidlo: { label: "Nezáväzná konzultácia", href: "#kontakt" },
 };
 
 /* ── KOLÁŽ REALIZÁCIÍ ───────────────────────────────────────────────────
@@ -128,7 +135,7 @@ export const PROJEKTY: Projekt[] = [
       { typ: "logo", x: 42, y: 84, w: 230, h: 36, z: 140, rot: -2, src: "/realizacie/clever-logo-cervene.svg", alt: "Logo CLEVER" },
       { typ: "notebook", x: 20, y: 165, z: 90, rot: -3, screenshot: "/realizacie/clever-web.png", alt: "Web CLEVER" },
       // miesto 1 — siroke (320×205)
-      { typ: "obrazok", x: 690, y: 55, w: 320, h: 205, z: 150, rot: 3, src: "/realizacie/clever-1.png", alt: "CLEVER — živé demo na webe" },
+      { typ: "obrazok", x: 690, y: 55, w: 320, h: 205, z: 150, rot: 3, src: "/realizacie/clever-1.png", alt: "CLEVER — podstránka na stiahnutie aplikácie" },
       // miesto 2 — vysoke (250×330)
       { typ: "obrazok", x: 735, y: 300, w: 250, h: 330, z: 120, rot: -2, src: "/realizacie/clever-2.png", alt: "CLEVER — web na mobile" },
       // miesto 3 — male (215×150)
