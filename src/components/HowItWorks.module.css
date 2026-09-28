@@ -1,325 +1,268 @@
+/* ── AKO TO FUNGUJE ───────────────────────────────────────────────────
+   Rovnaká reč ako sekcia s výsledkami — technická schéma, mono popisky
+   v hranatých zátvorkách, dlaždice s tenkým rámom a ukazovatele, ktoré
+   sa naplnia po doscrollovaní. Len na čistom svetlom pozadí namiesto
+   tmavého, takže presvitá gradient stránky.
+   ─────────────────────────────────────────────────────────────────── */
+
 .section{
-  background:#fff;
-  color:#0a0a0a;
-  padding:clamp(64px,10vh,120px) clamp(20px,4vw,48px);
+  position:relative;
+  background:transparent;
+  color:#0E0E11;
+  padding:clamp(80px,12vh,140px) clamp(20px,4vw,48px);
 }
+
+.inner{
+  position:relative;
+  max-width:1440px;
+  margin:0 auto;
+}
+
+/* ── Hlavička ─────────────────────────────────────────────────────── */
 
 .head{
   display:flex;
+  flex-wrap:wrap;
   align-items:flex-end;
   justify-content:space-between;
-  flex-wrap:wrap;
   gap:24px;
-  max-width:1320px;
-  margin:0 auto clamp(32px,5vh,52px);
+  margin-bottom:clamp(32px,5vw,60px);
 }
 
-.kicker{
-  font-family:var(--mono);
-  font-size:12px;
-  letter-spacing:.1em;
+.label{
+  font-family:var(--gmono);
+  font-size:11px;
+  letter-spacing:.14em;
   text-transform:uppercase;
-  color:var(--accent);
-  margin-bottom:8px;
+  color:#563387;
+  margin-bottom:14px;
 }
 
 .title{
   margin:0;
-  font-family:var(--disp);
-  font-weight:700;
-  font-size:clamp(32px,4.6vw,68px);
-  line-height:.95;
-  letter-spacing:-.01em;
+  font-family:var(--manrope);
+  font-weight:800;
+  font-size:clamp(40px,5vw,80px);
+  line-height:1;
+  letter-spacing:-.03em;
   text-transform:uppercase;
 }
 
-.intro{
+.sub{
   margin:0;
-  font-size:clamp(14px,1.3vw,17px);
+  max-width:38ch;
+  font-size:15px;
   line-height:1.6;
-  max-width:44ch;
-  opacity:.6;
+  color:rgba(14,14,17,.58);
 }
 
-.steps{
+/* ── Mriežka krokov ───────────────────────────────────────────────── */
+
+.grid{
   position:relative;
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
-  gap:clamp(16px,2vw,28px);
-  max-width:1320px;
-  margin:0 auto;
+  grid-template-columns:repeat(4,1fr);
+  gap:18px;
 }
 
-/* Prerušovaná linka v medzerách medzi kartami — kroky idú po sebe. */
-.steps::before{
-  content:"";
+/* Prerušovaná linka, na ktorej kroky sedia. */
+.rail{
   position:absolute;
-  left:0;
-  right:0;
-  top:calc(clamp(22px,2.4vw,30px) + 25px);
-  height:2px;
-  background:repeating-linear-gradient(90deg,rgba(10,10,10,.22) 0 7px,transparent 7px 14px);
-  z-index:0;
-}
-
-.step{
-  position:relative;
-  z-index:1;
-  display:flex;
-  flex-direction:column;
-  align-items:flex-start;
-  gap:10px;
-  background:#faf9f6;
-  border-radius:var(--radius-lg);
-  padding:clamp(22px,2.4vw,30px);
-  overflow:hidden;
-  transition:
-    transform .4s cubic-bezier(.2,.7,.2,1),
-    box-shadow .4s ease,
-    background .3s ease;
-}
-
-/* Farebný závoj, ktorý sa zdvihne zospodu. */
-.step::after{
-  content:"";
-  position:absolute;
-  inset:auto 0 0 0;
-  height:100%;
-  background:var(--c);
-  opacity:.07;
-  transform:translateY(100%);
-  transition:transform .5s cubic-bezier(.2,.7,.2,1);
+  left:22px;
+  right:22px;
+  top:0;
+  height:1px;
+  background:repeating-linear-gradient(90deg,rgba(14,14,17,.26) 0 6px,transparent 6px 13px);
   pointer-events:none;
 }
-.step:hover{
-  background:#fff;
-  transform:translateY(-6px);
-  box-shadow:0 22px 44px rgba(10,10,10,.12);
+
+.tile{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  border:1px solid rgba(14,14,17,.12);
+  border-radius:22px;
+  background:linear-gradient(180deg,rgba(255,255,255,.72),rgba(255,255,255,.4));
+  padding:24px 22px 22px;
+  transition:border-color .3s ease,transform .3s ease,box-shadow .3s ease;
 }
-.step:hover::after{
-  transform:translateY(0);
+.tile:hover{
+  border-color:var(--c);
+  transform:translateY(-3px);
+  box-shadow:0 18px 40px rgba(14,14,17,.09);
 }
 
-.stepTop{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  width:100%;
+/* Uzol na linke — štvorček, ktorý pri hoveri zosilnie. */
+.uzol{
+  position:absolute;
+  top:-4px;
+  left:24px;
+  width:7px;
+  height:7px;
+  border-radius:2px;
+  background:rgba(14,14,17,.28);
+  transition:background .3s ease,transform .3s ease;
 }
+.tile:hover .uzol{
+  background:var(--c);
+  transform:scale(1.5);
+}
+
+/* ── Hlavička dlaždice ────────────────────────────────────────────── */
+
+.tileHead{
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  gap:12px;
+  font-family:var(--gmono);
+  font-size:11px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:rgba(14,14,17,.55);
+  margin-bottom:14px;
+}
+.zo{color:rgba(14,14,17,.3);}
+
+.delta{
+  font-family:var(--manrope);
+  font-weight:800;
+  font-size:12px;
+  letter-spacing:.01em;
+  color:var(--c);
+  text-align:right;
+}
+
+/* ── Ikona ────────────────────────────────────────────────────────── */
 
 .icon{
-  position:relative;
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  width:50px;
-  height:50px;
+  width:46px;
+  height:46px;
   flex-shrink:0;
-  border-radius:16px;
-  /* Náhradná farba pre prehliadače bez color-mix(). */
-  background:rgba(10,10,10,.06);
-  background:color-mix(in srgb,var(--c) 14%,transparent);
+  border-radius:14px;
+  border:1px solid rgba(14,14,17,.12);
   color:var(--c);
-  transition:
-    background .35s ease,
-    color .35s ease,
-    transform .45s cubic-bezier(.2,.7,.2,1),
-    border-radius .45s ease;
+  transition:background .35s ease,color .35s ease,border-color .35s ease,transform .45s cubic-bezier(.2,.7,.2,1);
 }
-.icon svg{
-  width:26px;
-  height:26px;
-  overflow:visible;
-}
-.step:hover .icon{
-  background:var(--tile);
+.icon svg{width:24px;height:24px;overflow:visible;}
+.tile:hover .icon{
+  background:var(--c);
+  border-color:var(--c);
   color:#fff;
-  border-radius:50%;
-  transform:rotate(-8deg) scale(1.08);
+  transform:rotate(-6deg);
 }
 
-/* Detaily v ikonách ožijú až po nabehnutí. */
-.iconCursor,
-.iconSpark,
-.iconCheck,
-.iconBubble{
+/* Detaily v ikonách ožijú až pri hoveri. */
+.iconCursor,.iconSpark,.iconCheck,.iconBubble{
   transform-box:fill-box;
   transform-origin:center;
   transition:transform .45s cubic-bezier(.2,.7,.2,1),opacity .35s ease;
 }
-.iconCursor{
-  transform:translate(-2px,-2px);
-}
-.step:hover .iconCursor{
-  transform:translate(1px,1px);
-}
-.iconSpark{
-  opacity:.35;
-  transform:scale(.6);
-}
-.step:hover .iconSpark{
-  opacity:1;
-  transform:scale(1);
-}
-.iconCheck{
-  opacity:.35;
-}
-.step:hover .iconCheck{
-  opacity:1;
-  transform:translateY(-1px);
-}
-.iconBubble{
-  transform:translateX(-2px);
-}
-.step:hover .iconBubble{
-  transform:translateX(1px);
+.iconCursor{transform:translate(-2px,-2px);}
+.tile:hover .iconCursor{transform:translate(1px,1px);}
+.iconSpark{opacity:.35;transform:scale(.6);}
+.tile:hover .iconSpark{opacity:1;transform:scale(1);}
+.iconCheck{opacity:.35;}
+.tile:hover .iconCheck{opacity:1;transform:translateY(-1px);}
+.iconBubble{transform:translateX(-2px);}
+.tile:hover .iconBubble{transform:translateX(1px);}
+
+/* ── Text ─────────────────────────────────────────────────────────── */
+
+.stepTitle{
+  margin:6px 0 0;
+  font-family:var(--manrope);
+  font-weight:800;
+  font-size:clamp(17px,1.5vw,21px);
+  line-height:1.15;
+  letter-spacing:-.02em;
 }
 
-.num{
-  font-family:var(--mono);
-  font-weight:700;
-  font-size:clamp(26px,3vw,38px);
-  line-height:1;
-  color:var(--c);
-  opacity:.35;
-  transition:opacity .35s ease,transform .45s cubic-bezier(.2,.7,.2,1);
+.stepDesc{
+  margin:0;
+  font-size:14px;
+  line-height:1.6;
+  color:rgba(14,14,17,.62);
 }
-.step:hover .num{
-  opacity:1;
-  transform:translateY(-2px);
-}
+
+/* ── Ukazovateľ postupu ───────────────────────────────────────────────
+   Naplní sa podľa toho, koľká je to štvrtina cesty, a rozbehne sa až
+   keď sa na sekciu doscrolluje. */
 
 .track{
   position:relative;
   display:block;
   width:100%;
-  height:3px;
-  margin-top:6px;
+  height:4px;
+  margin-top:auto;
+  padding-top:0;
   border-radius:2px;
-  background:rgba(10,10,10,.08);
+  background:rgba(14,14,17,.08);
   overflow:hidden;
 }
-
 .fill{
   position:absolute;
   inset:0 auto 0 0;
-  width:22%;
+  width:0;
   border-radius:2px;
   background:var(--c);
-  transition:width .6s cubic-bezier(.2,.7,.2,1);
+  transition:width 1.1s cubic-bezier(.2,.8,.2,1);
+  transition-delay:var(--d,0ms);
 }
-.step:hover .fill{
-  width:100%;
-}
+.on .fill{width:var(--p);}
+.tile:hover .fill{width:100%;transition-delay:0ms;}
 
-.stepTitle{
-  position:relative;
-  margin:8px 0 0;
-  font-family:var(--disp);
-  font-weight:700;
-  font-size:clamp(18px,1.7vw,23px);
-  line-height:1.15;
-  text-transform:uppercase;
-  letter-spacing:-.01em;
-}
+/* ── Výzva k akcii ────────────────────────────────────────────────── */
 
-.stepDesc{
-  position:relative;
-  margin:0;
-  font-size:clamp(13px,1.15vw,15px);
-  line-height:1.6;
-  opacity:.66;
-}
-
-.note{
-  position:relative;
-  margin-top:auto;
-  font-family:var(--mono);
-  font-size:11px;
-  font-weight:700;
-  text-transform:uppercase;
-  letter-spacing:.04em;
-  color:#0a0a0a;
-  background:rgba(10,10,10,.08);
-  background:color-mix(in srgb,var(--c) 30%,transparent);
-  border-radius:var(--radius-pill);
-  padding:6px 12px;
-  transition:background .35s ease,transform .4s cubic-bezier(.2,.7,.2,1);
-}
-.step:hover .note{
-  background:var(--c);
-  color:var(--ink);
-  transform:translateY(-2px);
-}
-
-.ctaWrap{
-  max-width:1320px;
-  margin:clamp(28px,4vh,44px) auto 0;
-}
+.ctaWrap{margin:clamp(32px,5vh,52px) 0 0;}
 
 .cta{
   display:inline-flex;
   align-items:center;
-  background:#0a0a0a;
+  background:#0E0E11;
   color:#fff;
-  font-family:var(--mono);
-  font-weight:700;
-  font-size:clamp(13px,1.05vw,15px);
-  letter-spacing:.06em;
+  font-family:var(--gmono);
+  font-weight:400;
+  font-size:13px;
+  letter-spacing:.08em;
   text-transform:uppercase;
   text-decoration:none;
-  border-radius:var(--radius-pill);
-  padding:16px 28px;
-  transition:background .25s ease,color .25s ease,transform .25s cubic-bezier(.2,.7,.2,1);
+  border-radius:999px;
+  padding:17px 30px;
+  transition:background .25s ease,transform .25s cubic-bezier(.2,.7,.2,1);
 }
 .cta:hover{
-  background:var(--accent);
-  color:#0a0a0a;
+  background:#563387;
   transform:translateY(-2px);
 }
 
-/* Pod dvoma stĺpcami by spojnica viedla cez prázdno. */
-@media (max-width:1000px){
-  .steps::before{
-    display:none;
-  }
+/* ── Užšie obrazovky ──────────────────────────────────────────────── */
+
+@media (max-width:1100px){
+  .grid{grid-template-columns:repeat(2,1fr);gap:16px;}
+  /* Cez dva riadky by linka viedla cez prázdno. */
+  .rail{display:none;}
+  .uzol{display:none;}
+}
+@media (max-width:620px){
+  .grid{grid-template-columns:1fr;}
+  .title{font-size:clamp(32px,9vw,48px);}
 }
 
+/* Na dotyku niet hoveru — ukazovatele aj ikony ukážeme rovno. */
 @media (hover:none){
-  .step{
-    background:#fff;
-    box-shadow:0 6px 18px rgba(10,10,10,.07);
-  }
-  .step::after{
-    transform:translateY(0);
-  }
-  .icon{
-    background:var(--tile);
-    color:#fff;
-    border-radius:50%;
-  }
-  .num{
-    opacity:1;
-  }
-  .fill{
-    width:100%;
-  }
-  .note{
-    background:var(--c);
-    color:var(--ink);
-  }
-  .iconSpark,
-  .iconCheck{
-    opacity:1;
-  }
-  .iconSpark{
-    transform:scale(1);
-  }
-  .iconCursor{
-    transform:translate(1px,1px);
-  }
-  .iconBubble{
-    transform:translateX(1px);
-  }
+  .tile{background:rgba(255,255,255,.72);}
+  .iconSpark,.iconCheck{opacity:1;}
+  .iconSpark{transform:scale(1);}
+  .iconCursor{transform:translate(1px,1px);}
+  .iconBubble{transform:translateX(1px);}
+}
+
+@media (prefers-reduced-motion: reduce){
+  .fill{transition:none;}
+  .tile,.icon,.uzol{transition:none;}
 }
