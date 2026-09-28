@@ -99,7 +99,7 @@ const dict = {
   },
   realizacia_cta: { sk: "Live web", en: "Live site" },
   realizacia_cta2: { sk: "Chcem takýto web aj ja →", en: "I want a website like this →" },
-  svc_kicker: { sk: "(03) — Čo robíme", en: "(03) — What we do" },
+  svc_kicker: { sk: "[ FIG.04 — SLUŽBY ]", en: "[ FIG.04 — SERVICES ]" },
   svc_title: { sk: "Služby", en: "Services" },
   svc_intro: {
     sk: "Tri veci, ktoré robíme poriadne. Bez balastu, s dôrazom na výsledok a rýchlosť nasadenia.",
