@@ -35,8 +35,9 @@ export const HERO = {
   /** Každý riadok zvlášť — tu sa rozhoduje, kde sa nadpis zalomí.
    *  Vypisuje sa veľkými písmenami vo fialovej z loga, aj keď sú tu malé. */
   nadpis: ["Spolu tvoríme veci,", "ktoré majú hodnotu."],
-  /** Jediné tlačidlo pod nadpisom — vedie na kontaktný formulár. */
-  tlacidlo: { label: "Nezáväzná konzultácia", href: "#kontakt" },
+  /** Jediné tlačidlo pod nadpisom — vedie na kontaktný formulár.
+   *  Vypisuje sa veľkými písmenami, aj keď sú tu malé. */
+  tlacidlo: { label: "Začať projekt", href: "#kontakt" },
 };
 
 /* ── KOLÁŽ REALIZÁCIÍ ───────────────────────────────────────────────────
