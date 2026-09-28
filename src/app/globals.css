@@ -17,18 +17,35 @@
 
 *{box-sizing:border-box;padding:0;margin:0;}
 
-html{scroll-behavior:smooth;height:100%;}
+html{scroll-behavior:smooth;}
 
-html,body{max-width:100vw;overflow-x:hidden;}
-
+/* Pozor na Safari na iPhone:
+   - height:100% na <html> spolu s overflow-x:hidden z neho spraví
+     scrollovací kontajner s pevnou výškou a stránka sa prestane dať
+     posúvať. Preto tu výška nie je.
+   - overflow-x:clip oreže pretekanie, ale na rozdiel od hidden
+     nevytvára scrollovací kontajner. Hidden je len záloha pre staršie
+     prehliadače a drží sa na <body>, nie na <html>. */
 body{
-  min-height:100%;
-  background:linear-gradient(180deg,#ECECEE 0%,#E3E3E7 100%);
-  background-attachment:fixed;
+  min-height:100vh;
+  min-height:100svh;
+  overflow-x:hidden;
+  overflow-x:clip;
   color:#0a0a0a;
   font-family:var(--font-space-grotesk),system-ui,sans-serif;
   -webkit-font-smoothing:antialiased;
   -moz-osx-font-smoothing:grayscale;
+}
+
+/* Pozadie ako pevná vrstva za obsahom. background-attachment:fixed
+   Safari na iPhone nevykresľuje správne — toto áno. */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  background:linear-gradient(180deg,#ECECEE 0%,#E3E3E7 100%);
+  pointer-events:none;
 }
 
 a{color:inherit;}
@@ -43,8 +60,8 @@ a,button,summary{-webkit-tap-highlight-color:transparent;}
   border-radius:4px;
 }
 
-/* Kotvy nech nekončia tesne pod navigáciou. */
-section[id],main[id]{scroll-margin-top:32px;}
+/* Kotvy nech nekončia pod navigáciou — tá má aj s odstupom asi 90 px. */
+section[id],main[id]{scroll-margin-top:106px;}
 
 ::selection{background:var(--accent);color:#0a0a0a;}
 

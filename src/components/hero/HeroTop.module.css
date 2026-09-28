@@ -37,38 +37,12 @@
   text-transform:uppercase;
   color:#563387;
   margin:0;
+  /* Manrope nemá ťažší rez ako 800, tak ho ešte trochu zhrubneme
+     obrysom v tej istej farbe. */
+  -webkit-text-stroke:.024em currentColor;
+  paint-order:stroke fill;
 }
 .h1Riadok{display:block;}
-
-/* Tri výhody pod nadpisom. */
-.vyhody{
-  list-style:none;
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-  margin:0;
-  padding:0;
-  max-width:480px;
-}
-.vyhoda{
-  display:flex;
-  align-items:flex-start;
-  gap:11px;
-  font-family:var(--font-geist),system-ui,sans-serif;
-  font-size:clamp(15px,1.15vw,18px);
-  line-height:1.4;
-  color:#3B3B42;
-}
-.bodka{
-  width:7px;
-  height:7px;
-  margin-top:.55em;
-  border-radius:50%;
-  flex:0 0 auto;
-  background:#6637ED;
-}
-.vyhoda:nth-child(2) .bodka{background:#FF5A1F;}
-.vyhoda:nth-child(3) .bodka{background:#2F6BFF;}
 
 /* Tenká čiara oddeľuje text od výzvy k akcii. */
 .divider{

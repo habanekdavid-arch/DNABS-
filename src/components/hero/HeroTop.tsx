@@ -20,17 +20,6 @@ export default function HeroTop() {
             ))}
           </h1>
 
-          {HERO.vyhody.length > 0 && (
-            <ul className={styles.vyhody}>
-              {HERO.vyhody.map((v) => (
-                <li key={v} className={styles.vyhoda}>
-                  <span className={styles.bodka} aria-hidden />
-                  {v}
-                </li>
-              ))}
-            </ul>
-          )}
-
           <hr className={styles.divider} />
 
           <div className={styles.actions}>

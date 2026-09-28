@@ -15,6 +15,9 @@ function jemnyUkazovatel() {
 const DESIGN_W = 1040;
 const DESIGN_H = 680;
 
+/** Veta o projekte pod kolážou. Vypnutá — text ostáva v dátovom súbore. */
+const ZOBRAZIT_TAGLINE = false;
+
 /** Každý typ prvku reaguje na kurzor inak. */
 type Hover = "tilt" | "lift" | "pop" | "tag" | "laptop" | "znacka";
 
@@ -146,7 +149,9 @@ export default function Collage() {
         </div>
       </div>
 
-      {PROJEKTY[index].tagline && (
+      {/* Veta o projekte je vypnutá. Keby sa mala vrátiť, stačí zmeniť
+          ZOBRAZIT_TAGLINE na true — text ostáva v dátovom súbore. */}
+      {ZOBRAZIT_TAGLINE && PROJEKTY[index].tagline && (
         <p className={styles.tagline}>{PROJEKTY[index].tagline}</p>
       )}
 
@@ -167,8 +172,8 @@ export default function Collage() {
 
 function ProjectLayer({ projekt, active, onZoom }:
   { projekt: Projekt; active: boolean; onZoom: (from: DOMRect) => void }) {
-  // Keď má projekt logo priamo v koláži, na paneli ho už neopakujeme —
-  // panel ostane čistou plochou vo firemnej farbe.
+  // Keď má projekt logo priamo v koláži, panel ostane čistou plochou vo
+  // firemnej farbe — bez loga aj bez popisu.
   const logoVKolazi = projekt.karty.some((k) => k.typ === "logo");
 
   return (
@@ -177,16 +182,20 @@ function ProjectLayer({ projekt, active, onZoom }:
         className={styles.panel}
         style={{ background: projekt.farba, boxShadow: `0 50px 90px -40px ${projekt.farba}` }}
       >
-        {!logoVKolazi && (projekt.logo ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={projekt.logo} alt={`Logo ${projekt.nazov}`} className={styles.panelLogo} />
-        ) : (
+        {!logoVKolazi && (
           <>
-            <span className={styles.logoSlot} aria-hidden>+ logo (svg)</span>
-            <span className={styles.panelName}>{projekt.nazov}</span>
+            {projekt.logo ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={projekt.logo} alt={`Logo ${projekt.nazov}`} className={styles.panelLogo} />
+            ) : (
+              <>
+                <span className={styles.logoSlot} aria-hidden>+ logo (svg)</span>
+                <span className={styles.panelName}>{projekt.nazov}</span>
+              </>
+            )}
+            <span className={styles.panelMeta}>{projekt.popis}</span>
           </>
-        ))}
-        <span className={styles.panelMeta}>{projekt.popis}</span>
+        )}
       </div>
 
       {(() => {
