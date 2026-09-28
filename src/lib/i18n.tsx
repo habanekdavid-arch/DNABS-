@@ -47,7 +47,7 @@ const dict = {
   faq_kicker: { sk: "FAQ", en: "FAQ" },
   faq_title: { sk: "Časté otázky", en: "Frequently asked questions" },
   faq_count_label: { sk: "otázok, na ktoré sa pýtajú najčastejšie", en: "questions we get asked the most" },
-  how_kicker: { sk: "(01) — Ako to funguje", en: "(01) — How it works" },
+  how_kicker: { sk: "[ FIG.02 — AKO TO FUNGUJE ]", en: "[ FIG.02 — HOW IT WORKS ]" },
   how_title: { sk: "Ako to funguje", en: "How it works" },
   how_intro: {
     sk: "Od formulára po hotový web — štyri kroky a žiadne prekvapenia. Platíš až vtedy, keď vieš, čo dostaneš.",

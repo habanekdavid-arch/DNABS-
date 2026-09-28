@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import type { ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useLanguage, type DictKey } from "@/lib/i18n";
 import Reveal from "./Reveal";
 import styles from "./HowItWorks.module.css";
@@ -63,101 +63,102 @@ const STEPS: {
   titleKey: DictKey;
   descKey: DictKey;
   noteKey: DictKey;
-  /** Značková farba — číslo, ukazovateľ, štítok, závoj. */
+  /** Značková farba kroku. Musí byť čitateľná na svetlom pozadí. */
   color: string;
-  /** Výplň dlaždice s ikonou; tmavší odtieň, nech je biela ikona vidieť. */
-  tile: string;
-  /** Text na štítku vo výraznej farbe. */
-  ink: string;
   icon: ReactNode;
 }[] = [
-  {
-    titleKey: "how1_t",
-    descKey: "how1_d",
-    noteKey: "how1_note",
-    color: "var(--accent)",
-    tile: "#e64f00",
-    ink: "#0a0a0a",
-    icon: <FormIcon />,
-  },
-  {
-    titleKey: "how2_t",
-    descKey: "how2_d",
-    noteKey: "how2_note",
-    color: "var(--purple)",
-    tile: "#6637ed",
-    ink: "#fff",
-    icon: <MailIcon />,
-  },
-  {
-    titleKey: "how3_t",
-    descKey: "how3_d",
-    noteKey: "how3_note",
-    color: "var(--cyan)",
-    tile: "#0090a8",
-    ink: "#0a0a0a",
-    icon: <TalkIcon />,
-  },
-  {
-    titleKey: "how4_t",
-    descKey: "how4_d",
-    noteKey: "how4_note",
-    color: "var(--green)",
-    tile: "#12a03f",
-    ink: "#0a0a0a",
-    icon: <PayIcon />,
-  },
+  { titleKey: "how1_t", descKey: "how1_d", noteKey: "how1_note", color: "#E24A08", icon: <FormIcon /> },
+  { titleKey: "how2_t", descKey: "how2_d", noteKey: "how2_note", color: "#563387", icon: <MailIcon /> },
+  { titleKey: "how3_t", descKey: "how3_d", noteKey: "how3_note", color: "#1E6FA8", icon: <TalkIcon /> },
+  { titleKey: "how4_t", descKey: "how4_d", noteKey: "how4_note", color: "#12A03F", icon: <PayIcon /> },
 ];
 
 export default function HowItWorks() {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
+
+  /* Ukazovatele sa naplnia až keď sa na sekciu doscrolluje — rovnako
+     ako grafy v sekcii s výsledkami. */
+  const ref = useRef<HTMLDivElement>(null);
+  const [nabehnute, setNabehnute] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || !("IntersectionObserver" in window)) {
+      setNabehnute(true);
+      return;
+    }
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) {
+          setNabehnute(true);
+          io.disconnect();
+        }
+      },
+      { threshold: 0.2 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  const krok = lang === "en" ? "STEP" : "KROK";
 
   return (
     <section id="ako-to-funguje" className={styles.section}>
-      <Reveal className={styles.head}>
-        <div>
-          <div className={styles.kicker}>{t("how_kicker")}</div>
-          <h2 className={styles.title} data-fx>{t("how_title")}</h2>
-        </div>
-        <p className={styles.intro}>{t("how_intro")}</p>
-      </Reveal>
+      <div className={styles.inner}>
+        <Reveal className={styles.head}>
+          <div>
+            <div className={styles.label}>{t("how_kicker")}</div>
+            <h2 className={styles.title} data-fx>{t("how_title")}</h2>
+          </div>
+          <p className={styles.sub}>{t("how_intro")}</p>
+        </Reveal>
 
-      <div className={styles.steps}>
-        {STEPS.map((step, i) => (
-          <Reveal
-            key={step.titleKey}
-            as="article"
-            className={styles.step}
-            style={
-              {
-                transitionDelay: `${i * 90}ms`,
-                "--c": step.color,
-                "--tile": step.tile,
-                "--ink": step.ink,
-              } as React.CSSProperties
-            }
-          >
-            <div className={styles.stepTop}>
+        <div ref={ref} className={`${styles.grid} ${nabehnute ? styles.on : ""}`}>
+          {/* Schematická linka, na ktorej kroky sedia. */}
+          <span className={styles.rail} aria-hidden />
+
+          {STEPS.map((step, i) => (
+            <Reveal
+              key={step.titleKey}
+              as="article"
+              className={styles.tile}
+              style={
+                {
+                  transitionDelay: `${i * 90}ms`,
+                  "--c": step.color,
+                  "--p": `${((i + 1) / STEPS.length) * 100}%`,
+                  "--d": `${300 + i * 140}ms`,
+                } as React.CSSProperties
+              }
+            >
+              <span className={styles.uzol} aria-hidden />
+
+              <div className={styles.tileHead}>
+                <span>
+                  {krok} {String(i + 1).padStart(2, "0")}
+                  <span className={styles.zo}> / {String(STEPS.length).padStart(2, "0")}</span>
+                </span>
+                <span className={styles.delta}>{t(step.noteKey)}</span>
+              </div>
+
               <span className={styles.icon}>{step.icon}</span>
-              <span className={styles.num}>{String(i + 1).padStart(2, "0")}</span>
-            </div>
 
-            <span className={styles.track}>
-              <span className={styles.fill} />
-            </span>
+              <h3 className={styles.stepTitle}>{t(step.titleKey)}</h3>
+              <p className={styles.stepDesc}>{t(step.descKey)}</p>
 
-            <h3 className={styles.stepTitle}>{t(step.titleKey)}</h3>
-            <p className={styles.stepDesc}>{t(step.descKey)}</p>
-            <span className={styles.note}>{t(step.noteKey)}</span>
-          </Reveal>
-        ))}
+              <span className={styles.track} aria-hidden>
+                <span className={styles.fill} />
+              </span>
+            </Reveal>
+          ))}
+        </div>
+
+        <Reveal className={styles.ctaWrap}>
+          <Link href="/#kontakt" className={styles.cta} data-cursor="cta" data-fx>
+            {t("how_cta")}
+          </Link>
+        </Reveal>
       </div>
-
-      <Reveal className={styles.ctaWrap}>
-        <Link href="/#kontakt" className={styles.cta} data-cursor="cta" data-fx>
-          {t("how_cta")}
-        </Link>
-      </Reveal>
     </section>
   );
 }
