@@ -141,6 +141,33 @@ export const PROJEKTY: Projekt[] = [
     ],
   },
   {
+    slug: "rozsvietto",
+    nazov: "ROZSVIEŤTO",
+    farba: "#FFAE00",               // žltá z loga
+    href: "https://www.rozsvietto.sk",
+    // Klik na notebook vedie rovno na živý web klienta.
+    klikNa: "https://www.rozsvietto.sk",
+    logo: "/realizacie/rozsvietto-logo.svg",
+    popis: "2026 — Web",
+    tagline: "Konfigurátor svetelných nápisov — v 3D náhľade hneď vidíte, ako bude text vyzerať na stene.",
+    text: [],                       // TODO: odstavce na stránku projektu
+    sluzby: [],                     // TODO: čo sme pre klienta spravili
+    ukazky: [],                     // TODO: obrázky do galérie
+    karty: [
+      // Logo levituje mimo žltej plochy — panel začína až na x = 320.
+      { typ: "logo", x: 42, y: 84, w: 220, h: 59, z: 140, rot: -2, src: "/realizacie/rozsvietto-logo.svg", alt: "Logo ROZSVIEŤTO" },
+      { typ: "notebook", x: 20, y: 165, z: 90, rot: -3, screenshot: "/realizacie/rozsvietto-web.png", alt: "Web ROZSVIEŤTO — 3D konfigurátor svetelných nápisov" },
+      // miesto 1 — v pomere 4:3, lezi na zltom paneli
+      { typ: "obrazok", x: 600, y: 55, w: 320, h: 240, z: 150, rot: 3, src: "/realizacie/rozsvietto-1.png", alt: "ROZSVIEŤTO — ako to funguje" },
+      // miesto 2 — vysoke (250x300)
+      { typ: "obrazok", x: 735, y: 330, w: 250, h: 300, z: 120, rot: -2, src: "/realizacie/rozsvietto-2.png", alt: "ROZSVIEŤTO — konfigurátor na mobile" },
+      // miesto 3 — male (215x150)
+      { typ: "obrazok", x: 410, y: 470, w: 215, h: 150, z: 100, rot: 2, src: "/realizacie/rozsvietto-3.png", alt: "ROZSVIEŤTO — blog" },
+      { typ: "stitok", x: 430, y: 118, z: 150, rot: -2, text: "Nový web" },
+      { typ: "stitok", x: 455, y: 385, z: 150, rot: 3, text: "3D konfigurátor" },
+    ],
+  },
+  {
     slug: "mnam",
     nazov: "MŇAM",
     farba: "#404EE6",              // TODO: firemná farba klienta
