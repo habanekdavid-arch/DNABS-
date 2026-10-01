@@ -34,10 +34,10 @@ const POLICKA = [
     tvar: 1,
     farba: "#00C6DE",
     label: { sk: "[ APLIKÁCIE ]", en: "[ APPS ]" },
-    titul: { sk: "Menej ručnej roboty", en: "Less manual work" },
+    titul: { sk: "Rutinu prevezme aplikácia", en: "The app takes over the routine" },
     text: {
-      sk: "Kroky, ktoré dnes klikáte ručne — objednávky, rezervácie, prepisovanie do tabuliek — prevezme aplikácia.",
-      en: "The steps you click through by hand today — orders, bookings, retyping into spreadsheets — get taken over by an app.",
+      sk: "Objednávky, rezervácie aj prepisovanie údajov do tabuliek zvládne systém sám. Váš čas tak ostane na zákazníkov.",
+      en: "Orders, bookings and copying data into spreadsheets are handled by the system itself, so your time stays with customers.",
     },
     zoznam: {
       sk: ["Objednávky a rezervácie", "Napojenie na vaše nástroje", "Interné postupy na jedno miesto"],
