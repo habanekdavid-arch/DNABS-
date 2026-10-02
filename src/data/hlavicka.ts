@@ -242,25 +242,28 @@ export const PROJEKTY: Projekt[] = [
   {
     slug: "nicepoke",
     nazov: "NICEPOKE",
-    farba: "#0E7C66",              // TODO: firemná farba klienta
-    href: "",                       // TODO: adresa živého webu
-    klikNa: "",                     // TODO: kam vedie klik na notebook (prázdne = stránka projektu)
-    logo: "",                       // TODO: /realizacie/nicepoke-logo.svg
-    popis: "2026 — Web",            // TODO
-    tagline: "",                    // TODO: jedna veta o projekte
+    farba: "#FFB921",               // žltá z loga
+    href: "https://claude.ai/artifact/N82DWdTDuJ1YJu3q9ajdLc",
+    // Prezentačná stránka projektu — klik na notebook ide rovno sem.
+    klikNa: "https://claude.ai/artifact/N82DWdTDuJ1YJu3q9ajdLc",
+    logo: "/realizacie/nicepoke-logo.svg",
+    popis: "2026 — Branding a web",
+    tagline: "Poke bowly na mieru — značka, prevádzka aj web s objednávaním.",
     text: [],                       // TODO: odstavce na stránku projektu
-    sluzby: [],                     // TODO: čo ste pre klienta spravili
+    sluzby: [],                     // TODO: čo sme pre klienta spravili
     ukazky: [],                     // TODO: obrázky do galérie
     karty: [
-      { typ: "notebook", x: 20, y: 165, z: 90, rot: -3, screenshot: "/realizacie/nicepoke-web.png", alt: "Web NICEPOKE" },
-      // miesto 1 — siroke (320×205), lezi na farebnom paneli
-      { typ: "obrazok", x: 600, y: 55, w: 320, h: 205, z: 150, rot: 3, src: "/realizacie/nicepoke-1.png", alt: "NICEPOKE — ukážka 1" },
-      // miesto 2 — vysoke (250×330)
-      { typ: "obrazok", x: 735, y: 300, w: 250, h: 330, z: 120, rot: -2, src: "/realizacie/nicepoke-2.png", alt: "NICEPOKE — ukážka 2" },
-      // miesto 3 — male (215×150)
-      { typ: "obrazok", x: 410, y: 470, w: 215, h: 150, z: 100, rot: 2, src: "/realizacie/nicepoke-3.png", alt: "NICEPOKE — ukážka 3" },
+      // Logo levituje mimo žltej plochy — panel začína až na x = 320.
+      { typ: "logo", x: 42, y: 84, w: 215, h: 67, z: 140, rot: -2, src: "/realizacie/nicepoke-logo.svg", alt: "Logo NICEPOKE" },
+      { typ: "notebook", x: 20, y: 165, z: 90, rot: -3, screenshot: "/realizacie/nicepoke-web.jpg", alt: "Web NICEPOKE — objednávanie poke bowlov" },
+      // miesto 1 — v pomere 4:3, lezi na zltom paneli
+      { typ: "obrazok", x: 600, y: 55, w: 320, h: 240, z: 150, rot: 3, src: "/realizacie/nicepoke-1.jpg", alt: "NICEPOKE — stojan a menu v prevádzke" },
+      // miesto 2 — vysoke (250x300)
+      { typ: "obrazok", x: 735, y: 330, w: 250, h: 300, z: 120, rot: -2, src: "/realizacie/nicepoke-2.jpg", alt: "NICEPOKE — firemné oblečenie" },
+      // miesto 3 — male (215x150)
+      { typ: "obrazok", x: 410, y: 470, w: 215, h: 150, z: 100, rot: 2, src: "/realizacie/nicepoke-3.jpg", alt: "NICEPOKE — výklad prevádzky" },
       { typ: "stitok", x: 430, y: 118, z: 150, rot: -2, text: "Nový web" },
-      { typ: "stitok", x: 455, y: 385, z: 150, rot: 3, text: "Foto produktov" },
+      { typ: "stitok", x: 455, y: 385, z: 150, rot: 3, text: "Identita a prevádzka" },
     ],
   },
   {

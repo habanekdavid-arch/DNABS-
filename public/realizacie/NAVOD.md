@@ -30,6 +30,10 @@ Projekt **VYTLAČTO 3D** má miesto 1 v pomere **4:3** (nie 640 × 410):
 |---|---|---|
 | `vytlacto-3d-1.png` | miesto 1 — pomer 4:3, hore vpravo | 1440 × 1080 |
 
+Fotky (nie screenshoty rozhrania) ukladajte ako **.jpg** — ako PNG majú
+aj desaťnásobok veľkosti. V `hlavicka.ts` sa potom uvedie prípona `.jpg`,
+tak ako pri projekte NICEPOKE.
+
 Rozmery sú **dvojnásobok** toho, čo sa zobrazí — aby to bolo ostré na
 retina displejoch. Keď má fotka iný pomer strán, nič sa nepokazí —
 orežeme ju cez `object-fit: cover`, ale ideálne je držať sa tabuľky.
