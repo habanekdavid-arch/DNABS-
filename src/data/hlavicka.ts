@@ -257,11 +257,11 @@ export const PROJEKTY: Projekt[] = [
       { typ: "logo", x: 42, y: 84, w: 215, h: 67, z: 140, rot: -2, src: "/realizacie/nicepoke-logo.svg", alt: "Logo NICEPOKE" },
       { typ: "notebook", x: 20, y: 165, z: 90, rot: -3, screenshot: "/realizacie/nicepoke-web.jpg", alt: "Web NICEPOKE — objednávanie poke bowlov" },
       // miesto 1 — v pomere 4:3, lezi na zltom paneli
-      { typ: "obrazok", x: 600, y: 55, w: 320, h: 240, z: 150, rot: 3, src: "/realizacie/nicepoke-1.jpg", alt: "NICEPOKE — stojan a menu v prevádzke" },
+      { typ: "obrazok", x: 600, y: 55, w: 320, h: 240, z: 150, rot: 3, src: "/realizacie/nicepoke-1.jpg", alt: "NICEPOKE — interiér prevádzky" },
       // miesto 2 — vysoke (250x300)
-      { typ: "obrazok", x: 735, y: 330, w: 250, h: 300, z: 120, rot: -2, src: "/realizacie/nicepoke-2.jpg", alt: "NICEPOKE — firemné oblečenie" },
+      { typ: "obrazok", x: 735, y: 330, w: 250, h: 300, z: 120, rot: -2, src: "/realizacie/nicepoke-2.jpg", alt: "NICEPOKE — miska so značkou" },
       // miesto 3 — male (215x150)
-      { typ: "obrazok", x: 410, y: 470, w: 215, h: 150, z: 100, rot: 2, src: "/realizacie/nicepoke-3.jpg", alt: "NICEPOKE — výklad prevádzky" },
+      { typ: "obrazok", x: 410, y: 470, w: 215, h: 150, z: 100, rot: 2, src: "/realizacie/nicepoke-3.jpg", alt: "NICEPOKE — nočný pútač" },
       { typ: "stitok", x: 430, y: 118, z: 150, rot: -2, text: "Nový web" },
       { typ: "stitok", x: 455, y: 385, z: 150, rot: 3, text: "Identita a prevádzka" },
     ],
