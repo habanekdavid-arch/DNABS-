@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { LanguageProvider } from "@/lib/i18n";
 import TopNav from "@/components/hero/TopNav";
 import HeroTop from "@/components/hero/HeroTop";
@@ -12,6 +13,13 @@ import PruhKonzultacia from "@/components/PruhKonzultacia";
 import HomeFaq from "@/components/HomeFaq";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
+
+/* Kanonická adresa je tu naschvál po stránkach a nie v layoute:
+   v layoute by ju zdedili všetky podstránky a každá by na seba
+   hlásila úvodnú stránku. */
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 export default function Home() {
   return (

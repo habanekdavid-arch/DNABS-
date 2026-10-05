@@ -23,6 +23,7 @@ export async function generateMetadata({
   return {
     title: niche.seo.title.sk,
     description: niche.seo.description.sk,
+    alternates: { canonical: `/weby-pre/${niche.slug}` },
   };
 }
 

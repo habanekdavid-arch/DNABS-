@@ -66,20 +66,74 @@ const allura = Allura({
   weight: ["400"],
 });
 
-const LOCAL_BUSINESS_JSON_LD = {
+/* Jedna adresa na jednom mieste — používa ju metadata aj štruktúrované dáta. */
+const WEB = "https://dnabs.online";
+
+/**
+ * Štruktúrované dáta pre Google. Je to jeden @graph, nie tri samostatné
+ * skripty, aby sa dali uzly navzájom poprepájať cez @id — Google tak vie,
+ * že Organization, WebSite aj LocalBusiness opisujú tú istú firmu.
+ *
+ * Pre značkový dopyt („dnabs") je dôležitý najmä uzol Organization: z neho
+ * Google berie názov, logo a odkazy na profily (sameAs) do bočného panela.
+ */
+const JSON_LD = {
   "@context": "https://schema.org",
-  "@type": "LocalBusiness",
-  name: "DNABS",
-  url: "https://dnabs.online",
-  email: "contact.dnabs@gmail.com",
-  telephone: "+421949390797",
-  foundingDate: "2026",
-  address: {
-    "@type": "PostalAddress",
-    addressLocality: "Bratislava",
-    addressCountry: "SK",
-  },
-  sameAs: ["https://www.instagram.com/dnabs.sk/"],
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": `${WEB}/#organizacia`,
+      name: "DNABS",
+      /* Variácie, ktoré ľudia reálne píšu do hľadania. */
+      alternateName: ["DNABS digitálne štúdio", "DNABS štúdio", "dnabs.online"],
+      url: `${WEB}/`,
+      /* Naschvál PNG a nie logo.svg: Google pre logo v štruktúrovaných
+         dátach prijíma len .jpg, .png a .gif — SVG ignoruje. Súbor je
+         vyrenderovaný z logo.svg, takže sa obe verzie zhodujú. */
+      logo: {
+        "@type": "ImageObject",
+        "@id": `${WEB}/#logo`,
+        url: `${WEB}/logo.png`,
+        contentUrl: `${WEB}/logo.png`,
+        width: 1200,
+        height: 575,
+        caption: "DNABS",
+      },
+      image: { "@id": `${WEB}/#logo` },
+      email: "contact.dnabs@gmail.com",
+      telephone: "+421949390797",
+      foundingDate: "2026",
+      areaServed: { "@type": "Country", name: "Slovensko" },
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "Bratislava",
+        addressCountry: "SK",
+      },
+      sameAs: ["https://www.instagram.com/dnabs.sk/"],
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${WEB}/#web`,
+      url: `${WEB}/`,
+      name: "DNABS",
+      inLanguage: "sk-SK",
+      publisher: { "@id": `${WEB}/#organizacia` },
+    },
+    {
+      "@type": "LocalBusiness",
+      "@id": `${WEB}/#prevadzka`,
+      name: "DNABS",
+      url: `${WEB}/`,
+      email: "contact.dnabs@gmail.com",
+      telephone: "+421949390797",
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "Bratislava",
+        addressCountry: "SK",
+      },
+      parentOrganization: { "@id": `${WEB}/#organizacia` },
+    },
+  ],
 };
 
 /**
@@ -91,21 +145,54 @@ const LOCAL_BUSINESS_JSON_LD = {
 const GA4_ID = process.env.NEXT_PUBLIC_GA4_ID ?? "G-WPM8C948S2";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://dnabs.online"),
+  metadataBase: new URL(WEB),
   title: {
-    default: "DNABS — Digitál, čo rastie.",
+    /* Názov značky je naschvál na začiatku — pri dopyte „dnabs" Google
+       zvýrazňuje zhodu v titulku a ten rozhoduje, či výsledok vyzerá
+       ako oficiálna stránka firmy. */
+    default: "DNABS — digitálne štúdio | weby, aplikácie a marketing",
     template: "%s | DNABS",
   },
   description:
-    "DNABS je digitálne štúdio — weby, aplikácie a digitálny marketing pre firmy, ktoré chcú zrýchliť svoje procesy.",
+    "DNABS je digitálne štúdio z Bratislavy — weby, aplikácie a digitálny marketing pre firmy, ktoré chcú zrýchliť svoje procesy. Bezplatná 30-minútová konzultácia.",
+  applicationName: "DNABS",
+  keywords: ["DNABS", "digitálne štúdio", "tvorba webov", "webové aplikácie", "digitálny marketing", "Bratislava"],
+  authors: [{ name: "DNABS", url: WEB }],
+  creator: "DNABS",
+  publisher: "DNABS",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      /* Bez tohto Google v značkovom výsledku ukáže len drobný náhľad
+         alebo žiadny — veľký náhľad a dlhší popis treba povoliť. */
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+  /* Token zo Search Console. Súbor /googledd910b1d2f6ab20f.html už v public/
+     je; meta značka je druhý, nezávislý dôkaz vlastníctva — stačí doplniť
+     NEXT_PUBLIC_GOOGLE_VERIFICATION a nič v kóde sa nemení. */
+  verification: process.env.NEXT_PUBLIC_GOOGLE_VERIFICATION
+    ? { google: process.env.NEXT_PUBLIC_GOOGLE_VERIFICATION }
+    : undefined,
   openGraph: {
-    title: "DNABS — Digitál, čo rastie.",
+    title: "DNABS — digitálne štúdio",
     description:
       "Bezplatná 30-minútová konzultácia. Weby, aplikácie a digitálny marketing pre firmy, ktoré chcú zrýchliť svoje procesy.",
-    url: "https://dnabs.online",
+    url: `${WEB}/`,
     siteName: "DNABS",
     locale: "sk_SK",
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "DNABS — digitálne štúdio",
+    description:
+      "Weby, aplikácie a digitálny marketing. Bezplatná 30-minútová konzultácia.",
   },
 };
 
@@ -122,7 +209,7 @@ export default function RootLayout({
       <head>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(LOCAL_BUSINESS_JSON_LD) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}
         />
         <script
           dangerouslySetInnerHTML={{
