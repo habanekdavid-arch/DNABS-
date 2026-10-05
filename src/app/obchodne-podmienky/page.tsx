@@ -5,6 +5,7 @@ import LegalLayout from "@/components/LegalLayout";
 export const metadata: Metadata = {
   title: "Obchodné podmienky",
   description: "Všeobecné obchodné podmienky DNABS pre objednávky webov, aplikácií a digitálneho marketingu.",
+  alternates: { canonical: "/obchodne-podmienky" },
 };
 
 export default function ObchodnePodmienkyPage() {

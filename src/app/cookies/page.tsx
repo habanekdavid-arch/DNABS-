@@ -6,6 +6,7 @@ import CookieSettingsButton from "@/components/CookieSettingsButton";
 export const metadata: Metadata = {
   title: "Cookies a ochrana osobných údajov",
   description: "Aké súbory cookie web dnabs.online používa a ako spracúvame osobné údaje.",
+  alternates: { canonical: "/cookies" },
 };
 
 export default function CookiesPage() {
