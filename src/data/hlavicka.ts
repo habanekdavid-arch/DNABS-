@@ -95,9 +95,13 @@ export type Projekt = {
   /** Ukážky na stránke projektu. Sem pribúdajú nahraté obrázky. */
   ukazky: UkazkaProjektu[];
   karty: KartaKolaze[];
+  /** Kým projekt nie je doplnený, nastavte true — nezobrazí sa v koláži,
+   *  jeho stránka /realizacie/<slug> neexistuje a nie je ani v sitemape.
+   *  Keď sú obrázky a texty hotové, riadok stačí zmazať. */
+  skryty?: boolean;
 };
 
-export const PROJEKTY: Projekt[] = [
+const VSETKY_PROJEKTY: Projekt[] = [
   {
     slug: "clever",
     nazov: "CLEVER",
@@ -169,6 +173,7 @@ export const PROJEKTY: Projekt[] = [
   },
   {
     slug: "mnam",
+    skryty: true,                   // nedoplnený — zatiaľ skrytý
     nazov: "MŇAM",
     farba: "#404EE6",              // TODO: firemná farba klienta
     href: "",                       // TODO: adresa živého webu
@@ -193,6 +198,7 @@ export const PROJEKTY: Projekt[] = [
   },
   {
     slug: "happyhour",
+    skryty: true,                   // nedoplnený — zatiaľ skrytý
     nazov: "HAPPYHOUR",
     farba: "#FF5A1F",              // TODO: firemná farba klienta
     href: "",                       // TODO: adresa živého webu
@@ -217,6 +223,7 @@ export const PROJEKTY: Projekt[] = [
   },
   {
     slug: "omrvinka",
+    skryty: true,                   // nedoplnený — zatiaľ skrytý
     nazov: "OMRVINKA",
     farba: "#C2410C",              // TODO: firemná farba klienta
     href: "",                       // TODO: adresa živého webu
@@ -323,6 +330,9 @@ export const PROJEKTY: Projekt[] = [
     ],
   },
 ];
+
+/** Projekty, ktoré sa naozaj zobrazujú — bez skrytých. */
+export const PROJEKTY: Projekt[] = VSETKY_PROJEKTY.filter((p) => !p.skryty);
 
 /** Po koľkých milisekundách sa koláž prepne sama. 0 = neprepínať. */
 export const AUTO_PREPNUTIE_MS = 6500;

@@ -122,6 +122,10 @@ V `src/data/hlavicka.ts` má každý projekt polia označené `// TODO`:
 | `text` | odstavce na stránku projektu |
 | `sluzby` | čo ste pre klienta spravili |
 
+Kým projekt nie je doplnený, má v `hlavicka.ts` riadok `skryty: true` —
+nezobrazí sa v koláži ani na vlastnej stránke. Keď je hotový, riadok
+zmažte a projekt sa objaví.
+
 ---
 
 ## 6 · Ako to dostanete na web
