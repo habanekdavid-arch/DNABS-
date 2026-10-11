@@ -321,6 +321,33 @@ const VSETKY_PROJEKTY: Projekt[] = [
     ],
   },
   {
+    slug: "kafi",
+    nazov: "KAFÍ",
+    farba: "#E31E24",               // červená z loga
+    href: "https://claude.ai/artifact/F2Tn3kAzrG96m79Kno9ADA",
+    // Prezentačná stránka projektu — klik na notebook ide rovno sem.
+    klikNa: "https://claude.ai/artifact/F2Tn3kAzrG96m79Kno9ADA",
+    logo: "/realizacie/kafi-logo.svg",
+    popis: "2026 — Web",
+    tagline: "Pet friendly kaviareň — výberová káva pre ľudí, miska vody a pelech pre psov aj mačky.",
+    text: [],                       // TODO: odstavce na stránku projektu
+    sluzby: [],                     // TODO: čo sme pre klienta spravili
+    ukazky: [],                     // TODO: obrázky do galérie
+    karty: [
+      // Logo levituje mimo červenej plochy — panel začína až na x = 320.
+      { typ: "logo", x: 42, y: 72, w: 170, h: 85, z: 140, rot: -2, src: "/realizacie/kafi-logo.svg", alt: "Logo KAFÍ" },
+      { typ: "notebook", x: 20, y: 165, z: 90, rot: -3, screenshot: "/realizacie/kafi-web.jpg", alt: "Web KAFÍ — pet friendly kaviareň" },
+      // miesto 1 — siroke (320×205), lezi na farebnom paneli
+      { typ: "obrazok", x: 600, y: 55, w: 320, h: 205, z: 150, rot: 3, src: "/realizacie/kafi-1.jpg", alt: "KAFÍ — mačka na pohovke a šálka s logom" },
+      // miesto 2 — vysoke (250×330)
+      { typ: "obrazok", x: 735, y: 300, w: 250, h: 330, z: 120, rot: -2, src: "/realizacie/kafi-2.jpg", alt: "KAFÍ — zlatý retriever v kaviarni" },
+      // miesto 3 — male (215×150)
+      { typ: "obrazok", x: 410, y: 470, w: 215, h: 150, z: 100, rot: 2, src: "/realizacie/kafi-3.jpg", alt: "KAFÍ — kapučíno a mandľový croissant" },
+      { typ: "stitok", x: 430, y: 118, z: 150, rot: -2, text: { sk: "Nový web", cs: "Nový web", en: "New website", hu: "Új weboldal", de: "Neue Website" } },
+      { typ: "stitok", x: 455, y: 385, z: 150, rot: 3, text: { sk: "Menu a rezervácie", cs: "Menu a rezervace", en: "Menu and bookings", hu: "Étlap és foglalás", de: "Menü und Reservierung" } },
+    ],
+  },
+  {
     slug: "vytlacto-3d",
     nazov: "VYTLAČTO 3D",
     farba: "#FFAE00",               // žltá z loga

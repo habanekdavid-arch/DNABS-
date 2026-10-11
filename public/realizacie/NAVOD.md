@@ -39,7 +39,7 @@ retina displejoch. Keď má fotka iný pomer strán, nič sa nepokazí —
 orežeme ju cez `object-fit: cover`, ale ideálne je držať sa tabuľky.
 
 Názvy projektov (`<projekt>`):
-`clever` · `mnam` · `happyhour` · `omrvinka` · `nicepoke` · `risebloom` · `vytlacto-3d`
+`clever` · `mnam` · `happyhour` · `omrvinka` · `nicepoke` · `risebloom` · `kafi` · `vytlacto-3d`
 
 Príklad — obrázky pre CLEVER:
 
