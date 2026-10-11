@@ -1,12 +1,15 @@
 "use client";
 
 import { HERO } from "@/data/hlavicka";
+import { useLanguage } from "@/lib/i18n";
 import AmbientBlobs from "../AmbientBlobs";
 import Collage from "./Collage";
 import MagnetickeTlacidlo from "./MagnetickeTlacidlo";
 import styles from "./HeroTop.module.css";
 
 export default function HeroTop() {
+  const { lang } = useLanguage();
+
   return (
     <section className={styles.hero} id="uvod">
       <AmbientBlobs />
@@ -15,7 +18,7 @@ export default function HeroTop() {
         <div className={styles.left}>
           {/* data-fx = z nadpisu vyletujú tvary, data-fx-idle = aj samo od seba */}
           <h1 className={styles.h1} data-fx data-fx-idle>
-            {HERO.nadpis.map((riadok) => (
+            {HERO.nadpis[lang].map((riadok) => (
               <span key={riadok} className={styles.h1Riadok}>{riadok}</span>
             ))}
           </h1>
@@ -23,7 +26,7 @@ export default function HeroTop() {
           <hr className={styles.divider} />
 
           <div className={styles.actions}>
-            <MagnetickeTlacidlo href={HERO.tlacidlo.href} label={HERO.tlacidlo.label} />
+            <MagnetickeTlacidlo href={HERO.tlacidlo.href} label={HERO.tlacidlo.label[lang]} />
           </div>
         </div>
 

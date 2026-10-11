@@ -2,9 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { getStoredConsent, storeConsent } from "@/lib/cookieConsent";
+import { useLanguage } from "@/lib/i18n";
 import styles from "./CookieConsent.module.css";
 
 export default function CookieConsent() {
+  const { t } = useLanguage();
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -26,11 +28,10 @@ export default function CookieConsent() {
   if (!visible) return null;
 
   return (
-    <div className={styles.banner} role="dialog" aria-label="Súhlas s cookies">
+    <div className={styles.banner} role="dialog" aria-label={t("cookie_label")}>
       <p className={styles.text}>
-        Používame nevyhnutné cookies na fungovanie webu a s tvojím súhlasom aj marketingové
-        cookies (Google Ads) na meranie úspešnosti kampaní. Viac v{" "}
-        <a href="/cookies">zásadách používania cookies</a>.
+        {t("cookie_text")}{" "}
+        <a href="/cookies">{t("cookie_link")}</a>.
       </p>
       <div className={styles.actions}>
         <button
@@ -41,7 +42,7 @@ export default function CookieConsent() {
             setVisible(false);
           }}
         >
-          Prijať všetko
+          {t("cookie_accept")}
         </button>
         <button
           type="button"
@@ -51,7 +52,7 @@ export default function CookieConsent() {
             setVisible(false);
           }}
         >
-          Len nevyhnutné
+          {t("cookie_decline")}
         </button>
       </div>
     </div>

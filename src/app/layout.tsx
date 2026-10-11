@@ -10,6 +10,7 @@ import {
   Geist_Mono,
 } from "next/font/google";
 import CookieConsent from "@/components/CookieConsent";
+import { LanguageProvider } from "@/lib/i18n";
 import Cursor from "@/components/Cursor";
 import SmoothAnchors from "@/components/SmoothAnchors";
 import ShapeBurst from "@/components/ShapeBurst";
@@ -231,8 +232,12 @@ export default function RootLayout({
         <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18360461587"></script>
       </head>
       <body>
-        {children}
-        <CookieConsent />
+        {/* Jazyk je spoločný pre celý web — prepínač na jednej stránke
+            platí aj na ostatných aj v cookie lište. */}
+        <LanguageProvider>
+          {children}
+          <CookieConsent />
+        </LanguageProvider>
         <Cursor />
         <SmoothAnchors />
         <ShapeBurst />

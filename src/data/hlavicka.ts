@@ -10,21 +10,29 @@
    názvom a v tomto súbore netreba meniť nič.
    ══════════════════════════════════════════════════════════════════════ */
 
+import type { Lang, Preklad } from "@/lib/jazyky";
+
 /* ── NAVIGÁCIA ──────────────────────────────────────────────────────────
    Odkazy musia sedieť so sekciami, ktoré na stránke naozaj sú.
    Aktuálne existujú: #sluzby #ako-to-funguje #realizacia #spolupraca
    #navrh #referencie #faq #kontakt
    Plus samostatná stránka /o-nas.
+
+   Každý nápis je vo všetkých jazykoch webu (sk, cs, en, hu, de) — keď
+   niektorý chýba, TypeScript zahlási chybu.
    ─────────────────────────────────────────────────────────────────────── */
 
-export const NAV_LINKS = [
-  { label: "Služby", href: "#sluzby" },
-  { label: "Ako to funguje", href: "#ako-to-funguje" },
-  { label: "Realizácie", href: "#realizacia" },
-  { label: "O nás", href: "/o-nas" },
-] as const;
+export const NAV_LINKS: { label: Preklad; href: string }[] = [
+  { label: { sk: "Služby", cs: "Služby", en: "Services", hu: "Szolgáltatások", de: "Leistungen" }, href: "#sluzby" },
+  { label: { sk: "Ako to funguje", cs: "Jak to funguje", en: "How it works", hu: "Hogyan működik", de: "So funktioniert's" }, href: "#ako-to-funguje" },
+  { label: { sk: "Realizácie", cs: "Realizace", en: "Our work", hu: "Munkáink", de: "Projekte" }, href: "#realizacia" },
+  { label: { sk: "O nás", cs: "O nás", en: "About", hu: "Rólunk", de: "Über uns" }, href: "/o-nas" },
+];
 
-export const NAV_CTA = { label: "Začať projekt", href: "#kontakt" };
+export const NAV_CTA: { label: Preklad; href: string } = {
+  label: { sk: "Začať projekt", cs: "Začít projekt", en: "Start a project", hu: "Projekt indítása", de: "Projekt starten" },
+  href: "#kontakt",
+};
 
 /** Logo v navigácii. Nahrajte SVG do public/ a cestu zadajte sem.
  *  Kým je prázdne, zobrazí sa nápis DNABS. */
@@ -32,13 +40,23 @@ export const NAV_LOGO = "/logo.svg";
 
 /* ── HERO ───────────────────────────────────────────────────────────── */
 
-export const HERO = {
+export const HERO: { nadpis: Record<Lang, string[]>; tlacidlo: { label: Preklad; href: string } } = {
   /** Každý riadok zvlášť — tu sa rozhoduje, kde sa nadpis zalomí.
-   *  Vypisuje sa veľkými písmenami vo fialovej z loga, aj keď sú tu malé. */
-  nadpis: ["Spolu tvoríme veci,", "ktoré majú hodnotu."],
+   *  Vypisuje sa veľkými písmenami vo fialovej z loga, aj keď sú tu malé.
+   *  Riadok držte do ~19 znakov, inak sa na notebooku zalomí na tri. */
+  nadpis: {
+    sk: ["Spolu tvoríme veci,", "ktoré majú hodnotu."],
+    cs: ["Spolu tvoříme věci,", "které mají hodnotu."],
+    en: ["We build things", "that have value."],
+    hu: ["Együtt alkotunk", "értékes dolgokat."],
+    de: ["Wir schaffen Dinge,", "die Wert haben."],
+  },
   /** Jediné tlačidlo pod nadpisom — vedie na kontaktný formulár.
    *  Vypisuje sa veľkými písmenami, aj keď sú tu malé. */
-  tlacidlo: { label: "Začať projekt", href: "#kontakt" },
+  tlacidlo: {
+    label: { sk: "Začať projekt", cs: "Začít projekt", en: "Start a project", hu: "Projekt indítása", de: "Projekt starten" },
+    href: "#kontakt",
+  },
 };
 
 /* ── KOLÁŽ REALIZÁCIÍ ───────────────────────────────────────────────────
@@ -55,7 +73,7 @@ export const HERO = {
      { typ: "obrazok",  src, alt }          — fotka alebo grafika
      { typ: "video",    src, poster, alt }  — video s play tlačidlom
      { typ: "logo",     src, alt }          — logo klienta, bez rámu
-     { typ: "stitok",   text }              — sklenený štítok
+     { typ: "stitok",   text }              — sklenený štítok, text vo všetkých jazykoch
      { typ: "notebook", screenshot, alt }   — 3D notebook so screenshotom
 
    Notebook má byť v každom projekte najviac jeden.
@@ -65,7 +83,7 @@ export type KartaKolaze =
   | { typ: "obrazok"; x: number; y: number; w: number; h: number; z?: number; rot?: number; src: string; alt: string }
   | { typ: "video"; x: number; y: number; w: number; h: number; z?: number; rot?: number; src: string; poster?: string; alt: string }
   | { typ: "logo"; x: number; y: number; w: number; h: number; z?: number; rot?: number; src: string; alt: string }
-  | { typ: "stitok"; x: number; y: number; z?: number; rot?: number; text: string }
+  | { typ: "stitok"; x: number; y: number; z?: number; rot?: number; text: Preklad }
   | { typ: "notebook"; x: number; y: number; z?: number; rot?: number; screenshot: string; alt: string };
 
 /** Jedna ukážka na stránke projektu — obrázok s popisom. */
@@ -140,8 +158,8 @@ const VSETKY_PROJEKTY: Projekt[] = [
       { typ: "obrazok", x: 735, y: 300, w: 250, h: 330, z: 120, rot: -2, src: "/realizacie/clever-2.png", alt: "CLEVER — web na mobile" },
       // miesto 3 — male (215×150)
       { typ: "obrazok", x: 410, y: 470, w: 215, h: 150, z: 100, rot: 2, src: "/realizacie/clever-3.png", alt: "CLEVER — sekcia Postráži pred podvodom" },
-      { typ: "stitok", x: 430, y: 118, z: 150, rot: -2, text: "Nový web" },
-      { typ: "stitok", x: 455, y: 385, z: 150, rot: 3, text: "Identita značky" },
+      { typ: "stitok", x: 430, y: 118, z: 150, rot: -2, text: { sk: "Nový web", cs: "Nový web", en: "New website", hu: "Új weboldal", de: "Neue Website" } },
+      { typ: "stitok", x: 455, y: 385, z: 150, rot: 3, text: { sk: "Identita značky", cs: "Identita značky", en: "Brand identity", hu: "Arculat", de: "Markenidentität" } },
     ],
   },
   {
@@ -167,8 +185,8 @@ const VSETKY_PROJEKTY: Projekt[] = [
       { typ: "obrazok", x: 735, y: 330, w: 250, h: 300, z: 120, rot: -2, src: "/realizacie/rozsvietto-2.png", alt: "ROZSVIEŤTO — konfigurátor na mobile" },
       // miesto 3 — male (215x150)
       { typ: "obrazok", x: 410, y: 470, w: 215, h: 150, z: 100, rot: 2, src: "/realizacie/rozsvietto-3.png", alt: "ROZSVIEŤTO — blog" },
-      { typ: "stitok", x: 430, y: 118, z: 150, rot: -2, text: "Nový web" },
-      { typ: "stitok", x: 455, y: 385, z: 150, rot: 3, text: "3D konfigurátor" },
+      { typ: "stitok", x: 430, y: 118, z: 150, rot: -2, text: { sk: "Nový web", cs: "Nový web", en: "New website", hu: "Új weboldal", de: "Neue Website" } },
+      { typ: "stitok", x: 455, y: 385, z: 150, rot: 3, text: { sk: "3D konfigurátor", cs: "3D konfigurátor", en: "3D configurator", hu: "3D konfigurátor", de: "3D-Konfigurator" } },
     ],
   },
   {
@@ -192,8 +210,8 @@ const VSETKY_PROJEKTY: Projekt[] = [
       { typ: "obrazok", x: 735, y: 300, w: 250, h: 330, z: 120, rot: -2, src: "/realizacie/mnam-2.png", alt: "MŇAM — ukážka 2" },
       // miesto 3 — male (215×150)
       { typ: "obrazok", x: 410, y: 470, w: 215, h: 150, z: 100, rot: 2, src: "/realizacie/mnam-3.png", alt: "MŇAM — ukážka 3" },
-      { typ: "stitok", x: 430, y: 118, z: 150, rot: -2, text: "Nový web" },
-      { typ: "stitok", x: 455, y: 385, z: 150, rot: 3, text: "Foto produktov" },
+      { typ: "stitok", x: 430, y: 118, z: 150, rot: -2, text: { sk: "Nový web", cs: "Nový web", en: "New website", hu: "Új weboldal", de: "Neue Website" } },
+      { typ: "stitok", x: 455, y: 385, z: 150, rot: 3, text: { sk: "Foto produktov", cs: "Foto produktů", en: "Product photos", hu: "Termékfotók", de: "Produktfotos" } },
     ],
   },
   {
@@ -217,8 +235,8 @@ const VSETKY_PROJEKTY: Projekt[] = [
       { typ: "obrazok", x: 735, y: 300, w: 250, h: 330, z: 120, rot: -2, src: "/realizacie/happyhour-2.png", alt: "HAPPYHOUR — ukážka 2" },
       // miesto 3 — male (215×150)
       { typ: "obrazok", x: 410, y: 470, w: 215, h: 150, z: 100, rot: 2, src: "/realizacie/happyhour-3.png", alt: "HAPPYHOUR — ukážka 3" },
-      { typ: "stitok", x: 430, y: 118, z: 150, rot: -2, text: "Nový web" },
-      { typ: "stitok", x: 455, y: 385, z: 150, rot: 3, text: "Foto produktov" },
+      { typ: "stitok", x: 430, y: 118, z: 150, rot: -2, text: { sk: "Nový web", cs: "Nový web", en: "New website", hu: "Új weboldal", de: "Neue Website" } },
+      { typ: "stitok", x: 455, y: 385, z: 150, rot: 3, text: { sk: "Foto produktov", cs: "Foto produktů", en: "Product photos", hu: "Termékfotók", de: "Produktfotos" } },
     ],
   },
   {
@@ -242,8 +260,8 @@ const VSETKY_PROJEKTY: Projekt[] = [
       { typ: "obrazok", x: 735, y: 300, w: 250, h: 330, z: 120, rot: -2, src: "/realizacie/omrvinka-2.png", alt: "OMRVINKA — ukážka 2" },
       // miesto 3 — male (215×150)
       { typ: "obrazok", x: 410, y: 470, w: 215, h: 150, z: 100, rot: 2, src: "/realizacie/omrvinka-3.png", alt: "OMRVINKA — ukážka 3" },
-      { typ: "stitok", x: 430, y: 118, z: 150, rot: -2, text: "Nový web" },
-      { typ: "stitok", x: 455, y: 385, z: 150, rot: 3, text: "Foto produktov" },
+      { typ: "stitok", x: 430, y: 118, z: 150, rot: -2, text: { sk: "Nový web", cs: "Nový web", en: "New website", hu: "Új weboldal", de: "Neue Website" } },
+      { typ: "stitok", x: 455, y: 385, z: 150, rot: 3, text: { sk: "Foto produktov", cs: "Foto produktů", en: "Product photos", hu: "Termékfotók", de: "Produktfotos" } },
     ],
   },
   {
@@ -269,8 +287,8 @@ const VSETKY_PROJEKTY: Projekt[] = [
       { typ: "obrazok", x: 735, y: 330, w: 250, h: 300, z: 120, rot: -2, src: "/realizacie/nicepoke-2.jpg", alt: "NICEPOKE — miska so značkou" },
       // miesto 3 — male (215x150)
       { typ: "obrazok", x: 410, y: 470, w: 215, h: 150, z: 100, rot: 2, src: "/realizacie/nicepoke-3.jpg", alt: "NICEPOKE — nočný pútač" },
-      { typ: "stitok", x: 430, y: 118, z: 150, rot: -2, text: "Nový web" },
-      { typ: "stitok", x: 455, y: 385, z: 150, rot: 3, text: "Identita a prevádzka" },
+      { typ: "stitok", x: 430, y: 118, z: 150, rot: -2, text: { sk: "Nový web", cs: "Nový web", en: "New website", hu: "Új weboldal", de: "Neue Website" } },
+      { typ: "stitok", x: 455, y: 385, z: 150, rot: 3, text: { sk: "Identita a prevádzka", cs: "Identita a provozovna", en: "Identity and venue", hu: "Arculat és üzlet", de: "Identität und Laden" } },
     ],
   },
   {
@@ -298,8 +316,35 @@ const VSETKY_PROJEKTY: Projekt[] = [
       { typ: "obrazok", x: 735, y: 300, w: 250, h: 330, z: 120, rot: -2, src: "/realizacie/risebloom-2.jpg", alt: "RISEBLOOM — svadobná kytica" },
       // miesto 3 — male (215×150)
       { typ: "obrazok", x: 410, y: 470, w: 215, h: 150, z: 100, rot: 2, src: "/realizacie/risebloom-3.jpg", alt: "RISEBLOOM — darčeková krabica s kvetmi" },
-      { typ: "stitok", x: 430, y: 118, z: 150, rot: -2, text: "Nový web" },
-      { typ: "stitok", x: 455, y: 385, z: 150, rot: 3, text: "Foto produktov" },
+      { typ: "stitok", x: 430, y: 118, z: 150, rot: -2, text: { sk: "Nový web", cs: "Nový web", en: "New website", hu: "Új weboldal", de: "Neue Website" } },
+      { typ: "stitok", x: 455, y: 385, z: 150, rot: 3, text: { sk: "Foto produktov", cs: "Foto produktů", en: "Product photos", hu: "Termékfotók", de: "Produktfotos" } },
+    ],
+  },
+  {
+    slug: "kafi",
+    nazov: "KAFÍ",
+    farba: "#E31E24",               // červená z loga
+    href: "https://claude.ai/artifact/F2Tn3kAzrG96m79Kno9ADA",
+    // Prezentačná stránka projektu — klik na notebook ide rovno sem.
+    klikNa: "https://claude.ai/artifact/F2Tn3kAzrG96m79Kno9ADA",
+    logo: "/realizacie/kafi-logo.svg",
+    popis: "2026 — Web",
+    tagline: "Pet friendly kaviareň — výberová káva pre ľudí, miska vody a pelech pre psov aj mačky.",
+    text: [],                       // TODO: odstavce na stránku projektu
+    sluzby: [],                     // TODO: čo sme pre klienta spravili
+    ukazky: [],                     // TODO: obrázky do galérie
+    karty: [
+      // Logo levituje mimo červenej plochy — panel začína až na x = 320.
+      { typ: "logo", x: 42, y: 72, w: 170, h: 85, z: 140, rot: -2, src: "/realizacie/kafi-logo.svg", alt: "Logo KAFÍ" },
+      { typ: "notebook", x: 20, y: 165, z: 90, rot: -3, screenshot: "/realizacie/kafi-web.jpg", alt: "Web KAFÍ — pet friendly kaviareň" },
+      // miesto 1 — siroke (320×205), lezi na farebnom paneli
+      { typ: "obrazok", x: 600, y: 55, w: 320, h: 205, z: 150, rot: 3, src: "/realizacie/kafi-1.jpg", alt: "KAFÍ — mačka na pohovke a šálka s logom" },
+      // miesto 2 — vysoke (250×330)
+      { typ: "obrazok", x: 735, y: 300, w: 250, h: 330, z: 120, rot: -2, src: "/realizacie/kafi-2.jpg", alt: "KAFÍ — zlatý retriever v kaviarni" },
+      // miesto 3 — male (215×150)
+      { typ: "obrazok", x: 410, y: 470, w: 215, h: 150, z: 100, rot: 2, src: "/realizacie/kafi-3.jpg", alt: "KAFÍ — kapučíno a mandľový croissant" },
+      { typ: "stitok", x: 430, y: 118, z: 150, rot: -2, text: { sk: "Nový web", cs: "Nový web", en: "New website", hu: "Új weboldal", de: "Neue Website" } },
+      { typ: "stitok", x: 455, y: 385, z: 150, rot: 3, text: { sk: "Menu a rezervácie", cs: "Menu a rezervace", en: "Menu and bookings", hu: "Étlap és foglalás", de: "Menü und Reservierung" } },
     ],
   },
   {
@@ -325,8 +370,8 @@ const VSETKY_PROJEKTY: Projekt[] = [
       { typ: "obrazok", x: 735, y: 330, w: 250, h: 300, z: 120, rot: -2, src: "/realizacie/vytlacto-3d-2.png", alt: "VYTLAČTO 3D — tlačený držiak na mieru" },
       // miesto 3 — male (215×150)
       { typ: "obrazok", x: 410, y: 470, w: 215, h: 150, z: 100, rot: 2, src: "/realizacie/vytlacto-3d-3.png", alt: "VYTLAČTO 3D — prehľad realizácií" },
-      { typ: "stitok", x: 430, y: 118, z: 150, rot: -2, text: "Nový web" },
-      { typ: "stitok", x: 455, y: 385, z: 150, rot: 3, text: "Konfigurátor, blog aj e-shop" },
+      { typ: "stitok", x: 430, y: 118, z: 150, rot: -2, text: { sk: "Nový web", cs: "Nový web", en: "New website", hu: "Új weboldal", de: "Neue Website" } },
+      { typ: "stitok", x: 455, y: 385, z: 150, rot: 3, text: { sk: "Konfigurátor, blog aj e-shop", cs: "Konfigurátor, blog i e-shop", en: "Configurator, blog and shop", hu: "Konfigurátor, blog és webáruház", de: "Konfigurator, Blog und Shop" } },
     ],
   },
 ];

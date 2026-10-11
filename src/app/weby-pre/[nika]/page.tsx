@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { LanguageProvider } from "@/lib/i18n";
 import { niches, getNiche } from "@/data/niches";
 import NicheHero from "@/components/NicheHero";
 import Realizacia from "@/components/Realizacia";
@@ -37,7 +36,7 @@ export default async function NichePage({
   if (!niche) notFound();
 
   return (
-    <LanguageProvider defaultLang="sk">
+    <>
       <main id="top">
         <NicheHero niche={niche} />
         <Realizacia />
@@ -45,6 +44,6 @@ export default async function NichePage({
         <Contact />
       </main>
       <Footer />
-    </LanguageProvider>
+    </>
   );
 }

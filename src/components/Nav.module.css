@@ -46,29 +46,7 @@
 }
 .link:hover{color:var(--accent);}
 
-.langSwitch{
-  display:flex;
-  align-items:center;
-  border:1px solid rgba(10,10,10,.15);
-  border-radius:var(--radius-pill);
-  overflow:hidden;
-}
 
-.langBtn{
-  font-family:var(--mono);
-  font-size:11px;
-  padding:5px 9px;
-  cursor:pointer;
-  user-select:none;
-  background:none;
-  border:0;
-  color:#0a0a0a;
-  transition:background .2s ease,color .2s ease;
-}
-.langBtn.active{
-  background:#0a0a0a;
-  color:#fff;
-}
 
 .cta{
   font-family:var(--mono);

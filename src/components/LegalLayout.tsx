@@ -1,6 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
+import { useLanguage } from "@/lib/i18n";
 import Nav from "./Nav";
 import Footer from "./Footer";
 import Reveal from "./Reveal";
@@ -17,6 +18,8 @@ export default function LegalLayout({
   updated: string;
   children: ReactNode;
 }) {
+  const { t } = useLanguage();
+
   return (
     <>
       <section className={styles.hero}>
@@ -25,7 +28,9 @@ export default function LegalLayout({
         <Reveal className={styles.heroInner}>
           <div className={styles.kicker}>{kicker}</div>
           <h1 className={styles.h1}>{title}</h1>
-          <p className={styles.updated}>Posledná aktualizácia: {updated}</p>
+          <p className={styles.updated}>{t("legal_updated")} {updated}</p>
+          {/* Právne texty sú len po slovensky — v inom jazyku na to upozorníme. */}
+          {t("legal_note") && <p className={styles.updated}>{t("legal_note")}</p>}
         </Reveal>
       </section>
       <div className={styles.body}>

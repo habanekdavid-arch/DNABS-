@@ -8,8 +8,11 @@ const OBSAH = {
   text: {
     sk: ["Rýchla 30-minútová konzultácia ", "zadarmo", ", bez záväzkov."],
     en: ["A quick 30-minute consultation ", "free of charge", ", no commitment."],
+    cs: ["Rychlá 30minutová konzultace ", "zdarma", ", bez závazků."],
+    hu: ["Gyors, 30 perces konzultáció ", "ingyen", ", kötelezettség nélkül."],
+    de: ["Eine kurze 30-Minuten-Beratung ", "kostenlos", ", unverbindlich."],
   },
-  tlacidlo: { sk: "Kontaktný formulár", en: "Contact form" },
+  tlacidlo: { sk: "Kontaktný formulár", en: "Contact form", cs: "Kontaktní formulář", hu: "Kapcsolatfelvételi űrlap", de: "Kontaktformular" },
 };
 
 /**

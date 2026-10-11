@@ -1,22 +1,27 @@
+"use client";
+
+import { useLanguage, type Preklad } from "@/lib/i18n";
 import styles from "./ServicesMarquee.module.css";
 
 const NBSP = "  ";
 
-const ITEMS: { label: string; sepClass: string }[] = [
-  { label: "WEBY", sepClass: styles.accent },
-  { label: "APLIKÁCIE", sepClass: styles.purple },
-  { label: "DIGITÁLNY MARKETING", sepClass: styles.green },
-  { label: "UX · UI", sepClass: styles.accent },
-  { label: "AUTOMATIZÁCIA", sepClass: styles.purple },
-  { label: "SEO", sepClass: styles.green },
+const ITEMS: { label: Preklad; sepClass: string }[] = [
+  { label: { sk: "WEBY", cs: "WEBY", en: "WEBSITES", hu: "WEBOLDALAK", de: "WEBSITES" }, sepClass: styles.accent },
+  { label: { sk: "APLIKÁCIE", cs: "APLIKACE", en: "APPS", hu: "ALKALMAZÁSOK", de: "APPS" }, sepClass: styles.purple },
+  { label: { sk: "DIGITÁLNY MARKETING", cs: "DIGITÁLNÍ MARKETING", en: "DIGITAL MARKETING", hu: "DIGITÁLIS MARKETING", de: "DIGITALES MARKETING" }, sepClass: styles.green },
+  { label: { sk: "UX · UI", cs: "UX · UI", en: "UX · UI", hu: "UX · UI", de: "UX · UI" }, sepClass: styles.accent },
+  { label: { sk: "AUTOMATIZÁCIA", cs: "AUTOMATIZACE", en: "AUTOMATION", hu: "AUTOMATIZÁLÁS", de: "AUTOMATISIERUNG" }, sepClass: styles.purple },
+  { label: { sk: "SEO", cs: "SEO", en: "SEO", hu: "SEO", de: "SEO" }, sepClass: styles.green },
 ];
 
 function MarqueeSet() {
+  const { lang } = useLanguage();
+
   return (
     <span>
       {ITEMS.map((item, i) => (
         <span key={i}>
-          {item.label}
+          {item.label[lang]}
           {NBSP}
           <span className={item.sepClass}>/</span>
           {NBSP}
