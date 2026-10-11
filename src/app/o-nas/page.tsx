@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { LanguageProvider } from "@/lib/i18n";
 import OnasContent from "@/components/OnasContent";
 import Footer from "@/components/Footer";
 
@@ -12,11 +11,11 @@ export const metadata: Metadata = {
 
 export default function OnasPage() {
   return (
-    <LanguageProvider defaultLang="sk">
+    <>
       <main id="top">
         <OnasContent />
       </main>
       <Footer />
-    </LanguageProvider>
+    </>
   );
 }

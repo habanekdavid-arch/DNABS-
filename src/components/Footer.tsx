@@ -35,8 +35,8 @@ export default function Footer() {
             <a href="mailto:contact.dnabs@gmail.com" className={styles.colLink}>contact.dnabs@gmail.com</a>
           </div>
           <div className={styles.col}>
-            <div className={styles.colTitle}>Právne</div>
-            <a href="/obchodne-podmienky" className={styles.colLink}>Obchodné podmienky</a>
+            <div className={styles.colTitle}>{t("footer_legal")}</div>
+            <a href="/obchodne-podmienky" className={styles.colLink}>{t("footer_terms")}</a>
             <a href="/cookies" className={styles.colLink}>Cookies</a>
           </div>
         </div>
@@ -44,8 +44,8 @@ export default function Footer() {
       <div className={styles.bottomBar}>
         <span>© 2026 DNABS®</span>
         <span>{t("footer_made")}</span>
-        <span>All rights reserved</span>
-        <a href="/obchodne-podmienky" className={styles.bottomLink}>Obchodné podmienky</a>
+        <span>{t("footer_rights")}</span>
+        <a href="/obchodne-podmienky" className={styles.bottomLink}>{t("footer_terms")}</a>
         <a href="/cookies" className={styles.bottomLink}>Cookies</a>
       </div>
       <div className={styles.wordmark} aria-hidden="true">DNABS</div>

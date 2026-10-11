@@ -3,15 +3,16 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useLanguage } from "@/lib/i18n";
+import PrepinacJazyka from "./PrepinacJazyka";
 import styles from "./Nav.module.css";
 import logo from "../assets/dnabs-logo-long.svg";
 
 export default function Nav() {
-  const { lang, setLang, t } = useLanguage();
+  const { t } = useLanguage();
 
   return (
     <nav className={styles.nav}>
-      <Link href="/" className={styles.brand} aria-label="DNABS — domov">
+      <Link href="/" className={styles.brand} aria-label={t("nav_home")}>
         <Image src={logo} alt="DNABS" className={styles.logoImg} priority />
       </Link>
       <div className={styles.right}>
@@ -19,22 +20,7 @@ export default function Nav() {
         <Link href="/o-nas" className={styles.link}>{t("nav_blog")}</Link>
         <Link href="/o-nas" className={styles.link}>{t("nav_about")}</Link>
         <Link href="/#kontakt" className={styles.link}>{t("nav_contact")}</Link>
-        <div className={styles.langSwitch}>
-          <button
-            type="button"
-            className={`${styles.langBtn} ${lang === "sk" ? styles.active : ""}`}
-            onClick={() => setLang("sk")}
-          >
-            SK
-          </button>
-          <button
-            type="button"
-            className={`${styles.langBtn} ${lang === "en" ? styles.active : ""}`}
-            onClick={() => setLang("en")}
-          >
-            EN
-          </button>
-        </div>
+        <PrepinacJazyka />
         <Link href="/#kontakt" className={styles.cta} data-cursor="cta" data-fx>
           <span className={styles.ctaFull}>{t("nav_cta")}</span>
           <span className={styles.ctaShort}>{t("nav_cta_short")}</span>

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useLanguage } from "@/lib/i18n";
+import { LOCALE } from "@/lib/jazyky";
 import { SPEED, LEADS, CONVERSION, IMPACT_COPY, IMPACT_IS_PLACEHOLDER } from "@/data/impact";
 import styles from "./ImpactCharts.module.css";
 
@@ -32,7 +33,7 @@ function Glitch({ children }: { children: React.ReactNode }) {
 }
 
 export default function ImpactCharts() {
-  const { lang } = useLanguage();
+  const { t, lang } = useLanguage();
   const ref = useRef<HTMLElement>(null);
   const [on, setOn] = useState(false);
 
@@ -92,7 +93,7 @@ export default function ImpactCharts() {
                   <div className={styles.barLabel}>
                     <span>{b.label}</span>
                     <span>
-                      {b.v.toLocaleString(lang === "sk" ? "sk-SK" : "en-US")} {SPEED.unit}
+                      {b.v.toLocaleString(LOCALE[lang])} {SPEED.unit}
                     </span>
                   </div>
                   <div className={styles.barTrack}>
@@ -152,12 +153,12 @@ export default function ImpactCharts() {
               </Glitch>
               <div className={styles.ringNum}>
                 <div>
-                  {CONVERSION.after.toLocaleString(lang === "sk" ? "sk-SK" : "en-US")}
+                  {CONVERSION.after.toLocaleString(LOCALE[lang])}
                   <span>{CONVERSION.unit}</span>
                 </div>
                 <small>
-                  {lang === "sk" ? "predtým" : "before"}{" "}
-                  {CONVERSION.before.toLocaleString(lang === "sk" ? "sk-SK" : "en-US")}
+                  {t("impact_before")}{" "}
+                  {CONVERSION.before.toLocaleString(LOCALE[lang])}
                   {CONVERSION.unit}
                 </small>
               </div>

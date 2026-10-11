@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { PROJEKTY, AUTO_PREPNUTIE_MS, type KartaKolaze, type Projekt } from "@/data/hlavicka";
+import { useLanguage } from "@/lib/i18n";
 import Laptop from "./Laptop";
 import styles from "./Collage.module.css";
 
@@ -63,6 +64,7 @@ function hoverTransform(variant: Hover, posun: string, otocenie: string, px: num
 }
 
 export default function Collage() {
+  const { t } = useLanguage();
   const [index, setIndex] = useState(0);
   /** Vrstva, ktorá práve odchádza — drží sa len počas prelínačky. */
   const [predosly, setPredosly] = useState<number | null>(null);
@@ -174,11 +176,11 @@ export default function Collage() {
       )}
 
       <div className={styles.controls}>
-        <button type="button" className={`${styles.navBtn} ${styles.prev}`} onClick={() => go(-1)} aria-label="Predchádzajúca realizácia">←</button>
+        <button type="button" className={`${styles.navBtn} ${styles.prev}`} onClick={() => go(-1)} aria-label={t("collage_prev")}>←</button>
         <span className={styles.counter} aria-live="polite">
           {String(index + 1).padStart(2, "0")} / {String(PROJEKTY.length).padStart(2, "0")}
         </span>
-        <button type="button" className={`${styles.navBtn} ${styles.next}`} onClick={() => go(1)} aria-label="Ďalšia realizácia">→</button>
+        <button type="button" className={`${styles.navBtn} ${styles.next}`} onClick={() => go(1)} aria-label={t("collage_next")}>→</button>
       </div>
 
       {zoom && <ZoomOverlay projekt={zoom.projekt} from={zoom.from} onDone={() => setZoom(null)} />}
@@ -233,6 +235,7 @@ function ProjectLayer({ projekt, active, onZoom }:
 function Card({ karta, order, obrazokPoradie, active, projekt, onZoom }:
   { karta: KartaKolaze; order: number; obrazokPoradie: number; active: boolean;
     projekt: Projekt; onZoom: (from: DOMRect) => void }) {
+  const { t, lang } = useLanguage();
   const ref = useRef<HTMLDivElement>(null);
   const posun = `translate3d(${karta.x}px, ${karta.y}px, ${karta.z ?? 80}px)`;
   const otocenie = `rotateZ(${karta.rot ?? 0}deg)`;
@@ -285,10 +288,10 @@ function Card({ karta, order, obrazokPoradie, active, projekt, onZoom }:
                   const screen = e.currentTarget.querySelector('[class*="screen"]');
                   onZoom((screen ?? e.currentTarget).getBoundingClientRect());
                 }}
-                aria-label={`Otvoriť web ${projekt.nazov}`}>
+                aria-label={`${t("collage_open")} ${projekt.nazov}`}>
           <span className={styles.openBtn} aria-hidden>
             <span className={styles.openDot} />
-            Otvoriť web ↗
+            {t("collage_open")} ↗
           </span>
           <span className={styles.float} style={floatStyle}>
             <span className={styles.laptopScale}>
@@ -317,7 +320,7 @@ function Card({ karta, order, obrazokPoradie, active, projekt, onZoom }:
       <div ref={ref} className={`${styles.card} ${styles.hoverTag}`} style={style}
            onMouseEnter={onEnter} onMouseMove={onMove} onMouseLeave={onLeave}>
         <span className={styles.float} style={floatStyle}>
-          <span className={styles.tag}>{karta.text}</span>
+          <span className={styles.tag}>{karta.text[lang]}</span>
         </span>
       </div>
     );
@@ -356,6 +359,7 @@ function Card({ karta, order, obrazokPoradie, active, projekt, onZoom }:
  */
 function ZoomOverlay({ projekt, from, onDone }:
   { projekt: Projekt; from: DOMRect; onDone: () => void }) {
+  const { t } = useLanguage();
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const notebook = projekt.karty.find((k) => k.typ === "notebook");
@@ -400,7 +404,7 @@ function ZoomOverlay({ projekt, from, onDone }:
         )}
       </div>
       <div className={`${styles.opening} ${open ? styles.openingOn : ""}`}>
-        Otváram {projekt.nazov}
+        {t("collage_opening")} {projekt.nazov}
         <div className={styles.progress}>
           <div className={`${styles.progressBar} ${open ? styles.progressOn : ""}`} />
         </div>

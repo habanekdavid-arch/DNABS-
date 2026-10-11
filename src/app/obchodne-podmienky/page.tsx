@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { LanguageProvider } from "@/lib/i18n";
 import LegalLayout from "@/components/LegalLayout";
 
 export const metadata: Metadata = {
@@ -10,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function ObchodnePodmienkyPage() {
   return (
-    <LanguageProvider defaultLang="sk">
+    <>
       <LegalLayout
         kicker="// Právne"
         title="Obchodné podmienky"
@@ -90,6 +89,6 @@ export default function ObchodnePodmienkyPage() {
           spoločnosť alebo živnosť.
         </p>
       </LegalLayout>
-    </LanguageProvider>
+    </>
   );
 }

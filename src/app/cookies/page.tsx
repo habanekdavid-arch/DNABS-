@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { LanguageProvider } from "@/lib/i18n";
 import LegalLayout from "@/components/LegalLayout";
 import CookieSettingsButton from "@/components/CookieSettingsButton";
 
@@ -11,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function CookiesPage() {
   return (
-    <LanguageProvider defaultLang="sk">
+    <>
       <LegalLayout
         kicker="// Právne"
         title="Cookies a ochrana osobných údajov"
@@ -59,6 +58,6 @@ export default function CookiesPage() {
           <a href="mailto:contact.dnabs@gmail.com">contact.dnabs@gmail.com</a>.
         </p>
       </LegalLayout>
-    </LanguageProvider>
+    </>
   );
 }

@@ -2,11 +2,11 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { useLanguage, type DictKey } from "@/lib/i18n";
+import { useLanguage, type DictKey, type Preklad } from "@/lib/i18n";
 import Reveal from "./Reveal";
 import styles from "./Services.module.css";
 
-type Chip = { sk: string; en: string };
+type Chip = Preklad;
 
 const ROWS: {
   titleKey: DictKey;
@@ -20,12 +20,12 @@ const ROWS: {
     descKey: "svc1_d",
     color: "#E24A08",
     chips: [
-      { sk: "Next.js", en: "Next.js" },
-      { sk: "Webflow", en: "Webflow" },
-      { sk: "E-shop", en: "E-commerce" },
-      { sk: "Responzívny dizajn", en: "Responsive design" },
-      { sk: "SEO základ", en: "SEO foundations" },
-      { sk: "Doména a hosting", en: "Domain and hosting" },
+      { sk: "Next.js", en: "Next.js", cs: "Next.js", hu: "Next.js", de: "Next.js" },
+      { sk: "Webflow", en: "Webflow", cs: "Webflow", hu: "Webflow", de: "Webflow" },
+      { sk: "E-shop", en: "E-commerce", cs: "E-shop", hu: "Webáruház", de: "Onlineshop" },
+      { sk: "Responzívny dizajn", en: "Responsive design", cs: "Responzivní design", hu: "Reszponzív dizájn", de: "Responsives Design" },
+      { sk: "SEO základ", en: "SEO foundations", cs: "Základ SEO", hu: "SEO-alapok", de: "SEO-Grundlagen" },
+      { sk: "Doména a hosting", en: "Domain and hosting", cs: "Doména a hosting", hu: "Domain és tárhely", de: "Domain und Hosting" },
     ],
   },
   {
@@ -33,12 +33,12 @@ const ROWS: {
     descKey: "svc2_d",
     color: "#563387",
     chips: [
-      { sk: "Webové aplikácie", en: "Web apps" },
-      { sk: "iOS / Android", en: "iOS / Android" },
-      { sk: "Rezervačné systémy", en: "Booking systems" },
-      { sk: "Automatizácia", en: "Automation" },
-      { sk: "Napojenie na API", en: "API integrations" },
-      { sk: "Interné nástroje", en: "Internal tools" },
+      { sk: "Webové aplikácie", en: "Web apps", cs: "Webové aplikace", hu: "Webalkalmazások", de: "Web-Apps" },
+      { sk: "iOS / Android", en: "iOS / Android", cs: "iOS / Android", hu: "iOS / Android", de: "iOS / Android" },
+      { sk: "Rezervačné systémy", en: "Booking systems", cs: "Rezervační systémy", hu: "Foglalási rendszerek", de: "Buchungssysteme" },
+      { sk: "Automatizácia", en: "Automation", cs: "Automatizace", hu: "Automatizálás", de: "Automatisierung" },
+      { sk: "Napojenie na API", en: "API integrations", cs: "Napojení na API", hu: "API-integráció", de: "API-Anbindung" },
+      { sk: "Interné nástroje", en: "Internal tools", cs: "Interní nástroje", hu: "Belső eszközök", de: "Interne Tools" },
     ],
   },
   {
@@ -46,12 +46,12 @@ const ROWS: {
     descKey: "svc3_d",
     color: "#12A03F",
     chips: [
-      { sk: "Logo a brand identita", en: "Logo and brand identity" },
-      { sk: "Fotografie", en: "Photography" },
-      { sk: "Google Ads", en: "Google Ads" },
-      { sk: "Sociálne siete", en: "Social media" },
-      { sk: "Výkonnostné kampane", en: "Performance campaigns" },
-      { sk: "SEO a obsah", en: "SEO and content" },
+      { sk: "Logo a brand identita", en: "Logo and brand identity", cs: "Logo a brand identita", hu: "Logó és arculat", de: "Logo und Markenidentität" },
+      { sk: "Fotografie", en: "Photography", cs: "Fotografie", hu: "Fotózás", de: "Fotografie" },
+      { sk: "Google Ads", en: "Google Ads", cs: "Google Ads", hu: "Google Ads", de: "Google Ads" },
+      { sk: "Sociálne siete", en: "Social media", cs: "Sociální sítě", hu: "Közösségi média", de: "Social Media" },
+      { sk: "Výkonnostné kampane", en: "Performance campaigns", cs: "Výkonnostní kampaně", hu: "Teljesítménykampányok", de: "Performance-Kampagnen" },
+      { sk: "SEO a obsah", en: "SEO and content", cs: "SEO a obsah", hu: "SEO és tartalom", de: "SEO und Content" },
     ],
   },
 ];
@@ -114,7 +114,7 @@ export default function Services() {
     e.currentTarget.style.transform = "none";
   };
 
-  const stav = lang === "en" ? "AVAILABLE" : "DOSTUPNÉ";
+  const stav = t("svc_available");
 
   return (
     <section id="sluzby" className={styles.section}>

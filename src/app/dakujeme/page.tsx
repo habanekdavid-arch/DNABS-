@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import ConversionEvent from "@/components/ConversionEvent";
-import styles from "./page.module.css";
+import DakujemeObsah from "./DakujemeObsah";
 
 export const metadata: Metadata = {
   title: "Ďakujeme",
@@ -13,20 +12,7 @@ export default function DakujemePage() {
   return (
     <>
       <ConversionEvent sendTo="AW-18360461587/Ctr6CJKaj9kcEJPS-bJE" />
-      <main className={styles.section}>
-        <div className={styles.kicker}>// Dopyt odoslaný</div>
-        <h1 className={styles.h1}>
-          Ďakujeme
-          <span className={styles.script}>— ozveme sa.</span>
-        </h1>
-        <p className={styles.body}>
-          Tvoju správu sme prijali. Ozveme sa ti na e-mail alebo telefón, ktorý si nám nechal/-a,
-          a dohodneme si rýchlu 30-minútovú konzultáciu — zadarmo a nezáväzne.
-        </p>
-        <Link href="/" className={styles.cta}>
-          Späť na web →
-        </Link>
-      </main>
+      <DakujemeObsah />
     </>
   );
 }

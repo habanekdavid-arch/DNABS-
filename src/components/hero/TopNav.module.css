@@ -112,6 +112,31 @@
   flex:0 0 auto;
 }
 
+/* ── Prepínač jazyka ─────────────────────────────────────────────────
+   Na širokej obrazovke samostatná sklenená pilulka v pravom hornom rohu,
+   rovnako vysoká ako navigácia. Keď by sa už s navigáciou dotýkali,
+   presunie sa dovnútra jej riadku (jazykVRade).
+   ─────────────────────────────────────────────────────────────────── */
+.jazykRoh{
+  position:absolute;
+  top:0;
+  right:20px;
+  pointer-events:auto;
+  padding:9px;
+  border-radius:999px;
+  background:rgba(246,246,248,.7);
+  border:1px solid rgba(255,255,255,.8);
+  -webkit-backdrop-filter:blur(22px) saturate(1.8);
+  backdrop-filter:blur(22px) saturate(1.8);
+  box-shadow:0 1px 0 rgba(255,255,255,.9) inset, 0 16px 48px rgba(14,14,17,.12);
+}
+.jazykVRade{display:none;}
+
+@media (max-width:1180px){
+  .jazykRoh{display:none;}
+  .jazykVRade{display:block;}
+}
+
 /* ── Telefón ──────────────────────────────────────────────────────────
    Pod 860 px sa odkazy aj výzva k akcii schovajú do rozbaľovacieho
    menu. Predtým tu bola len posuvná pilulka — tlačidlo „Začať projekt"

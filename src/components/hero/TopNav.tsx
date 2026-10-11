@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import { NAV_LINKS, NAV_CTA, NAV_LOGO } from "@/data/hlavicka";
+import { useLanguage } from "@/lib/i18n";
+import PrepinacJazyka from "../PrepinacJazyka";
 import styles from "./TopNav.module.css";
 
 /** Placeholder loga — nahraďte vlastným SVG, stačí zachovať fill="currentColor". */
@@ -16,6 +18,7 @@ function LogoPlaceholder() {
 }
 
 export default function TopNav() {
+  const { lang, t } = useLanguage();
   const [otvorene, setOtvorene] = useState(false);
   const header = useRef<HTMLElement>(null);
   const panel = useRef<HTMLDivElement>(null);
@@ -59,9 +62,9 @@ export default function TopNav() {
 
   return (
     <header className={styles.header} ref={header}>
-      <nav className={`${styles.nav} ${otvorene ? styles.navOtvorene : ""}`} aria-label="Hlavná navigácia">
+      <nav className={`${styles.nav} ${otvorene ? styles.navOtvorene : ""}`} aria-label={t("nav_label")}>
         <div className={styles.rad}>
-          <a href="#top" className={styles.logo} aria-label="DNABS — domov">
+          <a href="#top" className={styles.logo} aria-label={t("nav_home")}>
             {NAV_LOGO ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={NAV_LOGO} alt="DNABS" className={styles.logoImg} />
@@ -74,16 +77,20 @@ export default function TopNav() {
             {NAV_LINKS.map((item) => (
               <a key={item.href} href={item.href} className={styles.link}>
                 {/* Dva rovnaké nápisy nad sebou — pri hoveri sa vymenia. */}
-                <span className={styles.linkText}>{item.label}</span>
-                <span className={styles.linkTextHover} aria-hidden>{item.label}</span>
+                <span className={styles.linkText}>{item.label[lang]}</span>
+                <span className={styles.linkTextHover} aria-hidden>{item.label[lang]}</span>
               </a>
             ))}
           </div>
 
           <a href={NAV_CTA.href} className={styles.cta}>
             <span className={styles.dot} aria-hidden />
-            {NAV_CTA.label}
+            {NAV_CTA.label[lang]}
           </a>
+
+          {/* Prepínač jazyka v riadku navigácie — len na užších obrazovkách.
+              Na širokých je samostatne v pravom hornom rohu (nižšie). */}
+          <PrepinacJazyka className={styles.jazykVRade} />
 
           {/* Na telefóne je namiesto odkazov toto tlačidlo. */}
           <button
@@ -91,7 +98,7 @@ export default function TopNav() {
             className={styles.burger}
             aria-expanded={otvorene}
             aria-controls="mobilne-menu"
-            aria-label={otvorene ? "Zavrieť menu" : "Otvoriť menu"}
+            aria-label={otvorene ? t("nav_menu_close") : t("nav_menu_open")}
             onClick={() => setOtvorene((v) => !v)}
           >
             <span className={styles.burgerCiara} aria-hidden />
@@ -103,15 +110,21 @@ export default function TopNav() {
         <div id="mobilne-menu" className={styles.panel} hidden={!otvorene} ref={panel}>
           {NAV_LINKS.map((item) => (
             <a key={item.href} href={item.href} className={styles.panelLink}>
-              {item.label}
+              {item.label[lang]}
             </a>
           ))}
           <a href={NAV_CTA.href} className={styles.panelCta}>
             <span className={styles.dot} aria-hidden />
-            {NAV_CTA.label}
+            {NAV_CTA.label[lang]}
           </a>
         </div>
       </nav>
+
+      {/* Na širokej obrazovke prepínač jazyka v pravom hornom rohu,
+          mimo pilulky navigácie. */}
+      <div className={styles.jazykRoh}>
+        <PrepinacJazyka />
+      </div>
     </header>
   );
 }

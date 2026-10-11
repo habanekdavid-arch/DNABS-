@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { LanguageProvider } from "@/lib/i18n";
 import TopNav from "@/components/hero/TopNav";
 import HeroTop from "@/components/hero/HeroTop";
 import HowItWorks from "@/components/HowItWorks";
@@ -23,7 +22,7 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <LanguageProvider defaultLang="sk">
+    <>
       <TopNav />
       <main id="top">
         {/* Realizácie sú v koláži hore v hero — samostatná sekcia
@@ -43,6 +42,6 @@ export default function Home() {
         <Contact />
       </main>
       <Footer />
-    </LanguageProvider>
+    </>
   );
 }

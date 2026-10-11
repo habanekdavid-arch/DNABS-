@@ -74,7 +74,7 @@ const STEPS: {
 ];
 
 export default function HowItWorks() {
-  const { t, lang } = useLanguage();
+  const { t } = useLanguage();
 
   /* Ukazovatele sa naplnia až keď sa na sekciu doscrolluje — rovnako
      ako grafy v sekcii s výsledkami. */
@@ -100,7 +100,7 @@ export default function HowItWorks() {
     return () => io.disconnect();
   }, []);
 
-  const krok = lang === "en" ? "STEP" : "KROK";
+  const krok = t("how_step");
 
   return (
     <section id="ako-to-funguje" className={styles.section}>
