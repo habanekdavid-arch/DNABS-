@@ -47,6 +47,34 @@
   font-size:12.5px; color:rgba(14,14,17,.55);
 }
 
+/* Úvodné odstavce pod nadpisom. Užší stĺpec než podnadpis — dlhý text
+   sa na širokej obrazovke číta ťažko, keď má riadok cez celú šírku. */
+.uvod{
+  margin:clamp(14px,2vh,20px) 0 0; max-width:640px;
+  font-size:clamp(15px,1.3vw,17px); line-height:1.75; color:#242428;
+}
+
+/* ── ČLÁNOK ────────────────────────────────────────────────────────── */
+.sekciaClanok{ position:relative; background:#fff; }
+
+.clanok{
+  position:relative; z-index:2; max-width:720px; margin:0 auto;
+  padding:clamp(56px,9vh,104px) clamp(20px,4vw,48px);
+}
+
+.pasaz + .pasaz{ margin-top:clamp(36px,5vh,56px); }
+
+.pasazNadpis{
+  margin:0 0 16px; font-family:var(--disp); font-weight:800;
+  font-size:clamp(22px,2.6vw,32px); line-height:1.15; letter-spacing:-.01em;
+}
+
+.pasazText{
+  margin:0 0 16px;
+  font-size:clamp(15.5px,1.35vw,17.5px); line-height:1.75; color:#242428;
+}
+.pasazText:last-child{ margin-bottom:0; }
+
 /* ── SPOLOČNÉ SEKCIE ───────────────────────────────────────────────── */
 .sekcia{ position:relative; background:#ECECEE; overflow:hidden; }
 .sekciaTmava{ position:relative; background:var(--fig-ink); overflow:hidden; }
