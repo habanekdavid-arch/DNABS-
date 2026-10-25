@@ -27,6 +27,10 @@ export const NAV_LINKS: { label: Preklad; href: string }[] = [
   { label: { sk: "Ako to funguje", cs: "Jak to funguje", en: "How it works", hu: "Hogyan működik", de: "So funktioniert's" }, href: "#ako-to-funguje" },
   { label: { sk: "Realizácie", cs: "Realizace", en: "Our work", hu: "Munkáink", de: "Projekte" }, href: "#realizacia" },
   { label: { sk: "O nás", cs: "O nás", en: "About", hu: "Rólunk", de: "Über uns" }, href: "/o-nas" },
+  /* POZOR: vlastný blog zatiaľ neexistuje, odkaz vedie na /o-nas — rovnako
+     ako v pätičke a v navigácii podstránok. Keď blog vznikne, stačí tu
+     prepísať adresu na /blog. */
+  { label: { sk: "Blog", cs: "Blog", en: "Blog", hu: "Blog", de: "Blog" }, href: "/o-nas" },
 ];
 
 export const NAV_CTA: { label: Preklad; href: string } = {

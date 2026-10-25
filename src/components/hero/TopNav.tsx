@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { NAV_LINKS, NAV_CTA, NAV_LOGO } from "@/data/hlavicka";
+import { VSTUPNE_STRANKY } from "@/data/vstupneStranky";
 import { useLanguage } from "@/lib/i18n";
 import PrepinacJazyka from "../PrepinacJazyka";
 import styles from "./TopNav.module.css";
@@ -20,8 +21,12 @@ function LogoPlaceholder() {
 export default function TopNav() {
   const { lang, t } = useLanguage();
   const [otvorene, setOtvorene] = useState(false);
+  /* Rozbaľovacie menu služieb na širokej obrazovke. Na telefóne sú služby
+     vypísané priamo v paneli, tam by sa druhá úroveň len zle trafila. */
+  const [sluzby, setSluzby] = useState(false);
   const header = useRef<HTMLElement>(null);
   const panel = useRef<HTMLDivElement>(null);
+  const sluzbyObal = useRef<HTMLDivElement>(null);
 
   /* Zatváranie menu.
      Pozor na dve veci:
@@ -60,6 +65,27 @@ export default function TopNav() {
     };
   }, [otvorene]);
 
+  useEffect(() => {
+    if (!sluzby) return;
+    const zavri = (e: Event) => {
+      if (!sluzbyObal.current?.contains(e.target as Node)) setSluzby(false);
+    };
+    const klaves = (e: KeyboardEvent) => { if (e.key === "Escape") setSluzby(false); };
+    /* Capture fáza z rovnakého dôvodu ako vyššie: SmoothAnchors zastavuje
+       bublanie klikov na kotvy, takže v bežnej fáze by sa sem nedostali. */
+    document.addEventListener("click", zavri, true);
+    document.addEventListener("keydown", klaves);
+    return () => {
+      document.removeEventListener("click", zavri, true);
+      document.removeEventListener("keydown", klaves);
+    };
+  }, [sluzby]);
+
+  /* V češtine vedieme na /cs/… adresy. Pre ostatné jazyky vlastné adresy
+     zatiaľ nemáme, tak dostanú slovenské. */
+  const adresaSluzby = (v: (typeof VSTUPNE_STRANKY)[number]) =>
+    lang === "cs" ? `/cs/${v.slugCs}` : `/${v.slug}`;
+
   return (
     <header className={styles.header} ref={header}>
       <nav className={`${styles.nav} ${otvorene ? styles.navOtvorene : ""}`} aria-label={t("nav_label")}>
@@ -74,13 +100,46 @@ export default function TopNav() {
           </a>
 
           <div className={styles.links}>
-            {NAV_LINKS.map((item) => (
-              <a key={item.href} href={item.href} className={styles.link}>
-                {/* Dva rovnaké nápisy nad sebou — pri hoveri sa vymenia. */}
-                <span className={styles.linkText}>{item.label[lang]}</span>
-                <span className={styles.linkTextHover} aria-hidden>{item.label[lang]}</span>
-              </a>
-            ))}
+            {NAV_LINKS.map((item) =>
+              item.href === "#sluzby" ? (
+                /* Služby majú vlastné stránky — bez odkazu na ne by sa dali
+                   nájsť len cez reklamu. */
+                <div key={item.href} className={styles.sluzbyObal} ref={sluzbyObal}>
+                  <button
+                    type="button"
+                    className={styles.link}
+                    aria-expanded={sluzby}
+                    aria-haspopup="true"
+                    onClick={() => setSluzby((v) => !v)}
+                  >
+                    <span className={styles.linkText}>{item.label[lang]}</span>
+                    <span className={styles.linkTextHover} aria-hidden>{item.label[lang]}</span>
+                    <span className={`${styles.sipka} ${sluzby ? styles.sipkaOtvorena : ""}`} aria-hidden>▾</span>
+                  </button>
+                  <div className={`${styles.sluzbyMenu} ${sluzby ? styles.sluzbyMenuOtvorene : ""}`}>
+                    {VSTUPNE_STRANKY.map((v) => (
+                      <a
+                        key={v.slug}
+                        href={adresaSluzby(v)}
+                        className={styles.sluzbyPolozka}
+                        onClick={() => setSluzby(false)}
+                      >
+                        {v.sluzbaNazov[lang]}
+                      </a>
+                    ))}
+                    <a href="#sluzby" className={styles.sluzbyVsetky} onClick={() => setSluzby(false)}>
+                      {t("nav_services_all")}
+                    </a>
+                  </div>
+                </div>
+              ) : (
+                <a key={item.href} href={item.href} className={styles.link}>
+                  {/* Dva rovnaké nápisy nad sebou — pri hoveri sa vymenia. */}
+                  <span className={styles.linkText}>{item.label[lang]}</span>
+                  <span className={styles.linkTextHover} aria-hidden>{item.label[lang]}</span>
+                </a>
+              ),
+            )}
           </div>
 
           <a href={NAV_CTA.href} className={styles.cta}>
@@ -109,9 +168,19 @@ export default function TopNav() {
         {/* Rozbalené menu na telefóne. */}
         <div id="mobilne-menu" className={styles.panel} hidden={!otvorene} ref={panel}>
           {NAV_LINKS.map((item) => (
-            <a key={item.href} href={item.href} className={styles.panelLink}>
-              {item.label[lang]}
-            </a>
+            <div key={item.href}>
+              <a href={item.href} className={styles.panelLink}>
+                {item.label[lang]}
+              </a>
+              {/* Služby sú vypísané rovno, bez druhého ťuknutia — na telefóne
+                  je rozbaľovanie v už rozbalenom menu zbytočná prekážka. */}
+              {item.href === "#sluzby" &&
+                VSTUPNE_STRANKY.map((v) => (
+                  <a key={v.slug} href={adresaSluzby(v)} className={styles.panelPodlink}>
+                    {v.sluzbaNazov[lang]}
+                  </a>
+                ))}
+            </div>
           ))}
           <a href={NAV_CTA.href} className={styles.panelCta}>
             <span className={styles.dot} aria-hidden />
