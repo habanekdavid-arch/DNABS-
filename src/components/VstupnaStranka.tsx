@@ -9,6 +9,7 @@ import Reveal from "./Reveal";
 import Contact from "./Contact";
 import Footer from "./Footer";
 import Accordion from "./Accordion";
+import ServicesMarquee from "./ServicesMarquee";
 import AmbientBlobs from "./AmbientBlobs";
 import { PROJEKTY } from "@/data/hlavicka";
 import type { VstupnaStranka as Data } from "@/data/vstupneStranky";
@@ -73,9 +74,6 @@ export default function VstupnaStranka({
             <div className={styles.kicker}>{data.sluzbaNazov[lang]}</div>
             <h1 className={styles.h1}>{data.h1[lang]}</h1>
             <p className={styles.podnadpis}>{data.podnadpis[lang]}</p>
-            {data.uvod?.map((o) => (
-              <p key={o[lang]} className={styles.uvod}>{o[lang]}</p>
-            ))}
             <a href="#kontakt" className={styles.cta} data-cursor="cta">
               {t("contact_submit")}
               <span aria-hidden className={styles.ctaSipka}>›</span>
@@ -83,6 +81,8 @@ export default function VstupnaStranka({
             <p className={styles.heroMicro}>{t("contact_perk1")}</p>
           </Reveal>
         </section>
+
+        <ServicesMarquee />
 
         <section className={styles.sekcia}>
           <AmbientBlobs soft />
@@ -106,12 +106,36 @@ export default function VstupnaStranka({
         {data.pasaze && data.pasaze.length > 0 && (
           <section className={styles.sekciaClanok}>
             <Reveal className={styles.clanok}>
-              {data.pasaze.map((pasaz) => (
+              {/* Úvod je tu, nie v hero: tri odstavce pod nadpisom by hero
+                  natiahli a tlačidlo by spadlo pod zlom. V článku navyše
+                  majú čitateľnú šírku riadku. */}
+              {data.uvod?.map((o) => (
+                <p key={o[lang]} className={styles.uvod}>{o[lang]}</p>
+              ))}
+
+              {data.pasaze.map((pasaz, i) => (
                 <article key={pasaz.nadpis[lang]} className={styles.pasaz}>
                   <h2 className={styles.pasazNadpis}>{pasaz.nadpis[lang]}</h2>
                   {pasaz.odstavce.map((o) => (
                     <p key={o[lang]} className={styles.pasazText}>{o[lang]}</p>
                   ))}
+                  {/* Obrázok po prvej pasáži rozbíja stenu textu — práve
+                      tam, kde čitateľ buď pokračuje, alebo odíde. */}
+                  {i === 0 && ukazky[0]?.snimka && (
+                    <figure className={styles.obrazokVClanku}>
+                      <Image
+                        src={ukazky[0].snimka}
+                        alt={`${ukazky[0].nazov} — web, ktorý sme postavili`}
+                        width={1600}
+                        height={1000}
+                        sizes="(max-width:760px) 100vw, 720px"
+                        className={styles.obrazokVClankuObr}
+                      />
+                      <figcaption className={styles.popisok}>
+                        {ukazky[0].nazov} — {ukazky[0].tagline}
+                      </figcaption>
+                    </figure>
+                  )}
                 </article>
               ))}
             </Reveal>
