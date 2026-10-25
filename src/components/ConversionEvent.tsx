@@ -1,33 +1,35 @@
 "use client";
 
 import { useEffect } from "react";
-
-declare global {
-  interface Window {
-    gtag?: (...args: unknown[]) => void;
-  }
-}
+import { trackAdsConversion } from "@/lib/analytics";
 
 const FLAG_KEY = "dnabs_conversion_pending";
 
 /**
- * Fires the "Zobrazenie stránky" Google Ads conversion, but only when this
- * page was reached right after a real contact-form submission (flag set in
- * Contact.tsx). A direct visit/refresh of /dakujeme without that flag does
- * not fire the event, so it doesn't get counted as a false conversion.
+ * Poistka ku konverzii, ktorá odchádza už z formulára (Contact.tsx).
+ *
+ * Spustí sa len vtedy, keď sa na túto stránku prišlo rovno po skutočnom
+ * odoslaní formulára — podľa príznaku, ktorý formulár uloží. Priamy vstup
+ * ani obnovenie /dakujeme teda žiadnu konverziu nevyrobí.
+ *
+ * Príznak nesie id leadu, ktoré ide do konverzie ako transaction_id, takže
+ * Google tento druhý ping spáruje s tým z formulára a nezapočíta ho znova.
  */
-export default function ConversionEvent({ sendTo }: { sendTo: string }) {
+export default function ConversionEvent() {
   useEffect(() => {
-    const pending = sessionStorage.getItem(FLAG_KEY);
+    let pending: string | null = null;
+    try {
+      pending = sessionStorage.getItem(FLAG_KEY);
+      if (pending) sessionStorage.removeItem(FLAG_KEY);
+    } catch {
+      // Zablokované úložisko — konverzia už odišla z formulára.
+      return;
+    }
     if (!pending) return;
-    sessionStorage.removeItem(FLAG_KEY);
 
-    window.gtag?.("event", "conversion", {
-      send_to: sendTo,
-      value: 1.0,
-      currency: "EUR",
-    });
-  }, [sendTo]);
+    // "1" znamená, že id leadu sa nepodarilo prečítať.
+    trackAdsConversion(pending === "1" ? null : pending);
+  }, []);
 
   return null;
 }

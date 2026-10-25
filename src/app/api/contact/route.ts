@@ -30,6 +30,18 @@ export async function POST(request: Request) {
   const attachmentUrl = clean(body.attachmentUrl) || null;
   const attachmentName = clean(body.attachmentName) || null;
 
+  /* Zdroj návštevy posiela prehliadač (zachytený pri prvom vstupe).
+     Orezávame ho tu znova — telo požiadavky sa dá poslať aj ručne a do
+     databázy sa nemajú dostať kilobajty textu z adresy. */
+  const zdroj = (key: string) => clean(body[key]).slice(0, 512) || null;
+  const gclid = zdroj("gclid");
+  const utmSource = zdroj("utm_source");
+  const utmMedium = zdroj("utm_medium");
+  const utmCampaign = zdroj("utm_campaign");
+  const utmTerm = zdroj("utm_term");
+  const landing = zdroj("landing");
+  const referrer = zdroj("referrer");
+
   // Tá istá kontrola ako vo formulári — prehliadač sa dá obísť, server nie.
   // Odvetvie sa už vo formulári nepýtame, tak ho ani nevyžadujeme.
   const missing =
@@ -47,27 +59,52 @@ export async function POST(request: Request) {
   }
 
   // Databáza je zdroj pravdy — dopyt sa uloží aj keby zlyhalo odoslanie e-mailu.
+  //
+  // Zápisy skúšame od najbohatšieho po najchudobnejší. Na produkcii nemusí
+  // byť odbehnutá migrácia s novými stĺpcami, a vtedy je lepšie uložiť lead
+  // bez údajov o zdroji než ho stratiť úplne.
   let leadId: number | null = null;
   try {
     const sql = getSql();
-    try {
-      const rows = (await sql`
-        INSERT INTO leads (name, email, phone, company, business, entity_type, site_or_social, project_type, budget, timeline, message, source, attachment_url, attachment_name)
-        VALUES (${name}, ${email}, ${phone}, ${company}, ${business}, ${null}, ${siteOrSocial}, ${projectType}, ${budget}, ${timeline || null}, ${message}, ${source || null}, ${attachmentUrl}, ${attachmentName})
-        RETURNING id
-      `) as { id: number }[];
-      leadId = rows[0].id;
-    } catch (err) {
-      // Kým na databáze nebehla migrácia s novými stĺpcami, uložíme aspoň to,
-      // čo tabuľka vie — dopyt nesmie spadnúť pod stolom.
-      console.error("contact route: nový INSERT zlyhal, skúšam pôvodné stĺpce:", err);
-      const rows = (await sql`
-        INSERT INTO leads (name, email, phone, company, project_type, budget, timeline, message, source, attachment_url, attachment_name)
-        VALUES (${name}, ${email}, ${phone}, ${company}, ${projectType}, ${budget}, ${timeline || null}, ${message}, ${source || null}, ${attachmentUrl}, ${attachmentName})
-        RETURNING id
-      `) as { id: number }[];
-      leadId = rows[0].id;
+    const pokusy: { popis: string; vloz: () => Promise<unknown> }[] = [
+      {
+        popis: "so zdrojom návštevy",
+        vloz: () => sql`
+          INSERT INTO leads (name, email, phone, company, business, entity_type, site_or_social, project_type, budget, timeline, message, source, attachment_url, attachment_name, gclid, utm_source, utm_medium, utm_campaign, utm_term, landing_page, referrer)
+          VALUES (${name}, ${email}, ${phone}, ${company}, ${business}, ${null}, ${siteOrSocial}, ${projectType}, ${budget}, ${timeline || null}, ${message}, ${source || null}, ${attachmentUrl}, ${attachmentName}, ${gclid}, ${utmSource}, ${utmMedium}, ${utmCampaign}, ${utmTerm}, ${landing}, ${referrer})
+          RETURNING id
+        `,
+      },
+      {
+        popis: "bez zdroja návštevy",
+        vloz: () => sql`
+          INSERT INTO leads (name, email, phone, company, business, entity_type, site_or_social, project_type, budget, timeline, message, source, attachment_url, attachment_name)
+          VALUES (${name}, ${email}, ${phone}, ${company}, ${business}, ${null}, ${siteOrSocial}, ${projectType}, ${budget}, ${timeline || null}, ${message}, ${source || null}, ${attachmentUrl}, ${attachmentName})
+          RETURNING id
+        `,
+      },
+      {
+        popis: "pôvodné stĺpce",
+        vloz: () => sql`
+          INSERT INTO leads (name, email, phone, company, project_type, budget, timeline, message, source, attachment_url, attachment_name)
+          VALUES (${name}, ${email}, ${phone}, ${company}, ${projectType}, ${budget}, ${timeline || null}, ${message}, ${source || null}, ${attachmentUrl}, ${attachmentName})
+          RETURNING id
+        `,
+      },
+    ];
+
+    let posledna: unknown = null;
+    for (const pokus of pokusy) {
+      try {
+        const rows = (await pokus.vloz()) as { id: number }[];
+        leadId = rows[0].id;
+        break;
+      } catch (err) {
+        posledna = err;
+        console.error(`contact route: INSERT (${pokus.popis}) zlyhal:`, err);
+      }
     }
+    if (leadId === null) throw posledna;
   } catch (err) {
     console.error("contact route DB insert failed:", err);
     return NextResponse.json({ error: "Odoslanie zlyhalo, skús to prosím neskôr." }, { status: 502 });
@@ -77,7 +114,7 @@ export async function POST(request: Request) {
   const gmailAppPassword = process.env.GMAIL_APP_PASSWORD;
 
   if (!gmailUser || !gmailAppPassword) {
-    return NextResponse.json({ ok: true });
+    return NextResponse.json({ ok: true, leadId });
   }
 
   const transporter = nodemailer.createTransport({
@@ -158,5 +195,5 @@ export async function POST(request: Request) {
     console.error("contact route sendMail failed:", err);
   }
 
-  return NextResponse.json({ ok: true });
+  return NextResponse.json({ ok: true, leadId });
 }

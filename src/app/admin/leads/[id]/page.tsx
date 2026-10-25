@@ -25,6 +25,15 @@ type Lead = {
   timeline: string | null;
   message: string | null;
   source: string | null;
+  /* Zdroj návštevy. Kým na databáze nie je odbehnutá migrácia
+     001-zdroj-navstevy.sql, prídu tieto polia ako undefined. */
+  gclid: string | null;
+  utm_source: string | null;
+  utm_medium: string | null;
+  utm_campaign: string | null;
+  utm_term: string | null;
+  landing_page: string | null;
+  referrer: string | null;
   status: string;
   attachment_url: string | null;
   attachment_name: string | null;
@@ -146,9 +155,44 @@ export default async function LeadDetailPage({
             </div>
           )}
           <div className={styles.field}>
-            <label>Zdroj</label>
+            <label>Stránka formulára</label>
             <div>{lead.source || "—"}</div>
           </div>
+          <div className={styles.field}>
+            <label>Z reklamy</label>
+            {/* gclid je identifikátor kliku na Google reklamu. Keď tu je,
+                lead naozaj prišiel z platenej kampane — a zároveň to
+                znamená, že meranie konverzií má čo priradiť. */}
+            <div>{lead.gclid ? "Áno — Google Ads" : "Nie / priamo"}</div>
+          </div>
+          {lead.gclid && (
+            <div className={styles.field}>
+              <label>gclid</label>
+              <div style={{ wordBreak: "break-all", fontSize: 12 }}>{lead.gclid}</div>
+            </div>
+          )}
+          {(lead.utm_source || lead.utm_campaign) && (
+            <div className={styles.field}>
+              <label>Kampaň</label>
+              <div>
+                {[lead.utm_source, lead.utm_medium, lead.utm_campaign, lead.utm_term]
+                  .filter(Boolean)
+                  .join(" · ")}
+              </div>
+            </div>
+          )}
+          {lead.landing_page && (
+            <div className={styles.field}>
+              <label>Vstupná stránka</label>
+              <div style={{ wordBreak: "break-all" }}>{lead.landing_page}</div>
+            </div>
+          )}
+          {lead.referrer && (
+            <div className={styles.field}>
+              <label>Prišiel z</label>
+              <div style={{ wordBreak: "break-all" }}>{lead.referrer}</div>
+            </div>
+          )}
         </div>
 
         <div className={styles.messageBlock}>

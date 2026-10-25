@@ -630,3 +630,8 @@ textarea.field:not(:placeholder-shown){
   color:#ff6b6b;
   margin-top:14px;
 }
+
+/* Priamy kontakt v chybovej hláške — keď odoslanie zlyhá, musí byť
+   viditeľnou náhradou, nie drobným textom na konci odseku. */
+.errorKontakt{ margin-top:6px; font-weight:600; }
+.errorKontakt a{ color:inherit; text-decoration:underline; text-underline-offset:3px; }

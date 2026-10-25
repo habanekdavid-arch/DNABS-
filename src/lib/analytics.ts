@@ -10,18 +10,36 @@ import { getStoredConsent } from "@/lib/cookieConsent";
  * kde ich Google pred odoslaním zahashuje (SHA-256) priamo v prehliadači.
  */
 
-declare global {
-  interface Window {
-    gtag?: (...args: unknown[]) => void;
-    dataLayer?: unknown[];
-  }
-}
+/**
+ * Konverzná akcia v Google Ads: „DNABS – Lead (ďakovná stránka)“, kategória
+ * Odoslanie formulára pre potenciálnych zákazníkov, počítaná raz za dopyt.
+ *
+ * Label nájdeš v Ads → Ciele → Súhrn → konverzná akcia → Nastaviť značku →
+ * Použiť Google tag, v tvare `send_to: 'AW-18360461587/<LABEL>'`.
+ *
+ * Zámerne tu nie je žiadny zapísaný label ako záloha. Starý
+ * `Ctr6CJKaj9kcEJPS-bJE` patril akcii „Zobrazenie stránky“, ktorá je dnes
+ * sekundárna — keby ostal ako fallback, pri chýbajúcej premennej by sa ticho
+ * merala nesprávna akcia a čísla v Ads by vyzerali v poriadku. Radšej nech
+ * konverzia neodíde vôbec a je to vidieť.
+ */
+const ADS_ID = process.env.NEXT_PUBLIC_ADS_ID ?? "AW-18360461587";
+const ADS_LABEL = process.env.NEXT_PUBLIC_ADS_CONVERSION_LABEL;
+export const ADS_SEND_TO = ADS_LABEL ? `${ADS_ID}/${ADS_LABEL}` : null;
+
+/** Jeden lead berieme ako hodnotu 1 € — Ads potrebuje nejakú hodnotu, aby
+ *  vedelo optimalizovať, a skutočnú hodnotu zákazky v tej chvíli nepoznáme. */
+export const LEAD_VALUE = 1;
+export const LEAD_CURRENCY = "EUR";
 
 export type LeadEvent = {
   /** Ktorý formulár to bol — keby pribudol druhý, vieme ich odlíšiť. */
   formLocation: string;
   /** Kód služby z formulára: web | eshop | redesign | app | marketing */
   sluzba: string;
+  /** ID leadu z databázy. Slúži ako transaction_id — Google podľa neho
+   *  zahodí druhý ping o tej istej konverzii (napr. z /dakujeme). */
+  leadId?: number | string | null;
   /** Kód odvetvia. Formulár sa naň už nepýta, tak je nepovinné — staré
    *  volania s ním fungujú ďalej. */
   odvetvie?: string;
@@ -82,8 +100,39 @@ function setUserData({ email, phone }: Pick<LeadEvent, "email" | "phone">) {
   }
 }
 
-export function trackLead({ formLocation, sluzba, odvetvie, email, phone }: LeadEvent) {
-  if (typeof window === "undefined") return;
+/**
+ * Konverzia priamo do Google Ads. Spúšťa sa hneď po úspešnom uložení leadu,
+ * nie až na ďakovacej stránke — ak návštevník zavrie tab skôr, než sa
+ * /dakujeme načíta, konverzia by sa inak stratila. Druhý ping z /dakujeme
+ * zahodí Google podľa transaction_id.
+ */
+export function trackAdsConversion(leadId?: number | string | null): boolean {
+  if (typeof window === "undefined") return false;
+  if (!ADS_SEND_TO) {
+    console.warn(
+      "Ads konverzia sa neodoslala: chýba NEXT_PUBLIC_ADS_CONVERSION_LABEL.",
+    );
+    return false;
+  }
+  if (typeof window.gtag !== "function") return false;
+  try {
+    window.gtag("event", "conversion", {
+      send_to: ADS_SEND_TO,
+      value: LEAD_VALUE,
+      currency: LEAD_CURRENCY,
+      ...(leadId != null ? { transaction_id: String(leadId) } : {}),
+    });
+    return true;
+  } catch (err) {
+    console.error("trackAdsConversion: gtag zlyhal", err);
+    return false;
+  }
+}
+
+/** Vráti true, ak sa Ads konverziu podarilo odoslať. Pri false ju musí
+ *  doposlať ďakovacia stránka. */
+export function trackLead({ formLocation, sluzba, odvetvie, leadId, email, phone }: LeadEvent): boolean {
+  if (typeof window === "undefined") return false;
 
   // Musí ísť pred udalosťou, inak ju Google spáruje bez údajov o používateľovi.
   setUserData({ email, phone });
@@ -92,6 +141,9 @@ export function trackLead({ formLocation, sluzba, odvetvie, email, phone }: Lead
     form_location: formLocation,
     sluzba: sluzba || "neuvedene",
     odvetvie: odvetvie || "neuvedene",
+    value: LEAD_VALUE,
+    currency: LEAD_CURRENCY,
+    ...(leadId != null ? { transaction_id: String(leadId) } : {}),
   };
 
   try {
@@ -100,11 +152,34 @@ export function trackLead({ formLocation, sluzba, odvetvie, email, phone }: Lead
     console.error("trackLead: gtag zlyhal", err);
   }
 
+  return trackAdsConversion(leadId);
+
   // Ak by web niekedy prešiel na Google Tag Manager, udalosť tam už čaká.
   // Osobné údaje sem nepatria — dataLayer vidí každý skript na stránke.
   try {
     window.dataLayer?.push({ event: "generate_lead", ...payload });
   } catch (err) {
     console.error("trackLead: dataLayer zlyhal", err);
+  }
+}
+
+/**
+ * Klik na telefón alebo e-mail. Pre časť návštevníkov je to jediný prejav
+ * záujmu — formulár nevyplnia, ale zavolajú. V Ads sa to dá označiť ako
+ * druhotná konverzia, preto to meriame zvlášť od generate_lead.
+ */
+export function trackContactClick(kind: "phone" | "email", where: string) {
+  if (typeof window === "undefined") return;
+  const name = kind === "phone" ? "contact_phone_click" : "contact_email_click";
+  const payload = { form_location: where };
+  try {
+    window.gtag?.("event", name, payload);
+  } catch (err) {
+    console.error(`${name}: gtag zlyhal`, err);
+  }
+  try {
+    window.dataLayer?.push({ event: name, ...payload });
+  } catch (err) {
+    console.error(`${name}: dataLayer zlyhal`, err);
   }
 }
