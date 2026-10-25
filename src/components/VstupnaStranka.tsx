@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import Image from "next/image";
 import { useLanguage } from "@/lib/i18n";
 import type { Lang } from "@/lib/jazyky";
 import Nav from "./Nav";
@@ -9,6 +10,7 @@ import Contact from "./Contact";
 import Footer from "./Footer";
 import Accordion from "./Accordion";
 import AmbientBlobs from "./AmbientBlobs";
+import { PROJEKTY } from "@/data/hlavicka";
 import type { VstupnaStranka as Data } from "@/data/vstupneStranky";
 import styles from "./VstupnaStranka.module.css";
 
@@ -36,7 +38,23 @@ export default function VstupnaStranka({
     if (jazykZAdresy) setLangZAdresy(jazykZAdresy);
   }, [jazykZAdresy, setLangZAdresy]);
 
-  const maUkazky = data.ukazky.some((u) => u.veta);
+  /* Ukážky si doťahujú obsah zo skutočných realizácií — názov, vetu aj
+     screenshot živého webu. Projekt bez screenshotu preskakujeme, prázdny
+     rám vyzerá ako chyba. */
+  const ukazky = data.ukazky
+    .map((u) => PROJEKTY.find((p) => p.slug === u.projekt))
+    .filter((p): p is NonNullable<typeof p> => Boolean(p))
+    .map((p) => ({
+      slug: p.slug,
+      nazov: p.nazov,
+      popis: p.popis,
+      tagline: p.tagline,
+      href: p.href,
+      snimka: p.karty.find((k) => k.typ === "notebook")?.screenshot,
+    }))
+    .filter((p) => p.snimka && p.tagline);
+
+  const maUkazky = ukazky.length > 0;
 
   /* Štítky sekcií sú číslované. Keď sekcia realizácií odpadne, číslovanie
      musí ostať súvislé — „01, 03, 04" vyzerá ako chyba, nie ako zámer. */
@@ -87,24 +105,34 @@ export default function VstupnaStranka({
             <Reveal className={styles.vnutro}>
               <div className={styles.stitok}>{stitok("ukazky")}</div>
               <h2 className={styles.h2}>{t("vs_ukazky")}</h2>
-              <ul className={styles.ukazky}>
-                {data.ukazky
-                  .filter((u) => u.veta)
-                  .map((u) => (
-                    <li key={u.nazov} className={styles.ukazka}>
-                      <span className={styles.ukazkaNazov}>
-                        {u.href ? (
-                          <a href={u.href} target="_blank" rel="noopener noreferrer">
-                            {u.nazov} ↗
-                          </a>
-                        ) : (
-                          u.nazov
-                        )}
-                      </span>
-                      <span className={styles.ukazkaVeta}>{u.veta![lang]}</span>
-                    </li>
-                  ))}
-              </ul>
+              <div className={styles.ukazky}>
+                {ukazky.map((u) => (
+                  <a
+                    key={u.slug}
+                    href={`/realizacie/${u.slug}`}
+                    className={styles.ukazka}
+                  >
+                    <span className={styles.ukazkaRam}>
+                      {/* Pomer 16:10 drží výšku ešte pred načítaním obrázka,
+                          takže sa pri ňom obsah pod ním neposunie. */}
+                      <Image
+                        src={u.snimka!}
+                        alt={`${u.nazov} — web, ktorý sme postavili`}
+                        width={1600}
+                        height={1000}
+                        sizes="(max-width:620px) 100vw, (max-width:980px) 50vw, 33vw"
+                        className={styles.ukazkaObrazok}
+                      />
+                    </span>
+                    <span className={styles.ukazkaHlavicka}>
+                      <span className={styles.ukazkaNazov}>{u.nazov}</span>
+                      <span className={styles.ukazkaPopis}>{u.popis}</span>
+                    </span>
+                    <span className={styles.ukazkaVeta}>{u.tagline}</span>
+                    <span className={styles.ukazkaOdkaz}>{t("vs_ukazka_detail")}</span>
+                  </a>
+                ))}
+              </div>
             </Reveal>
           </section>
         )}
