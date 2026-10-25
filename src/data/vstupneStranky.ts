@@ -27,6 +27,10 @@ export type Ukazka = {
 
 export type VstupnaStranka = {
   slug: string;
+  /** Česká adresa pod /cs/. Prekladá sa aj URL, nielen text — Čech hľadá
+   *  „rezervační systémy", nie „rezervačné systémy", a adresa je jeden
+   *  z mála signálov, ktoré Google vidí ešte pred otvorením stránky. */
+  slugCs: string;
   /** Názov služby do schema.org a do titulku. */
   sluzbaNazov: Preklad;
   h1: Preklad;
@@ -187,6 +191,7 @@ const UKAZKY: Ukazka[] = [
 export const VSTUPNE_STRANKY: VstupnaStranka[] = [
   {
     slug: "automatizacia-procesov",
+    slugCs: "automatizace-procesu",
     sluzbaNazov: {
       sk: "Automatizácia procesov a AI agenti",
       cs: "Automatizace procesů a AI agenti",
@@ -262,6 +267,7 @@ export const VSTUPNE_STRANKY: VstupnaStranka[] = [
   },
   {
     slug: "ai-agenti",
+    slugCs: "ai-agenti",
     sluzbaNazov: {
       sk: "AI agenti a AI riešenia pre firmy",
       cs: "AI agenti a AI řešení pro firmy",
@@ -337,6 +343,7 @@ export const VSTUPNE_STRANKY: VstupnaStranka[] = [
   },
   {
     slug: "aplikacie-na-mieru",
+    slugCs: "aplikace-na-miru",
     sluzbaNazov: {
       sk: "Aplikácie a interné systémy na mieru",
       cs: "Aplikace a interní systémy na míru",
@@ -412,6 +419,7 @@ export const VSTUPNE_STRANKY: VstupnaStranka[] = [
   },
   {
     slug: "rezervacne-systemy",
+    slugCs: "rezervacni-systemy",
     sluzbaNazov: {
       sk: "Rezervačné a objednávkové systémy",
       cs: "Rezervační a objednávkové systémy",
@@ -489,4 +497,9 @@ export const VSTUPNE_STRANKY: VstupnaStranka[] = [
 
 export function getVstupnaStranka(slug: string): VstupnaStranka | undefined {
   return VSTUPNE_STRANKY.find((s) => s.slug === slug);
+}
+
+/** Stránka podľa českej adresy. */
+export function getVstupnaStrankaCs(slugCs: string): VstupnaStranka | undefined {
+  return VSTUPNE_STRANKY.find((s) => s.slugCs === slugCs);
 }
