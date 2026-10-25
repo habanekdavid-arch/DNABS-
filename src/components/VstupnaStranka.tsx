@@ -73,6 +73,9 @@ export default function VstupnaStranka({
             <div className={styles.kicker}>{data.sluzbaNazov[lang]}</div>
             <h1 className={styles.h1}>{data.h1[lang]}</h1>
             <p className={styles.podnadpis}>{data.podnadpis[lang]}</p>
+            {data.uvod?.map((o) => (
+              <p key={o[lang]} className={styles.uvod}>{o[lang]}</p>
+            ))}
             <a href="#kontakt" className={styles.cta} data-cursor="cta">
               {t("contact_submit")}
               <span aria-hidden className={styles.ctaSipka}>›</span>
@@ -100,6 +103,21 @@ export default function VstupnaStranka({
         {/* Sekcia „Na čom to vieme“ sa vykreslí, až keď má overené vety.
             Prázdne miesto je lepšie než vymyslený príbeh o cudzom
             projekte — ten si návštevník overí jedným klikom. */}
+        {data.pasaze && data.pasaze.length > 0 && (
+          <section className={styles.sekciaClanok}>
+            <Reveal className={styles.clanok}>
+              {data.pasaze.map((pasaz) => (
+                <article key={pasaz.nadpis[lang]} className={styles.pasaz}>
+                  <h2 className={styles.pasazNadpis}>{pasaz.nadpis[lang]}</h2>
+                  {pasaz.odstavce.map((o) => (
+                    <p key={o[lang]} className={styles.pasazText}>{o[lang]}</p>
+                  ))}
+                </article>
+              ))}
+            </Reveal>
+          </section>
+        )}
+
         {maUkazky && (
           <section className={styles.sekcia}>
             <Reveal className={styles.vnutro}>

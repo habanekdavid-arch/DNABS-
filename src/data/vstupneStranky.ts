@@ -26,8 +26,17 @@ export type Otazka = { q: Preklad; a: Preklad };
  */
 export type Ukazka = { projekt: string };
 
+/** Dlhšia pasáž textu — nadpis a pár odstavcov pod ním. */
+export type Pasaz = { nadpis: Preklad; odstavce: Preklad[] };
+
 export type VstupnaStranka = {
   slug: string;
+  /** Úvodné odstavce hneď pod nadpisom. Človek z reklamy musí v prvých
+   *  vetách nájsť svoj problém opísaný vlastnými slovami — až potom číta
+   *  ďalej. */
+  uvod?: Preklad[];
+  /** Hlavný text stránky. Vykresľuje sa ako článok, v čitateľnom stĺpci. */
+  pasaze?: Pasaz[];
   /** Česká adresa pod /cs/. Prekladá sa aj URL, nielen text — Čech hľadá
    *  „rezervační systémy", nie „rezervačné systémy", a adresa je jeden
    *  z mála signálov, ktoré Google vidí ešte pred otvorením stránky. */
@@ -416,6 +425,29 @@ export const VSTUPNE_STRANKY: VstupnaStranka[] = [
   {
     slug: "rezervacne-systemy",
     slugCs: "rezervacni-systemy",
+    uvod: [
+      {
+        sk: "Väčšina prevádzok na Slovensku dnes berie rezervácie a objednávky cez tri kanály naraz: telefón, Instagram a Messenger. Funguje to presne dovtedy, kým je ich málo. Potom príde deň, keď jeden termín potvrdíte dvakrát, na druhý zabudnete, a tretí zákazník odíde ku konkurencii, lebo mu nikto neodpísal do večera.",
+        cs: "Většina provozoven dnes bere rezervace a objednávky přes tři kanály naráz: telefon, Instagram a Messenger. Funguje to přesně do chvíle, než jich je moc. Pak přijde den, kdy jeden termín potvrdíte dvakrát, na druhý zapomenete, a třetí zákazník odejde ke konkurenci, protože mu nikdo neodepsal do večera.",
+        en: "Most businesses still take bookings and orders through three channels at once: phone, Instagram and Messenger. That works right up until there are too many. Then comes the day you confirm one slot twice, forget another, and a third customer goes to a competitor because nobody replied by evening.",
+        hu: "A legtöbb üzlet ma három csatornán egyszerre fogad foglalásokat és rendeléseket: telefon, Instagram, Messenger. Pontosan addig működik, amíg kevés van belőlük. Aztán jön a nap, amikor egy időpontot kétszer visszaigazol, egy másikról megfeledkezik, a harmadik vendég pedig a konkurenciához megy, mert estig nem válaszolt neki senki.",
+        de: "Die meisten Betriebe nehmen Reservierungen und Bestellungen über drei Kanäle gleichzeitig entgegen: Telefon, Instagram und Messenger. Das funktioniert genau so lange, wie es wenige sind. Dann kommt der Tag, an dem Sie einen Termin doppelt bestätigen, einen zweiten vergessen und ein dritter Kunde zur Konkurrenz geht, weil ihm bis zum Abend niemand geantwortet hat.",
+      },
+      {
+        sk: "Rezervačný systém nie je o technológii. Je o tom, že objednávka má jedno miesto, kde vždy je, a že si ju zákazník vybaví sám — aj o jedenástej večer, aj keď máte plné ruky práce.",
+        cs: "Rezervační systém není o technologii. Je o tom, že objednávka má jedno místo, kde vždycky je, a že si ji zákazník vyřídí sám — i v jedenáct večer, i když máte plné ruce práce.",
+        en: "A booking system isn't about technology. It's about an order having one place where it always is, and the customer handling it themselves — at eleven at night, and while your hands are full.",
+        hu: "A foglalási rendszer nem a technológiáról szól. Arról szól, hogy a rendelésnek egyetlen helye van, ahol mindig megtalálható, és hogy az ügyfél maga intézi — este tizenegykor is, és akkor is, amikor Önnek tele a keze.",
+        de: "Ein Reservierungssystem ist keine Technikfrage. Es geht darum, dass eine Bestellung einen Ort hat, an dem sie immer ist, und dass der Kunde sie selbst erledigt — auch um elf Uhr abends und auch, wenn Sie alle Hände voll zu tun haben.",
+      },
+      {
+        sk: "Nižšie je rozpísané, čo taký systém reálne rieši, čo do neho patrí, pre koho má zmysel a pre koho nie, a ako celé nasadenie prebieha. Ak sa vám to bude zdať ako váš prípad, napíšte nám — prvá polhodina je zadarmo a nezáväzne.",
+        cs: "Níže je rozepsané, co takový systém reálně řeší, co do něj patří, pro koho má smysl a pro koho ne, a jak celé nasazení probíhá. Pokud vám to bude připadat jako váš případ, napište nám — první půlhodina je zdarma a nezávazně.",
+        en: "Below is what such a system actually solves, what goes into it, who it makes sense for and who not, and how a rollout works. If it sounds like your situation, get in touch — the first half hour is free and without commitment.",
+        hu: "Alább leírjuk, mit old meg valójában egy ilyen rendszer, mi tartozik bele, kinek van értelme és kinek nincs, és hogyan zajlik a bevezetés. Ha ez ismerősen hangzik, írjon nekünk — az első félóra ingyenes és kötelezettség nélküli.",
+        de: "Unten steht, was so ein System wirklich löst, was dazugehört, für wen es sinnvoll ist und für wen nicht, und wie die Einführung abläuft. Wenn Ihnen das bekannt vorkommt, schreiben Sie uns — die erste halbe Stunde ist kostenlos und unverbindlich.",
+      },
+    ],
     sluzbaNazov: {
       sk: "Rezervačné a objednávkové systémy",
       cs: "Rezervační a objednávkové systémy",
@@ -468,8 +500,43 @@ export const VSTUPNE_STRANKY: VstupnaStranka[] = [
           de: "Freie Termine, Preise und Optionen sehen Kunden selbst. Sie rufen nur noch an, wenn es wirklich nötig ist.",
         },
       },
+      {
+        nadpis: { sk: "Prehľad namiesto hľadania", cs: "Přehled místo hledání", en: "An overview instead of a search", hu: "Áttekintés keresgélés helyett", de: "Überblick statt Suche" },
+        text: { sk: "Čo prišlo, čo je vybavené a čo čaká, vidíte na jednej obrazovke. Nie v troch aplikáciách a jednom zošite.", cs: "Co přišlo, co je vyřízené a co čeká, vidíte na jedné obrazovce. Ne ve třech aplikacích a jednom sešitě.", en: "What came in, what's done and what's waiting — on one screen. Not across three apps and a notebook.", hu: "Mi érkezett, mi van kész és mi vár — egy képernyőn. Nem három alkalmazásban és egy füzetben.", de: "Was eingegangen, erledigt und offen ist — auf einem Bildschirm. Nicht in drei Apps und einem Heft." },
+      },
+      {
+        nadpis: { sk: "Zákazník dostane potvrdenie", cs: "Zákazník dostane potvrzení", en: "The customer gets a confirmation", hu: "Az ügyfél visszaigazolást kap", de: "Der Kunde bekommt eine Bestätigung" },
+        text: { sk: "Automatický e-mail hneď po odoslaní. Zákazník vie, že objednávka dorazila, a nepíše druhýkrát, či ste ju videli.", cs: "Automatický e-mail hned po odeslání. Zákazník ví, že objednávka dorazila, a nepíše podruhé, jestli jste ji viděli.", en: "An automatic e-mail right after submission. They know the order arrived and don't write again asking whether you saw it.", hu: "Automatikus e-mail azonnal a beküldés után. Tudja, hogy a rendelés megérkezett, és nem ír másodszor, hogy látta-e.", de: "Eine automatische E-Mail direkt nach dem Absenden. Der Kunde weiß, dass die Bestellung da ist, und fragt nicht nochmal nach." },
+      },
+      {
+        nadpis: { sk: "Dáta, nie dohady", cs: "Data, ne dohady", en: "Data, not guesswork", hu: "Adatok, nem találgatás", de: "Daten statt Vermutungen" },
+        text: { sk: "Vidíte, čo si ľudia objednávajú najčastejšie a kedy. Pri správach to neviete zistiť, pri systéme je to jeden pohľad.", cs: "Vidíte, co si lidé objednávají nejčastěji a kdy. U zpráv to nezjistíte, u systému je to jeden pohled.", en: "You see what people order most and when. With messages you can't find out; with a system it's one glance.", hu: "Látja, mit rendelnek a legtöbben és mikor. Üzenetekből ezt nem tudja meg, rendszerből egy pillantás.", de: "Sie sehen, was am häufigsten und wann bestellt wird. Aus Nachrichten lässt sich das nicht ablesen, im System ist es ein Blick." },
+      },
     ],
-    ukazky: U("nicepoke", "vytlacto-3d", "risebloom"),
+pasaze: [
+      {
+        nadpis: { sk: "Čo sa deje, keď objednávky chodia cez správy", cs: "Co se děje, když objednávky chodí přes zprávy", en: "What happens when orders arrive through messages", hu: "Mi történik, ha a rendelések üzenetben jönnek", de: "Was passiert, wenn Bestellungen über Nachrichten kommen" },
+        odstavce: [
+          { sk: "Správa v Instagrame nie je objednávka. Je to text, ktorý si musíte prečítať, pochopiť, niekam si ho poznačiť a potom naň odpovedať. Pri piatich za deň to nie je problém. Pri dvadsiatich je to hodina práce denne, ktorú nikto neplatí, a pri ktorej sa nedá nerobiť chyby — lebo sa robí medzi inou prácou.", cs: "Zpráva na Instagramu není objednávka. Je to text, který si musíte přečíst, pochopit, někam si ho poznamenat a pak na něj odpovědět. Při pěti za den to není problém. Při dvaceti je to hodina práce denně, kterou nikdo neplatí, a u které se nedá nedělat chyby — protože se dělá mezi jinou prací.", en: "An Instagram message is not an order. It's text you have to read, understand, note down somewhere and then reply to. At five a day that's fine. At twenty it's an hour of unpaid work a day, and work where mistakes are unavoidable, because it happens between other work.", hu: "Egy Instagram-üzenet nem rendelés. Szöveg, amit el kell olvasni, megérteni, lejegyezni, majd válaszolni rá. Napi ötnél ez nem gond. Napi húsznál ez napi egy óra fizetetlen munka, amiben elkerülhetetlen a hiba, mert más munka közben történik.", de: "Eine Instagram-Nachricht ist keine Bestellung. Sie ist Text, den Sie lesen, verstehen, irgendwo notieren und dann beantworten müssen. Bei fünf am Tag ist das kein Problem. Bei zwanzig ist es eine Stunde unbezahlte Arbeit täglich, bei der Fehler unvermeidlich sind, weil sie zwischen anderer Arbeit passiert." },
+          { sk: "A je tu druhá, tichšia strata. Zákazník, ktorý píše o deviatej večer, väčšinou nečaká do rána. Napíše trom prevádzkam a ide k tej, ktorá odpovie prvá. Pri správach odpovedáte, keď máte čas. Pri rezervačnom systéme odpovedá formulár hneď — potvrdením, že objednávka dorazila.", cs: "A je tu druhá, tišší ztráta. Zákazník, který píše v devět večer, většinou nečeká do rána. Napíše třem provozovnám a jde k té, která odpoví první. U zpráv odpovídáte, až máte čas. U rezervačního systému odpovídá formulář hned — potvrzením, že objednávka dorazila.", en: "And there's a second, quieter loss. Someone writing at nine in the evening usually won't wait until morning. They message three places and go with whoever answers first. With messages, you answer when you have time. With a booking system, the form answers immediately — with a confirmation that the order arrived.", hu: "És van egy második, csendesebb veszteség. Aki este kilenckor ír, általában nem vár reggelig. Ír három helyre, és ahhoz megy, aki először válaszol. Üzeneteknél akkor válaszol, amikor ideje van. Foglalási rendszernél az űrlap azonnal válaszol — visszaigazolással, hogy a rendelés megérkezett.", de: "Und es gibt einen zweiten, leiseren Verlust. Wer um neun Uhr abends schreibt, wartet meist nicht bis zum Morgen. Er schreibt drei Betriebe an und geht zu dem, der zuerst antwortet. Bei Nachrichten antworten Sie, wenn Sie Zeit haben. Beim Reservierungssystem antwortet das Formular sofort — mit der Bestätigung, dass die Bestellung angekommen ist." },
+        ],
+      },
+      {
+        nadpis: { sk: "Čo do takého systému patrí", cs: "Co do takového systému patří", en: "What goes into a system like this", hu: "Mi tartozik egy ilyen rendszerbe", de: "Was zu so einem System gehört" },
+        odstavce: [
+          { sk: "Základ je vždy rovnaký: formulár, ktorý sa pýta presne na to, čo potrebujete vedieť, a nič navyše. Prehľad, v ktorom vidíte, čo prišlo, čo je vybavené a čo čaká. A automatický e-mail zákazníkovi, že objednávku máte. Tieto tri veci vyriešia väčšinu problému.", cs: "Základ je vždy stejný: formulář, který se ptá přesně na to, co potřebujete vědět, a nic navíc. Přehled, ve kterém vidíte, co přišlo, co je vyřízené a co čeká. A automatický e-mail zákazníkovi, že objednávku máte. Tyhle tři věci vyřeší většinu problému.", en: "The core is always the same: a form that asks exactly what you need to know and nothing more. An overview showing what came in, what's done and what's waiting. And an automatic e-mail telling the customer you have their order. Those three things solve most of it.", hu: "Az alap mindig ugyanaz: űrlap, amely pontosan azt kérdezi, amit tudni kell, és semmi mást. Áttekintés, amelyben látja, mi érkezett, mi van kész és mi vár. És automatikus e-mail az ügyfélnek, hogy megvan a rendelés. Ez a három dolog a probléma nagy részét megoldja.", de: "Die Basis ist immer gleich: ein Formular, das genau das fragt, was Sie wissen müssen, und nichts weiter. Eine Übersicht, die zeigt, was eingegangen ist, was erledigt ist und was wartet. Und eine automatische E-Mail an den Kunden, dass die Bestellung da ist. Diese drei Dinge lösen das meiste." },
+          { sk: "Nad tým sa stavia podľa toho, čo robíte. Kalendár s voľnými termínmi, keď predávate čas. Konfigurátor s cenou, keď má každá objednávka iné parametre — presne to sme robili pre VYTLAČTO 3D, kde si zákazník nahrá model a cenu spočíta systém. Platba vopred, keď vás trápia nedovolané rezervácie. Nič z toho ale nie je povinné a nemá zmysel to stavať dopredu.", cs: "Nad tím se staví podle toho, co děláte. Kalendář s volnými termíny, když prodáváte čas. Konfigurátor s cenou, když má každá objednávka jiné parametry — přesně to jsme dělali pro VYTLAČTO 3D, kde si zákazník nahraje model a cenu spočítá systém. Platba předem, když vás trápí nedorazivší rezervace. Nic z toho ale není povinné a nemá smysl to stavět dopředu.", en: "On top of that it depends on what you do. A calendar of free slots if you sell time. A configurator with pricing if every order has different parameters — exactly what we built for VYTLAČTO 3D, where the customer uploads a model and the system works out the price. Prepayment if no-shows are your problem. None of it is mandatory and there's no point building it up front.", hu: "Erre épül az, ami az Ön tevékenységétől függ. Naptár szabad időpontokkal, ha időt árul. Konfigurátor árral, ha minden rendelés más paraméterű — pontosan ezt építettük a VYTLAČTO 3D-nek, ahol az ügyfél feltölti a modellt, az árat pedig a rendszer számolja. Előre fizetés, ha a meg nem jelenés a gond. Ebből semmi nem kötelező, és nincs értelme előre megépíteni.", de: "Darauf baut auf, was zu Ihrer Arbeit passt. Ein Kalender mit freien Terminen, wenn Sie Zeit verkaufen. Ein Konfigurator mit Preis, wenn jede Bestellung andere Parameter hat — genau das haben wir für VYTLAČTO 3D gebaut, wo der Kunde ein Modell hochlädt und das System den Preis berechnet. Vorauszahlung, wenn Nichterscheinen Ihr Problem ist. Nichts davon ist Pflicht, und es lohnt nicht, es auf Vorrat zu bauen." },
+        ],
+      },
+      {
+        nadpis: { sk: "Pre koho to má zmysel — a pre koho nie", cs: "Pro koho to má smysl — a pro koho ne", en: "Who it makes sense for — and who not", hu: "Kinek van értelme — és kinek nincs", de: "Für wen es sinnvoll ist — und für wen nicht" },
+        odstavce: [
+          { sk: "Zmysel to dáva, keď objednávky chodia aspoň párkrát denne, keď sa opakuje tá istá otázka dookola, alebo keď na ne odpovedá viac ľudí a nikto nevie, čo už ten druhý potvrdil. Typicky prevádzky so službami na objednávku, malé e-shopy s výrobou na mieru, servisy a všetko, kde sa predáva čas.", cs: "Smysl to dává, když objednávky chodí aspoň párkrát denně, když se opakuje tatáž otázka dokola, nebo když na ně odpovídá víc lidí a nikdo neví, co už ten druhý potvrdil. Typicky provozovny se službami na objednávku, malé e-shopy s výrobou na míru, servisy a všechno, kde se prodává čas.", en: "It makes sense when orders come in at least a few times a day, when the same question keeps repeating, or when several people answer them and nobody knows what the other already confirmed. Typically appointment-based businesses, small made-to-order shops, workshops, and anywhere time is what you sell.", hu: "Akkor van értelme, ha naponta legalább néhányszor érkezik rendelés, ha ugyanaz a kérdés ismétlődik, vagy ha többen válaszolnak rájuk, és senki nem tudja, mit igazolt vissza a másik. Jellemzően időpontos szolgáltatások, kis egyedi gyártású webshopok, szervizek, és minden, ahol az időt adják el.", de: "Sinnvoll ist es, wenn Bestellungen mindestens ein paar Mal täglich kommen, wenn sich dieselbe Frage ständig wiederholt, oder wenn mehrere Leute antworten und niemand weiß, was der andere schon bestätigt hat. Typisch: Terminbetriebe, kleine Shops mit Maßanfertigung, Werkstätten und alles, wo Zeit verkauft wird." },
+          { sk: "Zmysel to nedáva, keď máte dve objednávky týždenne a každú riešite polhodinovým telefonátom, pri ktorom aj tak predávate. Vtedy je systém len ďalšia vec, ktorú treba udržiavať. Povieme vám to rovno na konzultácii — radšej, než by sme vám predali niečo, čo nebudete používať.", cs: "Smysl to nedává, když máte dvě objednávky týdně a každou řešíte půlhodinovým telefonátem, při kterém stejně prodáváte. Tehdy je systém jen další věc, kterou je třeba udržovat. Řekneme vám to rovnou na konzultaci — radši, než abychom vám prodali něco, co nebudete používat.", en: "It doesn't make sense if you get two orders a week and handle each with a half-hour call during which you're selling anyway. Then a system is just one more thing to maintain. We'll say so on the consultation — rather than sell you something you won't use.", hu: "Nincs értelme, ha heti két rendelése van, és mindegyiket félórás telefonnal intézi, amely közben amúgy is értékesít. Akkor a rendszer csak egy újabb fenntartandó dolog. A konzultáción ezt megmondjuk — inkább, mint hogy eladjunk valamit, amit nem fog használni.", de: "Nicht sinnvoll ist es, wenn Sie zwei Bestellungen pro Woche haben und jede in einem halbstündigen Telefonat klären, bei dem Sie ohnehin verkaufen. Dann ist ein System nur eine weitere Sache zum Pflegen. Das sagen wir Ihnen im Gespräch — lieber, als Ihnen etwas zu verkaufen, das Sie nicht nutzen." },
+        ],
+      },
+    ],
+        ukazky: U("nicepoke", "vytlacto-3d", "risebloom"),
     kroky: KROKY,
     faq: FAQ,
     seo: {
