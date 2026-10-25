@@ -137,6 +137,44 @@ const FAQ: Otazka[] = [
   },
 ];
 
+/* Pri AI ľudia riešia iné obavy než pri bežnom softvéri — či to nahradí
+   zamestnanca a odkiaľ to berie odpovede. Ak tieto dve otázky stránka
+   nezodpovie, zodpovie si ich návštevník sám a väčšinou v náš neprospech. */
+const AI_FAQ: Otazka[] = [
+  {
+    q: {
+      sk: "Nahradí to zamestnanca?",
+      cs: "Nahradí to zaměstnance?",
+      en: "Will it replace an employee?",
+      hu: "Kivált ez egy alkalmazottat?",
+      de: "Ersetzt das einen Mitarbeiter?",
+    },
+    a: {
+      sk: "Nie. Preberá opakovanú prácu — prepisovanie, triedenie, odpovede na tie isté otázky. Rozhodovanie, ponuky a vzťah so zákazníkom zostávajú na ľuďoch. Zmysel to dáva tam, kde na dôležitú prácu nezostáva čas.",
+      cs: "Ne. Přebírá opakovanou práci — přepisování, třídění, odpovědi na tytéž dotazy. Rozhodování, nabídky a vztah se zákazníkem zůstávají na lidech. Smysl to dává tam, kde na důležitou práci nezbývá čas.",
+      en: "No. It takes over the repetitive work — retyping, sorting, answering the same questions. Decisions, quotes and the customer relationship stay with people. It makes sense where there's no time left for the important work.",
+      hu: "Nem. Az ismétlődő munkát veszi át — átgépelés, rendezés, ugyanazon kérdések megválaszolása. A döntés, az ajánlat és az ügyfélkapcsolat az embereknél marad. Ott van értelme, ahol a fontos munkára nem jut idő.",
+      de: "Nein. Sie übernimmt die wiederkehrende Arbeit — Abtippen, Sortieren, immer gleiche Fragen beantworten. Entscheidungen, Angebote und die Kundenbeziehung bleiben bei Menschen. Sinnvoll ist das dort, wo für die wichtige Arbeit keine Zeit bleibt.",
+    },
+  },
+  {
+    q: {
+      sk: "Odkiaľ berie AI odpovede? Nevymyslí si ich?",
+      cs: "Odkud bere AI odpovědi? Nevymyslí si je?",
+      en: "Where does the AI get its answers? Can it make things up?",
+      hu: "Honnan veszi az AI a válaszokat? Nem találja ki őket?",
+      de: "Woher nimmt die KI ihre Antworten? Erfindet sie etwas?",
+    },
+    a: {
+      sk: "Z vašich podkladov — cenníka, otváracích hodín, popisov služieb, čoho si určíte. Nastavíme to tak, aby odpovedala len z nich, a keď na otázku odpoveď nemá, povie to a pošle ju vám. To je dôležitejšie než to, aby odpovedala vždy.",
+      cs: "Z vašich podkladů — ceníku, otevírací doby, popisů služeb, čeho si určíte. Nastavíme to tak, aby odpovídala jen z nich, a když na dotaz odpověď nemá, řekne to a pošle ho vám. To je důležitější než to, aby odpovídala vždy.",
+      en: "From your own material — price list, opening hours, service descriptions, whatever you decide. We set it up to answer only from those, and when it doesn't have an answer it says so and passes the question to you. That matters more than always having an answer.",
+      hu: "Az Önök anyagaiból — árlista, nyitvatartás, szolgáltatásleírások, amit meghatároznak. Úgy állítjuk be, hogy csak ezekből válaszoljon, és ha nincs válasza, ezt megmondja, és továbbítja Önöknek a kérdést. Ez fontosabb, mint hogy mindig válaszoljon.",
+      de: "Aus Ihren eigenen Unterlagen — Preisliste, Öffnungszeiten, Leistungsbeschreibungen, was Sie festlegen. Wir richten es so ein, dass nur daraus geantwortet wird, und wenn keine Antwort da ist, sagt sie das und leitet die Frage an Sie weiter. Das ist wichtiger, als immer eine Antwort zu haben.",
+    },
+  },
+];
+
 /* Realizácie zatiaľ bez textu. Vymyslené vety o cudzích projektoch sú
    nielen nepoctivé, ale aj ľahko overiteľné — klient si stránku otvorí.
    Kým nemáme fakty od majiteľov, sekcia sa nevykreslí. */
@@ -219,6 +257,81 @@ export const VSTUPNE_STRANKY: VstupnaStranka[] = [
         en: "We turn manual steps into processes that run themselves. Free 30-minute consultation; price and timeline come after it.",
         hu: "A kézi lépéseket önállóan futó folyamatokká alakítjuk. Ingyenes 30 perces konzultáció, az ár és a határidő utána jön.",
         de: "Wir machen aus manuellen Schritten Abläufe, die von selbst laufen. Kostenlose 30-Minuten-Beratung, Preis und Termin danach.",
+      },
+    },
+  },
+  {
+    slug: "ai-agenti",
+    sluzbaNazov: {
+      sk: "AI agenti a AI riešenia pre firmy",
+      cs: "AI agenti a AI řešení pro firmy",
+      en: "AI agents and AI solutions for business",
+      hu: "AI-ügynökök és AI-megoldások cégeknek",
+      de: "KI-Agenten und KI-Lösungen für Unternehmen",
+    },
+    h1: {
+      sk: "AI agenti, ktorí preberú prácu, čo sa opakuje každý deň",
+      cs: "AI agenti, kteří převezmou práci, co se opakuje každý den",
+      en: "AI agents that take over the work you repeat every day",
+      hu: "AI-ügynökök, amelyek átveszik a naponta ismétlődő munkát",
+      de: "KI-Agenten, die die täglich wiederkehrende Arbeit übernehmen",
+    },
+    podnadpis: {
+      sk: "Odpovedajú na otázky zákazníkov, triedia dopyty a pripravujú podklady — z vašich údajov a podľa vašich pravidiel.",
+      cs: "Odpovídají na dotazy zákazníků, třídí poptávky a připravují podklady — z vašich údajů a podle vašich pravidel.",
+      en: "They answer customer questions, sort enquiries and prepare materials — from your data and by your rules.",
+      hu: "Megválaszolják az ügyfélkérdéseket, rendezik a megkereséseket és előkészítik az anyagokat — az Önök adataiból és szabályai szerint.",
+      de: "Sie beantworten Kundenfragen, sortieren Anfragen und bereiten Unterlagen vor — aus Ihren Daten und nach Ihren Regeln.",
+    },
+    prinosy: [
+      {
+        nadpis: { sk: "Odpovedá aj v noci", cs: "Odpovídá i v noci", en: "Answers at night too", hu: "Éjszaka is válaszol", de: "Antwortet auch nachts" },
+        text: {
+          sk: "Zákazník sa pýta večer a odpoveď dostane večer. Vy si ju ráno len prejdete.",
+          cs: "Zákazník se ptá večer a odpověď dostane večer. Vy si ji ráno jen projdete.",
+          en: "A customer asks in the evening and gets an answer in the evening. You just review it in the morning.",
+          hu: "Az ügyfél este kérdez, és este kap választ. Ön reggel csak átnézi.",
+          de: "Ein Kunde fragt abends und bekommt abends eine Antwort. Sie sehen sie morgens nur durch.",
+        },
+      },
+      {
+        nadpis: { sk: "Odpovedá z vašich údajov", cs: "Odpovídá z vašich údajů", en: "Answers from your own data", hu: "Az Önök adataiból válaszol", de: "Antwortet aus Ihren Daten" },
+        text: {
+          sk: "Pozná váš cenník, služby aj hodiny. Keď odpoveď nemá, povie to a pošle otázku vám.",
+          cs: "Zná váš ceník, služby i hodiny. Když odpověď nemá, řekne to a pošle dotaz vám.",
+          en: "It knows your prices, services and hours. When it has no answer, it says so and passes the question to you.",
+          hu: "Ismeri az árlistát, a szolgáltatásokat és a nyitvatartást. Ha nincs válasza, szól, és továbbítja a kérdést.",
+          de: "Sie kennt Ihre Preise, Leistungen und Zeiten. Hat sie keine Antwort, sagt sie das und leitet die Frage weiter.",
+        },
+      },
+      {
+        nadpis: { sk: "Dopyty prichádzajú roztriedené", cs: "Poptávky přicházejí roztříděné", en: "Enquiries arrive sorted", hu: "A megkeresések rendezve érkeznek", de: "Anfragen kommen sortiert an" },
+        text: {
+          sk: "Čo je naozaj vaše, dostanete oddelené od zvyšku. Nečítate všetko, len to podstatné.",
+          cs: "Co je doopravdy vaše, dostanete oddělené od zbytku. Nečtete všechno, jen to podstatné.",
+          en: "What's genuinely for you arrives separated from the rest. You don't read everything, just what matters.",
+          hu: "Ami valóban Önöké, azt a többitől elkülönítve kapja. Nem mindent olvas, csak a lényeget.",
+          de: "Was wirklich für Sie ist, kommt getrennt vom Rest. Sie lesen nicht alles, nur das Wesentliche.",
+        },
+      },
+    ],
+    ukazky: UKAZKY,
+    kroky: KROKY,
+    faq: [...AI_FAQ, ...FAQ],
+    seo: {
+      title: {
+        sk: "AI agenti a AI riešenia pre firmy",
+        cs: "AI agenti a AI řešení pro firmy",
+        en: "AI agents and AI solutions for business",
+        hu: "AI-ügynökök és AI-megoldások cégeknek",
+        de: "KI-Agenten und KI-Lösungen für Unternehmen",
+      },
+      description: {
+        sk: "AI agenti, ktorí odpovedajú zákazníkom a triedia dopyty z vašich údajov. Bezplatná 30-minútová konzultácia, cena a termín až po nej.",
+        cs: "AI agenti, kteří odpovídají zákazníkům a třídí poptávky z vašich údajů. Bezplatná 30minutová konzultace, cena a termín až po ní.",
+        en: "AI agents that answer customers and sort enquiries from your own data. Free 30-minute consultation; price and timeline come after it.",
+        hu: "AI-ügynökök, amelyek az Önök adataiból válaszolnak az ügyfeleknek és rendezik a megkereséseket. Ingyenes 30 perces konzultáció, az ár és a határidő utána jön.",
+        de: "KI-Agenten, die aus Ihren Daten Kunden beantworten und Anfragen sortieren. Kostenlose 30-Minuten-Beratung, Preis und Termin danach.",
       },
     },
   },
