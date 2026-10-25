@@ -7,8 +7,13 @@ import PrepinacJazyka from "./PrepinacJazyka";
 import styles from "./Nav.module.css";
 import logo from "../assets/dnabs-logo-long.svg";
 
-export default function Nav() {
+export default function Nav({ vlastnyKontakt = false }: { vlastnyKontakt?: boolean }) {
   const { t } = useLanguage();
+
+  /* Na vstupných stránkach pre reklamu musí „Kontakt" aj tlačidlo viesť na
+     formulár tej istej stránky. S absolútnym /#kontakt by sme zaplateného
+     návštevníka poslali na domovskú stránku, kde by začínal odznova. */
+  const kontakt = vlastnyKontakt ? "#kontakt" : "/#kontakt";
 
   return (
     <nav className={styles.nav}>
@@ -19,9 +24,9 @@ export default function Nav() {
         <Link href="/#sluzby" className={styles.link}>{t("nav_services")}</Link>
         <Link href="/o-nas" className={styles.link}>{t("nav_blog")}</Link>
         <Link href="/o-nas" className={styles.link}>{t("nav_about")}</Link>
-        <Link href="/#kontakt" className={styles.link}>{t("nav_contact")}</Link>
+        <Link href={kontakt} className={styles.link}>{t("nav_contact")}</Link>
         <PrepinacJazyka />
-        <Link href="/#kontakt" className={styles.cta} data-cursor="cta" data-fx>
+        <Link href={kontakt} className={styles.cta} data-cursor="cta" data-fx>
           <span className={styles.ctaFull}>{t("nav_cta")}</span>
           <span className={styles.ctaShort}>{t("nav_cta_short")}</span>
         </Link>

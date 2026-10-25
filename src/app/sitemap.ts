@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { niches } from "@/data/niches";
 import { PROJEKTY } from "@/data/hlavicka";
+import { VSTUPNE_STRANKY } from "@/data/vstupneStranky";
 
 const BASE_URL = "https://dnabs.online";
 
@@ -12,6 +13,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     { url: `${BASE_URL}/`, lastModified: UPRAVENE, changeFrequency: "weekly", priority: 1 },
     { url: `${BASE_URL}/o-nas`, lastModified: UPRAVENE, changeFrequency: "monthly", priority: 0.9 },
+    /* Vstupné stránky pre skupiny reklám. Majú vyššiu prioritu než
+       realizácie — vedú na ne platené kampane. */
+    ...VSTUPNE_STRANKY.map((stranka) => ({
+      url: `${BASE_URL}/${stranka.slug}`,
+      lastModified: UPRAVENE,
+      changeFrequency: "monthly" as const,
+      priority: 0.9,
+    })),
     /* Podstránky realizácií doteraz v mape chýbali, takže sa k nim Google
        dostal len preklikom z koláže na úvode — a k tým, čo sú v koláži nižšie,
        často vôbec. */
