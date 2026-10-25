@@ -240,6 +240,7 @@ const dict = {
   vs_stitok_ukazky: { sk: "REALIZÁCIE", cs: "REALIZACE", en: "WORK", hu: "MUNKÁINK", de: "PROJEKTE" },
   vs_stitok_kroky: { sk: "AKO TO FUNGUJE", cs: "JAK TO FUNGUJE", en: "HOW IT WORKS", hu: "HOGYAN MŰKÖDIK", de: "SO LÄUFT ES" },
   vs_stitok_faq: { sk: "ČASTÉ OTÁZKY", cs: "ČASTÉ OTÁZKY", en: "FAQ", hu: "GYIK", de: "HÄUFIGE FRAGEN" },
+  vs_ukazka_detail: { sk: "Pozrieť realizáciu →", cs: "Prohlédnout realizaci →", en: "See the project →", hu: "Megnézem a munkát →", de: "Projekt ansehen →" },
   vs_prinosy: {
     sk: "Čo vám to prinesie",
     cs: "Co vám to přinese",

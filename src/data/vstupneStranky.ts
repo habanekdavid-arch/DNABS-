@@ -16,14 +16,15 @@ export type Prinos = { nadpis: Preklad; text: Preklad };
 export type Krok = { nadpis: Preklad; text: Preklad };
 export type Otazka = { q: Preklad; a: Preklad };
 
-/** Jedna realizácia v sekcii „Na čom to vieme". */
-export type Ukazka = {
-  nazov: string;
-  href?: string;
-  /** Jedna veta: aký bol problém a čo z toho vzišlo.
-   *  null = čaká sa na overené údaje od klienta, sekcia sa nezobrazí. */
-  veta: Preklad | null;
-};
+/**
+ * Jedna realizácia v sekcii „Na čom to vieme" — iba odkaz na slug
+ * projektu v hlavicka.ts.
+ *
+ * Naschvál sa tu neopakuje názov ani veta: obsah má jedno miesto. Keby
+ * sa texty písali aj sem, časom by sa rozišli a na vstupnej stránke by
+ * o projekte stálo niečo iné než v realizáciách.
+ */
+export type Ukazka = { projekt: string };
 
 export type VstupnaStranka = {
   slug: string;
@@ -179,14 +180,9 @@ const AI_FAQ: Otazka[] = [
   },
 ];
 
-/* Realizácie zatiaľ bez textu. Vymyslené vety o cudzích projektoch sú
-   nielen nepoctivé, ale aj ľahko overiteľné — klient si stránku otvorí.
-   Kým nemáme fakty od majiteľov, sekcia sa nevykreslí. */
-const UKAZKY: Ukazka[] = [
-  { nazov: "CLEVER", veta: null },
-  { nazov: "VYTLAČTO 3D", href: "https://www.vytlacto3d.sk", veta: null },
-  { nazov: "ROZSVIEŤTO", href: "https://www.rozsvietto.sk", veta: null },
-];
+/* Ku každej stránke tie projekty, ktoré k nej naozaj patria — nie všetky,
+   čo máme. Štyri nesúvisiace ukážky presvedčia menej než dve trefné. */
+const U = (...slugy: string[]): Ukazka[] => slugy.map((projekt) => ({ projekt }));
 
 export const VSTUPNE_STRANKY: VstupnaStranka[] = [
   {
@@ -245,7 +241,7 @@ export const VSTUPNE_STRANKY: VstupnaStranka[] = [
         },
       },
     ],
-    ukazky: UKAZKY,
+    ukazky: U("vytlacto-3d", "nicepoke"),
     kroky: KROKY,
     faq: FAQ,
     seo: {
@@ -321,7 +317,7 @@ export const VSTUPNE_STRANKY: VstupnaStranka[] = [
         },
       },
     ],
-    ukazky: UKAZKY,
+    ukazky: U("clever"),
     kroky: KROKY,
     faq: [...AI_FAQ, ...FAQ],
     seo: {
@@ -397,7 +393,7 @@ export const VSTUPNE_STRANKY: VstupnaStranka[] = [
         },
       },
     ],
-    ukazky: UKAZKY,
+    ukazky: U("clever", "rozsvietto", "vytlacto-3d"),
     kroky: KROKY,
     faq: FAQ,
     seo: {
@@ -473,7 +469,7 @@ export const VSTUPNE_STRANKY: VstupnaStranka[] = [
         },
       },
     ],
-    ukazky: UKAZKY,
+    ukazky: U("nicepoke", "vytlacto-3d", "risebloom"),
     kroky: KROKY,
     faq: FAQ,
     seo: {

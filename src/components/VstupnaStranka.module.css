@@ -87,18 +87,60 @@
 .kartaText{ margin:0; font-size:15px; line-height:1.6; color:var(--fig-ink-2); }
 
 /* ── REALIZÁCIE ────────────────────────────────────────────────────── */
-.ukazky{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:0; }
+.ukazky{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(290px,1fr));
+  gap:clamp(16px,2vw,28px);
+}
 
 .ukazka{
-  display:grid; grid-template-columns:200px 1fr; gap:clamp(16px,2vw,32px);
-  padding:clamp(18px,2.2vh,26px) 0; border-top:1px solid var(--fig-ram);
+  display:flex; flex-direction:column;
+  padding:14px 14px 20px;
+  border:1px solid var(--fig-ram); border-radius:var(--radius-lg);
+  background:rgba(255,255,255,.55);
+  text-decoration:none; color:inherit;
+  transition:transform .3s cubic-bezier(.2,.8,.2,1), border-color .3s, background .3s;
 }
-.ukazka:last-child{ border-bottom:1px solid var(--fig-ram); }
+.ukazka:hover{ transform:translateY(-5px); border-color:var(--purple); background:#fff; }
+
+/* Rám drží pomer 16:10 ešte pred načítaním obrázka — bez neho by sa po
+   dolnej časti stránky trhlo zakaždým, keď sa screenshot doplní. */
+.ukazkaRam{
+  display:block; position:relative;
+  aspect-ratio:16/10; overflow:hidden;
+  border-radius:14px; background:#dedee2;
+  margin-bottom:16px;
+}
+
+.ukazkaObrazok{
+  width:100%; height:100%; object-fit:cover; object-position:top center;
+  display:block;
+  transition:transform .45s cubic-bezier(.2,.8,.2,1);
+}
+.ukazka:hover .ukazkaObrazok{ transform:scale(1.035); }
+
+.ukazkaHlavicka{
+  display:flex; align-items:baseline; justify-content:space-between;
+  gap:12px; margin-bottom:8px; padding:0 2px;
+}
 
 .ukazkaNazov{ font-family:var(--manrope); font-weight:800; font-size:16px; }
-.ukazkaNazov a{ color:inherit; text-decoration:none; border-bottom:1px solid var(--fig-ram); }
-.ukazkaNazov a:hover{ color:var(--purple); border-color:var(--purple); }
-.ukazkaVeta{ font-size:15px; line-height:1.6; color:var(--fig-ink-2); }
+.ukazkaPopis{
+  font-family:var(--gmono); font-size:11px; letter-spacing:.04em;
+  color:var(--fig-ink-3); white-space:nowrap;
+}
+
+.ukazkaVeta{
+  padding:0 2px; font-size:14.5px; line-height:1.55; color:var(--fig-ink-2);
+}
+
+.ukazkaOdkaz{
+  margin-top:14px; padding:0 2px;
+  font-family:var(--mono); font-size:11.5px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--purple);
+  transition:transform .25s;
+}
+.ukazka:hover .ukazkaOdkaz{ transform:translateX(3px); }
 
 /* ── AKO TO FUNGUJE ────────────────────────────────────────────────── */
 .kroky{
