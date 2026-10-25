@@ -24,6 +24,10 @@ type Lead = {
   timeline: string | null;
   message: string | null;
   source: string | null;
+  /* Zdroj návštevy — undefined, kým nebeží migrácia 001-zdroj-navstevy.sql. */
+  gclid: string | null;
+  utm_source: string | null;
+  utm_campaign: string | null;
   status: string;
   attachment_url: string | null;
   attachment_name: string | null;
@@ -162,6 +166,17 @@ export default async function AdminPage({
                       {lead.timeline && (
                         <div className={styles.sub}>{timelineLabel(lead.timeline)}</div>
                       )}
+                      {/* Hneď v zozname vidno, ktoré dopyty platíme
+                          z reklamy — a teda či kampaň vôbec niečo nosí. */}
+                      {lead.gclid ? (
+                        <div className={styles.sub} style={{ color: "#6637ED", fontWeight: 600 }}>
+                          ⬤ Google Ads
+                        </div>
+                      ) : lead.utm_source ? (
+                        <div className={styles.sub}>
+                          {[lead.utm_source, lead.utm_campaign].filter(Boolean).join(" · ")}
+                        </div>
+                      ) : null}
                     </td>
                     <td className={styles.message}>
                       {lead.message || <span className={styles.sub}>(bez správy)</span>}

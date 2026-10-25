@@ -4,6 +4,7 @@ import { useRef, useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { useLanguage, type DictKey } from "@/lib/i18n";
 import { trackLead } from "@/lib/analytics";
+import { zdrojDoFormulara } from "@/lib/zdroj";
 import Emph from "./Emph";
 import Reveal from "./Reveal";
 import AmbientBlobs from "./AmbientBlobs";
@@ -105,7 +106,7 @@ function FieldPicker({
 export default function Contact() {
   const { t, tPh } = useLanguage();
   const router = useRouter();
-  const [status, setStatus] = useState<"idle" | "sending" | "error">("idle");
+  const [status, setStatus] = useState<"idle" | "sending" | "error" | "errorSiet">("idle");
   const formRef = useRef<HTMLFormElement>(null);
 
   // Naraz nech je otvorený len jeden výber.
@@ -169,16 +170,32 @@ export default function Contact() {
           message: data.get("message"),
           website: data.get("website"),
           source: typeof window !== "undefined" ? window.location.pathname : undefined,
+          // Odkiaľ návštevník prišiel — zachytené pri prvom vstupe.
+          ...zdrojDoFormulara(),
         }),
       });
-      if (!res.ok) throw new Error("failed");
+      if (!res.ok) throw new Error("server");
+
+      /* Server vracia id leadu. Keby sa odpoveď nedala prečítať (proxy,
+         prerušené spojenie), konverziu pošleme aj tak — radšej bez
+         transaction_id než vôbec. */
+      let leadId: number | null = null;
+      try {
+        leadId = ((await res.json()) as { leadId?: number | null }).leadId ?? null;
+      } catch {
+        leadId = null;
+      }
 
       // Konverzia sa počíta až po úspešnom odoslaní, nikdy pri chybe.
       // E-mail a telefón slúžia len pre vylepšené konverzie — gtag ich
       // zahashuje, do parametrov udalosti sa nikdy nedostanú.
-      trackLead({
+      // trackLead pošle aj samotnú Ads konverziu, hneď tu — keby sme s ňou
+      // čakali na /dakujeme, stratila by sa vždy, keď návštevník zavrie
+      // stránku skôr, než sa ďakovačka stihne načítať.
+      const konverziaOdoslana = trackLead({
         formLocation: "kontakt",
         sluzba: projectType,
+        leadId,
         email: String(data.get("email") ?? ""),
         phone: String(data.get("phone") ?? ""),
       });
@@ -187,10 +204,24 @@ export default function Contact() {
       setProjectType("");
       setSuhlas(false);
       setErrors({});
-      sessionStorage.setItem("dnabs_conversion_pending", "1");
+      /* Poistka pre /dakujeme, ale len keď konverzia odtiaľto naozaj
+         neodišla — napríklad keď gtag zablokoval adblock alebo sa skript
+         ešte nestihol načítať. Keď odišla, príznak nestavíme a ďakovačka
+         ju nezopakuje; inak by Ads dostávalo dva pingy pri každom dopyte
+         a spoliehali by sme sa už len na dedup podľa transaction_id. */
+      if (!konverziaOdoslana) {
+        try {
+          sessionStorage.setItem("dnabs_conversion_pending", leadId != null ? String(leadId) : "1");
+        } catch {
+          // Privátne okno — poistku nemáme kam uložiť.
+        }
+      }
       router.push("/dakujeme");
-    } catch {
-      setStatus("error");
+    } catch (err) {
+      /* Rozlišujeme, či spadol server, alebo sa k nemu prehliadač vôbec
+         nedostal (vypadnutá sieť, blokovač, firemná CSP). Pre človeka je to
+         rozdiel medzi „skús znova“ a „skús inou cestou“. */
+      setStatus(err instanceof Error && err.message === "server" ? "error" : "errorSiet");
     }
   };
 
@@ -255,7 +286,9 @@ export default function Contact() {
             <div className={styles.infoLabel}>{t("contact_label_email")}</div>
             <a href="mailto:contact.dnabs@gmail.com" className={styles.emailLink}>contact.dnabs@gmail.com</a>
             <div className={styles.infoLabel}>{t("contact_label_phone")}</div>
-            <div>+421 949 390 797</div>
+            {/* Na mobile sa číslo dá rovno vytočiť — časť ľudí formulár
+                nevyplní, ale zavolá. Klik meriame (komponent Meranie). */}
+            <div><a href="tel:+421949390797" className={styles.emailLink}>+421 949 390 797</a></div>
             <div className={styles.infoLabel}>{t("contact_label_location")}</div>
             <div>Bratislava, Slovensko</div>
           </div>
@@ -356,10 +389,17 @@ export default function Contact() {
                 {t("err_summary")}
               </p>
             )}
-            {status === "error" && (
-              <p className={styles.errorMsg} role="alert">
-                {t("contact_error")}
-              </p>
+            {(status === "error" || status === "errorSiet") && (
+              <div className={styles.errorMsg} role="alert">
+                <p>{status === "errorSiet" ? t("contact_error_siet") : t("contact_error")}</p>
+                {/* Keď odoslanie zlyhá, nesmie to skončiť slepou uličkou —
+                    priamy kontakt je na mobile jeden ťuk a klik sa meria. */}
+                <p className={styles.errorKontakt}>
+                  <a href="mailto:contact.dnabs@gmail.com">contact.dnabs@gmail.com</a>
+                  {" · "}
+                  <a href="tel:+421949390797">+421 949 390 797</a>
+                </p>
+              </div>
             )}
           </form>
         </div>

@@ -1,12 +1,6 @@
 export const CONSENT_KEY = "dnabs_cookie_consent";
 export type ConsentChoice = "granted" | "denied";
 
-declare global {
-  interface Window {
-    gtag?: (...args: unknown[]) => void;
-  }
-}
-
 export function applyConsent(choice: ConsentChoice) {
   window.gtag?.("consent", "update", {
     ad_storage: choice,

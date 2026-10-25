@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default function DakujemePage() {
   return (
     <>
-      <ConversionEvent sendTo="AW-18360461587/Ctr6CJKaj9kcEJPS-bJE" />
+      <ConversionEvent />
       <DakujemeObsah />
     </>
   );

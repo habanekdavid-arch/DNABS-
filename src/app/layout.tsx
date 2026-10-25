@@ -10,6 +10,7 @@ import {
   Geist_Mono,
 } from "next/font/google";
 import CookieConsent from "@/components/CookieConsent";
+import Meranie from "@/components/Meranie";
 import { LanguageProvider } from "@/lib/i18n";
 import Cursor from "@/components/Cursor";
 import SmoothAnchors from "@/components/SmoothAnchors";
@@ -145,6 +146,9 @@ const JSON_LD = {
  */
 const GA4_ID = process.env.NEXT_PUBLIC_GA4_ID ?? "G-WPM8C948S2";
 
+/* Rovnaký zdroj pravdy ako v lib/analytics.ts — id účtu Google Ads. */
+const ADS_ID = process.env.NEXT_PUBLIC_ADS_ID ?? "AW-18360461587";
+
 export const metadata: Metadata = {
   metadataBase: new URL(WEB),
   title: {
@@ -223,13 +227,22 @@ export default function RootLayout({
                 'ad_personalization': 'denied',
                 'analytics_storage': 'denied'
               });
+              // Bez url_passthrough sa gclid stratí hneď na prvej navigácii:
+              // kým návštevník neodklikne súhlas, gtag nesmie zapísať cookie
+              // _gcl_aw, a formulár končí presmerovaním na /dakujeme, kde už
+              // gclid v adrese nie je. Konverzia potom dorazí bez toho, aby sa
+              // dala priradiť ku kampani. Toto ho prenáša v adrese.
+              gtag('set', 'url_passthrough', true);
+              // Keď je ad_storage zamietnuté, posielať identifikátory kliku aj
+              // tak by bolo v rozpore so súhlasom — toto ich z pingu odstráni.
+              gtag('set', 'ads_data_redaction', true);
               gtag('js', new Date());
-              gtag('config', 'AW-18360461587');
+              gtag('config', '${ADS_ID}', { 'allow_enhanced_conversions': true });
               ${GA4_ID ? `gtag('config', '${GA4_ID}');` : ""}
             `,
           }}
         />
-        <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18360461587"></script>
+        <script async src={`https://www.googletagmanager.com/gtag/js?id=${ADS_ID}`}></script>
       </head>
       <body>
         {/* Jazyk je spoločný pre celý web — prepínač na jednej stránke
@@ -238,6 +251,9 @@ export default function RootLayout({
           {children}
           <CookieConsent />
         </LanguageProvider>
+        {/* Zachytenie zdroja návštevy a meranie klikov na kontakt.
+            Nič nevykresľuje, musí ale byť na každej stránke. */}
+        <Meranie />
         <Cursor />
         <SmoothAnchors />
         <ShapeBurst />
