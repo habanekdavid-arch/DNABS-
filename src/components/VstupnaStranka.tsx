@@ -1,6 +1,8 @@
 "use client";
 
+import { useEffect } from "react";
 import { useLanguage } from "@/lib/i18n";
+import type { Lang } from "@/lib/jazyky";
 import Nav from "./Nav";
 import Reveal from "./Reveal";
 import Contact from "./Contact";
@@ -19,8 +21,20 @@ import styles from "./VstupnaStranka.module.css";
  * na mobile je nad zlomom tlačidlo, nie celý formulár, lebo formulár by
  * nadpis odsunul mimo obrazovku a stránka by pôsobila ako dotazník.
  */
-export default function VstupnaStranka({ data }: { data: Data }) {
-  const { t, lang } = useLanguage();
+export default function VstupnaStranka({
+  data,
+  jazykZAdresy,
+}: {
+  data: Data;
+  /** Jazyk, ktorý určuje adresa (/cs/…). Prebije uloženú voľbu, ale
+   *  sám sa neuloží — návštevník si ho nevybral. */
+  jazykZAdresy?: Lang;
+}) {
+  const { t, lang, setLangZAdresy } = useLanguage();
+
+  useEffect(() => {
+    if (jazykZAdresy) setLangZAdresy(jazykZAdresy);
+  }, [jazykZAdresy, setLangZAdresy]);
 
   const maUkazky = data.ukazky.some((u) => u.veta);
 

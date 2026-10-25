@@ -15,12 +15,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE_URL}/o-nas`, lastModified: UPRAVENE, changeFrequency: "monthly", priority: 0.9 },
     /* Vstupné stránky pre skupiny reklám. Majú vyššiu prioritu než
        realizácie — vedú na ne platené kampane. */
-    ...VSTUPNE_STRANKY.map((stranka) => ({
-      url: `${BASE_URL}/${stranka.slug}`,
-      lastModified: UPRAVENE,
-      changeFrequency: "monthly" as const,
-      priority: 0.9,
-    })),
+    ...VSTUPNE_STRANKY.flatMap((stranka) => [
+      {
+        url: `${BASE_URL}/${stranka.slug}`,
+        lastModified: UPRAVENE,
+        changeFrequency: "monthly" as const,
+        priority: 0.9,
+      },
+      /* Česká verzia je samostatná adresa, takže patrí do mapy zvlášť —
+         hreflang hovorí Googlu, že patria k sebe, nie že stačí jedna. */
+      {
+        url: `${BASE_URL}/cs/${stranka.slugCs}`,
+        lastModified: UPRAVENE,
+        changeFrequency: "monthly" as const,
+        priority: 0.8,
+      },
+    ]),
     /* Podstránky realizácií doteraz v mape chýbali, takže sa k nim Google
        dostal len preklikom z koláže na úvode — a k tým, čo sú v koláži nižšie,
        často vôbec. */

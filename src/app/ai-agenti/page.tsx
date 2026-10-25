@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { LanguageProvider } from "@/lib/i18n";
 import VstupnaStranka from "@/components/VstupnaStranka";
 import { getVstupnaStranka } from "@/data/vstupneStranky";
+import { hreflang } from "@/lib/hreflang";
 
 const SLUG = "ai-agenti";
 const data = getVstupnaStranka(SLUG);
@@ -10,7 +11,13 @@ const data = getVstupnaStranka(SLUG);
 export const metadata: Metadata = {
   title: data?.seo.title.sk,
   description: data?.seo.description.sk,
-  alternates: { canonical: `/${SLUG}` },
+  alternates: {
+    canonical: `/${SLUG}`,
+    /* Bez hreflang by Google bral slovenskú a českú verziu ako takmer
+       zhodný obsah a jednu by potlačil — práve preto, že sú si tie jazyky
+       blízke. */
+    languages: data ? hreflang(data) : undefined,
+  },
   openGraph: {
     title: data?.seo.title.sk,
     description: data?.seo.description.sk,

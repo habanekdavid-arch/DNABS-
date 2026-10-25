@@ -268,6 +268,7 @@ const dict = {
     hu: "Gyakori kérdések",
     de: "Häufige Fragen",
   },
+  nav_services_all: { sk: "Všetky služby", cs: "Všechny služby", en: "All services", hu: "Összes szolgáltatás", de: "Alle Leistungen" },
   contact_prequal: {
     sk: "Čím konkrétnejšie napíšete, o čo ide, tým užitočnejšia bude tá polhodina.",
     en: "The more specific you are about what you need, the more useful that half hour will be.",
@@ -460,6 +461,11 @@ export type PhDictKey = keyof typeof phDict;
 type LanguageContextValue = {
   lang: Lang;
   setLang: (lang: Lang) => void;
+  /** Nastaví jazyk len pre túto návštevu stránky, bez zápisu do
+   *  localStorage. Používajú to stránky, ktorých jazyk určuje adresa
+   *  (/cs/…): návštevník si ho nevybral, tak mu ho nemáme zapamätať
+   *  a tlačiť do zvyšku webu. */
+  setLangZAdresy: (lang: Lang) => void;
   t: (key: DictKey) => string;
   tPh: (key: PhDictKey) => string;
 };
@@ -471,6 +477,12 @@ const LanguageContext = createContext<LanguageContextValue | null>(null);
  * prehliadač po načítaní prepne na jazyk, ktorý si návštevník zvolil
  * naposledy — pamätá si ho v localStorage, takže platí na všetkých
  * podstránkach aj pri ďalšej návšteve.
+ *
+ * Providery sa nesmú vnárať s rôznym jazykom. V layoute už jeden je;
+ * druhý vnútri stránky by si s ním o atribút <html lang> prehrával —
+ * efekty detí bežia v Reacte pred rodičmi, takže vnútorný nastaví svoj
+ * jazyk a vonkajší ho hneď prepíše späť. Stránka, ktorej jazyk určuje
+ * adresa, preto nevytvára vlastný provider, ale zavolá setLangZAdresy.
  */
 export function LanguageProvider({
   children,
@@ -506,10 +518,14 @@ export function LanguageProvider({
     }
   }, []);
 
+  const setLangZAdresy = useCallback((novy: Lang) => {
+    nastavLang(novy);
+  }, []);
+
   const t = (key: DictKey) => dict[key][lang];
   const tPh = (key: PhDictKey) => phDict[key][lang];
   return (
-    <LanguageContext.Provider value={{ lang, setLang, t, tPh }}>
+    <LanguageContext.Provider value={{ lang, setLang, setLangZAdresy, t, tPh }}>
       {children}
     </LanguageContext.Provider>
   );
