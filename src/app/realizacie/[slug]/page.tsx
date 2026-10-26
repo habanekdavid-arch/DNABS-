@@ -26,19 +26,20 @@ export default async function ProjektPage({ params }: { params: Promise<{ slug: 
   const projekt = PROJEKTY.find((p) => p.slug === slug);
   if (!projekt) notFound();
 
+  /* Logo bez podkladu. Koláž má pre každý projekt verziu loga pre svetlé
+     pozadie (karta typu "logo"); keď chýba, berieme projekt.logo. */
+  const logoKarta = projekt.karty.find((k) => k.typ === "logo");
+  const logo = logoKarta?.typ === "logo" ? logoKarta.src : projekt.logo;
+
   return (
     <main className={styles.page} style={{ "--farba": projekt.farba } as React.CSSProperties}>
-      <Link href="/#realizacia" className={styles.back}>← Späť na realizácie</Link>
+      <Link href="/#realizacia" className={styles.back}>← Späť na úvodnú stránku</Link>
 
       <div className={styles.head}>
         <div>
-          {projekt.logo && (
-            /* Logá sa dodávajú v negatívnej (svetlej) verzii pre farebný panel,
-               preto ich aj tu kladieme na doštičku vo firemnej farbe. */
-            <div className={styles.logoPlate}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={projekt.logo} alt={`Logo ${projekt.nazov}`} className={styles.logo} />
-            </div>
+          {logo && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={logo} alt={`Logo ${projekt.nazov}`} className={styles.logo} />
           )}
           <h1 className={styles.title}>{projekt.nazov}</h1>
           <div className={styles.meta}>{projekt.popis}</div>
@@ -54,11 +55,15 @@ export default async function ProjektPage({ params }: { params: Promise<{ slug: 
             ? projekt.text.map((odstavec, i) => <p key={i}>{odstavec}</p>)
             : <p className={styles.chyba}>Popis projektu sa pripravuje.</p>}
           {/* Odkaz dáva zmysel, až keď je vyplnená adresa. */}
-          {projekt.href && (
-            <a href={projekt.href} target="_blank" rel="noopener noreferrer" className={styles.cta}>
-              Otvoriť živý web ↗
-            </a>
-          )}
+          <div className={styles.akcie}>
+            {projekt.href && (
+              <a href={projekt.href} target="_blank" rel="noopener noreferrer" className={styles.cta}>
+                Otvoriť živý web ↗
+              </a>
+            )}
+            {/* Kto si pozrel hotový projekt, je najbližšie k dopytu. */}
+            <Link href="/#kontakt" className={styles.ctaDopyt}>Chcem podobný web →</Link>
+          </div>
         </div>
         {projekt.sluzby.length > 0 && (
           <div>

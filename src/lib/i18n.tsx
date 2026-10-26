@@ -269,6 +269,22 @@ const dict = {
     hu: "Gyakori kérdések",
     de: "Häufige Fragen",
   },
+  vs_spat: { sk: "← Späť na úvodnú stránku", cs: "← Zpět na úvodní stránku", en: "← Back to the homepage", hu: "← Vissza a kezdőlapra", de: "← Zurück zur Startseite" },
+  vs_dopyt_nadpis: {
+    sk: "Riešite niečo podobné?",
+    cs: "Řešíte něco podobného?",
+    en: "Dealing with something similar?",
+    hu: "Valami hasonlón dolgozik?",
+    de: "Beschäftigt Sie etwas Ähnliches?",
+  },
+  vs_dopyt_text: {
+    sk: "Napíšte nám pár viet o tom, čo vás trápi. Ozveme sa do 24 hodín a prvá polhodina je zadarmo a nezáväzne.",
+    cs: "Napište nám pár vět o tom, co vás trápí. Ozveme se do 24 hodin a první půlhodina je zdarma a nezávazně.",
+    en: "Send us a few sentences about what's bothering you. We'll reply within 24 hours, and the first half hour is free with no commitment.",
+    hu: "Írjon nekünk pár mondatot arról, mi foglalkoztatja. 24 órán belül jelentkezünk, az első félóra ingyenes és kötelezettség nélküli.",
+    de: "Schreiben Sie uns ein paar Sätze dazu, was Sie beschäftigt. Wir melden uns innerhalb von 24 Stunden, die erste halbe Stunde ist kostenlos und unverbindlich.",
+  },
+  vs_dopyt_tlacidlo: { sk: "Poslať dopyt", cs: "Poslat poptávku", en: "Send an enquiry", hu: "Ajánlatkérés küldése", de: "Anfrage senden" },
   nav_services_all: { sk: "Všetky služby", cs: "Všechny služby", en: "All services", hu: "Összes szolgáltatás", de: "Alle Leistungen" },
   contact_prequal: {
     sk: "Čím konkrétnejšie napíšete, o čo ide, tým užitočnejšia bude tá polhodina.",

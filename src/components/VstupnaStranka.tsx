@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { useLanguage } from "@/lib/i18n";
 import type { Lang } from "@/lib/jazyky";
 import Nav from "./Nav";
@@ -50,7 +51,9 @@ export default function VstupnaStranka({
       nazov: p.nazov,
       popis: p.popis,
       tagline: p.tagline,
-      href: p.href,
+      /* Rovnaký cieľ ako klik na notebook v koláži — prezentácia projektu,
+         a až keď chýba, naša stránka /realizacie/<slug>. */
+      odkaz: p.klikNa || `/realizacie/${p.slug}`,
       snimka: p.karty.find((k) => k.typ === "notebook")?.screenshot,
     }))
     .filter((p) => p.snimka && p.tagline);
@@ -71,6 +74,9 @@ export default function VstupnaStranka({
           <div className={styles.mriezka} aria-hidden />
           <Nav vlastnyKontakt />
           <Reveal className={styles.heroVnutro}>
+            {/* Vstupná stránka nesmie byť slepá ulička — kto príde z reklamy,
+                musí sa vedieť dostať na zvyšok webu aj inak než cez logo. */}
+            <Link href="/" className={styles.spat}>{t("vs_spat")}</Link>
             <div className={styles.kicker}>{data.sluzbaNazov[lang]}</div>
             <h1 className={styles.h1}>{data.h1[lang]}</h1>
             <p className={styles.podnadpis}>{data.podnadpis[lang]}</p>
@@ -138,6 +144,19 @@ export default function VstupnaStranka({
                   )}
                 </article>
               ))}
+
+              {/* Výzva hneď za textom — kto dočítal, je presvedčený teraz,
+                  nie až po FAQ. Vedie na formulár na tejto stránke. */}
+              <aside className={styles.dopyt}>
+                <div>
+                  <p className={styles.dopytNadpis}>{t("vs_dopyt_nadpis")}</p>
+                  <p className={styles.dopytText}>{t("vs_dopyt_text")}</p>
+                </div>
+                <a href="#kontakt" className={styles.cta} data-cursor="cta">
+                  {t("vs_dopyt_tlacidlo")}
+                  <span aria-hidden className={styles.ctaSipka}>›</span>
+                </a>
+              </aside>
             </Reveal>
           </section>
         )}
@@ -151,8 +170,11 @@ export default function VstupnaStranka({
                 {ukazky.map((u) => (
                   <a
                     key={u.slug}
-                    href={`/realizacie/${u.slug}`}
+                    href={u.odkaz}
                     className={styles.ukazka}
+                    /* Prezentácia projektu je mimo webu — nová karta, aby
+                       návštevník z reklamy neprišiel o túto stránku. */
+                    {...(/^https?:\/\//.test(u.odkaz) ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                   >
                     <span className={styles.ukazkaRam}>
                       {/* Pomer 16:10 drží výšku ešte pred načítaním obrázka,
