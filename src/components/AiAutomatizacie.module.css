@@ -1,252 +1,363 @@
 /* ── AI AUTOMATIZÁCIE ─────────────────────────────────────────────────
-   Rovnaká reč ako Služby — mono štítok, veľký nadpis, dlaždice s tenkým
-   rámom. Vľavo tmavý panel s tokom jedného dopytu, vpravo konkrétne
-   použitia. Tmavý panel nesie hlavnú myšlienku: AI robí prácu,
-   človek rozhoduje.
+   Hlavička, dlaždice, diódy a ukazovatele sú globálne triedy fig-* z
+   globals.css — tu je len to, čo je pre túto sekciu vlastné: schéma
+   krokov, terminál agenta a mriežka použití.
    ─────────────────────────────────────────────────────────────────── */
-.section{
-  position:relative;
-  background:transparent;
-  color:#0E0E11;
-  padding:clamp(80px,12vh,140px) clamp(20px,4vw,48px);
-  scroll-margin-top:90px;
-}
 
-.inner{
-  position:relative;
-  max-width:1680px;
-  margin:0 auto;
-}
+.titulAkcent{color:var(--purple);}
 
-/* ── Hlavička ─────────────────────────────────────────────────────── */
-.head{
-  display:flex;
-  flex-wrap:wrap;
-  align-items:flex-end;
-  justify-content:space-between;
-  gap:24px;
-  margin-bottom:clamp(32px,5vw,60px);
+/* ── Živá ukážka ──────────────────────────────────────────────────── */
+.demo{
+  padding:clamp(14px,1.6vw,22px);
+  /* Jemná technická mriežka v pozadí dlaždice. */
+  background:
+    linear-gradient(rgba(14,14,17,.045) 1px,transparent 1px) 0 0/28px 28px,
+    linear-gradient(90deg,rgba(14,14,17,.045) 1px,transparent 1px) 0 0/28px 28px,
+    linear-gradient(180deg,rgba(255,255,255,.72),rgba(255,255,255,.4));
 }
+/* Dlaždica s ukážkou sa pri hoveri nehýbe — je to plocha, nie tlačidlo. */
+.demo:hover{transform:none;border-color:var(--fig-ram);box-shadow:none;}
+.demo:hover::before{animation:none;opacity:0;}
 
-.label{
-  font-family:var(--gmono);
-  font-size:11px;
-  letter-spacing:.14em;
-  text-transform:uppercase;
-  color:#563387;
-  margin-bottom:14px;
-}
-
-.title{
-  margin:0;
-  font-family:var(--manrope);
-  font-weight:800;
-  font-size:clamp(40px,5vw,80px);
-  line-height:1;
-  letter-spacing:-.03em;
-}
-.titleAkcent{color:#563387;}
-
-.sub{
-  margin:0;
-  max-width:44ch;
-  font-size:15.5px;
-  line-height:1.6;
-  color:rgba(14,14,17,.62);
-}
-
-/* ── Rozloženie ───────────────────────────────────────────────────── */
-.rozlozenie{
+.demoMriezka{
   display:grid;
-  grid-template-columns:minmax(0,.9fr) minmax(0,1.3fr);
-  gap:clamp(16px,1.8vw,26px);
+  grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);
+  gap:clamp(14px,1.6vw,22px);
   align-items:stretch;
 }
 
-/* ── Tok jedného dopytu (tmavý panel) ─────────────────────────────── */
-.tok{
-  border-radius:var(--radius-lg,24px);
-  background:#0E0E11;
-  color:#fff;
-  padding:clamp(24px,2.6vw,38px);
-  box-shadow:0 40px 80px -40px rgba(86,51,135,.55);
-}
-
-.tokNadpis,.zasadyNadpis{
-  font-family:var(--gmono);
-  font-size:11px;
-  letter-spacing:.14em;
-  text-transform:uppercase;
-  color:rgba(255,255,255,.5);
-  margin-bottom:16px;
-}
-.zasadyNadpis{margin-top:clamp(28px,4vh,40px);}
-
-.tokZoznam{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;}
-
-.tokKrok{
-  position:relative;
-  display:grid;
-  grid-template-columns:34px 1fr;
+/* ── Schéma krokov ────────────────────────────────────────────────── */
+.kroky{
+  list-style:none;
+  margin:0;
+  padding:0;
+  display:flex;
+  flex-direction:column;
   gap:12px;
-  padding:14px 14px 14px 12px;
-  border-radius:16px;
-  border:1px solid rgba(255,255,255,.08);
-  background:rgba(255,255,255,.02);
-  transition:background .5s ease, border-color .5s ease, transform .5s cubic-bezier(.2,.8,.2,1);
 }
-/* Spojnica medzi krokmi — tok má smer. */
-.tokKrok + .tokKrok::before{
+
+.krok{position:relative;}
+/* Spojnica medzi krokmi, po ktorej beží bodka — dopyt putuje ďalej. */
+.krok + .krok::before{
   content:"";
   position:absolute;
-  left:28px;
-  top:-7px;
+  left:26px;
+  top:-12px;
   width:1px;
-  height:8px;
-  background:rgba(255,255,255,.2);
+  height:12px;
+  background:repeating-linear-gradient(180deg,rgba(14,14,17,.35) 0 3px,transparent 3px 6px);
+}
+.krokAktivny + .krok::after{
+  content:"";
+  position:absolute;
+  left:23px;
+  top:-12px;
+  width:7px;
+  height:7px;
+  border-radius:2px;
+  background:var(--accent);
+  box-shadow:0 0 10px var(--accent);
+  animation:ai-paket 1.1s ease-in infinite;
+}
+@keyframes ai-paket{
+  0%{transform:translateY(-4px);opacity:0;}
+  30%{opacity:1;}
+  100%{transform:translateY(10px);opacity:0;}
 }
 
-.tokCislo{
-  font-family:var(--gmono);
-  font-size:12px;
-  letter-spacing:.08em;
-  color:rgba(255,255,255,.4);
-  padding-top:2px;
-  transition:color .5s ease;
+.krokTlacidlo{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  width:100%;
+  padding:16px 18px;
+  text-align:left;
+  font:inherit;
+  color:inherit;
+  cursor:pointer;
+  border:1px solid var(--fig-ram);
+  border-radius:16px;
+  background:rgba(255,255,255,.6);
+  transition:border-color .35s ease,background .35s ease,transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s ease;
 }
-.tokKrokNadpis{
-  display:block;
-  font-family:var(--manrope);
-  font-weight:800;
-  font-size:16px;
-  line-height:1.3;
+.krokTlacidlo:hover{border-color:rgba(102,55,237,.45);}
+
+/* Farba stavu: čaká = sivá, spracúva = oranžová, hotovo = zelená. */
+.krok{--c:rgba(14,14,17,.35);}
+.krokAktivny{--c:var(--accent);}
+.krokHotovy{--c:#12A03F;}
+
+.krokAktivny .krokTlacidlo{
+  border-color:var(--accent);
+  background:#fff;
+  transform:translateX(6px);
+  box-shadow:0 18px 40px -22px rgba(255,90,1,.55);
 }
-.tokKrokText{
-  display:block;
-  margin-top:3px;
+.krokHotovy .krokTlacidlo{background:rgba(255,255,255,.75);}
+
+/* Dióda bliká len pri kroku, ktorý práve beží. */
+.krok:not(.krokAktivny) :global(.fig-dioda){animation:none;}
+.krokStav{white-space:nowrap;}
+
+.krokText{
   font-size:14px;
   line-height:1.5;
-  color:rgba(255,255,255,.6);
+  color:var(--fig-ink-2);
 }
 
-.tokHotovy{border-color:rgba(255,255,255,.14);}
-.tokHotovy .tokCislo{color:#12A03F;}
-
-.tokAktivny{
-  background:linear-gradient(90deg,rgba(102,55,237,.32),rgba(255,90,31,.14));
-  border-color:rgba(160,130,255,.55);
-  transform:translateX(4px);
+.krokTrack{height:3px;}
+.krokFill{
+  position:absolute;
+  inset:0;
+  border-radius:2px;
+  background:var(--c);
+  transform-origin:left center;
+  transform:scaleX(0);
 }
-.tokAktivny .tokCislo{color:#FF5A1F;}
+.krokHotovy .krokFill{transform:scaleX(1);}
+.krokAktivny .krokFill{animation:ai-plnenie var(--t,4000ms) linear forwards;}
+@keyframes ai-plnenie{to{transform:scaleX(1);}}
 
-.zasady{
-  list-style:none;margin:0;padding:0;
-  display:grid;grid-template-columns:1fr 1fr;gap:14px 18px;
+/* ── Terminál ─────────────────────────────────────────────────────── */
+.terminal{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  min-height:100%;
+  border-radius:18px;
+  background:#0E0E11;
+  color:#E9E9EE;
+  overflow:hidden;
+  box-shadow:0 40px 80px -40px rgba(86,51,135,.65);
 }
-.zasada{padding-top:12px;border-top:1px solid rgba(255,255,255,.14);}
-.zasadaNadpis{display:block;font-family:var(--manrope);font-weight:800;font-size:14.5px;line-height:1.3;}
-.zasadaText{display:block;margin-top:4px;font-size:13.5px;line-height:1.5;color:rgba(255,255,255,.58);}
+
+.terminalHlavicka{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:12px 16px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+  font-family:var(--gmono);
+  font-size:11px;
+  letter-spacing:.1em;
+  color:rgba(255,255,255,.55);
+}
+.bodky{display:inline-flex;gap:6px;}
+.bodky i{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.16);}
+.bodky i:first-child{background:#FF5A1F;}
+.terminalStav{
+  margin-left:auto;
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  color:var(--green);
+}
+.terminalDioda{
+  width:7px;height:7px;border-radius:2px;
+  background:var(--green);
+  box-shadow:0 0 10px var(--green);
+  animation:fig-blink 1.4s infinite;
+}
+
+.terminalTelo{
+  position:relative;
+  flex:1;
+  padding:18px 20px 22px;
+  font-family:var(--gmono);
+  font-size:clamp(12px,1vw,13.5px);
+  line-height:1.75;
+  overflow:hidden;
+  /* Jemné riadkovanie ako na starom monitore. */
+  background:
+    repeating-linear-gradient(180deg,rgba(255,255,255,.025) 0 1px,transparent 1px 3px),
+    radial-gradient(120% 80% at 100% 0%,rgba(102,55,237,.22),transparent 60%),
+    radial-gradient(90% 70% at 0% 100%,rgba(255,90,1,.12),transparent 60%);
+}
+
+/* Pruh, ktorý prebehne terminálom pri každom novom kroku. */
+.skener{
+  position:absolute;
+  left:0;right:0;
+  top:0;
+  height:60px;
+  pointer-events:none;
+  background:linear-gradient(180deg,transparent,rgba(102,55,237,.22),transparent);
+  animation:ai-sken 1.2s ease-out forwards;
+}
+@keyframes ai-sken{
+  from{transform:translateY(-60px);opacity:1;}
+  to{transform:translateY(420px);opacity:0;}
+}
+
+.logBlok,.logBlokHotovy{margin-bottom:12px;}
+.logBlokHotovy{color:rgba(233,233,238,.45);}
+.logRiadok{display:block;white-space:pre-wrap;word-break:break-word;}
+/* Prvý riadok bloku je príkaz — zvýraznený. */
+.logBlok .logRiadok:first-child{color:var(--cyan);}
+.logBlokHotovy .logRiadok:first-child{color:rgba(0,233,255,.45);}
+
+.kurzor{
+  display:inline-block;
+  width:.6em;
+  height:1.05em;
+  margin-left:2px;
+  vertical-align:-.15em;
+  background:var(--accent);
+  animation:fig-caret 1.1s step-end infinite;
+}
+
+.schvalenie{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:6px;
+  opacity:0;
+  animation:ai-ukaz .5s ease 2.2s forwards;
+}
+@keyframes ai-ukaz{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+.schvalit,.upravit{
+  font-family:var(--gmono);
+  font-size:11px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  border-radius:999px;
+  padding:10px 16px;
+}
+.schvalit{
+  background:var(--purple);
+  color:#fff;
+  box-shadow:0 0 0 0 rgba(102,55,237,.6);
+  animation:ai-pulz 1.6s ease-out 2.7s infinite;
+}
+.upravit{border:1px solid rgba(255,255,255,.25);color:rgba(255,255,255,.75);}
+@keyframes ai-pulz{
+  0%{box-shadow:0 0 0 0 rgba(102,55,237,.6);}
+  100%{box-shadow:0 0 0 14px rgba(102,55,237,0);}
+}
 
 /* ── Použitia ─────────────────────────────────────────────────────── */
 .pouzitia{
   display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:clamp(12px,1.4vw,20px);
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:clamp(14px,1.6vw,22px);
+  margin-top:clamp(14px,1.6vw,22px);
 }
 
 .kartaObal{display:flex;}
 
 .karta{
-  position:relative;
   display:flex;
   flex-direction:column;
+  gap:12px;
   width:100%;
   padding:clamp(20px,2vw,28px);
-  border:1px solid rgba(14,14,17,.1);
-  border-radius:var(--radius-lg,24px);
-  background:rgba(255,255,255,.55);
   color:inherit;
   text-decoration:none;
-  transition:transform .3s cubic-bezier(.2,.8,.2,1), border-color .3s, background .3s, box-shadow .3s;
-}
-.kartaKlik:hover{
-  transform:translateY(-4px);
-  border-color:#6637ED;
-  background:#fff;
-  box-shadow:0 30px 60px -34px rgba(102,55,237,.6);
 }
 
-.kartaCislo{
-  font-family:var(--gmono);
-  font-size:11px;
-  letter-spacing:.12em;
-  color:#563387;
-  margin-bottom:14px;
-}
 .kartaNadpis{
-  margin:0 0 8px;
+  margin:6px 0 0;
   font-family:var(--manrope);
   font-weight:800;
-  font-size:clamp(17px,1.4vw,20px);
-  line-height:1.25;
+  font-size:clamp(19px,1.6vw,24px);
+  line-height:1.15;
+  letter-spacing:-.01em;
 }
-.kartaText{margin:0;font-size:14.5px;line-height:1.6;color:rgba(14,14,17,.66);}
+.kartaText{margin:0;font-size:14.5px;line-height:1.6;color:var(--fig-ink-2);}
 
-.kartaOdkaz{
+.kartaPata{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  margin-top:auto;
+  padding-top:8px;
+}
+.kartaFill{
   position:absolute;
-  top:clamp(18px,1.8vw,24px);
-  right:clamp(18px,1.8vw,24px);
+  inset:0 auto 0 0;
+  width:18%;
+  border-radius:2px;
+  background:var(--c);
+  transition:width .6s cubic-bezier(.2,.8,.2,1);
+}
+.karta:hover .kartaFill{width:100%;}
+.kartaSipka{
+  flex:0 0 auto;
   font-size:18px;
-  color:#6637ED;
+  line-height:1;
+  color:var(--c);
   transition:transform .25s ease;
 }
-.kartaKlik:hover .kartaOdkaz{transform:translateX(4px);}
+.karta:hover .kartaSipka{transform:translateX(4px);}
 
-/* ── Akcie ────────────────────────────────────────────────────────── */
+/* ── Zásady a akcie ───────────────────────────────────────────────── */
+.spodok{
+  display:grid;
+  grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);
+  gap:clamp(24px,4vw,64px);
+  align-items:end;
+  margin-top:clamp(40px,6vw,72px);
+}
+
+.zasadyZoznam{
+  list-style:none;
+  margin:0;
+  padding:0;
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:18px 28px;
+}
+.zasada{
+  display:grid;
+  grid-template-columns:28px 1fr;
+  gap:10px;
+  padding-top:14px;
+  border-top:1px solid var(--fig-ram);
+}
+.zasadaCislo{
+  font-family:var(--gmono);
+  font-size:11px;
+  letter-spacing:.1em;
+  color:var(--purple);
+  padding-top:3px;
+}
+.zasadaNadpis{display:block;font-family:var(--manrope);font-weight:800;font-size:15.5px;line-height:1.3;}
+.zasadaText{display:block;margin-top:4px;font-size:14px;line-height:1.55;color:var(--fig-ink-2);}
+
 .akcie{
   display:flex;
-  flex-wrap:wrap;
-  align-items:center;
-  gap:14px 26px;
-  margin-top:clamp(28px,4vw,48px);
+  flex-direction:column;
+  align-items:flex-start;
+  gap:16px;
 }
-
-.cta{
-  display:inline-flex;align-items:center;gap:10px;
-  padding:17px 28px;border-radius:999px;
-  background:#0E0E11;color:#fff;text-decoration:none;
-  font-family:var(--manrope);font-weight:800;font-size:14px;
-  letter-spacing:.06em;text-transform:uppercase;
-  transition:transform .25s cubic-bezier(.2,.8,.2,1), background .25s;
-}
-.cta:hover{transform:translateY(-2px);background:#6637ED;}
-.ctaSipka{transition:transform .25s;}
-.cta:hover .ctaSipka{transform:translateX(3px);}
-
 .odkaz{
   font-family:var(--gmono);
-  font-size:12.5px;
+  font-size:12px;
   letter-spacing:.08em;
   text-transform:uppercase;
-  color:#563387;
+  color:var(--fig-znacka);
   text-decoration:none;
   border-bottom:1px solid rgba(86,51,135,.3);
   padding-bottom:2px;
-  transition:color .2s, border-color .2s;
+  transition:color .2s,border-color .2s;
 }
-.odkaz:hover{color:#6637ED;border-bottom-color:#6637ED;}
+.odkaz:hover{color:var(--purple);border-bottom-color:var(--purple);}
 
 /* ── Užšie obrazovky ──────────────────────────────────────────────── */
 @media (max-width:1100px){
-  .rozlozenie{grid-template-columns:1fr;}
+  .demoMriezka{grid-template-columns:1fr;}
+  .terminal{min-height:300px;}
+  .pouzitia{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .spodok{grid-template-columns:1fr;align-items:start;}
 }
-@media (max-width:620px){
+@media (max-width:640px){
   .pouzitia{grid-template-columns:1fr;}
-  .zasady{grid-template-columns:1fr;}
-  .cta{width:100%;justify-content:center;}
+  .zasadyZoznam{grid-template-columns:1fr;}
+  .krokAktivny .krokTlacidlo{transform:none;}
+  .akcie :global(.fig-cta){width:100%;justify-content:center;}
 }
 
 @media (prefers-reduced-motion: reduce){
-  .tokKrok,.karta,.cta{transition:none;}
-  .tokAktivny{transform:none;}
+  .krokAktivny .krokFill{animation:none;transform:scaleX(1);}
+  .schvalenie{animation:none;opacity:1;}
 }
