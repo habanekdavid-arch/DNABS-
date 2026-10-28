@@ -29,9 +29,6 @@ export default function Home() {
         {/* Realizácie sú v koláži hore v hero — samostatná sekcia
             s jedným projektom už len opakovala to isté. */}
         <HeroTop />
-        {/* AI automatizácie hneď pod hero — sú to služby, po ktorých je
-            dnes najväčší dopyt, tak nemajú byť schované v zozname. */}
-        <AiAutomatizacie />
         <HowItWorks />
         <ServicesMarquee />
         <ImpactCharts />
@@ -41,6 +38,9 @@ export default function Home() {
         {/* Dlhá sekcia „o nás" je preč — namiesto nej len tenký pruh
             s výzvou na formulár. */}
         <PruhKonzultacia />
+        {/* AI automatizácie tesne pred otázkami — kto sa sem doscrolluje,
+            už vie, čo robíme, a FAQ potom odpovie aj na otázky o AI. */}
+        <AiAutomatizacie />
         <HomeFaq />
         <Referencie />
         <Contact />

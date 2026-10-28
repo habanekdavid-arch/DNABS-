@@ -3,31 +3,43 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useLanguage, type Preklad } from "@/lib/i18n";
+import type { Lang } from "@/lib/jazyky";
 import Reveal from "./Reveal";
 import styles from "./AiAutomatizacie.module.css";
 
 /* ── AI AUTOMATIZÁCIE ─────────────────────────────────────────────────
-   Sekcia na úvodnej stránke. Ukazuje, čo AI u klienta reálne robí —
-   konkrétne úlohy, nie sľuby. Žiadne vymyslené percentá ani ušetrené
-   hodiny: tie sa dajú povedať až po meraní u konkrétnej firmy.
+   Reč FIG ako zvyšok webu: mono štítky v hranatých zátvorkách, dlaždice
+   s tenkým rámom, blikajúce diódy a ukazovatele. Jadrom je živá ukážka —
+   vľavo schéma krokov, vpravo terminál AI agenta, ktorý postupne vypíše,
+   čo robí s jedným večerným dopytom.
+
+   Žiadne vymyslené percentá ani ušetrené hodiny: tie sa dajú povedať až
+   po meraní u konkrétnej firmy.
    ─────────────────────────────────────────────────────────────────── */
 
+/** Ako dlho svieti jeden krok. Posledný drží dlhšie — je to pointa. */
+const KROK_MS = 4300;
+const POSLEDNY_NAVYSE_MS = 2600;
+/** Po kliknutí na krok sa automatické prepínanie na chvíľu zastaví. */
+const PAUZA_PO_KLIKU_MS = 15000;
+
 const OBSAH: Record<
-  "label" | "titul" | "sub" | "tokNadpis" | "zasadyNadpis" | "cta" | "viacAgenti" | "viacProcesy",
+  | "label" | "titul" | "sub" | "terminal" | "bezi" | "hotovo" | "spracuvam" | "caka"
+  | "schvalit" | "upravit" | "zasady" | "stav" | "cta" | "viacAgenti" | "viacProcesy",
   Preklad
 > = {
   label: {
-    sk: "[ AI AUTOMATIZÁCIE ]",
-    cs: "[ AI AUTOMATIZACE ]",
-    en: "[ AI AUTOMATION ]",
-    hu: "[ AI AUTOMATIZÁCIÓ ]",
-    de: "[ KI-AUTOMATISIERUNG ]",
+    sk: "[ FIG.08 — AI AUTOMATIZÁCIE ]",
+    cs: "[ FIG.08 — AI AUTOMATIZACE ]",
+    en: "[ FIG.08 — AI AUTOMATION ]",
+    hu: "[ FIG.08 — AI AUTOMATIZÁCIÓ ]",
+    de: "[ FIG.08 — KI-AUTOMATISIERUNG ]",
   },
   titul: {
     sk: "AI, ktorá robí\nprácu za vás",
     cs: "AI, která dělá\npráci za vás",
     en: "AI that does\nthe work for you",
-    hu: "AI, amely elvégzi\na munkát Ön helyett",
+    hu: "AI, amely elvégzi\na munkát",
     de: "KI, die Ihnen\nArbeit abnimmt",
   },
   sub: {
@@ -37,53 +49,24 @@ const OBSAH: Record<
     hu: "Nem látványchatbot. Olyan automatizációk, amelyek minden nap átveszik az ismétlődő munkát — az Ön adataira és szabályaira építve.",
     de: "Kein Chatbot für den Effekt. Automatisierungen, die Ihnen jeden Tag wiederkehrende Arbeit abnehmen — auf Ihren Unterlagen und nach Ihren Regeln.",
   },
-  tokNadpis: {
-    sk: "Ako to vyzerá v praxi",
-    cs: "Jak to vypadá v praxi",
-    en: "What it looks like in practice",
-    hu: "Hogyan néz ki a gyakorlatban",
-    de: "So sieht es in der Praxis aus",
-  },
-  zasadyNadpis: {
-    sk: "Ako to staviame",
-    cs: "Jak to stavíme",
-    en: "How we build it",
-    hu: "Hogyan építjük",
-    de: "Wie wir es bauen",
-  },
-  cta: {
-    sk: "Chcem AI automatizáciu",
-    cs: "Chci AI automatizaci",
-    en: "I want AI automation",
-    hu: "AI automatizációt kérek",
-    de: "KI-Automatisierung anfragen",
-  },
-  viacAgenti: {
-    sk: "AI agenti →",
-    cs: "AI agenti →",
-    en: "AI agents →",
-    hu: "AI-ügynökök →",
-    de: "KI-Agenten →",
-  },
-  viacProcesy: {
-    sk: "Automatizácia procesov →",
-    cs: "Automatizace procesů →",
-    en: "Process automation →",
-    hu: "Folyamat-automatizálás →",
-    de: "Prozessautomatisierung →",
-  },
+  terminal: { sk: "DNABS · AI-AGENT", cs: "DNABS · AI-AGENT", en: "DNABS · AI AGENT", hu: "DNABS · AI-ÜGYNÖK", de: "DNABS · KI-AGENT" },
+  bezi: { sk: "BEŽÍ", cs: "BĚŽÍ", en: "RUNNING", hu: "FUT", de: "LÄUFT" },
+  hotovo: { sk: "HOTOVO", cs: "HOTOVO", en: "DONE", hu: "KÉSZ", de: "FERTIG" },
+  spracuvam: { sk: "SPRACÚVAM", cs: "ZPRACOVÁVÁM", en: "WORKING", hu: "FELDOLGOZÁS", de: "IN ARBEIT" },
+  caka: { sk: "ČAKÁ", cs: "ČEKÁ", en: "QUEUED", hu: "VÁR", de: "WARTET" },
+  schvalit: { sk: "Schváliť a odoslať", cs: "Schválit a odeslat", en: "Approve & send", hu: "Jóváhagyás és küldés", de: "Freigeben & senden" },
+  upravit: { sk: "Upraviť", cs: "Upravit", en: "Edit", hu: "Szerkesztés", de: "Bearbeiten" },
+  zasady: { sk: "[ ZÁSADY ]", cs: "[ ZÁSADY ]", en: "[ PRINCIPLES ]", hu: "[ ELVEK ]", de: "[ PRINZIPIEN ]" },
+  stav: { sk: "NASADITEĽNÉ", cs: "NASADITELNÉ", en: "READY", hu: "BEVETHETŐ", de: "EINSATZBEREIT" },
+  cta: { sk: "Chcem AI automatizáciu →", cs: "Chci AI automatizaci →", en: "I want AI automation →", hu: "AI automatizációt kérek →", de: "KI-Automatisierung anfragen →" },
+  viacAgenti: { sk: "AI agenti →", cs: "AI agenti →", en: "AI agents →", hu: "AI-ügynökök →", de: "KI-Agenten →" },
+  viacProcesy: { sk: "Automatizácia procesov →", cs: "Automatizace procesů →", en: "Process automation →", hu: "Folyamat-automatizálás →", de: "Prozessautomatisierung →" },
 };
 
-/** Jeden konkrétny prípad — e-mail, ktorý príde večer, a čo sa s ním stane. */
-const TOK: { nadpis: Preklad; text: Preklad }[] = [
+/** Kroky jedného dopytu — vľavo ako schéma. */
+const KROKY: { nadpis: Preklad; text: Preklad }[] = [
   {
-    nadpis: {
-      sk: "Príde e-mail s dopytom",
-      cs: "Přijde e-mail s poptávkou",
-      en: "An enquiry arrives by e-mail",
-      hu: "Megérkezik egy ajánlatkérés",
-      de: "Eine Anfrage kommt per E-Mail",
-    },
+    nadpis: { sk: "Príde e-mail", cs: "Přijde e-mail", en: "An e-mail arrives", hu: "Megérkezik egy e-mail", de: "Eine E-Mail kommt an" },
     text: {
       sk: "o 22:40, keď už nikto nepracuje",
       cs: "ve 22:40, kdy už nikdo nepracuje",
@@ -93,13 +76,7 @@ const TOK: { nadpis: Preklad; text: Preklad }[] = [
     },
   },
   {
-    nadpis: {
-      sk: "AI ho prečíta a roztriedi",
-      cs: "AI ho přečte a roztřídí",
-      en: "AI reads and sorts it",
-      hu: "Az AI elolvassa és besorolja",
-      de: "Die KI liest und sortiert sie",
-    },
+    nadpis: { sk: "AI ho prečíta a roztriedi", cs: "AI ho přečte a roztřídí", en: "AI reads and sorts it", hu: "Az AI elolvassa és besorolja", de: "Die KI liest und sortiert sie" },
     text: {
       sk: "dopyt, reklamácia, alebo len spam",
       cs: "poptávka, reklamace, nebo jen spam",
@@ -109,13 +86,7 @@ const TOK: { nadpis: Preklad; text: Preklad }[] = [
     },
   },
   {
-    nadpis: {
-      sk: "Údaje zapíše do systému",
-      cs: "Údaje zapíše do systému",
-      en: "It logs the details",
-      hu: "Rögzíti az adatokat",
-      de: "Sie trägt die Daten ein",
-    },
+    nadpis: { sk: "Zapíše údaje do systému", cs: "Zapíše údaje do systému", en: "It logs the details", hu: "Rögzíti az adatokat", de: "Sie trägt die Daten ein" },
     text: {
       sk: "meno, termín, požiadavka — do tabuľky alebo CRM",
       cs: "jméno, termín, požadavek — do tabulky nebo CRM",
@@ -125,36 +96,57 @@ const TOK: { nadpis: Preklad; text: Preklad }[] = [
     },
   },
   {
-    nadpis: {
-      sk: "Vám ostane len rozhodnutie",
-      cs: "Vám zbude jen rozhodnutí",
-      en: "You only make the call",
-      hu: "Önnek csak döntenie kell",
-      de: "Ihnen bleibt nur die Entscheidung",
-    },
+    nadpis: { sk: "Vám ostane len rozhodnutie", cs: "Vám zbude jen rozhodnutí", en: "You only make the call", hu: "Önnek csak döntenie kell", de: "Ihnen bleibt nur die Entscheidung" },
     text: {
-      sk: "ráno čaká pripravený návrh odpovede na schválenie",
-      cs: "ráno čeká připravený návrh odpovědi ke schválení",
-      en: "in the morning a draft reply is waiting for approval",
-      hu: "reggel már kész válaszjavaslat várja jóváhagyásra",
-      de: "morgens wartet ein Antwortentwurf auf Ihre Freigabe",
+      sk: "ráno čaká návrh odpovede na schválenie",
+      cs: "ráno čeká návrh odpovědi ke schválení",
+      en: "a draft reply waits for your approval",
+      hu: "reggel válaszjavaslat várja jóváhagyásra",
+      de: "morgens wartet ein Antwortentwurf auf Freigabe",
     },
   },
 ];
 
-type Pouzitie = { nadpis: Preklad; text: Preklad; odkaz?: { sk: string; cs: string } };
+/** Čo terminál vypíše pri jednotlivých krokoch. Jeden riadok = jeden záznam. */
+const LOG: Record<Lang, string[]>[] = [
+  {
+    sk: ["› nová správa · 22:40", "  od: jana@kvetinarstvo.sk", "  predmet: Výzdoba na svadbu 14. júna"],
+    cs: ["› nová zpráva · 22:40", "  od: jana@kvetinarstvo.sk", "  předmět: Výzdoba na svatbu 14. června"],
+    en: ["› new message · 22:40", "  from: jana@kvetinarstvo.sk", "  subject: Wedding decorations for 14 June"],
+    hu: ["› új üzenet · 22:40", "  feladó: jana@kvetinarstvo.sk", "  tárgy: Esküvői dekoráció június 14-re"],
+    de: ["› neue Nachricht · 22:40", "  von: jana@kvetinarstvo.sk", "  Betreff: Hochzeitsdeko für den 14. Juni"],
+  },
+  {
+    sk: ["› čítam správu…", "  kategória: DOPYT · priorita: VYSOKÁ", "  reklamácia: nie · spam: nie"],
+    cs: ["› čtu zprávu…", "  kategorie: POPTÁVKA · priorita: VYSOKÁ", "  reklamace: ne · spam: ne"],
+    en: ["› reading message…", "  category: LEAD · priority: HIGH", "  complaint: no · spam: no"],
+    hu: ["› üzenet olvasása…", "  kategória: AJÁNLATKÉRÉS · prioritás: MAGAS", "  reklamáció: nem · spam: nem"],
+    de: ["› lese Nachricht…", "  Kategorie: ANFRAGE · Priorität: HOCH", "  Reklamation: nein · Spam: nein"],
+  },
+  {
+    sk: ["› zapisujem do CRM", "  meno: Jana K. · termín: 14. 6. · hostia: 80", "  ✓ záznam uložený"],
+    cs: ["› zapisuji do CRM", "  jméno: Jana K. · termín: 14. 6. · hosté: 80", "  ✓ záznam uložen"],
+    en: ["› writing to CRM", "  name: Jana K. · date: 14 June · guests: 80", "  ✓ record saved"],
+    hu: ["› rögzítés a CRM-be", "  név: Jana K. · időpont: 06. 14. · vendégek: 80", "  ✓ bejegyzés mentve"],
+    de: ["› schreibe ins CRM", "  Name: Jana K. · Termin: 14.06. · Gäste: 80", "  ✓ Eintrag gespeichert"],
+  },
+  {
+    sk: ["› návrh odpovede pripravený", "  „Dobrý deň, ďakujeme za dopyt. 14. júna máme voľno…“", "  ⏸ čaká na schválenie človekom"],
+    cs: ["› návrh odpovědi připraven", "  „Dobrý den, děkujeme za poptávku. 14. června máme volno…“", "  ⏸ čeká na schválení člověkem"],
+    en: ["› draft reply ready", "  “Hello, thanks for your enquiry. We're free on 14 June…”", "  ⏸ awaiting human approval"],
+    hu: ["› válaszjavaslat kész", "  „Jó napot, köszönjük az érdeklődést. Június 14-én szabadok vagyunk…”", "  ⏸ emberi jóváhagyásra vár"],
+    de: ["› Antwortentwurf bereit", "  „Guten Tag, danke für Ihre Anfrage. Am 14. Juni haben wir Zeit…“", "  ⏸ wartet auf Freigabe durch einen Menschen"],
+  },
+];
+
+type Pouzitie = { nadpis: Preklad; text: Preklad; farba: string; odkaz?: { sk: string; cs: string } };
 
 /** Čo vie AI u malej a strednej firmy prevziať. Odkaz vedie na
  *  podrobnú vstupnú stránku, ak k téme existuje. */
 const POUZITIA: Pouzitie[] = [
   {
-    nadpis: {
-      sk: "Odpovede zákazníkom 24/7",
-      cs: "Odpovědi zákazníkům 24/7",
-      en: "Customer answers 24/7",
-      hu: "Válaszok ügyfeleknek 0–24",
-      de: "Kundenantworten rund um die Uhr",
-    },
+    farba: "#6637ED",
+    nadpis: { sk: "Odpovede 24/7", cs: "Odpovědi 24/7", en: "Answers 24/7", hu: "Válaszok 0–24", de: "Antworten 24/7" },
     text: {
       sk: "Na otázky o cenách, termínoch a službách odpovedá z vašich podkladov. Keď si nie je istý, pošle otázku vám.",
       cs: "Na otázky o cenách, termínech a službách odpovídá z vašich podkladů. Když si není jistý, pošle otázku vám.",
@@ -165,13 +157,8 @@ const POUZITIA: Pouzitie[] = [
     odkaz: { sk: "/ai-agenti", cs: "/cs/ai-agenti" },
   },
   {
-    nadpis: {
-      sk: "Triedenie e-mailov a dopytov",
-      cs: "Třídění e-mailů a poptávek",
-      en: "Sorting e-mails and leads",
-      hu: "E-mailek és ajánlatkérések rendezése",
-      de: "E-Mails und Anfragen sortieren",
-    },
+    farba: "#FF5A1F",
+    nadpis: { sk: "Triedenie e-mailov", cs: "Třídění e-mailů", en: "E-mail sorting", hu: "E-mailek rendezése", de: "E-Mail-Sortierung" },
     text: {
       sk: "Každá správa dostane štítok a prioritu. To dôležité nájdete hneď, zvyšok počká.",
       cs: "Každá zpráva dostane štítek a prioritu. To důležité najdete hned, zbytek počká.",
@@ -181,13 +168,8 @@ const POUZITIA: Pouzitie[] = [
     },
   },
   {
-    nadpis: {
-      sk: "Prepis z dokumentov",
-      cs: "Přepis z dokumentů",
-      en: "Data out of documents",
-      hu: "Adatok kinyerése dokumentumokból",
-      de: "Daten aus Dokumenten",
-    },
+    farba: "#0098B3",
+    nadpis: { sk: "Prepis z dokumentov", cs: "Přepis z dokumentů", en: "Data from documents", hu: "Adatok dokumentumokból", de: "Daten aus Dokumenten" },
     text: {
       sk: "Faktúry, objednávky a formuláre prepíše do tabuľky alebo účtovného systému — bez ručného opisovania.",
       cs: "Faktury, objednávky a formuláře přepíše do tabulky nebo účetního systému — bez ručního opisování.",
@@ -198,13 +180,8 @@ const POUZITIA: Pouzitie[] = [
     odkaz: { sk: "/automatizacia-procesov", cs: "/cs/automatizace-procesu" },
   },
   {
-    nadpis: {
-      sk: "Rezervácie a pripomienky",
-      cs: "Rezervace a připomínky",
-      en: "Bookings and reminders",
-      hu: "Foglalások és emlékeztetők",
-      de: "Buchungen und Erinnerungen",
-    },
+    farba: "#12A03F",
+    nadpis: { sk: "Rezervácie a pripomienky", cs: "Rezervace a připomínky", en: "Bookings & reminders", hu: "Foglalás és emlékeztető", de: "Buchungen & Erinnerungen" },
     text: {
       sk: "Termíny sa zapíšu samy a zákazník dostane pripomienku deň vopred. Menej zabudnutých termínov.",
       cs: "Termíny se zapíšou samy a zákazník dostane připomínku den předem. Méně zapomenutých termínů.",
@@ -215,29 +192,19 @@ const POUZITIA: Pouzitie[] = [
     odkaz: { sk: "/rezervacne-systemy", cs: "/cs/rezervacni-systemy" },
   },
   {
-    nadpis: {
-      sk: "Návrhy odpovedí a ponúk",
-      cs: "Návrhy odpovědí a nabídek",
-      en: "Draft replies and quotes",
-      hu: "Válasz- és ajánlattervezetek",
-      de: "Entwürfe für Antworten und Angebote",
-    },
+    farba: "#FF3D8B",
+    nadpis: { sk: "Návrhy odpovedí", cs: "Návrhy odpovědí", en: "Draft replies", hu: "Választervezetek", de: "Antwortentwürfe" },
     text: {
-      sk: "AI pripraví koncept, vy ho skontrolujete a odošlete. Posledné slovo má vždy človek.",
-      cs: "AI připraví koncept, vy ho zkontrolujete a odešlete. Poslední slovo má vždy člověk.",
-      en: "AI drafts it, you check it and hit send. A person always has the final say.",
-      hu: "Az AI elkészíti a vázlatot, Ön ellenőrzi és elküldi. Az utolsó szó mindig az emberé.",
-      de: "Die KI schreibt den Entwurf, Sie prüfen und senden ihn. Das letzte Wort hat immer ein Mensch.",
+      sk: "AI pripraví koncept odpovede či ponuky, vy ho skontrolujete a odošlete. Posledné slovo má vždy človek.",
+      cs: "AI připraví koncept odpovědi či nabídky, vy ho zkontrolujete a odešlete. Poslední slovo má vždy člověk.",
+      en: "AI drafts the reply or quote, you check it and hit send. A person always has the final say.",
+      hu: "Az AI elkészíti a válasz vagy ajánlat vázlatát, Ön ellenőrzi és elküldi. Az utolsó szó mindig az emberé.",
+      de: "Die KI entwirft Antwort oder Angebot, Sie prüfen und senden. Das letzte Wort hat immer ein Mensch.",
     },
   },
   {
-    nadpis: {
-      sk: "Prehľady bez Excelu",
-      cs: "Přehledy bez Excelu",
-      en: "Reports without Excel",
-      hu: "Kimutatások Excel nélkül",
-      de: "Berichte ohne Excel",
-    },
+    farba: "#563387",
+    nadpis: { sk: "Prehľady bez Excelu", cs: "Přehledy bez Excelu", en: "Reports without Excel", hu: "Kimutatás Excel nélkül", de: "Berichte ohne Excel" },
     text: {
       sk: "Každý pondelok súhrn v e-maile: koľko dopytov prišlo, odkiaľ a čo ešte čaká na vybavenie.",
       cs: "Každé pondělí souhrn v e-mailu: kolik poptávek přišlo, odkud a co ještě čeká na vyřízení.",
@@ -271,7 +238,7 @@ const ZASADY: { nadpis: Preklad; text: Preklad }[] = [
     },
   },
   {
-    nadpis: { sk: "Každý krok je zaznamenaný", cs: "Každý krok je zaznamenaný", en: "Every step is logged", hu: "Minden lépés naplózva", de: "Jeder Schritt wird protokolliert" },
+    nadpis: { sk: "Každý krok je zaznamenaný", cs: "Každý krok je zaznamenaný", en: "Every step is logged", hu: "Minden lépés naplózva", de: "Jeder Schritt protokolliert" },
     text: {
       sk: "Viete, čo urobil, kedy a prečo. Nič sa nedeje potichu.",
       cs: "Víte, co udělal, kdy a proč. Nic se neděje potichu.",
@@ -292,119 +259,243 @@ const ZASADY: { nadpis: Preklad; text: Preklad }[] = [
   },
 ];
 
-export default function AiAutomatizacie() {
-  const { lang } = useLanguage();
-  const tok = useRef<HTMLDivElement>(null);
-  /** Krok toku, ktorý práve svieti. Kým sekcia nie je na obrazovke, stojí. */
-  const [aktivny, setAktivny] = useState(0);
-  const [beziaci, setBeziaci] = useState(false);
+const obmedzitPohyb = () =>
+  typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/**
+ * Text, ktorý sa vypisuje po znakoch ako v termináli. Nový text = nový
+ * kľúč komponentu, takže písanie začne odznova bez ďalšej logiky.
+ */
+function Pisanie({ text }: { text: string }) {
+  /* Server aj prvé vykreslenie začínajú prázdne, aby sa zhodovali.
+     Pri „obmedziť pohyb" sa celý text ukáže hneď v prvom kroku. */
+  const [n, setN] = useState(0);
 
   useEffect(() => {
-    const el = tok.current;
-    if (!el) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const io = new IntersectionObserver(([e]) => setBeziaci(e.isIntersecting), { threshold: 0.35 });
+    if (n >= text.length) return;
+    const naraz = obmedzitPohyb();
+    const id = window.setTimeout(
+      () => setN((x) => (naraz ? text.length : Math.min(text.length, x + 2))),
+      naraz ? 0 : 22,
+    );
+    return () => window.clearTimeout(id);
+  }, [n, text]);
+
+  return (
+    <>
+      {text.slice(0, n).split("\n").map((riadok, i) => (
+        <span key={i} className={styles.logRiadok}>{riadok || " "}</span>
+      ))}
+      <span className={styles.kurzor} aria-hidden />
+    </>
+  );
+}
+
+export default function AiAutomatizacie() {
+  const { lang } = useLanguage();
+  const demo = useRef<HTMLDivElement>(null);
+  const [aktivny, setAktivny] = useState(0);
+  const [viditelna, setViditelna] = useState(false);
+  /* Po kliku na krok sa automatické prepínanie na chvíľu zastaví.
+     Počítadlo klikov reštartuje časovač pauzy aj ukazovateľ kroku. */
+  const [pozastavene, setPozastavene] = useState(false);
+  const [kliky, setKliky] = useState(0);
+
+  useEffect(() => {
+    const el = demo.current;
+    if (!el || !("IntersectionObserver" in window)) return;
+    const io = new IntersectionObserver(([e]) => setViditelna(e.isIntersecting), { threshold: 0.3 });
     io.observe(el);
     return () => io.disconnect();
   }, []);
 
   useEffect(() => {
-    if (!beziaci) return;
-    const id = window.setInterval(() => setAktivny((i) => (i + 1) % TOK.length), 1900);
-    return () => window.clearInterval(id);
-  }, [beziaci]);
+    if (!pozastavene) return;
+    const id = window.setTimeout(() => setPozastavene(false), PAUZA_PO_KLIKU_MS);
+    return () => window.clearTimeout(id);
+  }, [pozastavene, kliky]);
+
+  /* Automatické prepínanie krokov — len kým je ukážka na obrazovke. */
+  useEffect(() => {
+    if (!viditelna || pozastavene || obmedzitPohyb()) return;
+    const cakat = aktivny === KROKY.length - 1 ? KROK_MS + POSLEDNY_NAVYSE_MS : KROK_MS;
+    const id = window.setTimeout(() => setAktivny((i) => (i + 1) % KROKY.length), cakat);
+    return () => window.clearTimeout(id);
+  }, [aktivny, viditelna, pozastavene]);
+
+  const vyber = (i: number) => {
+    setAktivny(i);
+    setPozastavene(true);
+    setKliky((k) => k + 1);
+  };
 
   /* České stránky majú vlastné adresy, ostatné jazyky zatiaľ dostanú slovenské. */
   const adresa = (o: { sk: string; cs: string }) => (lang === "cs" ? o.cs : o.sk);
   const [r1, r2] = OBSAH.titul[lang].split("\n");
+  const stavKroku = (i: number) =>
+    i < aktivny ? OBSAH.hotovo[lang] : i === aktivny ? OBSAH.spracuvam[lang] : OBSAH.caka[lang];
 
   return (
-    <section id="ai-automatizacie" className={styles.section}>
-      <div className={styles.inner}>
-        <Reveal className={styles.head}>
+    <section id="ai-automatizacie" className="fig-section">
+      <div className="fig-inner">
+        <Reveal className="fig-head">
           <div>
-            <div className={styles.label}>{OBSAH.label[lang]}</div>
-            <h2 className={styles.title} data-fx>
+            <div className="fig-label">{OBSAH.label[lang]}</div>
+            <h2 className="fig-title" data-fx>
               {r1}
               <br />
-              <span className={styles.titleAkcent}>{r2}</span>
+              <span className={styles.titulAkcent}>{r2}</span>
+              <span className="fig-caret" aria-hidden />
             </h2>
           </div>
-          <p className={styles.sub}>{OBSAH.sub[lang]}</p>
+          <p className="fig-sub">{OBSAH.sub[lang]}</p>
         </Reveal>
 
-        <div className={styles.rozlozenie}>
-          {/* Tok jedného dopytu — kroky sa rozsvecujú postupne. */}
-          <Reveal className={styles.tok}>
-            <div ref={tok}>
-              <div className={styles.tokNadpis}>{OBSAH.tokNadpis[lang]}</div>
-              <ol className={styles.tokZoznam}>
-                {TOK.map((krok, i) => (
-                  <li
-                    key={i}
-                    className={`${styles.tokKrok} ${i === aktivny ? styles.tokAktivny : ""} ${i < aktivny ? styles.tokHotovy : ""}`}
-                  >
-                    <span className={styles.tokCislo} aria-hidden>{String(i + 1).padStart(2, "0")}</span>
-                    <span>
-                      <span className={styles.tokKrokNadpis}>{krok.nadpis[lang]}</span>
-                      <span className={styles.tokKrokText}>{krok.text[lang]}</span>
-                    </span>
+        {/* ── Živá ukážka ─────────────────────────────────────────── */}
+        <Reveal className={`fig-tile ${styles.demo}`}>
+          <div ref={demo} className={styles.demoMriezka}>
+            <ol className={styles.kroky}>
+              {KROKY.map((krok, i) => {
+                const stav = i < aktivny ? styles.krokHotovy : i === aktivny ? styles.krokAktivny : "";
+                return (
+                  <li key={i} className={`${styles.krok} ${stav}`}>
+                    <button
+                      type="button"
+                      className={styles.krokTlacidlo}
+                      onClick={() => vyber(i)}
+                      aria-current={i === aktivny ? "step" : undefined}
+                    >
+                      <span className="fig-tileHead">
+                        <span>
+                          {String(i + 1).padStart(2, "0")}
+                          <span className="fig-sep"> / </span>
+                          {krok.nadpis[lang]}
+                        </span>
+                        <span className={`fig-stav ${styles.krokStav}`}>
+                          <span className="fig-dioda" aria-hidden />
+                          {stavKroku(i)}
+                        </span>
+                      </span>
+                      <span className={styles.krokText}>{krok.text[lang]}</span>
+                      <span className={`fig-track ${styles.krokTrack}`} aria-hidden>
+                        {/* Kľúč reštartuje animáciu pri každom návrate na krok. */}
+                        <span
+                          key={`${aktivny}-${kliky}`}
+                          className={styles.krokFill}
+                          style={{ "--t": `${i === KROKY.length - 1 ? KROK_MS + POSLEDNY_NAVYSE_MS : KROK_MS}ms` } as React.CSSProperties}
+                        />
+                      </span>
+                    </button>
                   </li>
-                ))}
-              </ol>
+                );
+              })}
+            </ol>
 
-              <div className={styles.zasadyNadpis}>{OBSAH.zasadyNadpis[lang]}</div>
-              <ul className={styles.zasady}>
-                {ZASADY.map((z) => (
-                  <li key={z.nadpis.sk} className={styles.zasada}>
-                    <span className={styles.zasadaNadpis}>{z.nadpis[lang]}</span>
-                    <span className={styles.zasadaText}>{z.text[lang]}</span>
-                  </li>
+            {/* Terminál AI agenta. Pre čítačky je to len ilustrácia. */}
+            <div className={styles.terminal} aria-hidden>
+              <div className={styles.terminalHlavicka}>
+                <span className={styles.bodky}><i /><i /><i /></span>
+                <span>{OBSAH.terminal[lang]}</span>
+                <span className={styles.terminalStav}>
+                  <span className={styles.terminalDioda} />
+                  {OBSAH.bezi[lang]}
+                </span>
+              </div>
+              <div className={styles.terminalTelo}>
+                <div className={styles.skener} key={`sken-${aktivny}`} />
+                {LOG.slice(0, aktivny).map((blok, i) => (
+                  <div key={i} className={styles.logBlokHotovy}>
+                    {blok[lang].map((riadok, j) => (
+                      <span key={j} className={styles.logRiadok}>{riadok}</span>
+                    ))}
+                  </div>
                 ))}
-              </ul>
+                <div className={styles.logBlok}>
+                  <Pisanie key={`${aktivny}-${lang}`} text={LOG[aktivny][lang].join("\n")} />
+                </div>
+                {aktivny === KROKY.length - 1 && (
+                  <div className={styles.schvalenie} key={`schv-${lang}`}>
+                    <span className={styles.schvalit}>{OBSAH.schvalit[lang]}</span>
+                    <span className={styles.upravit}>{OBSAH.upravit[lang]}</span>
+                  </div>
+                )}
+              </div>
             </div>
-          </Reveal>
-
-          <div className={styles.pouzitia}>
-            {POUZITIA.map((p, i) => {
-              const obsah = (
-                <>
-                  <span className={styles.kartaCislo}>{String(i + 1).padStart(2, "0")}</span>
-                  <h3 className={styles.kartaNadpis}>{p.nadpis[lang]}</h3>
-                  <p className={styles.kartaText}>{p.text[lang]}</p>
-                  {p.odkaz && <span className={styles.kartaOdkaz} aria-hidden>→</span>}
-                </>
-              );
-              return (
-                <Reveal
-                  key={p.nadpis.sk}
-                  className={styles.kartaObal}
-                  style={{ transitionDelay: `${i * 70}ms` } as React.CSSProperties}
-                >
-                  {p.odkaz ? (
-                    <Link href={adresa(p.odkaz)} className={`${styles.karta} ${styles.kartaKlik}`}>
-                      {obsah}
-                    </Link>
-                  ) : (
-                    <article className={styles.karta}>{obsah}</article>
-                  )}
-                </Reveal>
-              );
-            })}
           </div>
+        </Reveal>
+
+        {/* ── Použitia ───────────────────────────────────────────── */}
+        <div className={styles.pouzitia}>
+          {POUZITIA.map((p, i) => {
+            const obsah = (
+              <>
+                <span className="fig-tileHead">
+                  <span>
+                    {String(i + 1).padStart(2, "0")}
+                    <span className="fig-sep"> / </span>
+                    AI
+                  </span>
+                  <span className="fig-stav">
+                    <span className="fig-dioda" aria-hidden />
+                    {OBSAH.stav[lang]}
+                  </span>
+                </span>
+                <h3 className={styles.kartaNadpis}>{p.nadpis[lang]}</h3>
+                <p className={styles.kartaText}>{p.text[lang]}</p>
+                <span className={styles.kartaPata}>
+                  <span className="fig-track" aria-hidden>
+                    <span className={styles.kartaFill} />
+                  </span>
+                  {p.odkaz && <span className={styles.kartaSipka} aria-hidden>→</span>}
+                </span>
+              </>
+            );
+            return (
+              <Reveal
+                key={p.nadpis.sk}
+                className={styles.kartaObal}
+                style={{ transitionDelay: `${i * 70}ms`, "--c": p.farba } as React.CSSProperties}
+              >
+                {p.odkaz ? (
+                  <Link href={adresa(p.odkaz)} className={`fig-tile ${styles.karta}`}>
+                    {obsah}
+                  </Link>
+                ) : (
+                  <article className={`fig-tile ${styles.karta}`}>{obsah}</article>
+                )}
+              </Reveal>
+            );
+          })}
         </div>
 
-        <Reveal className={styles.akcie}>
-          <Link href="#kontakt" className={styles.cta} data-cursor="cta">
-            {OBSAH.cta[lang]}
-            <span aria-hidden className={styles.ctaSipka}>›</span>
-          </Link>
-          <Link href={adresa({ sk: "/ai-agenti", cs: "/cs/ai-agenti" })} className={styles.odkaz}>
-            {OBSAH.viacAgenti[lang]}
-          </Link>
-          <Link href={adresa({ sk: "/automatizacia-procesov", cs: "/cs/automatizace-procesu" })} className={styles.odkaz}>
-            {OBSAH.viacProcesy[lang]}
-          </Link>
+        {/* ── Zásady a akcie ─────────────────────────────────────── */}
+        <Reveal className={styles.spodok}>
+          <div className={styles.zasady}>
+            <div className="fig-label">{OBSAH.zasady[lang]}</div>
+            <ul className={styles.zasadyZoznam}>
+              {ZASADY.map((z, i) => (
+                <li key={z.nadpis.sk} className={styles.zasada}>
+                  <span className={styles.zasadaCislo}>{String(i + 1).padStart(2, "0")}</span>
+                  <span>
+                    <span className={styles.zasadaNadpis}>{z.nadpis[lang]}</span>
+                    <span className={styles.zasadaText}>{z.text[lang]}</span>
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className={styles.akcie}>
+            <Link href="#kontakt" className="fig-cta" data-cursor="cta">
+              {OBSAH.cta[lang]}
+            </Link>
+            <Link href={adresa({ sk: "/ai-agenti", cs: "/cs/ai-agenti" })} className={styles.odkaz}>
+              {OBSAH.viacAgenti[lang]}
+            </Link>
+            <Link href={adresa({ sk: "/automatizacia-procesov", cs: "/cs/automatizace-procesu" })} className={styles.odkaz}>
+              {OBSAH.viacProcesy[lang]}
+            </Link>
+          </div>
         </Reveal>
       </div>
     </section>
