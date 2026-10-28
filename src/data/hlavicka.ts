@@ -44,7 +44,7 @@ export const NAV_LOGO = "/logo.svg";
 
 /* ── HERO ───────────────────────────────────────────────────────────── */
 
-export const HERO: { nadpis: Record<Lang, string[]>; tlacidlo: { label: Preklad; href: string } } = {
+export const HERO: { nadpis: Record<Lang, string[]>; podnadpis: Preklad; tlacidlo: { label: Preklad; href: string } } = {
   /** Každý riadok zvlášť — tu sa rozhoduje, kde sa nadpis zalomí.
    *  Vypisuje sa veľkými písmenami vo fialovej z loga, aj keď sú tu malé.
    *  Riadok držte do ~19 znakov, inak sa na notebooku zalomí na tri. */
@@ -54,6 +54,14 @@ export const HERO: { nadpis: Record<Lang, string[]>; tlacidlo: { label: Preklad;
     en: ["We build things", "that have value."],
     hu: ["Együtt alkotunk", "értékes dolgokat."],
     de: ["Wir schaffen Dinge,", "die Wert haben."],
+  },
+  /** Jedna veta pod nadpisom — čo DNABS robí. */
+  podnadpis: {
+    sk: "Weby, aplikácie a AI automatizácie, ktoré vám každý deň ušetria prácu.",
+    cs: "Weby, aplikace a AI automatizace, které vám každý den ušetří práci.",
+    en: "Websites, apps and AI automation that save you work every single day.",
+    hu: "Weboldalak, alkalmazások és AI automatizáció, amelyek minden nap munkát spórolnak Önnek.",
+    de: "Websites, Apps und KI-Automatisierung, die Ihnen jeden Tag Arbeit sparen.",
   },
   /** Jediné tlačidlo pod nadpisom — vedie na kontaktný formulár.
    *  Vypisuje sa veľkými písmenami, aj keď sú tu malé. */

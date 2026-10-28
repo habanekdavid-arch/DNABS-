@@ -6,6 +6,7 @@ const PROJECT_TYPE: Record<string, string> = {
   redesign: "Redizajn",
   app: "Aplikácia",
   marketing: "Marketing",
+  ai: "AI automatizácia",
 };
 
 const BUDGET: Record<string, string> = {

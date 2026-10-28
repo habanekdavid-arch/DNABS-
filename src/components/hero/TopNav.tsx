@@ -104,7 +104,7 @@ export default function TopNav() {
               item.href === "#sluzby" ? (
                 /* Služby majú vlastné stránky — bez odkazu na ne by sa dali
                    nájsť len cez reklamu. */
-                <div key={item.href} className={styles.sluzbyObal} ref={sluzbyObal}>
+                <div key={item.label.sk} className={styles.sluzbyObal} ref={sluzbyObal}>
                   <button
                     type="button"
                     className={styles.link}
@@ -133,7 +133,7 @@ export default function TopNav() {
                   </div>
                 </div>
               ) : (
-                <a key={item.href} href={item.href} className={styles.link}>
+                <a key={item.label.sk} href={item.href} className={styles.link}>
                   {/* Dva rovnaké nápisy nad sebou — pri hoveri sa vymenia. */}
                   <span className={styles.linkText}>{item.label[lang]}</span>
                   <span className={styles.linkTextHover} aria-hidden>{item.label[lang]}</span>
@@ -168,7 +168,7 @@ export default function TopNav() {
         {/* Rozbalené menu na telefóne. */}
         <div id="mobilne-menu" className={styles.panel} hidden={!otvorene} ref={panel}>
           {NAV_LINKS.map((item) => (
-            <div key={item.href}>
+            <div key={item.label.sk}>
               <a href={item.href} className={styles.panelLink}>
                 {item.label[lang]}
               </a>

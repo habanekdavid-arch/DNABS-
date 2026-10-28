@@ -63,4 +63,36 @@ export const homeFaq: { q: Preklad; a: Preklad }[] = [
       de: "Falls du noch keine Domain hast, helfen wir dir bei der Registrierung. Wir hosten auf moderner Infrastruktur, du musst dich also weder um Server noch um Updates kümmern — das übernehmen wir.",
     },
   },
+  {
+    q: {
+      sk: "Čo vie AI v mojej firme reálne zautomatizovať?",
+      en: "What can AI realistically automate in my business?",
+      cs: "Co umí AI v mé firmě reálně zautomatizovat?",
+      hu: "Mit tud az AI ténylegesen automatizálni a cégemben?",
+      de: "Was kann KI in meinem Unternehmen realistisch automatisieren?",
+    },
+    a: {
+      sk: "Najčastejšie prácu, ktorá sa opakuje a dá sa popísať pravidlami — odpovede na rovnaké otázky zákazníkov, triedenie e-mailov a dopytov, prepis údajov z faktúr či objednávok, rezervácie a pripomienky. Na konzultácii si prejdeme vaše procesy a povieme na rovinu, kde to zmysel dáva a kde nie.",
+      en: "Mostly work that repeats and can be described by rules — answering the same customer questions, sorting e-mails and leads, copying data from invoices or orders, bookings and reminders. In the consultation we go through your processes and tell you straight where it makes sense and where it doesn't.",
+      cs: "Nejčastěji práci, která se opakuje a dá se popsat pravidly — odpovědi na stejné otázky zákazníků, třídění e-mailů a poptávek, přepis údajů z faktur či objednávek, rezervace a připomínky. Na konzultaci projdeme vaše procesy a řekneme na rovinu, kde to smysl dává a kde ne.",
+      hu: "Leggyakrabban az ismétlődő, szabályokkal leírható munkát — válaszok az ügyfelek ugyanazon kérdéseire, e-mailek és ajánlatkérések rendezése, adatok átvitele számlákról vagy rendelésekből, foglalások és emlékeztetők. A konzultáción átnézzük a folyamatait, és őszintén megmondjuk, hol van értelme és hol nincs.",
+      de: "Meist Arbeit, die sich wiederholt und sich mit Regeln beschreiben lässt — Antworten auf immer gleiche Kundenfragen, E-Mails und Anfragen sortieren, Daten aus Rechnungen oder Bestellungen übernehmen, Buchungen und Erinnerungen. In der Beratung gehen wir Ihre Abläufe durch und sagen offen, wo es sinnvoll ist und wo nicht.",
+    },
+  },
+  {
+    q: {
+      sk: "Nebude AI odpovedať zákazníkom nezmysly?",
+      en: "Won't the AI tell customers nonsense?",
+      cs: "Nebude AI odpovídat zákazníkům nesmysly?",
+      hu: "Nem fog az AI butaságokat válaszolni az ügyfeleknek?",
+      de: "Erzählt die KI meinen Kunden keinen Unsinn?",
+    },
+    a: {
+      sk: "Nastavujeme ju tak, aby odpovedala len z vašich podkladov — cenníka, popisu služieb, otváracích hodín. Keď odpoveď nemá, povie to a otázku pošle vám. Ponuky a dôležité rozhodnutia vždy schvaľuje človek a celú automatizáciu viete kedykoľvek vypnúť.",
+      en: "We set it up to answer only from your own materials — price list, service descriptions, opening hours. When it doesn't have the answer, it says so and passes the question to you. Quotes and important decisions are always approved by a person, and you can switch the whole automation off at any time.",
+      cs: "Nastavujeme ji tak, aby odpovídala jen z vašich podkladů — ceníku, popisu služeb, otevírací doby. Když odpověď nemá, řekne to a otázku pošle vám. Nabídky a důležitá rozhodnutí vždy schvaluje člověk a celou automatizaci můžete kdykoli vypnout.",
+      hu: "Úgy állítjuk be, hogy csak az Ön anyagaiból válaszoljon — árlista, szolgáltatásleírás, nyitvatartás. Ha nincs válasza, ezt jelzi, és a kérdést továbbítja Önnek. Az ajánlatokat és a fontos döntéseket mindig ember hagyja jóvá, és az egész automatizációt bármikor kikapcsolhatja.",
+      de: "Wir richten sie so ein, dass sie nur aus Ihren Unterlagen antwortet — Preisliste, Leistungsbeschreibung, Öffnungszeiten. Hat sie keine Antwort, sagt sie das und leitet die Frage an Sie weiter. Angebote und wichtige Entscheidungen gibt immer ein Mensch frei, und Sie können die ganze Automatisierung jederzeit abschalten.",
+    },
+  },
 ];

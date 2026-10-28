@@ -23,6 +23,8 @@ export default function HeroTop() {
             ))}
           </h1>
 
+          <p className={styles.podnadpis}>{HERO.podnadpis[lang]}</p>
+
           <hr className={styles.divider} />
 
           <div className={styles.actions}>

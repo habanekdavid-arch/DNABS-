@@ -9,7 +9,8 @@ const ITEMS: { label: Preklad; sepClass: string }[] = [
   { label: { sk: "WEBY", cs: "WEBY", en: "WEBSITES", hu: "WEBOLDALAK", de: "WEBSITES" }, sepClass: styles.accent },
   { label: { sk: "APLIKÁCIE", cs: "APLIKACE", en: "APPS", hu: "ALKALMAZÁSOK", de: "APPS" }, sepClass: styles.purple },
   { label: { sk: "DIGITÁLNY MARKETING", cs: "DIGITÁLNÍ MARKETING", en: "DIGITAL MARKETING", hu: "DIGITÁLIS MARKETING", de: "DIGITALES MARKETING" }, sepClass: styles.green },
-  { label: { sk: "UX · UI", cs: "UX · UI", en: "UX · UI", hu: "UX · UI", de: "UX · UI" }, sepClass: styles.accent },
+  { label: { sk: "AI AGENTI", cs: "AI AGENTI", en: "AI AGENTS", hu: "AI-ÜGYNÖKÖK", de: "KI-AGENTEN" }, sepClass: styles.accent },
+  { label: { sk: "UX · UI", cs: "UX · UI", en: "UX · UI", hu: "UX · UI", de: "UX · UI" }, sepClass: styles.purple },
   { label: { sk: "AUTOMATIZÁCIA", cs: "AUTOMATIZACE", en: "AUTOMATION", hu: "AUTOMATIZÁLÁS", de: "AUTOMATISIERUNG" }, sepClass: styles.purple },
   { label: { sk: "SEO", cs: "SEO", en: "SEO", hu: "SEO", de: "SEO" }, sepClass: styles.green },
 ];
