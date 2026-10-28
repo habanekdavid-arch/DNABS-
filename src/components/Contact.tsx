@@ -19,6 +19,7 @@ const PROJECT_TYPES = [
   { value: "redesign", key: "opt_type_redesign" },
   { value: "app", key: "opt_type_app" },
   { value: "marketing", key: "opt_type_marketing" },
+  { value: "ai", key: "opt_type_ai" },
 ] as const;
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;

@@ -54,6 +54,19 @@ const ROWS: {
       { sk: "SEO a obsah", en: "SEO and content", cs: "SEO a obsah", hu: "SEO és tartalom", de: "SEO und Content" },
     ],
   },
+  {
+    titleKey: "svc4_t",
+    descKey: "svc4_d",
+    color: "#1E6FA8",
+    chips: [
+      { sk: "AI agenti", en: "AI agents", cs: "AI agenti", hu: "AI-ügynökök", de: "KI-Agenten" },
+      { sk: "Chatbot na webe", en: "Website chatbot", cs: "Chatbot na webu", hu: "Chatbot a weboldalon", de: "Chatbot auf der Website" },
+      { sk: "Triedenie e-mailov", en: "E-mail sorting", cs: "Třídění e-mailů", hu: "E-mailek rendezése", de: "E-Mail-Sortierung" },
+      { sk: "Prepis dokumentov", en: "Document data entry", cs: "Přepis dokumentů", hu: "Dokumentumfeldolgozás", de: "Dokumentenerfassung" },
+      { sk: "Napojenie na CRM", en: "CRM integration", cs: "Napojení na CRM", hu: "CRM-integráció", de: "CRM-Anbindung" },
+      { sk: "Make / n8n", en: "Make / n8n", cs: "Make / n8n", hu: "Make / n8n", de: "Make / n8n" },
+    ],
+  },
 ];
 
 export default function Services() {

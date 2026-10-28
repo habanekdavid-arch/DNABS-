@@ -112,6 +112,8 @@ const JSON_LD = {
         addressCountry: "SK",
       },
       sameAs: ["https://www.instagram.com/dnabs.sk/"],
+      /* Čomu sa venujeme — pomáha Google priradiť značku k témam. */
+      knowsAbout: ["Tvorba webov", "Webové aplikácie", "AI automatizácie", "AI agenti", "Automatizácia procesov", "Digitálny marketing"],
     },
     {
       "@type": "WebSite",
@@ -155,13 +157,13 @@ export const metadata: Metadata = {
     /* Názov značky je naschvál na začiatku — pri dopyte „dnabs" Google
        zvýrazňuje zhodu v titulku a ten rozhoduje, či výsledok vyzerá
        ako oficiálna stránka firmy. */
-    default: "DNABS — digitálne štúdio | weby, aplikácie a marketing",
+    default: "DNABS — digitálne štúdio | weby, aplikácie a AI automatizácie",
     template: "%s | DNABS",
   },
   description:
-    "DNABS je digitálne štúdio z Bratislavy — weby, aplikácie a digitálny marketing pre firmy, ktoré chcú zrýchliť svoje procesy. Bezplatná 30-minútová konzultácia.",
+    "DNABS je digitálne štúdio z Bratislavy — weby, aplikácie, AI automatizácie a digitálny marketing pre firmy, ktoré chcú zrýchliť svoje procesy. Bezplatná 30-minútová konzultácia.",
   applicationName: "DNABS",
-  keywords: ["DNABS", "digitálne štúdio", "tvorba webov", "webové aplikácie", "digitálny marketing", "Bratislava"],
+  keywords: ["DNABS", "digitálne štúdio", "tvorba webov", "webové aplikácie", "AI automatizácie", "AI agenti", "automatizácia procesov", "digitálny marketing", "Bratislava"],
   authors: [{ name: "DNABS", url: WEB }],
   creator: "DNABS",
   publisher: "DNABS",
@@ -187,7 +189,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "DNABS — digitálne štúdio",
     description:
-      "Bezplatná 30-minútová konzultácia. Weby, aplikácie a digitálny marketing pre firmy, ktoré chcú zrýchliť svoje procesy.",
+      "Bezplatná 30-minútová konzultácia. Weby, aplikácie, AI automatizácie a digitálny marketing pre firmy, ktoré chcú zrýchliť svoje procesy.",
     url: `${WEB}/`,
     siteName: "DNABS",
     locale: "sk_SK",
@@ -197,7 +199,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "DNABS — digitálne štúdio",
     description:
-      "Weby, aplikácie a digitálny marketing. Bezplatná 30-minútová konzultácia.",
+      "Weby, aplikácie, AI automatizácie a digitálny marketing. Bezplatná 30-minútová konzultácia.",
   },
 };
 

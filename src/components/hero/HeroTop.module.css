@@ -62,6 +62,16 @@
 }
 .h1Riadok{display:block;}
 
+/* Jedna veta pod nadpisom — čo robíme. */
+.podnadpis{
+  margin:0;
+  max-width:36ch;
+  font-family:var(--font-geist),system-ui,sans-serif;
+  font-size:clamp(15px,1.25vw,18px);
+  line-height:1.5;
+  color:rgba(14,14,17,.66);
+}
+
 /* Tenká čiara oddeľuje text od výzvy k akcii. */
 .divider{
   width:min(260px,60%);
